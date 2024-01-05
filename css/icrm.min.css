@@ -9704,9 +9704,10 @@ aside + div .product-single .product-details {
     margin-left: 1.5rem;
 }
 .product-single .product-label-group {
-    top: 80%;
+       top: 60%;
     left: 1rem;
     z-index: 2;
+    height: 33px;
     align-items: flex-start;
 }
 .product-single .product-label {
