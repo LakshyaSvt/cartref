@@ -496,6 +496,9 @@ class Addskutobag extends Component
         $this->dispatchBrowserEvent('showToast', ['msg' => 'Product successfully added to cart', 'status' => 'success']);
 
 
+        \Cart::session($userID)->removeCartCondition('coupon');
+        Session::remove('appliedcouponcode');
+
         Session::remove('quickviewid');
 
         Session::flash('success', 'Product successfully added to cart');
