@@ -56,7 +56,10 @@ class ProductImport implements ToCollection, WithMultipleSheets, WithValidation
     public function collection(Collection $collection)
     {
         $rows = $collection->toArray();
+
+        //Remove 1 row of headings
         array_shift($rows);
+
         $rows = json_decode(json_encode($rows));
 
         foreach ($rows as $index => $row) {
@@ -140,6 +143,7 @@ class ProductImport implements ToCollection, WithMultipleSheets, WithValidation
                     $product->sizes()->attach($item->id);
                 }
             }
+
             /* Creat Skus */
             $productSku = new Product();
             $productSku->createskus($product->id);
@@ -148,7 +152,9 @@ class ProductImport implements ToCollection, WithMultipleSheets, WithValidation
 
             //stock update
             if ($row[6] != '' && $row[7] != '' && $row[8] != '') {
-                $product->productskus()->where(['size' => $size, 'color' => $colour])->update(['available_stock' => (int)$row[8]]);
+                $product->productskus()
+                    ->where(['size' => $size, 'color' => $colour])
+                    ->update(['available_stock' => (int) $row[8]]);
             }
         }
     }
