@@ -35,9 +35,12 @@ class Addskutobag extends Component
     public $mrp;
     public $offer_coupons = [];
     public $view;
+
+    public $addToCart = false;
     // disabled 900 to 910 lines on main.js
 
     protected $listeners = ['addtobag' => 'addtobag'];
+
 
 
     public function mount($product, $view = null)
@@ -93,14 +96,17 @@ class Addskutobag extends Component
             if (Config::get('icrm.product_sku.color') == 1) {
                 if ($this->product->productskus->where('size', $size)->where('color', $this->color)->first()->available_stock > 0) {
                     $this->size = $size;
+                    $this->addToCart = false;
                 }
             } else {
                 if ($this->product->productskus->where('size', $size)->first()->available_stock > 0) {
                     $this->size = $size;
+                    $this->addToCart = false;
                 }
             }
         } else {
             $this->size = $size;
+            $this->addToCart = false;
         }
     }
 
@@ -123,18 +129,21 @@ class Addskutobag extends Component
             if ($this->availablestock > 0) {
                 if ($this->availablestock != $this->qty) {
                     $this->qty++;
+                    $this->addToCart = false;
                 } else {
                     Session::flash('qtynotavailable', 'Only ' . $this->availablestock . ' item left');
                 }
             }
         } else {
             $this->qty++;
+            $this->addToCart = false;
         }
     }
 
     public function minusqty()
     {
         $this->qty--;
+        $this->addToCart = false;
     }
 
 
@@ -488,6 +497,7 @@ class Addskutobag extends Component
         }
 
         $this->added = true;
+        $this->addToCart = true;
 
         $this->emit('cartcount');
 

@@ -289,11 +289,17 @@
                     <button class="quantity-plus d-icon-plus" wire:click="plusqty"
                             @if ($this->availablestock == 0) disabled="disabled" @endif></button>
                 </div>
-                <button class="add-to-cart-btn" type="button"
-                        @if ($this->disablebtn == true) disabled="disabled" title="First select required fields!" @endif
-                        wire:click="addtobag">
-                    <span class="add-to-cart-span">Add to {{ ucwords(Config::get('icrm.cart.name')) }}</span>
-                </button>
+                @if($this->addToCart)
+                    <a class="add-to-cart-btn" href="{{ route('bag') }}">
+                        <span class="add-to-cart-span">Go to {{ ucwords(Config::get('icrm.cart.name')) }}</span>
+                    </a>
+                @else
+                    <button class="add-to-cart-btn" type="button"
+                            @if ($this->disablebtn == true) disabled="disabled" title="First select required fields!" @endif
+                            wire:click="addtobag">
+                        <span class="add-to-cart-span">Add to {{ ucwords(Config::get('icrm.cart.name')) }}</span>
+                    </button>
+                @endif
             </div>
             @if (Config::get('icrm.showcase_at_home.feature') == 1)
                 @if (empty(Session::get('showcasecity')))
@@ -991,12 +997,18 @@
                 </div>
 
 
-                <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold"
-                        @if ($this->disablebtn == true) disabled="disabled" title="First select required fields!" @endif
-                        wire:click="addtobag">
-                    <i class="d-icon-bag"></i>
-                    Add to {{ ucwords(Config::get('icrm.cart.name')) }}
-                </button>
+                @if($this->addToCart)
+                    <a class="add-to-cart-btn" href="{{ route('bag') }}">
+                        <span class="add-to-cart-span">Go to {{ ucwords(Config::get('icrm.cart.name')) }}</span>
+                    </a>
+                @else
+                    <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold"
+                            @if ($this->disablebtn == true) disabled="disabled" title="First select required fields!" @endif
+                            wire:click="addtobag">
+                        <i class="d-icon-bag"></i>
+                        Add to {{ ucwords(Config::get('icrm.cart.name')) }}
+                    </button>
+                @endif
 
                 @if (Config::get('icrm.customize.feature') == 1)
                     @if (!empty($this->product->customize_images))
