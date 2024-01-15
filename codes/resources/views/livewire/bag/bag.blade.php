@@ -300,7 +300,7 @@
                                 @endif
 
                                 @guest
-                                    <p style="font-size: 14px;color: #0c860c;font-weight: 500;">
+                                    <p style="font-size: 15px;color: #0c860c;font-weight: 500;">
                                         Hello!! Login / Register to get a 100% cashback of {{ Config::get('icrm.currency.icon') }} {{ number_format($total, 2) }},
                                         redeemable on your next purchase from us.
                                     </p>
