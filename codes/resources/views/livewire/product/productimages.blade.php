@@ -74,17 +74,17 @@
 
 
                     {{-- This was the last image --}}
-                    <div class="owl-item" style="width: 461px;">
-                        <figure class="product-image">
-                            <img src="{{ asset('images/product/product-16-4-600x675.jpg') }}" data-zoom-image="{{ asset('images/product/product-16-4-600x675.jpg') }}" alt="Converse Training Shoes" width="800" height="900">
-                            <div class="zoomContainer" style="-webkit-transform: translateZ(0);position:absolute;left:0px;top:0px;height:518.633px;width:461px;">
-                                <div class="zoomWindowContainer" style="width: 400px;">
-                                    <div style="z-index: 999; overflow: hidden; margin-left: 0px; margin-top: 0px; background-position: 0px 0px; width: 461px; height: 518.633px; float: left; display: none; cursor: crosshair; border: 0px solid rgb(136, 136, 136); background-repeat: no-repeat; position: absolute; background-image: url(&quot;images/product/product-16-4.jpg&quot;);" class="zoomWindow">&nbsp;
-                                    </div>
-                                </div>
-                            </div>
-                        </figure>
-                    </div>
+{{--                    <div class="owl-item" style="width: 461px;">--}}
+{{--                        <figure class="product-image">--}}
+{{--                            <img src="{{ asset('images/product/product-16-4-600x675.jpg') }}" data-zoom-image="{{ asset('images/product/product-16-4-600x675.jpg') }}" alt="Converse Training Shoes" width="800" height="900">--}}
+{{--                            <div class="zoomContainer" style="-webkit-transform: translateZ(0);position:absolute;left:0px;top:0px;height:518.633px;width:461px;">--}}
+{{--                                <div class="zoomWindowContainer" style="width: 400px;">--}}
+{{--                                    <div style="z-index: 999; overflow: hidden; margin-left: 0px; margin-top: 0px; background-position: 0px 0px; width: 461px; height: 518.633px; float: left; display: none; cursor: crosshair; border: 0px solid rgb(136, 136, 136); background-repeat: no-repeat; position: absolute; background-image: url(&quot;images/product/product-16-4.jpg&quot;);" class="zoomWindow">&nbsp;--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </figure>--}}
+{{--                    </div>--}}
 
                 </div>
             </div>
