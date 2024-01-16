@@ -188,13 +188,21 @@
                                     </tr>
                                 </table>
 
-                                <a class="btn btn-dark btn-rounded btn-checkout" wire:click="proceedcheckout">
-                                    Proceed to checkout
-                                </a>
+                                @guest
+                                    <a class="btn btn-dark btn-rounded btn-checkout" wire:click="proceedcheckout">Login to checkout</a>
+                                @else
+                                    <a class="btn btn-dark btn-rounded btn-checkout" wire:click="proceedcheckout">Proceed to checkout</a>
+                                @endguest
+
                                 @if($this->deliveryavailability == false)
                                     <small class="outofstock">Before processing please check service availability in your area</small>
                                 @endif
 
+                                @guest
+                                    <p style="font-size: 15px;color: #0c860c;font-weight: 500;">
+                                        Hello!! Login / Register to get a 100% cashback, redeemable on your next purchase from us.
+                                    </p>
+                                @endguest
                             </div>
                         </div>
                     </aside>

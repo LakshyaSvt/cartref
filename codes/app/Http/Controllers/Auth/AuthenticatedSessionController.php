@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Support\Facades\Config;
 use App\Productcolor;
+use App\Showcase;
 use App\Productsku;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -26,7 +28,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
+     * @param \App\Http\Requests\Auth\LoginRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(LoginRequest $request)
@@ -38,8 +40,9 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         Session::put('login', false);
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $this->saveLoggedInCart();
+            $this->saveShowroomCart();
         }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -47,7 +50,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request)
@@ -62,7 +65,8 @@ class AuthenticatedSessionController extends Controller
     }
 
 
-    public function saveLoggedInCart(){
+    public function saveLoggedInCart()
+    {
         $userID = 0;
         if (Auth::check()) {
             $userID = auth()->user()->id;
@@ -78,24 +82,24 @@ class AuthenticatedSessionController extends Controller
         $id = session('session_id') ?? '';
         $session_cart = \Cart::session($id);
         $session_cartItems = $session_cart->getContent();
-        $obj = json_decode(json_encode($session_cartItems));
-        $keys = array_keys((array)$obj);
+        $sessionObj = json_decode(json_encode($session_cartItems));
+        $sessionKeys = array_keys((array)$sessionObj);
 
         //logged-in user cart
         $cart = \Cart::session($userID);
 
-        if(isset($keys) && is_array($keys) && count($keys) > 0){
-            foreach ($keys as $key) {
-                $cartItem = $obj->{$key};
+        if (isset($sessionKeys) && is_array($sessionKeys) && count($sessionKeys) > 0) {
+            foreach ($sessionKeys as $key) {
+                $cartItem = $sessionObj->{$key};
                 $product_id = $cartItem->attributes->product_id;
 
-                if(!isset($product_id)){
-                    break;
+                if (!isset($product_id)) {
+                    continue;
                 }
                 $product = \App\Models\Product::find($product_id);
 
-                if(!isset($product)){
-                    break;
+                if (!isset($product)) {
+                    continue;
                 }
 
                 //copy values
@@ -282,6 +286,138 @@ class AuthenticatedSessionController extends Controller
                 $cart->add($item);
             }
         }
-        session()->forget('session_id');
+//        session()->forget('session_id');
+    }
+
+    public function saveShowroomCart()
+    {
+        $id = session('session_id') ?? '';
+        $userID = 0;
+        if (Auth::check()) {
+            $userID = auth()->user()->id;
+        } else {
+            if (session('session_id')) {
+                $userID = session('session_id');
+            } else {
+                $userID = rand(1111111111, 9999999999);
+                session(['session_id' => $userID]);
+            }
+        }
+
+        $session_cart = app('showcase')->session($id);
+        $session_cartItems = $session_cart->getContent();
+        $sessionObj = json_decode(json_encode($session_cartItems));
+        $sessionKeys = array_keys((array) $sessionObj);
+
+        //logged-in user cart
+        $showcase = app('showcase')->session($userID);
+        $showcasecontent = app('showcase')->session($userID)->getContent();
+
+        /**
+         * If showcase at home has products already
+         * then check if the selected products is from same vendor else show error msg
+         */
+        if (isset($sessionKeys) && is_array($sessionKeys) && count($sessionKeys) > 0) {
+            foreach ($sessionKeys as $key) {
+                $cartItem = $sessionObj->{$key};
+//                dd($cartItem);
+                $product_id = $cartItem->attributes->product_id;
+
+                if (!isset($product_id)) {
+                    continue;
+                }
+                $product = \App\Models\Product::find($product_id);
+                if (!isset($product)) {
+                    continue;
+                }
+
+                //copy values
+                $size = $cartItem->attributes->size;
+                $color = $cartItem->attributes->color;
+                $qty = $cartItem->quantity;
+                $offer_price = $cartItem->price;
+                $ordertype = $cartItem->attributes->type;
+
+                if (count($showcasecontent) > 0) {
+                    $notsamevendor = $showcasecontent->where('attributes.vendor_id', '==', $product->seller_id)->first();
+
+                    if (empty($notsamevendor)) {
+                        $msg = 'At a time you can request Showroom at home only from one vendor. <a href="' . url('/products/vendor/' . $product->seller_id) . '" style="text-decoration: underline; color: black; font-weight: 600;"> Click here </a> to browse products from ' . ucwords($product->vendor->brand_name) . ' vendor';
+                        Session::flash('warning', $msg);
+                        return redirect()->route('product.slug', ['slug' => $product->slug]);
+                    }
+                }
+
+                /**
+                 * Validate how many active showcases one customer can have
+                 */
+
+                if (Auth::check()) {
+                    $activeshowcases = Showcase::where('user_id', auth()->user()->id)
+                            ->where('order_status', 'New Order')
+                            ->select('order_id')
+                            ->groupBy('order_id')
+                            ->count();
+
+                    if ($activeshowcases == Config::get('icrm.showcase_at_home.active_orders')) {
+                        Session::flash('warning', 'At a time you can place only ' . Config::get('icrm.showcase_at_home.active_orders') . ' active showcase at home orders.');
+                        return redirect()->route('product.slug', ['slug' => $product->slug]);
+                    }
+                }
+
+                /**
+                 * Check if the allowed showcase at home products count exceeds
+                 */
+                if (count(app('showcase')->session($userID)->getContent()) == Config::get('icrm.showcase_at_home.order_limit')) {
+                    Session::flash('warning', 'You can Showroom at home only ' . Config::get('icrm.showcase_at_home.order_limit') . ' items in one order.');
+                    return redirect()->to(route('product.slug', ['slug' => $product->slug]))->with([
+                        'warning' => 'You can Showroom at home only ' . Config::get('icrm.showcase_at_home.order_limit') . ' items in one order.',
+                    ]);
+                }
+
+                /**
+                 * Check if same product is already is showcase
+                 */
+                if (count($showcase->getContent()->where('attributes.product_id', $product->id)->where('attributes.size', $size)->where('attributes.color', $color)) > 0) {
+                    Session::flash('warning', 'This product has already been added in the Showroom at home');
+                    return redirect()->route('product.slug', ['slug' => $product->slug]);
+                }
+
+                /**
+                 * Get the color image of the selected product
+                 */
+                $colorimage = Productcolor::where('product_id', $product->id)->where('color', $color)->first();
+
+                if (empty($colorimage)) {
+                    $colorimage = $product->image;
+                } else {
+                    $colorimage = $colorimage->main_image;
+                }
+
+                // add
+                $showcase->add([
+                    'id' => $color . $size . $product->id,
+                    'name' => $product->name,
+                    'price' => $offer_price,
+                    'quantity' => '1',
+                    'attributes' => array(
+                        'product_id' => $product->id,
+                        'slug' => $product->slug,
+                        'image' => $colorimage,
+                        'size' => $size,
+                        'color' => $color,
+                        'weight' => $product->weight,
+                        'hsn' => $product->productsubcategory->hsn,
+                        'gst' => $product->productsubcategory->gst,
+                        'vendor_id' => $product->seller_id,
+                        'vendor_city' => $product->vendor->city,
+                        'type' => 'Showcase At Home'
+                    )
+                ]);
+
+                Session::put('showcasevendor', $product->vendor->brand_name);
+                Session::put('showcasevendorid', $product->seller_id);
+            }
+        }
     }
 }

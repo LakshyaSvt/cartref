@@ -290,7 +290,7 @@
                             @if ($this->availablestock == 0) disabled="disabled" @endif></button>
                 </div>
                 @if($this->addToCart)
-                    <a class="add-to-cart-btn" href="{{ route('bag') }}">
+                    <a class="add-to-cart-btn go-to-bag-btn" href="{{ route('bag') }}">
                         <span class="add-to-cart-span">Go to {{ ucwords(Config::get('icrm.cart.name')) }}</span>
                     </a>
                 @else
@@ -306,16 +306,22 @@
                     {{-- activate showcase --}}
                     @if ($this->product->vendor->showcase_at_home == 1)
                         <div class="buy-wrapper" data-testid="pdp-add-to-cart">
-                            <button class="add-to-cart-btn" type="button"
-                                    @if ($this->disablebtn == true) disabled="disabled" title="First select required fields!" @endif
-                                    wire:click="addtoshowcaseathome">
-                                <span class="add-to-cart-span">Showroom At Home</span>
-                            </button>
+                            @if($this->addToShowroom)
+                                <a class="add-to-cart-btn go-to-bag-btn" href="{{ route('showcase.bag') }}">
+                                    <span class="add-to-cart-span">Go to Bag</span>
+                                </a>
+                            @else
+                                <button class="add-to-cart-btn" type="button"
+                                        @if ($this->disablebtn == true) disabled="disabled" title="First select required fields!" @endif
+                                        wire:click="addtoshowcaseathome">
+                                    <span class="add-to-cart-span">Showroom At Home</span>
+                                </button>
+                            @endif
                             {{-- <a href="{{ route('showcase.introduction') }}"><span class="fas fa-info-circle" title="What is showroom at home?"></span></a> --}}
                             <div class="new-wishlist-wrapper">
                                 @livewire('wishlist', [
-                                'wishlistproductid' => $product->id,
-                                'view' => 'new-product-page',
+                                    'wishlistproductid' => $product->id,
+                                    'view' => 'new-product-page',
                                 ])
                             </div>
                         </div>
@@ -324,11 +330,17 @@
                     @if ($this->product->vendor->showcase_at_home == 1)
                         <div class="buy-wrapper" data-testid="pdp-add-to-cart">
                             @if ($this->product->vendor->city == Session::get('showcasecity'))
-                                <button class="add-to-cart-btn" type="button"
-                                        @if ($this->disablebtn == true) disabled="disabled" title="First select required fields!" @endif
-                                        wire:click="addtoshowcaseathome">
-                                    <span class="add-to-cart-span">Showroom At Home</span>
-                                </button>
+                                @if($this->addToShowroom)
+                                    <a class="add-to-cart-btn go-to-bag-btn" href="{{ route('showcase.bag') }}">
+                                        <span class="add-to-cart-span">Go to Bag</span>
+                                    </a>
+                                @else
+                                    <button class="add-to-cart-btn" type="button"
+                                            @if ($this->disablebtn == true) disabled="disabled" title="First select required fields!" @endif
+                                            wire:click="addtoshowcaseathome">
+                                        <span class="add-to-cart-span">Showroom At Home</span>
+                                    </button>
+                                @endif
                             @else
                                 <button class="add-to-cart-btn" type="button" disabled="disabled"
                                         title="Showroom at home not available for this product at {{ Session::get('showcasecity') }} area.">
@@ -998,7 +1010,7 @@
 
 
                 @if($this->addToCart)
-                    <a class="add-to-cart-btn" href="{{ route('bag') }}">
+                    <a class="add-to-cart-btn go-to-bag-btn" href="{{ route('bag') }}">
                         <span class="add-to-cart-span">Go to {{ ucwords(Config::get('icrm.cart.name')) }}</span>
                     </a>
                 @else

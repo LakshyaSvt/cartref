@@ -100,7 +100,7 @@
     </div>
     <!-- End of FooterMiddle -->
     <div class="footer-bottom d-block text-center">
-        <p class="copyright">{{ env('APP_NAME') }} © 2023. All Rights Reserved</p>
+        <p class="copyright">{{ env('APP_NAME') }} © {{ date('Y') }}. All Rights Reserved</p>
     </div>
     <!-- End of FooterBottom -->
 </footer>

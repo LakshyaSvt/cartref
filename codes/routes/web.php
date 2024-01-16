@@ -328,11 +328,11 @@ if (Config::get('icrm.showcase_at_home.feature') == 1) {
         Route::get('/get-started', [ShowcaseAtHomeController::class, 'getstarted'])->name('showcase.getstarted');
         Route::post('/activate', [ShowcaseAtHomeController::class, 'activateshowcase'])->name('showcase.activate');
         Route::post('/deactivate', [ShowcaseAtHomeController::class, 'deactivateshowcase'])->name('showcase.deactivate');
+        Route::get('/bag', [ShowcaseAtHomeController::class, 'bag'])->name('showcase.bag');
     });
 }
 
 Route::prefix('showcase-at-home')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/bag', [ShowcaseAtHomeController::class, 'bag'])->name('showcase.bag');
     Route::get('/bag/checkout', [ShowcaseAtHomeController::class, 'checkout'])->name('showcase.checkout');
     Route::post('/paynow', [ShowcaseAtHomeController::class, 'paynow'])->name('showcase.paynow');
     Route::post('/purchase/paynow', [ShowcaseAtHomeController::class, 'purchasepaynow'])->name('showcase.purchase.paynow');
@@ -539,3 +539,6 @@ Route::get('/notify/{order_id}',function($order_id){
 
 Route::get('/export-users-from-view',[ProductBulkUploadController::class, 'export_product_dummy']);
 
+Route::get('/sds', function(){
+    return Auth::check();
+});
