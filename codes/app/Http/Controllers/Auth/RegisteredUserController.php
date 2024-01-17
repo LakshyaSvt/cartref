@@ -529,6 +529,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        $this->saveLoggedInCart();
+        $this->saveShowroomCart();
+
+
 
 
         return redirect()->intended(RouteServiceProvider::HOME);
@@ -602,6 +606,10 @@ class RegisteredUserController extends Controller
 
 
         Auth::login($user);
+
+
+        $this->saveLoggedInCart();
+        $this->saveShowroomCart();
 
 
 
