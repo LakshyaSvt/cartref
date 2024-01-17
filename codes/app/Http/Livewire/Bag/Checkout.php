@@ -2,30 +2,24 @@
 
 namespace App\Http\Livewire\Bag;
 
-use Carbon\Carbon;
-use App\Models\RewardPointLog;
-use App\Models\UserCreditLog;
-use App\Order;
+use App\Brand;
 use App\Coupon;
-use App\Productsku;
-use App\Models\User;
 use App\Models\Product;
-use Livewire\Component;
-use App\EmailNotification;
-use Darryldecode\Cart\Cart;
-use Craftsys\Msg91\Facade\Msg91;
-use Seshac\Shiprocket\Shiprocket;
-use LaravelDaily\Invoices\Invoice;
+use App\Models\RewardPointLog;
+use App\Models\User;
+use App\Models\UserCreditLog;
 use App\Notifications\CodOrderEmail;
-use Darryldecode\Cart\CartCondition;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Session;
-use LaravelDaily\Invoices\Classes\Party;
 use App\Notifications\CodOrderEmailToVendor;
 use App\Notifications\NewOrderMailToAdmin;
+use App\Order;
+use App\Productsku;
+use Craftsys\Msg91\Facade\Msg91;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
-use LaravelDaily\Invoices\Classes\InvoiceItem;
+use Illuminate\Support\Facades\Session;
+use Livewire\Component;
+use Seshac\Shiprocket\Shiprocket;
 
 class Checkout extends Component
 {
@@ -127,6 +121,7 @@ class Checkout extends Component
 
         // fetch applied coupon code in the code
         $this->couponcode = Session::get('appliedcouponcode');
+        
 
         // check cod formula
         $this->checkshippingavailability();
@@ -251,13 +246,16 @@ class Checkout extends Component
         // if session field is not present then fetch auth fields
         $this->authfields();
 
-        $sellers = [];
         $this->totalMrp = 0;
+
+        $brands = [];
+        $carts = \Cart::session($userID)->getContent()->where('attributes.type', '!=', 'Showcase At Home');
         foreach ($carts as $cart) {
             $product = Product::where('id', $cart->attributes->product_id)->first();
             $this->totalMrp += $product->mrp * $cart->quantity;
-            array_push($sellers, User::find($product->seller_id));
+            array_push($brands, Brand::whereName($product->brand_id)->first());
         }
+
         $now = date('Y-m-d');
         $coupons = Coupon::where('status', 1)->where('from', '<=', $now)->where('to', '>=', $now)->get();
 
@@ -269,7 +267,7 @@ class Checkout extends Component
             $coupon->not_applicable_error = '';
 
             if ($subtotal >= $coupon->min_order_value) {
-                if ($coupon->is_coupon_for_all || $coupon->hasSellers($sellers)) {
+                if ($coupon->is_coupon_for_all || $coupon->hasBrands($brands)) {
                     if ($coupon->is_uwc || $this->redeemedRewardPoints <= 0) {
                         $coupon->is_applicable = true;
 
@@ -284,12 +282,10 @@ class Checkout extends Component
                         }
 
                         $coupon->applicable_discount = $value ?? 0;
-                    }
-                    else{
+                    } else {
                         $coupon->not_applicable_error = 'Not applicable with reward points.';
                     }
-                }
-                else{
+                } else {
                     $coupon->not_applicable_error = 'Can not use with cart products';
                 }
             }
@@ -1001,10 +997,12 @@ class Checkout extends Component
         \Cart::session($userID)->condition($tax);
     }
 
-    public function applyDirectCoupon($code){
+    public function applyDirectCoupon($code)
+    {
         $this->couponcode = $code;
         $this->applycoupon();
     }
+
     public function applycoupon()
     {
         /**
@@ -1041,15 +1039,23 @@ class Checkout extends Component
                 // coupon exists
 
                 //check coupon is applicable for cart products
-                $sellers = [];
+//                $sellers = [];
+//                $carts = \Cart::session($userID)->getContent()->where('attributes.type', '!=', 'Showcase At Home');
+//                foreach ($carts as $cart) {
+//                    $product = Product::where('id', $cart->attributes->product_id)->first();
+//                    array_push($sellers, User::find($product->seller_id));
+//                }
+
+                $brands = [];
                 $carts = \Cart::session($userID)->getContent()->where('attributes.type', '!=', 'Showcase At Home');
                 foreach ($carts as $cart) {
                     $product = Product::where('id', $cart->attributes->product_id)->first();
-                    array_push($sellers, User::find($product->seller_id));
+                    array_push($brands, Brand::whereName($product->brand_id)->first());
                 }
+//                dd($brands);
 //                dd($coupon->hasSellers($sellers));
 
-                if (!$coupon->is_coupon_for_all && !$coupon->hasSellers($sellers)) {
+                if (!$coupon->is_coupon_for_all && !$coupon->hasBrands($brands)) {
                     $this->dispatchBrowserEvent('showToast', ['msg' => 'Coupon can not be applied with cart products', 'status' => 'error']);
                     return;
                 }
@@ -1339,21 +1345,23 @@ class Checkout extends Component
 
         foreach ($carts as $key => $cart) {
             //per product discount calculation
-            $ratio  = ($cart->getPriceSumWithConditions() / $this->ordervalue);
-            $coupon_discount = 0; $reward_point_discount = 0; $user_credits_discount = 0;
+            $ratio = ($cart->getPriceSumWithConditions() / $this->ordervalue);
+            $coupon_discount = 0;
+            $reward_point_discount = 0;
+            $user_credits_discount = 0;
 
-            if($this->discount > 0){
+            if ($this->discount > 0) {
                 //coupon discount
                 $coupon_discount = round(($ratio * $this->discount), 2);
             }
-            if($this->redeemedRewardPoints > 0){
+            if ($this->redeemedRewardPoints > 0) {
                 //reward point discount uptoo 20%
-                if(auth()->user()->reward_points >= $this->redeemedRewardPoints)
+                if (auth()->user()->reward_points >= $this->redeemedRewardPoints)
                     $reward_point_discount = round(($ratio * $this->redeemedRewardPoints), 2);
             }
-            if($this->redeemedCredits > 0){
+            if ($this->redeemedCredits > 0) {
                 //wallet credits discount
-                if(auth()->user()->credits >= $this->redeemedCredits)
+                if (auth()->user()->credits >= $this->redeemedCredits)
                     $user_credits_discount = round(($ratio * $this->redeemedCredits), 2);
             }
             // fetch product information
@@ -1550,10 +1558,10 @@ class Checkout extends Component
 
         }
 
-        if($this->redeemedRewardPoints > 0){
+        if ($this->redeemedRewardPoints > 0) {
             auth()->user()->decrement('reward_points', $this->redeemedRewardPoints);
         }
-        if($this->redeemedCredits > 0){
+        if ($this->redeemedCredits > 0) {
             auth()->user()->decrement('credits', $this->redeemedCredits);
         }
 
