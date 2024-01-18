@@ -5,7 +5,6 @@
     src: url(https://mosaic02.ztat.net/zds/assets/fonts/TiemposText-Regular.f395ef90.woff2) format("woff2");
     font-display: swap
 }
-
 @font-face {
     font-family: Tiempos;
     font-weight: 700;
@@ -13,7 +12,6 @@
     src: url(https://mosaic02.ztat.net/zds/assets/fonts/TiemposText-Bold.1401aab2.woff2) format("woff2");
     font-display: swap
 }
-
 @font-face {
     font-family: Tiempos;
     font-weight: 600;
@@ -21,7 +19,6 @@
     src: url(https://mosaic02.ztat.net/zds/assets/fonts/TiemposText-Semibold.0df05bac.woff2) format("woff2");
     font-display: swap
 }
-
 @font-face {
     font-family: Tiempos;
     font-weight: 400;
@@ -37,7 +34,6 @@
     src: url(https://mosaic02.ztat.net/zds/assets/fonts/HelveticaNowText-Regular.cc94b7ec.woff2) format("woff2");
     font-display: swap
 }
-
 @font-face {
     font-family: HelveticaNow;
     font-weight: 700;
@@ -45,7 +41,6 @@
     src: url(https://mosaic02.ztat.net/zds/assets/fonts/HelveticaNowText-Bold.5fca4438.woff2) format("woff2");
     font-display: swap
 }
-
 @font-face {
     font-family: HelveticaNow;
     font-weight: 400;
@@ -899,4 +894,9 @@ fseven-day-return-container {
     .new-product-wrap {
         max-width: 150px !important;
     }
+}
+
+.go-to-bag-btn{
+    background-color: #009877 !important;
+    border: 2px solid #238670 !important;
 }

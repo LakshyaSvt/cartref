@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Darryldecode\Cart\Cart;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,12 @@ class Cartcount extends Component
                 session(['session_id' => $userID]);
             }
         }
+
         \Cart::session($userID)->remove($cartid);
+
+        \Cart::session($userID)->removeCartCondition('coupon');
+        Session::remove('appliedcouponcode');
+//        $this->emit('checkout');
+        return redirect(request()->header('Referer'));
     }
 }

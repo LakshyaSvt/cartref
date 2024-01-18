@@ -24,7 +24,6 @@ class Bag extends Component
         $this->pickuppincode = setting('seller-name.pincode');
         $this->deliverypincode = Session::get('deliverypincode');
 
-
     }
 
 
@@ -139,6 +138,19 @@ class Bag extends Component
             )
         ));
 
+        $userID = 0;
+        if (Auth::check()) {
+            $userID = auth()->user()->id;
+        } else {
+            if (session('session_id')) {
+                $userID = session('session_id');
+            } else {
+                $userID = rand(1111111111, 9999999999);
+                session(['session_id' => $userID]);
+            }
+        }
+        \Cart::session($userID)->removeCartCondition('coupon');
+        Session::remove('appliedcouponcode');
         $this->updatecartweight($cartid);
 
         // $this->emit('cartcount');
@@ -181,6 +193,9 @@ class Bag extends Component
                 'requireddocument' => $cart->attributes->requireddocument,
             )
         ));
+
+        \Cart::session($userID)->removeCartCondition('coupon');
+        Session::remove('appliedcouponcode');
 
         $this->updatecartweight($cartid);
 
@@ -269,6 +284,10 @@ class Bag extends Component
             }
         }
         \Cart::session($userID)->remove($cartid);
+
+        \Cart::session($userID)->removeCartCondition('coupon');
+        Session::remove('appliedcouponcode');
+
 
         $this->emit('cartcount');
     }

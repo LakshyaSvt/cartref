@@ -3,18 +3,15 @@
 namespace App\Http\Livewire;
 
 use App\Coupon;
-use App\Showcase;
-use App\Productsku;
-use App\Productcolor;
 use App\Models\Product;
-use Livewire\Component;
-use Darryldecode\Cart\Cart;
-use Illuminate\Support\Str;
-use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\URL;
+use App\Productcolor;
+use App\Productsku;
+use App\Showcase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 
 class Addskutobag extends Component
@@ -35,6 +32,9 @@ class Addskutobag extends Component
     public $mrp;
     public $offer_coupons = [];
     public $view;
+
+    public $addToCart = false;
+    public $addToShowroom = false;
     // disabled 900 to 910 lines on main.js
 
     protected $listeners = ['addtobag' => 'addtobag'];
@@ -93,14 +93,20 @@ class Addskutobag extends Component
             if (Config::get('icrm.product_sku.color') == 1) {
                 if ($this->product->productskus->where('size', $size)->where('color', $this->color)->first()->available_stock > 0) {
                     $this->size = $size;
+                    $this->addToCart = false;
+                    $this->addToShowroom = false;
                 }
             } else {
                 if ($this->product->productskus->where('size', $size)->first()->available_stock > 0) {
                     $this->size = $size;
+                    $this->addToCart = false;
+                    $this->addToShowroom = false;
                 }
             }
         } else {
             $this->size = $size;
+            $this->addToCart = false;
+            $this->addToShowroom = false;
         }
     }
 
@@ -123,18 +129,24 @@ class Addskutobag extends Component
             if ($this->availablestock > 0) {
                 if ($this->availablestock != $this->qty) {
                     $this->qty++;
+                    $this->addToCart = false;
+                    $this->addToShowroom = false;
                 } else {
                     Session::flash('qtynotavailable', 'Only ' . $this->availablestock . ' item left');
                 }
             }
         } else {
             $this->qty++;
+            $this->addToCart = false;
+            $this->addToShowroom = false;
         }
     }
 
     public function minusqty()
     {
         $this->qty--;
+        $this->addToCart = false;
+        $this->addToShowroom = false;
     }
 
 
@@ -170,7 +182,6 @@ class Addskutobag extends Component
         }
 
 
-
         if (!empty($this->size)) {
             if (!empty($this->product->productskus->where('size', $this->size)->first()->offer_price)) {
                 if (!empty($this->color)) {
@@ -189,29 +200,28 @@ class Addskutobag extends Component
         $this->validateskufields();
 
         $now = date('Y-m-d');
-        $this->offer_coupons = Coupon::whereHas('sellers', function ($qu) {
-            $qu->where('users.id', $this->product->seller_id);
+        $this->offer_coupons = Coupon::whereHas('brands', function ($qu) {
+            $qu->where('brands.name', $this->product->brand_id);
         })
             ->where(['status' => 1, 'is_coupon_for_all' => false])
             ->where('from', '<=', $now)
             ->where('to', '>=', $now)
             ->get();
 
-            foreach($this->offer_coupons  as $coupon){
+        foreach ($this->offer_coupons as $coupon) {
 
-                // 1. Percentage off
-                if ($coupon->type == 'PercentageOff') {
-                    $value = $this->offer_price * ($coupon->value / 100);
-                }
-
-                // 2. Fixed off
-                if ($coupon->type == 'FixedOff') {
-                    $value = $coupon->value;
-                }
-
-                $coupon->discounted_value =  $this->offer_price - $value ?? 0;
+            // 1. Percentage off
+            if ($coupon->type == 'PercentageOff') {
+                $value = $this->offer_price * ($coupon->value / 100);
             }
 
+            // 2. Fixed off
+            if ($coupon->type == 'FixedOff') {
+                $value = $coupon->value;
+            }
+
+            $coupon->discounted_value = $this->offer_price - $value ?? 0;
+        }
 
 
         return view('livewire.addskutobag');
@@ -246,7 +256,6 @@ class Addskutobag extends Component
             ->where('attributes.g_plus', $this->max_g_need)
             ->where('attributes.customized_image', null)
             ->first();
-
 
 
         // if product exists in the cart then fetch cart row id
@@ -488,6 +497,7 @@ class Addskutobag extends Component
         }
 
         $this->added = true;
+        $this->addToCart = true;
 
         $this->emit('cartcount');
 
@@ -496,6 +506,9 @@ class Addskutobag extends Component
         $this->dispatchBrowserEvent('showToast', ['msg' => 'Product successfully added to cart', 'status' => 'success']);
 
 
+        \Cart::session($userID)->removeCartCondition('coupon');
+        Session::remove('appliedcouponcode');
+
         Session::remove('quickviewid');
 
         Session::flash('success', 'Product successfully added to cart');
@@ -503,8 +516,6 @@ class Addskutobag extends Component
         // return redirect()->route('bag');
         // return redirect()->route('product.slug', ['slug' => $this->product->slug, 'color' => $this->color]);
     }
-
-
 
 
     private function validateskufields()
@@ -554,7 +565,6 @@ class Addskutobag extends Component
         }
 
 
-
         $this->disablebtn = false;
 
         if ($this->disablebtn == true) {
@@ -574,13 +584,13 @@ class Addskutobag extends Component
     {
         $this->validateskufields();
 
-        if (!Auth::check()) {
-            if (!session()->has('url.intended')) {
-                session(['url.intended' => url()->previous()]);
-            }
-
-            return redirect()->route('login');
-        }
+//        if (!Auth::check()) {
+//            if (!session()->has('url.intended')) {
+//                session(['url.intended' => url()->previous()]);
+//            }
+//
+//            return redirect()->route('login');
+//        }
 
         $userID = 0;
         if (Auth::check()) {
@@ -619,11 +629,13 @@ class Addskutobag extends Component
          * Validate how many active showcases one customer can have
          */
 
-        $activeshowcases = Showcase::where('user_id', auth()->user()->id)->where('order_status', 'New Order')->select('order_id')->groupBy('order_id')->count();
+        if (Auth::check()) {
+            $activeshowcases = Showcase::where('user_id', auth()->user()->id)->where('order_status', 'New Order')->select('order_id')->groupBy('order_id')->count();
 
-        if ($activeshowcases == Config::get('icrm.showcase_at_home.active_orders')) {
-            Session::flash('warning', 'At a time you can place only ' . Config::get('icrm.showcase_at_home.active_orders') . ' active showcase at home orders.');
-            return redirect()->route('product.slug', ['slug' => $this->product->slug]);
+            if ($activeshowcases == Config::get('icrm.showcase_at_home.active_orders')) {
+                Session::flash('warning', 'At a time you can place only ' . Config::get('icrm.showcase_at_home.active_orders') . ' active showcase at home orders.');
+                return redirect()->route('product.slug', ['slug' => $this->product->slug]);
+            }
         }
 
         /**
@@ -682,6 +694,7 @@ class Addskutobag extends Component
         Session::put('showcasevendorid', $this->product->seller_id);
 
         $this->added = true;
+        $this->addToShowroom = true;
 
         Session::remove('quickviewid');
 
@@ -756,7 +769,6 @@ class Addskutobag extends Component
             ->where('attributes.color', $this->color)
             ->where('attributes.g_plus', $this->max_g_need)
             ->first();
-
 
 
         // if product exists in the cart then fetch cart row id

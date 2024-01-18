@@ -14,6 +14,10 @@ class Coupon extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function brands()
+    {
+        return $this->belongsToMany(Brand::class, 'coupon_brand');
+    }
     public function scopeRoleWise($query)
     {
         return $query
@@ -34,6 +38,21 @@ class Coupon extends Model
         if (is_array($sellers) && count($sellers) > 0) {
             foreach ($sellers as $seller) {
                 if (!$this->sellers->contains($seller)) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public function hasBrands($brands)
+    {
+        if (is_array($brands) && count($brands) > 0) {
+            foreach ($brands as $brand) {
+                if (!$this->brands->contains($brand)) {
                     return false;
                 }
             }

@@ -96,7 +96,6 @@ class AppServiceProvider extends ServiceProvider
                         ->inRandomOrder()
                         ->get();
 
-
         if(Auth::check())
         {
             \Cart::session(auth()->user()->id);

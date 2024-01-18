@@ -188,13 +188,24 @@
                                     </tr>
                                 </table>
 
-                                <a class="btn btn-dark btn-rounded btn-checkout" wire:click="proceedcheckout">
-                                    Proceed to checkout
-                                </a>
+                                @guest
+                                    <a class="btn btn-dark btn-rounded btn-checkout" wire:click="proceedcheckout">Login to checkout</a>
+                                @else
+                                    <a class="btn btn-dark btn-rounded btn-checkout" wire:click="proceedcheckout">Proceed to checkout</a>
+                                @endguest
+
                                 @if($this->deliveryavailability == false)
                                     <small class="outofstock">Before processing please check service availability in your area</small>
                                 @endif
 
+                                @guest
+                                    <p class="mt-2" style="font-size: 15px;color: #0c860c;font-weight: 500;">
+                                        Hey Fabulous Shopper! <br>
+                                        We've got a deal so sweet, even unicorns are jealous!
+                                        Sign up now and brace yourself for a 100% Cashback Extravaganza on your first order!
+                                        Use it as a golden ticket for a dazzling discount on your next order from your Cartref's wallet!
+                                    </p>
+                                @endguest
                             </div>
                         </div>
                     </aside>

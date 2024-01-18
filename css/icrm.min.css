@@ -9559,6 +9559,14 @@ aside + div .product-single .product-details {
     letter-spacing: -0.01em;
     padding-inline: 13px;
 }
+.product-single.product-popup .product-name {
+    color: black;
+    margin-bottom: 0.3rem;
+    font-family: inherit;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    padding-inline: 0px;
+}
 
 @media (max-width: 600px) {
     .product-single .product-name {
@@ -15558,6 +15566,10 @@ aside .owl-nav-top .owl-nav i:before {
 .home .product-single .product-details {
     padding-top: 0.9rem;
     background: #191f1b;
+}
+.home .mfp-content .product-single .product-details {
+    padding-top: 0.9rem;
+    background: white;
 }
 .home .product-single .ratings-container {
     margin-bottom: 1.7rem;
