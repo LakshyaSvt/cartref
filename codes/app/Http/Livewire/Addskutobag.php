@@ -200,8 +200,8 @@ class Addskutobag extends Component
         $this->validateskufields();
 
         $now = date('Y-m-d');
-        $this->offer_coupons = Coupon::whereHas('sellers', function ($qu) {
-            $qu->where('users.id', $this->product->seller_id);
+        $this->offer_coupons = Coupon::whereHas('brands', function ($qu) {
+            $qu->where('brands.name', $this->product->brand_id);
         })
             ->where(['status' => 1, 'is_coupon_for_all' => false])
             ->where('from', '<=', $now)

@@ -121,7 +121,7 @@ class Checkout extends Component
 
         // fetch applied coupon code in the code
         $this->couponcode = Session::get('appliedcouponcode');
-        
+
 
         // check cod formula
         $this->checkshippingavailability();
