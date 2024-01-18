@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Helper\FileHandler;
 
 class ProductController extends Controller
 {
@@ -143,13 +144,9 @@ class ProductController extends Controller
         $json_images = $productColor->json_more_images;
 
         if (in_array($image, $json_images)) {
-            $filePath = Storage::path('public/' . $image);
-            if (File::exists($filePath)) {
-                File::delete($filePath);
-            }
+            FileHandler::delete($image);
 
             $key = array_search($image, $json_images);
-//            unset($json_images[$key]);
             array_splice($json_images, $key, 1);
             $productColor->update(['more_images' => json_encode($json_images)]);
             return response()->json(['status' => 'success', 'msg' => 'Image deleted successfully']);
@@ -169,22 +166,16 @@ class ProductController extends Controller
         $json_images = $productColor->json_more_images;
 
         foreach ($files as $file) {
-            $filName = Str::random() . '.' . $file->getClientOriginalExtension();
-            $subFolder = date('FY');
-            $destinationPath = Storage::path('public/productcolors/' . $subFolder);
-            if (!File::isDirectory($destinationPath)) {
-                File::makeDirectory($destinationPath, 0777, true, true);
-            }
-            if ($file->move($destinationPath, $filName)) {
-                //file moved and push to array
-                $dbPath = 'productcolors/' . $subFolder . '/' . $filName;
-                array_push($json_images, $dbPath);
+            $uploadedPath = FileHandler::upload($file, 'productcolors');
+            if ($uploadedPath) {
+                $json_images[] = $uploadedPath; //array_push
             }
         }
         $productColor->update(['more_images' => json_encode($json_images)]);
         return response()->json(['status' => 'success', 'msg' => 'Images uploaded successfully']);
 
     }
+
 
     public function uploadMainImage(Request $request, $id)
     {
@@ -194,27 +185,16 @@ class ProductController extends Controller
         $productColor = Productcolor::findOrFail($id);
 
         if ($request->hasFile('image')) {
-
             $file = $request->file('image');
-            $filName = Str::random() . '.' . $file->getClientOriginalExtension();
-            $subFolder = date('FY');
-            $destinationPath = Storage::path('public/productcolors/' . $subFolder);
 
-            if (!File::isDirectory($destinationPath)) {
-                File::makeDirectory($destinationPath, 0777, true, true);
-            }
-            if ($file->move($destinationPath, $filName)) {
-                //file moved
-                $dbPath = 'productcolors/' . $subFolder . '/' . $filName;
-
-                //deleting existing file
-                $oldFilePath = Storage::path('public/' . $productColor->main_image);
-                if (File::exists($oldFilePath)) {
-                    File::delete($oldFilePath);
-                }
+            $uploadedPath = FileHandler::upload($file, 'productcolors');
+            /* file moved */
+            if ($uploadedPath) {
+                /* deleting existing file */
+                FileHandler::delete($productColor->main_image);
 
                 //replace string with new one
-                $productColor->update(['main_image' => $dbPath]);
+                $productColor->update(['main_image' => $uploadedPath]); //update db
                 return response()->json(['status' => 'success', 'msg' => 'Image updated successfully']);
             }
         }

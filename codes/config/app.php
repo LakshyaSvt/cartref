@@ -43,7 +43,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -142,9 +142,9 @@ return [
 
     'providers' => [
 
-            /*
-             * Laravel Framework Service Providers...
-             */
+        /*
+         * Laravel Framework Service Providers...
+         */
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -168,9 +168,9 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-            /*
-             * Package Service Providers...
-             */
+        /*
+         * Package Service Providers...
+         */
         EloquentFilter\ServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         App\Providers\WishlistServiceProvider::class,
@@ -180,9 +180,9 @@ return [
         App\Providers\CustomizeProvider::class,
         App\Providers\AddressProvider::class,
         Craftsys\Msg91\Msg91LaravelServiceProvider::class,
-            /*
-             * Application Service Providers...
-             */
+        /*
+         * Application Service Providers...
+         */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
@@ -251,6 +251,8 @@ return [
         'Share' => Jorenvh\Share\ShareFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Pusher' => Pusher\Pusher::class,
+
+        'FileHandler' => App\Helper\FileHandler::class
     ],
 
 ];
