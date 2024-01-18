@@ -20,10 +20,10 @@ class ProductController extends Controller
         /* Query Parameters */
         $keyword = request()->keyword;
         $status = request()->status;
-        $parent_category_id = request()->parent_category;
-        $sub_category_id = request()->sub_category;
+        $parent_category_id = request()->parent_category_id;
+        $sub_category_id = request()->sub_category_id;
         $seller_id = request()->seller_id;
-        $rows = request()->rows ?? 25;
+        $rows = request()->row_count ?? 25;
 
         if ($rows == 'all') {
             $rows = Product::count();

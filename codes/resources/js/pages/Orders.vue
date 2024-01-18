@@ -170,7 +170,7 @@
                         <div class="flex items-center gap-2">
                             <div class="relative">
                                 <select title="Status"
-                                    class="block appearance-none w-32 leading-tight h-full cursor-pointer text-black bg-white border border-gray-400 focus:outline-none hover:shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-none font-medium rounded-lg text-sm px-3 py-2">
+                                    class="filter-dropdown">
                                     <option class="bg-gray-100" value="">Select Status</option>
                                     <option class="bg-gray-100" value="1">Yet to Process!</option>
                                     <option class="bg-gray-100" value="2">Yet to Ship!</option>
@@ -188,9 +188,7 @@
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                     <i class="fi fi-rr-search mr-1"></i>
                                 </div>
-                                <input type="text"
-                                    class="block focus-visible:outline focus-visible:outline-1 focus-visible:outline-primary-500 focus-visible:border-primary-500 p-2 pl-10 text-sm text-gray-900 border border-gray-400 rounded-lg w-40 bg-white"
-                                    placeholder="Search for users">
+                                <input type="text" class="search" placeholder="Search for users">
                             </div>
                             <div class="flex border border-gray-600 rounded-lg bg-white">
                                 <button class="px-2 py-1 m-[2px] hover:bg-gray-100 border-r border-solid cursor-pointer">

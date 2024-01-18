@@ -7,7 +7,7 @@
           toolbar_mode: 'sliding',
           branding: false,
           height: height ?? 250,
-          plugins: 'advcode advlist advtable anchor autolink autosave casechange charmap checklist codesample directionality emoticons export formatpainter help image insertdatetime link linkchecker lists media mediaembed nonbreaking pagebreak permanentpen powerpaste searchreplace table tinymcespellchecker visualblocks visualchars wordcount',
+          plugins: 'anchor autolink directionality emoticons  help image  link  lists media table ',
           toolbar: 'styleselect fontselect fontsizeselect | forecolor backcolor | undo redo spellcheckdialog | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
           tinycomments_mode: 'embedded',
           fontsize_formats: '6pt 8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 20pt 24pt 30pt 36pt 48pt 60pt 72pt 96pt',

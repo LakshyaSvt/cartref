@@ -60,6 +60,7 @@ export default {
         img.src = url;
       })
           .then(res => {
+
             this.width = res.naturalWidth;
             this.height = res.naturalHeight;
           });

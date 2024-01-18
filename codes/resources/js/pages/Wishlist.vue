@@ -29,7 +29,7 @@
                   <i class="fi fi-rr-search mr-1"></i>
                 </div>
                 <input type="text" v-model="keyword"
-                       class="block focus-visible:outline focus-visible:outline-1 focus-visible:outline-primary-500 focus-visible:border-primary-500 p-2 pl-10 text-sm text-gray-900 border border-gray-400 rounded-lg w-40 bg-white"
+                       class="search"
                        placeholder="Search" @keydown.enter="fetchWishlist()">
               </div>
               <div class="flex border border-gray-600 rounded-lg bg-white">

@@ -61,7 +61,7 @@
             <div class="flex flex-wrap items-center gap-2">
               <div class="relative">
                 <select title="Status" v-model="status" @change="fetchCategory()"
-                        class="block appearance-none w-32 leading-tight h-full cursor-pointer text-black bg-white border border-gray-400 focus:outline-none hover:shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-none font-medium rounded-lg text-sm px-3 py-2">
+                        class="filter-dropdown">
                   <option class="bg-gray-100" value="">All</option>
                   <option class="bg-gray-100" value="1">Published</option>
                   <option class="bg-gray-100" value="0">Un Published</option>
@@ -77,7 +77,7 @@
                   <i class="fi fi-rr-search mr-1"></i>
                 </div>
                 <input type="text" v-model="keyword"
-                       class="block focus-visible:outline focus-visible:outline-1 focus-visible:outline-primary-500 focus-visible:border-primary-500 p-2 pl-10 text-sm text-gray-900 border border-gray-400 rounded-lg w-40 bg-white"
+                       class="search"
                        placeholder="Search" @keydown.enter="fetchCategory()">
               </div>
               <div class="flex border border-gray-600 rounded-lg bg-white">
