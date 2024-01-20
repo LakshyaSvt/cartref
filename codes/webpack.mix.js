@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const path = require("path");
 
 /*
  |--------------------------------------------------------------------------
@@ -9,10 +10,19 @@ const mix = require('laravel-mix');
  | for your Laravel application. By default, we are compiling the Sass
  | file for the application as well as bundling up all the JS files.
  |
- */
+*/
 
-mix.js('resources/js/app.js', 'public/vue/js')
+mix
+    .webpackConfig({
+        resolve: {
+            alias: {
+                '@components': path.resolve(__dirname, 'resources', "js/components"),
+                '@pages': path.resolve(__dirname, 'resources', "js/pages"),
+            },
+        },
+    })
+    .js('resources/js/app.js', 'public/vue/js')
     .vue()
     .postCss("resources/css/app.css", "public/vue/css", [
-        require("tailwindcss"),
+        require("tailwindcss")
     ]);

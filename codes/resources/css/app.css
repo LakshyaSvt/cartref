@@ -16,7 +16,7 @@
         @apply bg-primary-500 text-white;
     }
 
-    select.filter-dropdown{
+    select.filter-dropdown {
         @apply w-32 h-full
         block appearance-none
         pl-2 pr-8
@@ -32,6 +32,7 @@
         cursor-pointer
         rounded-lg
     }
+
     input.search {
         @apply w-32
         block bg-white
@@ -44,18 +45,20 @@
         rounded-lg
 
     }
+
     .form-input {
-       @apply block w-full
-       text-gray-900 text-sm
-       rounded-lg p-2.5
-       border border-gray-300
-       shadow-sm bg-gray-50
-       focus-visible:outline
-       focus-visible:outline-1
-       focus-visible:outline-primary-500
-       focus-visible:border-primary-500;
+        @apply block w-full
+        text-gray-900 text-sm
+        rounded-lg p-2.5
+        border border-gray-300
+        shadow-sm bg-gray-50
+        focus-visible:outline
+        focus-visible:outline-1
+        focus-visible:outline-primary-500
+        focus-visible:border-primary-500;
     }
-    .submit-btn{
+
+    .submit-btn {
         @apply text-white bg-primary-600 hover:bg-primary-700
         focus:ring-4 focus:outline-none focus:ring-primary-300
         font-bold rounded-lg
@@ -87,20 +90,6 @@
     li a.dropdown-item {
         @apply flex items-center w-full p-2 text-base font-normal text-gray-700 transition duration-75 hover:bg-primary-200 pl-11;
     }
-
-    /*.router-link-exact-active,*/
-    /*.router-link-exact-active:hover {*/
-    /*    !* background-color: rgb(20 184 166 / 1) !important; *!*/
-    /*    @apply !bg-primary-500;*/
-    /*    color: white !important;*/
-    /*}*/
-    /*.router-link-active,*/
-    /*.router-link-active:hover {*/
-    /*    !* background-color: rgb(20 184 166 / 1) !important; *!*/
-    /*    @apply !bg-primary-500;*/
-    /*    color: white !important;*/
-    /*}*/
-
 
     /* Pagination */
     .prev-btn {

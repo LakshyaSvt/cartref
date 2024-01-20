@@ -8,6 +8,9 @@ const strFunctions = {
             .replace(/[^a-z0-9 -]/g, '') // remove non-alphanumeric characters
             .replace(/\s+/g, '-') // replace spaces with hyphens
             .replace(/-+/g, '-'); // remove consecutive hyphens
+    },
+    currencyFormat: (number, locale = 'en-IN') => {
+        return Number(number).toLocaleString(locale);
     }
 }
 

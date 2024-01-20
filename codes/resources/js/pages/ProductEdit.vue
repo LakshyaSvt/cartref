@@ -170,11 +170,22 @@
                     <label for="sizes" class="block mb-2 text-sm font-bold text-gray-900">
                       Available Sizes <span class="text-red-600">*</span>
                     </label>
+                    <Multiselect v-model="product.selected_sizes" :options="sizeDropdown" :multiple="true" :showLabels="false"/>
                   </div>
                   <div class="md:w-1/2 w-full">
                     <label for="seller_id" class="block mb-2 text-sm font-bold text-gray-900">
                       Available Colors <span class="text-red-600">*</span>
                     </label>
+                    <Multiselect v-model="product.selected_colors" :options="colorDropdown" :multiple="true" :showLabels="false">
+                      <template v-slot:selection="{values, remove}">
+                          <span class="multiselect__tag" :style="'background-color:'+color+'!important;'" v-for="color in values" :key="color">
+                            <div class="color-backdrop">
+                              <span class="color">{{ color }}</span>
+                            </div>
+                            <i tabindex="1" class="multiselect__tag-icon" @click="remove(color)"></i>
+                          </span>
+                      </template>
+                    </Multiselect>
                   </div>
                 </div>
                 <div class="flex gap-4 w-full my-2">
@@ -223,9 +234,9 @@
                   </div>
                 </div>
                 <div class="w-full mb-2">
-                  <div class="text-green-500 text-sm" v-if="product.mrp > 0 && product.offer_price > 0">
+                  <div class="text-green-500 text-sm text-center" v-if="product.mrp > 0 && product.offer_price > 0">
                     <span class="text-gray-800">Discount :</span>
-                    ₹{{ discount }} ({{ discountPercent }}%)
+                    ₹{{ currencyFormat(discount) }} ({{ discountPercent }}%)
                   </div>
                 </div>
                 <div class="w-full my-2">
@@ -323,6 +334,8 @@ export default {
       sub_categories: [],
       brands: [],
       sellers: [],
+      sizes: [],
+      colors: [],
       genders: [],
       styles: [],
       admin_statuses: [
@@ -339,6 +352,8 @@ export default {
         //dropdown-list-ids
         category_id: '',
         subcategory_id: '',
+        selected_sizes: [],
+        selected_colors: [],
         brand_id: '',
         seller_id: '',
         gender_id: '',
@@ -376,6 +391,12 @@ export default {
     },
     discountPercent() {
       return ((this.discount / this.product.mrp) * 100).toFixed(2);
+    },
+    sizeDropdown() {
+      return this.sizes.map(size => size.name);
+    },
+    colorDropdown() {
+      return this.colors.map(color => color.name);
     }
   },
   methods: {
@@ -395,6 +416,8 @@ export default {
           .get('admin/product/' + this.editId)
           .then(res => {
             this.product = res.data.data;
+            this.product.selected_sizes = this.product.sizes.map(size => size.name)
+            this.product.selected_colors = this.product.colors.map(color => color.name)
             this.loading = false;
           })
           .catch(err => {
@@ -443,6 +466,36 @@ export default {
           })
           .then(res => {
             this.brands = res.data.data;
+          })
+          .catch(err => {
+            err.handleGlobally && err.handleGlobally();
+          })
+    },
+    fetchSizes() {
+      axios
+          .get('/admin/size', {
+            params: {
+              rows: 'all',
+              status: 1,
+            }
+          })
+          .then(res => {
+            this.sizes = res.data.data;
+          })
+          .catch(err => {
+            err.handleGlobally && err.handleGlobally();
+          })
+    },
+    fetchColors() {
+      axios
+          .get('/admin/color', {
+            params: {
+              rows: 'all',
+              status: 1,
+            }
+          })
+          .then(res => {
+            this.colors = res.data.data;
           })
           .catch(err => {
             err.handleGlobally && err.handleGlobally();
@@ -497,6 +550,8 @@ export default {
   },
   created() {
     this.fetchParentCategory();
+    this.fetchSizes();
+    this.fetchColors();
     this.fetchBrand();
     this.fetchStyle();
     this.fetchGender();

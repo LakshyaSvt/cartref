@@ -116,12 +116,13 @@
               </div>
               <label for="table-search" class="sr-only">Search</label>
               <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer" @click="keyword = ''; fetchSubCategory();" v-if="keyword">
+                  <i class="fi fi-rr-cross-small mr-1"></i>
+                </div>
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none" v-else>
                   <i class="fi fi-rr-search mr-1"></i>
                 </div>
-                <input type="text" v-model="keyword"
-                       class="search"
-                       placeholder="Search" @keydown.enter="fetchSubCategory()">
+                <input type="text" v-model="keyword" class="search" placeholder="Search" @keydown.enter="fetchSubCategory()">
               </div>
               <div class="flex border border-gray-600 rounded-lg bg-white">
                 <button class="px-2 py-1 m-[2px] hover:bg-primary-100 border-r border-solid cursor-pointer"
@@ -228,21 +229,11 @@
                     {{ c.gst || '0' }}%
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                    <label :id="'wait_' + c.id" class="hidden inline-block  justify-center w-4 h-4">
-                      <Spinner/>
-                    </label>
-                    <label class="relative inline-flex items-center cursor-pointer"
-                           :id="'status_' + c.id">
-                      <input type="checkbox" :id="'checkbox_' + c.id" value=""
-                             :checked="parseInt(c.status) == 1" @change="updateStatus(c.id, $event)"
-                             class="sr-only peer">
-                      <div
-                          class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
-                      </div>
-                    </label>
+                    <StatusCheckbox :id="c.id" :status="!!c.status" :update="updateStatus"/>
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
                     <div class="font-normal text-gray-900" v-html="formDateTime(c.updated_at)"></div>
+                    <div class="text-sm">({{ timeAgo(c.updated_at) }})</div>
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
                     <div class="flex gap-4 items-center justify-center">
@@ -330,22 +321,17 @@ export default {
         this.image = file;
       }
     },
-    updateStatus(id, e) {
-      document.getElementById('wait_' + id).classList.remove('hidden')
-      document.getElementById('status_' + id).classList.add('hidden')
-      axios.put('/admin/sub-category/' + id, {
-        status: e.target.checked
-      })
+    updateStatus(id, status) {
+      axios.put('/admin/sub-category/' + id, {status})
           .then(res => {
             this.show_toast(res.data.status, res.data.msg);
-            document.getElementById('wait_' + id).classList.add('hidden')
-            document.getElementById('status_' + id).classList.remove('hidden')
-            document.getElementById('checkbox_' + id).checked = e.target.checked;
+            let index = this.sub_category.findIndex(sub_cat => sub_cat.id === id)
+            this.$set(this.sub_category, index, res.data.data)
           })
           .catch(err => {
+            this.dataLoading = false;
             err.handleGlobally && err.handleGlobally();
           })
-
     },
     clear() {
       this.name = '';
@@ -376,7 +362,7 @@ export default {
     },
     deleteSubCategory(id) {
       this.loading = true;
-      if(!confirm("Are you sure you want to delete ?")){
+      if (!confirm("Are you sure you want to delete ?")) {
         return false;
       }
       axios.delete('/admin/sub-category/' + id)

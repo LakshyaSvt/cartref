@@ -1,15 +1,20 @@
-import Dashboard from '../pages/Dashboard.vue'
-import Orders from '../pages/Orders.vue'
-import Showcases from '../pages/Showcases.vue'
-import Wishlist from "../pages/Wishlist.vue";
-import Cart from "../pages/Cart.vue";
-import Category from "../pages/Category.vue";
-import SubCategory from "../pages/SubCategory.vue";
-import Products from "../pages/Products.vue";
-import ProductColors from "../pages/ProductColors.vue";
-import ProductSizes from "../pages/ProductSizes.vue";
-import ProductColorEdit from "../pages/ProductColorEdit.vue";
-import ProductEdit from "../pages/ProductEdit.vue";
+import Dashboard from "@pages/Dashboard.vue"
+import Orders from "@pages/Orders.vue"
+import Showcases from '@pages/Showcases.vue'
+import Wishlist from "@pages/Wishlist.vue";
+import Cart from "@pages/Cart.vue";
+import Category from "@pages/Category.vue";
+import SubCategory from "@pages/SubCategory.vue";
+import Products from "@pages/Products.vue";
+import ProductColors from "@pages/ProductColors.vue";
+import ProductSizes from "@pages/ProductSizes.vue";
+import ProductColorEdit from "@pages/ProductColorEdit.vue";
+import ProductEdit from "@pages/ProductEdit.vue";
+import Styles from "@pages/Styles.vue";
+import Brands from "@pages/Brands.vue";
+import Genders from "@pages/Genders.vue";
+import Sizes from "@pages/Sizes.vue";
+import Colors from "@pages/Colors.vue";
 
 const routes = [
     {
@@ -61,6 +66,31 @@ const routes = [
         name: 'sub-category',
         path: '/admin/product/sub-category',
         component: SubCategory,
+    },
+    {
+        name: 'styles',
+        path: '/admin/config/styles',
+        component: Styles,
+    },
+    {
+        name: 'brands',
+        path: '/admin/config/brands',
+        component: Brands,
+    },
+    {
+        name: 'genders',
+        path: '/admin/config/genders',
+        component: Genders,
+    },
+    {
+        name: 'sizes',
+        path: '/admin/config/sizes',
+        component: Sizes,
+    },
+    {
+        name: 'colors',
+        path: '/admin/config/colors',
+        component: Colors,
     },
     {
         name: 'carts',

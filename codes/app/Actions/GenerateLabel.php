@@ -107,13 +107,13 @@ class GenerateLabel extends AbstractAction
         $token =  Shiprocket::getToken();
         // dd(json_encode($orders->pluck('shipping_order_id')));
         $orderIds = [ 'ids' => json_encode($orders->pluck('shipping_order_id')) ];
-        
-        
-        
+
+
+
         // $orderIds = [ 'ids' => ['230830441'] ];
         $response = Shiprocket::generate($token)->invoice($orderIds);
-        
-        
+
+
         // dd(json_decode($response)->invoice_url);
 
         if(isset(json_decode($response)->invoice_url))

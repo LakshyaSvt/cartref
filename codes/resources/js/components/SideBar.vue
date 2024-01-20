@@ -175,29 +175,29 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
-                                    Brands
-                                </a>
+                                <router-link :to="{name:'brands'}" class="dropdown-item">
+                                  Brands
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'genders'}" class="dropdown-item">
                                     Genders
-                                </a>
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'sizes'}" class="dropdown-item">
                                     Sizes
-                                </a>
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'colors'}" class="dropdown-item">
                                     Colors
-                                </a>
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'styles'}" class="dropdown-item">
                                     Styles
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
                     </li>

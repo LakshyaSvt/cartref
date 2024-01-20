@@ -13,7 +13,7 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return ApiResource
      */
     public function index()
     {
@@ -47,7 +47,7 @@ class BrandController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -68,7 +68,7 @@ class BrandController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return ApiResource
      */
     public function show($id)
     {
@@ -81,7 +81,7 @@ class BrandController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -91,7 +91,7 @@ class BrandController extends Controller
         $brand = Brand::findOrFail($id);
         $brand->update($request->all());
 
-        $status = 'success';
+        $status = '';
         $msg = $brand->name . ' updated successfully';
 
         if ($request->filled('status')) {
@@ -110,7 +110,7 @@ class BrandController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

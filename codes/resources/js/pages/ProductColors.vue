@@ -16,7 +16,8 @@
           <h3 class="text-start my-8">Colors</h3>
         </div>
         <div>
-          <router-link :to="{ name: 'product-edit', params: { id: product.id } }" class="flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-primary-500 hover:bg-primary-600">
+          <router-link :to="{ name: 'product-edit', params: { id: product.id } }"
+                       class="flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-primary-500 hover:bg-primary-600">
             Edit Product
             <i class="fi fi-rr-arrow-up-right-from-square text-base w-6 h-6"></i>
           </router-link>
@@ -41,22 +42,14 @@
                     <i class="fi fi-rr-arrow-right text-sm w-4 h-4"></i>
                   </button>
                 </router-link>
-                <label :id="'wait_' + color.id" class="hidden inline-block  justify-center w-6 h-6">
-                  <Spinner/>
-                </label>
-                <label class="relative inline-flex items-center cursor-pointer" :id="'status_' + color.id"
-                       :title="parseInt(color.status) == 1 ? 'Click to UnPublish' : 'Click to Publish'">
-                  <input type="checkbox" :id="'checkbox_' + color.id" value=""
-                         :checked="parseInt(color.status) == 1" @change="updateStatus(color.id, $event)"
-                         class="sr-only peer">
-                  <div
-                      class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
-                  </div>
-                </label>
+                <div class="h-6">
+                  <StatusCheckbox :id="color.id" :status="!!color.status" :update="updateStatus"/>
+                </div>
               </div>
             </div>
             <div class="absolute top-1 right-0">
-              <router-link :to="{name:'product-color-edit', params: { product_id: product.id, color_id: color.id }}" class="bg-white text-primary-500 hover:bg-primary-500 hover:text-white cursor-pointer px-2 py-1 rounded-md">
+              <router-link :to="{name:'product-color-edit', params: { product_id: product.id, color_id: color.id }}"
+                           class="bg-white text-primary-500 hover:bg-primary-500 hover:text-white cursor-pointer px-2 py-1 rounded-md">
                 <i class="fi fi-rr-pencil text-sm w-4 h-4"></i>
               </router-link>
             </div>
@@ -94,24 +87,17 @@ export default {
             err.handleGlobally && err.handleGlobally();
           })
     },
-    updateStatus(id, e) {
-      let status = e.target.checked;
-      document.getElementById('wait_' + id).classList.remove('hidden')
-      document.getElementById('status_' + id).classList.add('hidden')
-
-      axios.put('/admin/product/color/' + id, {
-        status: status
-      })
+    updateStatus(id, status) {
+      axios.put('/admin/product/color/' + id, {status})
           .then(res => {
             this.show_toast(res.data.status, res.data.msg);
-            document.getElementById('wait_' + id).classList.add('hidden')
-            document.getElementById('status_' + id).classList.remove('hidden')
-            document.getElementById('checkbox_' + id).checked = e.target.checked;
+            let index = this.product_colors.findIndex(color => color.id === id)
+            this.$set(this.product_colors, index, res.data.data)
           })
           .catch(err => {
+            this.dataLoading = false;
             err.handleGlobally && err.handleGlobally();
           })
-
     },
   },
   created() {

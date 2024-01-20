@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Color;
+use App\Helper\FileHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
 use App\Models\Product;
 use App\Productcolor;
 use App\Productsku;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use App\Helper\FileHandler;
 
 class ProductController extends Controller
 {
@@ -62,7 +59,7 @@ class ProductController extends Controller
 
     public function fetchProduct(Request $request, $id)
     {
-        $product = Product::findOrFail($id)->append('json_images');
+        $product = Product::with('sizes', 'colors')->findOrFail($id)->append('json_images');
         //Response
         return new ApiResource($product);
     }
@@ -114,7 +111,6 @@ class ProductController extends Controller
         $targetColor = Color::where('name', $productColor->color)->first();
 
         if ($status) {
-//            dd($targetColor);
             $product->colors()->attach($targetColor);
         } else {
             $product->colors()->detach($targetColor);
@@ -130,7 +126,7 @@ class ProductController extends Controller
                 $msg = $targetColor->name . ' Unpublished Successfully';
             }
         }
-        return response()->json(['status' => $status, 'msg' => $msg]);
+        return response()->json(['status' => $status, 'msg' => $msg, 'data' => $productColor]);
 
     }
 
@@ -250,7 +246,7 @@ class ProductController extends Controller
             }
         }
 
-        return response()->json(['status' => $status, 'msg' => $msg]);
+        return response()->json(['status' => $status, 'msg' => $msg, 'data' => $size]);
     }
 
 }

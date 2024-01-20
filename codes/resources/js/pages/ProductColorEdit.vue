@@ -80,7 +80,7 @@
                     <label for="main-file"
                         class="relative flex flex-col items-center px-4 py-4 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-primary-500 hover:text-white">
                       <i class="fi fi-rr-file-upload text-3xl"></i>
-                      <span class="mt-2 text-base leading-normal">Change image</span>
+                      <span class="mt-2 text-base leading-normal">New image</span>
                       <input id="main-file" type='file' @change="updateMainImage($event)" class="absolute h-full w-full z-0 m-0 p-0 opacity-0"/>
                     </label>
                   </div>

@@ -104,15 +104,7 @@
                     </div>
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 p-1 text-center">
-                    <label :id="'wait_'+size.id" class="hidden inline-block  justify-center w-4 h-4 mt-4  ">
-                      <Spinner/>
-                    </label>
-                    <label class="relative inline-flex items-center cursor-pointer mt-4 " :id="'status_'+size.id">
-                      <input class="sr-only peer" type="checkbox" :id="'checkbox_'+size.id" value="" :checked="parseInt(size.status) === 1"
-                             @change="updateStatus(size.id, $event)">
-                      <div
-                          class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
-                    </label>
+                    <StatusCheckbox :id="size.id" :status="!!size.status" :update="updateStatus"/>
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 p-1 text-center">
                     <div class="text-sm py-2.5" v-html="formDateTime(size.created_at)"></div>
@@ -178,7 +170,7 @@ export default {
       this.editHeight = '';
       this.editWeight = '';
     },
-    editStockFunc(size){
+    editStockFunc(size) {
       this.editStockId = size.id;
       this.editStock = size.available_stock;
     },
@@ -213,19 +205,15 @@ export default {
             err.handleGlobally && err.handleGlobally();
           })
     },
-    updateStatus(id, e) {
-      document.getElementById('wait_' + id).classList.remove('hidden')
-      document.getElementById('status_' + id).classList.add('hidden')
-      axios.put(`/admin/product/${this.product_id}/color/${this.color_id}/sizes/${id}`, {
-        status: e.target.checked
-      })
-          .then(({data}) => {
-            this.show_toast(data.status, data.msg);
-            document.getElementById('wait_' + id).classList.add('hidden')
-            document.getElementById('status_' + id).classList.remove('hidden')
-            this.fetchSizes()
+    updateStatus(id, status) {
+      axios.put(`/admin/product/${this.product_id}/color/${this.color_id}/sizes/${id}`, {status})
+          .then(res => {
+            this.show_toast(res.data.status, res.data.msg);
+            let index = this.sizes.findIndex(size => size.id === id)
+            this.$set(this.sizes, index, res.data.data)
           })
           .catch(err => {
+            this.dataLoading = false;
             err.handleGlobally && err.handleGlobally();
           })
     },
