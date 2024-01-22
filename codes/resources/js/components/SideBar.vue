@@ -74,12 +74,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="min-w-max">
+                    <!-- <li class="min-w-max">
                         <a href="#" class="single-item">
                             <i class="fi fi-rr-lightbulb-on"></i>
                             <span>Services</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="min-w-max">
                         <a href="javascript:void(0)" :class="{ 'bg-primary-100': vendor }" @click="vendor = !vendor;"
                             class="group dropdown-btn">
@@ -165,9 +165,9 @@
                         </a>
                         <ul v-if="config" class="dropdown-menu">
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{ name: 'home-sliders' }" class="dropdown-item">
                                     Home Sliders
-                                </a>
+                                </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'components' }" class="dropdown-item">
@@ -176,7 +176,7 @@
                             </li>
                             <li>
                                 <router-link :to="{ name: 'category-component-sliders' }" class="dropdown-item">
-                                    Category Sliders
+                                    Category Component Sliders
                                 </router-link>
                             </li>
                             <li>

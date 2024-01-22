@@ -118,7 +118,6 @@ class ComponentController extends Controller
         ]);
 
         $component = Component::findOrFail($id);
-        $component->update($request->all());
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -131,6 +130,8 @@ class ComponentController extends Controller
                 $component->update(['image' => $uploadedPath]); //update db
             }
         }
+        
+        $component->update($request->except(['image']));
 
         $status = 'success';
         $msg = $component->title_1 . ' updated successfully';

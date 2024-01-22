@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ComponentController;
 use App\Http\Controllers\Admin\GenderController;
+use App\Http\Controllers\Admin\HomeSliderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\StyleController;
@@ -16,19 +17,25 @@ use App\Http\Controllers\Admin\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/wishlist', [WishlistController::class, 'fetchWishlists']);
-    Route::get('/cart', [CartController::class, 'fetchCarts']);
     Route::resource('/user', UserController::class);
 
-    Route::resource('/category', CategoryController::class);
-    Route::resource('/sub-category', SubCategoryController::class);
+    /*Cart and Wishlist */
+    Route::get('/wishlist', [WishlistController::class, 'fetchWishlists']);
+    Route::get('/cart', [CartController::class, 'fetchCarts']);
+
+    /*Configurations*/
+    Route::resource('/home-slider', HomeSliderController::class);
+    Route::resource('/component', ComponentController::class);
+    Route::resource('/category-component-slider', CategoryComponentSlidersController::class);
     Route::resource('/brand', BrandController::class);
     Route::resource('/gender', GenderController::class);
     Route::resource('/size', SizeController::class);
     Route::resource('/color', ColorController::class);
     Route::resource('/style', StyleController::class);
-    Route::resource('/category-component-slider', CategoryComponentSlidersController::class);
-    Route::resource('/component', ComponentController::class);
+
+    /*Product Management */
+    Route::resource('/category', CategoryController::class);
+    Route::resource('/sub-category', SubCategoryController::class);
 
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'fetchProducts']);
@@ -45,7 +52,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('{product_id}/color/{color_id}/sizes', [ProductController::class, 'fetchSizesByColorId']);
         Route::get('{product_id}/color/{color_id}/sizes/{size_id}', [ProductController::class, 'fetchSizeById']);
         Route::put('{product_id}/color/{color_id}/sizes/{size_id}', [ProductController::class, 'updateSizeById']);
-
 
     });
 });

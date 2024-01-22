@@ -106,14 +106,14 @@
                   <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">Actions</div>
                 </div>
                 <div v-for="(gender, index) in genders" v-bind:key="index"
-                  class="table-row table-body hover:bg-primary-100" :class="{'bg-primary-200': gender.id === editId}">
+                  class="table-row table-body hover:bg-primary-100" :class="{ 'bg-primary-200': gender.id === editId }">
                   <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
                     <div class="flex items-center">
                       <input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded">
                     </div>
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">{{
-                                      pagination.from + index }}</div>
+                    pagination.from + index }}</div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">{{ gender.name }}
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
@@ -171,7 +171,6 @@ export default {
   data() {
     return {
       loading: true,
-      toggleLoadingId: '',
       genders: [{}],
       name: '',
       keyword: '',
@@ -192,16 +191,16 @@ export default {
       this.showModal = false;
     },
     updateStatus(id, status) {
-      axios.put('/admin/gender/' + id, {status})
-          .then(res => {
-            this.show_toast(res.data.status, res.data.msg);
-            let index = this.genders.findIndex(gender => gender.id === id)
-            this.$set(this.genders, index, res.data.data)
-          })
-          .catch(err => {
-            this.dataLoading = false;
-            err.handleGlobally && err.handleGlobally();
-          })
+      axios.put('/admin/gender/' + id, { status })
+        .then(res => {
+          this.show_toast(res.data.status, res.data.msg);
+          let index = this.genders.findIndex(gender => gender.id === id)
+          this.$set(this.genders, index, res.data.data)
+        })
+        .catch(err => {
+          this.dataLoading = false;
+          err.handleGlobally && err.handleGlobally();
+        })
     },
     clear() {
       this.name = '';
@@ -209,24 +208,24 @@ export default {
     },
     editGender(id) {
       axios.get('/admin/gender/' + id)
-          .then(res => {
-            this.editId = res.data.data.id;
-            this.name = res.data.data.name;
-          })
-          .catch(err => {
-            err.handleGlobally && err.handleGlobally();
-          })
+        .then(res => {
+          this.editId = res.data.data.id;
+          this.name = res.data.data.name;
+        })
+        .catch(err => {
+          err.handleGlobally && err.handleGlobally();
+        })
     },
     deleteGender(id) {
       axios.delete('/admin/gender/' + id)
-          .then(res => {
-            this.show_toast(res.data.status, res.data.msg);
-            this.fetchGender();
-          })
-          .catch(err => {
-            err.handleGlobally && err.handleGlobally();
-            this.fetchGender();
-          })
+        .then(res => {
+          this.show_toast(res.data.status, res.data.msg);
+          this.fetchGender();
+        })
+        .catch(err => {
+          err.handleGlobally && err.handleGlobally();
+          this.fetchGender();
+        })
     },
     editOrCreateGender() {
       let url, data;
@@ -244,15 +243,15 @@ export default {
         }
       }
       axios.post(url, data)
-          .then(res => {
-            this.show_toast(res.data.status, res.data.msg);
-            this.clear();
-            this.fetchGender();
-          })
-          .catch(err => {
-            err.handleGlobally && err.handleGlobally();
-            this.fetchGender();
-          })
+        .then(res => {
+          this.show_toast(res.data.status, res.data.msg);
+          this.clear();
+          this.fetchGender();
+        })
+        .catch(err => {
+          err.handleGlobally && err.handleGlobally();
+          this.fetchGender();
+        })
     },
     fetchGender(url) {
       this.loading = true;
@@ -264,18 +263,18 @@ export default {
           status: this.status,
         }
       })
-          .then(res => {
-            this.loading = false;
-            this.genders = res.data.data || [];
-            let {data, ...pagination} = res.data;
-            pagination.links.pop();
-            pagination.links.shift();
-            this.pagination = pagination;
-          })
-          .catch(err => {
-            this.loading = false;
-            err.handleGlobally && err.handleGlobally();
-          })
+        .then(res => {
+          this.loading = false;
+          this.genders = res.data.data || [];
+          let { data, ...pagination } = res.data;
+          pagination.links.pop();
+          pagination.links.shift();
+          this.pagination = pagination;
+        })
+        .catch(err => {
+          this.loading = false;
+          err.handleGlobally && err.handleGlobally();
+        })
     }
   },
   created() {

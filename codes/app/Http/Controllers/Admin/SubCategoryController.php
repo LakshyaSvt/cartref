@@ -133,7 +133,6 @@ class SubCategoryController extends Controller
         ]);
 
         $category = ProductSubcategory::findOrFail($id);
-        $category->update($request->all());
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -146,6 +145,8 @@ class SubCategoryController extends Controller
                 $category->update(['image' => $uploadedPath]); //update db
             }
         }
+
+        $category->update($request->except(['image']));
 
         $status = 'success';
         $msg = $category->name . ' updated successfully';

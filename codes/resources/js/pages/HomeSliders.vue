@@ -3,27 +3,53 @@
         <Wait :show="loading" />
         <div class="container mx-auto my-2 px-4">
             <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
-                <i class="fi fi-rr-chart-tree-map"></i>
-                <h3 class="text-start my-8">Category</h3>
+                <i class="fi fi-rr-folder-tree"></i>
+                <h3 class="text-start my-8">Home Sliders</h3>
             </div>
 
             <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg my-4">
                 <div class="block">
-                    <form @submit.prevent="editOrCreateCategory()">
+                    <form @submit.prevent="editOrCreateHomeSliders()">
                         <div class="md:flex mb-3">
                             <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                                <label for="category" class="block mb-2 text-sm font-bold text-gray-900"
-                                    title="The name is how it appears on your site.">Category <span
+                                <label for="image" class="block mb-2 text-sm font-bold text-gray-900"
+                                    title="Those immediately above the category in the hierarchy">Category <span
                                         class="text-red-600">*</span></label>
-                                <input type="text" v-model="name" id="category" class="form-input"
-                                    placeholder="Western Wear" required>
+                                <select v-model="category" class="form-input" placeholder="western-wear" required>
+                                    <option value="" selected>Select Category</option>
+                                    <option v-for="(category) in categories" :key="category" :value="category">{{ category
+                                    }}</option>
+                                </select>
                             </div>
                             <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                                <label for="slug" class="block mb-2 text-sm font-bold text-gray-900"
-                                    title="The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.">Slug
-                                    <span class="text-red-600">*</span></label>
-                                <input type="text" v-model="slug" id="slug" class="form-input" placeholder="western-wear"
+                                <label for="url" class="block mb-2 text-sm font-bold text-gray-900">Slug <span
+                                        class="text-red-600">*</span></label>
+                                <input type="url" v-model="url" id="url" class="form-input" :placeholder="$store.state.url"
                                     required>
+                            </div>
+                        </div>
+                        <div class="md:flex mb-3">
+                            <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
+                                <label for="background_image" class="block mb-2 text-sm font-bold text-gray-900"
+                                    title="An image belonging to a specific type, often distinguished by shared characteristics or features.">
+                                    Background Image (Desktop)</label>
+                                <input type="file" @change="handleBgImageChange($event)" id="background_image"
+                                    class="form-input" placeholder="western-wear" accept="image/*">
+                            </div>
+                            <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
+                                <label for="mobile_background_image" class="block mb-2 text-sm font-bold text-gray-900"
+                                    title="An image belonging to a specific type, often distinguished by shared characteristics or features.">
+                                    Background Image (Mobile)</label>
+                                <input type="file" @change="handleMbBgImageChange($event)" id="mobile_background_image"
+                                    class="form-input" placeholder="western-wear" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="md:flex mb-3">
+                            <div class="w-full my-2">
+                                <label for="admin_comments" class="block mb-2 text-sm font-bold text-gray-900">Page
+                                    Description </label>
+                                <RichTextEditor :setVal="(val) => page_description = val"
+                                    :initial_value="page_description" />
                             </div>
                         </div>
                         <div class="text-center">
@@ -48,12 +74,12 @@
                             </div>
                             <div>
                                 <button :disabled="!pagination.prev_page_url"
-                                    @click="fetchCategory(pagination.prev_page_url)" title="Previous"
+                                    @click="fetchHomeSliders(pagination.prev_page_url)" title="Previous"
                                     class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
                                     <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
                                 </button>
                                 <button :disabled="!pagination.next_page_url"
-                                    @click="fetchCategory(pagination.next_page_url)" title="Next"
+                                    @click="fetchHomeSliders(pagination.next_page_url)" title="Next"
                                     class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
                                     <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
                                 </button>
@@ -61,7 +87,8 @@
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
                             <div class="relative">
-                                <select title="Status" v-model="status" @change="fetchCategory()" class="filter-dropdown">
+                                <select title="Status" v-model="status" @change="fetchHomeSliders()"
+                                    class="block appearance-none w-32 leading-tight h-full cursor-pointer text-black bg-white border border-gray-400 focus:outline-none hover:shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-none font-medium rounded-lg text-sm px-3 py-2">
                                     <option class="bg-gray-100" value="">All</option>
                                     <option class="bg-gray-100" value="1">Published</option>
                                     <option class="bg-gray-100" value="0">Un Published</option>
@@ -74,23 +101,23 @@
                             <label for="table-search" class="sr-only">Search</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer"
-                                    @click="keyword = ''; fetchCategory();" v-if="keyword">
+                                    @click="keyword = ''; fetchHomeSliders();" v-if="keyword">
                                     <i class="fi fi-rr-cross-small mr-1"></i>
                                 </div>
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none" v-else>
                                     <i class="fi fi-rr-search mr-1"></i>
                                 </div>
                                 <input type="text" v-model="keyword" class="search" placeholder="Search"
-                                    @keydown.enter="fetchCategory()">
+                                    @keydown.enter="fetchHomeSliders()">
                             </div>
                             <div class="flex border border-gray-600 rounded-lg bg-white">
                                 <button class="px-2 py-1 m-[2px] hover:bg-primary-100 border-r border-solid cursor-pointer"
-                                    @click="fetchCategory()">
+                                    @click="fetchHomeSliders()">
                                     <i class="ffi fi-rr-refresh mr-1"></i>
                                 </button>
                                 <select
                                     class="w-14 block px-1 m-[2px] text-base text-center text-gray-900 bg-white cursor-pointer"
-                                    @change="fetchCategory()" v-model="row_count">
+                                    @change="fetchHomeSliders()" v-model="row_count">
                                     <option :value="count.toLowerCase()" v-for="(count, index) in $store.state.row_counts"
                                         :key="index" class="bg-white">
                                         {{ count }}
@@ -102,7 +129,7 @@
                     <template v-if="dataLoading">
                         <Skeleton />
                     </template>
-                    <template v-else-if="category && category.length > 0">
+                    <template v-else-if="sliders && sliders.length > 0">
                         <div class="clear-right overflow-x-auto">
                             <div class="table border-solid border border-gray-500 w-full">
                                 <div class="table-row table-head">
@@ -118,24 +145,40 @@
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        Name</div>
+                                        Image (Desktop)
+                                    </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        Slug</div>
+                                        Image (Mobile)
+                                    </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        Status</div>
+                                        Category
+                                    </div>
+                                    <div
+                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 w-[22rem]">
+                                        Url
+                                    </div>
+                                    <div
+                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                        Description
+                                    </div>
+                                    <div
+                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                        Status
+                                    </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Last Update
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        Actions</div>
+                                        Actions
+                                    </div>
                                 </div>
-                                <div v-for="(c, index) in category" v-bind:key="index"
+                                <div v-for="(slider, index) in sliders" v-bind:key="slider.id"
                                     class="table-row table-body hover:bg-primary-100"
-                                    :class="{ 'bg-primary-200': c.id === editId }">
+                                    :class="{ 'bg-primary-200': slider.id === editId }">
                                     <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
                                         <div class="flex items-center">
                                             <input type="checkbox"
@@ -143,29 +186,56 @@
                                         </div>
                                     </div>
                                     <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">
-                                        {{
-                                            pagination.from + index }}</div>
-                                    <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">{{
-                                        c.name }}</div>
-                                    <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                                        {{ c.slug }}
+                                        {{ pagination.from + index }}
+                                    </div>
+                                    <div
+                                        class="table-cell border-t border-l border-gray-500 text-sm p-1 text-center !align-middle">
+                                        <img @click="imageModal($store.state.storageUrl + slider.background_image)"
+                                            v-if="slider.background_image"
+                                            class="w-14 h-14 border border-gray-400 mx-auto p-1 rounded-[50%]"
+                                            :src="$store.state.storageUrl + slider.background_image" :alt="slider.name">
+                                        <p class="text-center text-gray-800" v-else>--No Image--</p>
+                                    </div>
+                                    <div
+                                        class="table-cell border-t border-l border-gray-500 text-sm p-1 text-center !align-middle">
+                                        <img @click="imageModal($store.state.storageUrl + slider.mb_background_image)"
+                                            v-if="slider.mb_background_image"
+                                            class="w-14 h-14 border border-gray-400 mx-auto p-1 rounded-[50%]"
+                                            :src="$store.state.storageUrl + slider.mb_background_image" :alt="slider.name">
+                                        <p class="text-center text-gray-800" v-else>--No Image--</p>
+                                    </div>
+                                    <div
+                                        class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-1 text-center">
+                                        {{ slider.category || '-' }}
+                                    </div>
+                                    <div
+                                        class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-4 py-2 text-center">
+                                        <a :href="slider.url" target="_blank" class="cursor-pointer">
+                                            <i
+                                                class="fi fi-rr-arrow-up-right-from-square text-primary-500 text-sm mr-1"></i>
+                                        </a>
+                                        {{ slider.url || '-' }}
+                                    </div>
+                                    <div class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-1 text-center"
+                                        :title="slider?.page_description" v-html="slider?.page_description">
                                     </div>
                                     <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                                        <StatusCheckbox :id="c.id" :status="!!c.status" :update="updateStatus" />
+                                        <StatusCheckbox :id="slider.id" :status="!!slider.status" :update="updateStatus" />
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
-                                        <div class="font-normal text-gray-900" v-html="formDateTime(c.updated_at)"></div>
-                                        <div class="text-sm">({{ timeAgo(c.updated_at) }})</div>
+                                        <div class="font-normal text-gray-900" v-html="formDateTime(slider.updated_at)">
+                                        </div>
+                                        <div class="text-sm">({{ timeAgo(slider.updated_at) }})</div>
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
                                         <div class="flex gap-4 items-center justify-center">
-                                            <a href="javascript:void(0)" @click="editCategory(c.id)" type="button"
+                                            <a href="#" @click="editHomeSliders(slider.id)" type="button"
                                                 class="font-medium cursor-pointer text-yellow-500">
                                                 <i class="fi fi-rr-pencil w-5 h-5 text-xl"></i>
                                             </a>
-                                            <a href="javascript:void(0)" @click="deleteCategory(c.id)" type="button"
+                                            <a href="javascript:void(0)" @click="deleteHomeSliders(slider.id)" type="button"
                                                 class="font-medium cursor-pointer text-red-500">
                                                 <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
                                             </a>
@@ -185,13 +255,13 @@
                                         results
                                     </p>
                                 </div>
-                                <Pagination :pagination="pagination" :fetchNewData="fetchCategory" />
+                                <Pagination :pagination="pagination" :fetchNewData="fetchHomeSliders" />
                             </div>
                         </div>
                     </template>
                     <template v-else>
                         <div>
-                            <p class="text-center text-2xl">No Categories Found !</p>
+                            <p class="text-center text-2xl">No Sliders Found !</p>
                         </div>
                     </template>
                 </div>
@@ -203,14 +273,26 @@
 
 <script>
 export default {
-    name: "Category",
+    name: "HomeSliders",
     data() {
         return {
-            loading: true,
+            loading: false,
             dataLoading: true,
-            category: [{}],
-            name: '',
-            slug: '',
+            categories: [
+                "Home",
+                "Men",
+                "Women",
+                "Home Décor",
+                "Beauty",
+                "Accessories"
+            ],
+            sliders: [{ page_description: "---" }],
+            background_image: '',
+            mb_background_image: '',
+            category: '',
+            page_description: '',
+            url: '',
+            //filter
             keyword: '',
             status: '',
             row_count: this.$store.state.defaultRowCount,
@@ -218,11 +300,6 @@ export default {
             imgModal: '',
             pagination: {},
             editId: '',
-        }
-    },
-    watch: {
-        name: function () {
-            this.slug = this.slugify(this.name);
         }
     },
     methods: {
@@ -233,12 +310,24 @@ export default {
         closeImageModal() {
             this.showModal = false;
         },
+        handleBgImageChange(e) {
+            let file = e.target?.files[0];
+            if (file) {
+                this.background_image = file;
+            }
+        },
+        handleMbBgImageChange(e) {
+            let file = e.target?.files[0];
+            if (file) {
+                this.mb_background_image = file;
+            }
+        },
         updateStatus(id, status) {
-            axios.put('/admin/category/' + id, { status })
+            axios.put('/admin/home-slider/' + id, { status })
                 .then(res => {
                     this.show_toast(res.data.status, res.data.msg);
-                    let index = this.category.findIndex(category => category.id === id)
-                    this.$set(this.category, index, res.data.data)
+                    let index = this.sliders.findIndex(slide => slide.id === id)
+                    this.$set(this.sliders, index, res.data.data)
                 })
                 .catch(err => {
                     this.dataLoading = false;
@@ -246,61 +335,84 @@ export default {
                 })
         },
         clear() {
-            this.name = '';
-            this.slug = '';
+            this.category = '';
+            this.page_description = '';
+            this.url = '';
+            this.background_image = '';
+            this.mb_background_image = '';
             this.editId = '';
+            $('form').trigger("reset");
         },
-        editCategory(id) {
-            axios.get('/admin/category/' + id)
+        editHomeSliders(id) {
+            this.loading = true;
+            axios.get('/admin/home-slider/' + id)
                 .then(res => {
                     this.editId = res.data.data.id;
-                    this.name = res.data.data.name;
-                    this.slug = res.data.data.slug;
+                    this.category = res.data.data.category;
+                    this.page_description = res.data.data.page_description;
+                    this.url = res.data.data.url;
+                    this.loading = false;
                 })
                 .catch(err => {
+                    this.loading = false;
                     err.handleGlobally && err.handleGlobally();
                 })
         },
-        deleteCategory(id) {
-            axios.delete('/admin/category/' + id)
-                .then(res => {
-                    this.show_toast(res.data.status, res.data.msg);
-                    this.fetchCategory();
-                })
-                .catch(err => {
-                    err.handleGlobally && err.handleGlobally();
-                })
-        },
-        editOrCreateCategory() {
-            let url, data;
-            if (this.editId) {
-                url = '/admin/category/' + this.editId;
-                data = {
-                    _method: 'PUT',
-                    id: this.editId,
-                    name: this.name.trim(),
-                    slug: this.slug,
-                }
-            } else {
-                url = '/admin/category'
-                data = {
-                    name: this.name.trim(),
-                    slug: this.slug,
-                }
+        deleteHomeSliders(id) {
+            this.loading = true;
+            if (!confirm("Are you sure you want to delete ?")) {
+                return false;
             }
-            axios.post(url, data)
+            axios.delete('/admin/home-slider/' + id)
                 .then(res => {
+                    this.loading = true;
+                    this.show_toast(res.data.status, res.data.msg);
+                    this.fetchHomeSliders();
+                })
+                .catch(err => {
+                    err.handleGlobally && err.handleGlobally();
+                })
+        },
+        editOrCreateHomeSliders() {
+            let url = '/admin/home-slider';
+            let formData = new FormData();
+
+            // Basic fields
+            formData.append('category', this.category);
+            formData.append('page_description', this.page_description);
+            formData.append('url', this.url);
+
+            //Image fields
+            if (this.background_image) {
+                formData.append('background_image', this.background_image)
+            }
+            if (this.mb_background_image) {
+                formData.append('mb_background_image', this.mb_background_image)
+            }
+            //if the action is EDIT
+            if (this.editId) {
+                url = '/admin/home-slider/' + this.editId;
+                formData.append('_method', 'PUT');
+                formData.append('id', this.editId);
+            }
+
+            const headers = { 'Content-Type': 'multipart/form-data' };
+            this.loading = true;
+            axios.post(url, formData, { headers })
+                .then(res => {
+                    this.loading = false;
                     this.show_toast(res.data.status, res.data.msg);
                     this.clear();
-                    this.fetchCategory();
+                    this.fetchHomeSliders();
                 })
                 .catch(err => {
+                    this.loading = false;
                     err.handleGlobally && err.handleGlobally();
                 })
         },
-        fetchCategory(url) {
+        fetchHomeSliders(url) {
             this.dataLoading = true;
-            url = url || '/admin/category'
+            url = url || '/admin/home-slider'
             axios.get(url, {
                 params: {
                     rows: this.row_count,
@@ -311,7 +423,7 @@ export default {
                 .then(res => {
                     this.dataLoading = false;
                     this.loading = false;
-                    this.category = res.data.data || [];
+                    this.sliders = res.data.data;
                     let { data, ...pagination } = res.data;
                     pagination.links.pop();
                     pagination.links.shift();
@@ -319,12 +431,13 @@ export default {
                 })
                 .catch(err => {
                     this.dataLoading = false;
+                    this.loading = false;
                     err.handleGlobally && err.handleGlobally();
                 })
         }
     },
     created() {
-        this.fetchCategory();
+        this.fetchHomeSliders();
     },
 }
 </script>

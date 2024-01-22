@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Wait :show="loading"/>
+    <Wait :show="loading" />
     <div class="container mx-auto my-2 px-4">
       <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
         <i class="fi fi-rr-folder-tree"></i>
@@ -12,68 +12,62 @@
           <form @submit.prevent="editOrCreateSubCategory()">
             <div class="md:flex mb-3">
               <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                <label for="sub_category" class="block mb-2 text-sm font-bold text-gray-900" title="The name is how it appears on your site.">Sub Category
+                <label for="sub_category" class="block mb-2 text-sm font-bold text-gray-900"
+                  title="The name is how it appears on your site.">Sub Category
                   <span class="text-red-600">*</span>
                 </label>
-                <input type="text" v-model="name" id="sub_category"
-                       class="form-input"
-                       placeholder="Western Wear" required>
+                <input type="text" v-model="name" id="sub_category" class="form-input" placeholder="Western Wear"
+                  required>
               </div>
               <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
                 <label for="slug" class="block mb-2 text-sm font-bold text-gray-900"
-                       title="The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.">Slug
+                  title="The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.">Slug
                   <span class="text-red-600">*</span></label>
-                <input type="text" v-model="slug" id="slug"
-                       class="form-input"
-                       placeholder="western-wear" required>
+                <input type="text" v-model="slug" id="slug" class="form-input" placeholder="western-wear" required>
               </div>
             </div>
             <div class="md:flex mb-3">
               <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
                 <label for="image" class="block mb-2 text-sm font-bold text-gray-900"
-                       title="An image belonging to a specific type, often distinguished by shared characteristics or features.">Category Image</label>
-                <input type="file" @change="handleImageChange($event)" id="image"
-                       class="form-input"
-                       placeholder="western-wear" accept="image/*">
+                  title="An image belonging to a specific type, often distinguished by shared characteristics or features.">Category
+                  Image</label>
+                <input type="file" @change="handleImageChange($event)" id="image" class="form-input"
+                  placeholder="western-wear" accept="image/*">
               </div>
               <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                <label for="image" class="block mb-2 text-sm font-bold text-gray-900" title="Those immediately above the category in the hierarchy">Parent Category <span
+                <label for="image" class="block mb-2 text-sm font-bold text-gray-900"
+                  title="Those immediately above the category in the hierarchy">Parent Category <span
                     class="text-red-600">*</span></label>
-                <select v-model="parent_category_id"
-                        class="form-input"
-                        placeholder="western-wear" required>
+                <select v-model="parent_category_id" class="form-input" placeholder="western-wear" required>
                   <option value="" selected>Select Parent Category</option>
-                  <option v-for="(parent, index) in parent_category" :key="index" :value="parent.id">{{ parent.name }}</option>
+                  <option v-for="(parent, index) in parent_category" :key="index" :value="parent.id">{{ parent.name }}
+                  </option>
                 </select>
               </div>
             </div>
             <div class="md:flex mb-3">
               <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
                 <label for="hsn" class="block mb-2 text-sm font-bold text-gray-900"
-                       title="A numerical code used to classify products in international trade">HSN (Harmonized System of Nomenclature)
+                  title="A numerical code used to classify products in international trade">HSN (Harmonized System of
+                  Nomenclature)
                   <span class="text-red-600">*</span>
                 </label>
-                <input type="text" id="hsn" v-model="hsn"
-                       class="form-input"
-                       placeholder="8471">
+                <input type="text" id="hsn" v-model="hsn" class="form-input" placeholder="8471">
               </div>
               <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
                 <label for="gst" class="block mb-2 text-sm font-bold text-gray-900"
-                       title="GST is a mandatory financial charge imposed by the government on goods and services">GST (%)
+                  title="GST is a mandatory financial charge imposed by the government on goods and services">GST (%)
                   <span class="text-red-600">*</span>
                 </label>
-                <input type="number" id="gst" v-model="gst"
-                       class="form-input"
-                       placeholder="18">
+                <input type="number" id="gst" v-model="gst" class="form-input" placeholder="18">
               </div>
             </div>
             <div class="text-center">
-              <button type="submit"
-                      class="submit-btn">
+              <button type="submit" class="submit-btn">
                 {{ this.editId ? 'Update' : 'Create' }}
               </button>
               <button type="button" @click="clear()"
-                      class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-bold  rounded-lg text-base mx-1 px-5 py-2.5">
+                class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-bold  rounded-lg text-base mx-1 px-5 py-2.5">
                 Clear
               </button>
             </div>
@@ -89,14 +83,13 @@
                 {{ pagination.from || '0' }} - {{ pagination.to || '0' }} of {{ pagination.total || '0' }}
               </div>
               <div>
-                <button :disabled="!pagination.prev_page_url"
-                        @click="fetchSubCategory(pagination.prev_page_url)" title="Previous"
-                        class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
+                <button :disabled="!pagination.prev_page_url" @click="fetchSubCategory(pagination.prev_page_url)"
+                  title="Previous"
+                  class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
                   <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
                 </button>
-                <button :disabled="!pagination.next_page_url"
-                        @click="fetchSubCategory(pagination.next_page_url)" title="Next"
-                        class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
+                <button :disabled="!pagination.next_page_url" @click="fetchSubCategory(pagination.next_page_url)"
+                  title="Next" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
                   <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
                 </button>
               </div>
@@ -104,36 +97,36 @@
             <div class="flex flex-wrap items-center gap-2">
               <div class="relative">
                 <select title="Status" v-model="status" @change="fetchSubCategory()"
-                        class="block appearance-none w-32 leading-tight h-full cursor-pointer text-black bg-white border border-gray-400 focus:outline-none hover:shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-none font-medium rounded-lg text-sm px-3 py-2">
+                  class="block appearance-none w-32 leading-tight h-full cursor-pointer text-black bg-white border border-gray-400 focus:outline-none hover:shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-none font-medium rounded-lg text-sm px-3 py-2">
                   <option class="bg-gray-100" value="">All</option>
                   <option class="bg-gray-100" value="1">Published</option>
                   <option class="bg-gray-100" value="0">Un Published</option>
                 </select>
-                <div
-                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <i class="fi fi-ss-angle-small-down text-xl w-5 h-6 ml-1"></i>
                 </div>
               </div>
               <label for="table-search" class="sr-only">Search</label>
               <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer" @click="keyword = ''; fetchSubCategory();" v-if="keyword">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer"
+                  @click="keyword = ''; fetchSubCategory();" v-if="keyword">
                   <i class="fi fi-rr-cross-small mr-1"></i>
                 </div>
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none" v-else>
                   <i class="fi fi-rr-search mr-1"></i>
                 </div>
-                <input type="text" v-model="keyword" class="search" placeholder="Search" @keydown.enter="fetchSubCategory()">
+                <input type="text" v-model="keyword" class="search" placeholder="Search"
+                  @keydown.enter="fetchSubCategory()">
               </div>
               <div class="flex border border-gray-600 rounded-lg bg-white">
                 <button class="px-2 py-1 m-[2px] hover:bg-primary-100 border-r border-solid cursor-pointer"
-                        @click="fetchSubCategory()">
+                  @click="fetchSubCategory()">
                   <i class="ffi fi-rr-refresh mr-1"></i>
                 </button>
-                <select
-                    class="w-14 block px-1 m-[2px] text-base text-center text-gray-900 bg-white cursor-pointer"
-                    @change="fetchSubCategory()" v-model="row_count">
-                  <option :value="count.toLowerCase()" v-for="(count, index) in $store.state.row_counts"
-                          :key="index" class="bg-white">
+                <select class="w-14 block px-1 m-[2px] text-base text-center text-gray-900 bg-white cursor-pointer"
+                  @change="fetchSubCategory()" v-model="row_count">
+                  <option :value="count.toLowerCase()" v-for="(count, index) in $store.state.row_counts" :key="index"
+                    class="bg-white">
                     {{ count }}
                   </option>
                 </select>
@@ -141,7 +134,7 @@
             </div>
           </div>
           <template v-if="dataLoading">
-            <Skeleton/>
+            <Skeleton />
           </template>
           <template v-else-if="sub_category && sub_category.length > 0">
             <div class="clear-right overflow-x-auto">
@@ -149,58 +142,45 @@
                 <div class="table-row table-head">
                   <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
                     <div class="flex items-center">
-                      <input type="checkbox"
-                             class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded">
+                      <input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded">
                     </div>
                   </div>
-                  <div
-                      class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
+                  <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
                     S.No.
                   </div>
-                  <div
-                      class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                     Image
                   </div>
-                  <div
-                      class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                     Parent Category
                   </div>
-                  <div
-                      class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                     Name
                   </div>
-                  <div
-                      class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                     Slug
                   </div>
-                  <div
-                      class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                     HSN
                   </div>
-                  <div
-                      class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                     gst
                   </div>
-                  <div
-                      class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                     Status
                   </div>
-                  <div
-                      class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                     Last Update
                   </div>
-                  <div
-                      class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                     Actions
                   </div>
                 </div>
                 <div v-for="(c, index) in sub_category" v-bind:key="index"
-                     class="table-row table-body hover:bg-primary-100"
-                     :class="{ 'bg-primary-200': c.id === editId }">
+                  class="table-row table-body hover:bg-primary-100" :class="{ 'bg-primary-200': c.id === editId }">
                   <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
                     <div class="flex items-center">
-                      <input type="checkbox"
-                             class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded">
+                      <input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded">
                     </div>
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">
@@ -208,12 +188,11 @@
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm p-1 text-center !align-middle">
                     <img @click="imageModal($store.state.storageUrl + c.image)" v-if="c.image"
-                         class="w-14 h-14 border border-gray-400 mx-auto p-1 rounded-[50%]" :src="$store.state.storageUrl + c.image"
-                         :alt="c.name">
+                      class="w-14 h-14 border border-gray-400 mx-auto p-1 rounded-[50%]"
+                      :src="$store.state.storageUrl + c.image" :alt="c.name">
                     <p class="text-center text-gray-800" v-else>--No Image--</p>
                   </div>
-                  <div
-                      class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-1 text-center">
+                  <div class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-1 text-center">
                     {{ c.category ? c.category.name : '-' }}
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
@@ -229,7 +208,7 @@
                     {{ c.gst || '0' }}%
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                    <StatusCheckbox :id="c.id" :status="!!c.status" :update="updateStatus"/>
+                    <StatusCheckbox :id="c.id" :status="!!c.status" :update="updateStatus" />
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
                     <div class="font-normal text-gray-900" v-html="formDateTime(c.updated_at)"></div>
@@ -238,11 +217,11 @@
                   <div class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
                     <div class="flex gap-4 items-center justify-center">
                       <a href="#" @click="editSubCategory(c.id)" type="button"
-                         class="font-medium cursor-pointer text-yellow-500">
+                        class="font-medium cursor-pointer text-yellow-500">
                         <i class="fi fi-rr-pencil w-5 h-5 text-xl"></i>
                       </a>
                       <a href="javascript:void(0)" @click="deleteSubCategory(c.id)" type="button"
-                         class="font-medium cursor-pointer text-red-500">
+                        class="font-medium cursor-pointer text-red-500">
                         <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
                       </a>
                     </div>
@@ -261,7 +240,7 @@
                     results
                   </p>
                 </div>
-                <Pagination :pagination="pagination" :fetchNewData="fetchSubCategory"/>
+                <Pagination :pagination="pagination" :fetchNewData="fetchSubCategory" />
               </div>
             </div>
           </template>
@@ -284,7 +263,6 @@ export default {
     return {
       loading: false,
       dataLoading: true,
-      toggleLoadingId: '',
       parent_category: [],
       sub_category: [{}],
       name: '',
@@ -322,16 +300,16 @@ export default {
       }
     },
     updateStatus(id, status) {
-      axios.put('/admin/sub-category/' + id, {status})
-          .then(res => {
-            this.show_toast(res.data.status, res.data.msg);
-            let index = this.sub_category.findIndex(sub_cat => sub_cat.id === id)
-            this.$set(this.sub_category, index, res.data.data)
-          })
-          .catch(err => {
-            this.dataLoading = false;
-            err.handleGlobally && err.handleGlobally();
-          })
+      axios.put('/admin/sub-category/' + id, { status })
+        .then(res => {
+          this.show_toast(res.data.status, res.data.msg);
+          let index = this.sub_category.findIndex(sub_cat => sub_cat.id === id)
+          this.$set(this.sub_category, index, res.data.data)
+        })
+        .catch(err => {
+          this.dataLoading = false;
+          err.handleGlobally && err.handleGlobally();
+        })
     },
     clear() {
       this.name = '';
@@ -346,19 +324,19 @@ export default {
     editSubCategory(id) {
       this.loading = true;
       axios.get('/admin/sub-category/' + id)
-          .then(res => {
-            this.editId = res.data.data.id;
-            this.name = res.data.data.name;
-            this.slug = res.data.data.slug;
-            this.hsn = res.data.data.hsn;
-            this.gst = res.data.data.gst;
-            this.parent_category_id = res.data.data.category_id;
-            this.loading = false;
-          })
-          .catch(err => {
-            this.loading = false;
-            err.handleGlobally && err.handleGlobally();
-          })
+        .then(res => {
+          this.editId = res.data.data.id;
+          this.name = res.data.data.name;
+          this.slug = res.data.data.slug;
+          this.hsn = res.data.data.hsn;
+          this.gst = res.data.data.gst;
+          this.parent_category_id = res.data.data.category_id;
+          this.loading = false;
+        })
+        .catch(err => {
+          this.loading = false;
+          err.handleGlobally && err.handleGlobally();
+        })
     },
     deleteSubCategory(id) {
       this.loading = true;
@@ -366,14 +344,14 @@ export default {
         return false;
       }
       axios.delete('/admin/sub-category/' + id)
-          .then(res => {
-            this.loading = true;
-            this.show_toast(res.data.status, res.data.msg);
-            this.fetchSubCategory();
-          })
-          .catch(err => {
-            err.handleGlobally && err.handleGlobally();
-          })
+        .then(res => {
+          this.loading = true;
+          this.show_toast(res.data.status, res.data.msg);
+          this.fetchSubCategory();
+        })
+        .catch(err => {
+          err.handleGlobally && err.handleGlobally();
+        })
     },
     editOrCreateSubCategory() {
       let url = '/admin/sub-category';
@@ -397,19 +375,19 @@ export default {
         formData.append('id', this.editId);
       }
 
-      const headers = {'Content-Type': 'multipart/form-data'};
+      const headers = { 'Content-Type': 'multipart/form-data' };
       this.loading = true;
-      axios.post(url, formData, {headers})
-          .then(res => {
-            this.loading = false;
-            this.show_toast(res.data.status, res.data.msg);
-            this.clear();
-            this.fetchSubCategory();
-          })
-          .catch(err => {
-            this.loading = false;
-            err.handleGlobally && err.handleGlobally();
-          })
+      axios.post(url, formData, { headers })
+        .then(res => {
+          this.loading = false;
+          this.show_toast(res.data.status, res.data.msg);
+          this.clear();
+          this.fetchSubCategory();
+        })
+        .catch(err => {
+          this.loading = false;
+          err.handleGlobally && err.handleGlobally();
+        })
     },
     fetchParentCategory() {
       this.dataLoading = true;
@@ -419,14 +397,14 @@ export default {
           status: 1,
         }
       })
-          .then(res => {
-            this.dataLoading = false;
-            this.parent_category = res.data.data;
-          })
-          .catch(err => {
-            this.dataLoading = false;
-            err.handleGlobally && err.handleGlobally();
-          })
+        .then(res => {
+          this.dataLoading = false;
+          this.parent_category = res.data.data;
+        })
+        .catch(err => {
+          this.dataLoading = false;
+          err.handleGlobally && err.handleGlobally();
+        })
     },
     fetchSubCategory(url) {
       this.dataLoading = true;
@@ -438,20 +416,20 @@ export default {
           status: this.status,
         }
       })
-          .then(res => {
-            this.dataLoading = false;
-            this.loading = false;
-            this.sub_category = res.data.data;
-            let {data, ...pagination} = res.data;
-            pagination.links.pop();
-            pagination.links.shift();
-            this.pagination = pagination;
-          })
-          .catch(err => {
-            this.dataLoading = false;
-            this.loading = false;
-            err.handleGlobally && err.handleGlobally();
-          })
+        .then(res => {
+          this.dataLoading = false;
+          this.loading = false;
+          this.sub_category = res.data.data;
+          let { data, ...pagination } = res.data;
+          pagination.links.pop();
+          pagination.links.shift();
+          this.pagination = pagination;
+        })
+        .catch(err => {
+          this.dataLoading = false;
+          this.loading = false;
+          err.handleGlobally && err.handleGlobally();
+        })
     }
   },
   created() {
