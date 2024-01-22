@@ -67,11 +67,11 @@
                                     <i class="fi fi-rr-folder-tree mr-2"></i> Sub Category
                                 </router-link>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#" class="dropdown-item">
                                     <i class="fi fi-rr-note-medical mr-2"></i> SKU Report
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
                     <!-- <li class="min-w-max">
