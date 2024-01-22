@@ -159,7 +159,7 @@
           </template>
           <template v-else>
             <div>
-              <p class="text-center text-2xl">No Categories Found !</p>
+              <p class="text-center text-2xl">No Sizes Found !</p>
             </div>
           </template>
         </div>

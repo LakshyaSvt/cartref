@@ -10,6 +10,8 @@ import ProductColors from "@pages/ProductColors.vue";
 import ProductSizes from "@pages/ProductSizes.vue";
 import ProductColorEdit from "@pages/ProductColorEdit.vue";
 import ProductEdit from "@pages/ProductEdit.vue";
+import Component from '@pages/Components.vue';
+import CategoryComponentSliders from "@pages/CategoryComponentSliders.vue";
 import Styles from "@pages/Styles.vue";
 import Brands from "@pages/Brands.vue";
 import Genders from "@pages/Genders.vue";
@@ -66,6 +68,16 @@ const routes = [
         name: 'sub-category',
         path: '/admin/product/sub-category',
         component: SubCategory,
+    },
+    {
+        name: 'components',
+        path: '/admin/config/components',
+        component: Component,
+    },
+    {
+        name: 'category-component-sliders',
+        path: '/admin/config/category-component-sliders',
+        component: CategoryComponentSliders,
     },
     {
         name: 'styles',

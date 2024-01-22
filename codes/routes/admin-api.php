@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CartController;
+use App\Http\Controllers\Admin\CategoryComponentSlidersController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\ComponentController;
 use App\Http\Controllers\Admin\GenderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
@@ -25,6 +27,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('/size', SizeController::class);
     Route::resource('/color', ColorController::class);
     Route::resource('/style', StyleController::class);
+    Route::resource('/category-component-slider', CategoryComponentSlidersController::class);
+    Route::resource('/component', ComponentController::class);
 
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'fetchProducts']);

@@ -53,7 +53,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => ['required'],
-            'slug' => ['required', 'unique:product_categories']
+            'slug' => ['required', 'unique:category_component_sliders']
         ]);
 
         $category = ProductCategory::create([
@@ -86,7 +86,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'slug' => "nullable|unique:product_categories,slug,{$id}"
+            'slug' => "nullable|unique:category_component_sliders,slug,{$id}"
         ]);
         $category = ProductCategory::findOrFail($id);
         $category->update($request->all());

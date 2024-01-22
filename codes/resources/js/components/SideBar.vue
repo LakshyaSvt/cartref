@@ -16,8 +16,8 @@
                         </router-link>
                     </li>
                     <li class="min-w-max">
-                        <a href="javascript:void(0)" :class="{ 'bg-primary-100': showcases }" @click="showcases = !showcases;"
-                            class="group dropdown-btn">
+                        <a href="javascript:void(0)" :class="{ 'bg-primary-100': showcases }"
+                            @click="showcases = !showcases;" class="group dropdown-btn">
                             <i class="fi fi-rr-house-chimney"></i>
 
                             <span class="group-hover:text-gray-700 flex justify-between w-full">
@@ -59,17 +59,17 @@
                             </li>
                             <li>
                                 <router-link :to="{ name: 'category' }" class="dropdown-item">
-                                  <i class="fi fi-rr-chart-tree-map mr-2"></i> Category
+                                    <i class="fi fi-rr-chart-tree-map mr-2"></i> Category
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'sub-category' }" class="dropdown-item">
-                                  <i class="fi fi-rr-folder-tree mr-2"></i> Sub Category
+                                    <i class="fi fi-rr-folder-tree mr-2"></i> Sub Category
                                 </router-link>
                             </li>
                             <li>
                                 <a href="#" class="dropdown-item">
-                                  <i class="fi fi-rr-note-medical mr-2"></i> SKU Report
+                                    <i class="fi fi-rr-note-medical mr-2"></i> SKU Report
                                 </a>
                             </li>
                         </ul>
@@ -170,32 +170,37 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{ name: 'components' }" class="dropdown-item">
                                     Components
-                                </a>
-                            </li>
-                            <li>
-                                <router-link :to="{name:'brands'}" class="dropdown-item">
-                                  Brands
                                 </router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'genders'}" class="dropdown-item">
+                                <router-link :to="{ name: 'category-component-sliders' }" class="dropdown-item">
+                                    Category Sliders
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{ name: 'brands' }" class="dropdown-item">
+                                    Brands
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{ name: 'genders' }" class="dropdown-item">
                                     Genders
                                 </router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'sizes'}" class="dropdown-item">
+                                <router-link :to="{ name: 'sizes' }" class="dropdown-item">
                                     Sizes
                                 </router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'colors'}" class="dropdown-item">
+                                <router-link :to="{ name: 'colors' }" class="dropdown-item">
                                     Colors
                                 </router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'styles'}" class="dropdown-item">
+                                <router-link :to="{ name: 'styles' }" class="dropdown-item">
                                     Styles
                                 </router-link>
                             </li>
@@ -279,7 +284,7 @@
                         </ul>
                     </li>
                     <li class="min-w-max">
-                      <router-link :to="{ name: 'carts' }" class="single-item">
+                        <router-link :to="{ name: 'carts' }" class="single-item">
                             <i class="fi fi-rr-shopping-cart"></i>
                             <span>Carts</span>
                         </router-link>
@@ -347,9 +352,10 @@ export default {
     background-color: #3b82f6 !important;
     color: white !important;
 }
+
 .router-link-active,
 .router-link-active:hover {
-  background-color: #3b82f6 !important;
-  color: white !important;
+    background-color: #3b82f6 !important;
+    color: white !important;
 }
 </style>

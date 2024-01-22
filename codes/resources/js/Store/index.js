@@ -11,6 +11,7 @@ const store = new Vuex.Store({
         baseUrl: window.location.origin + "/api",
         assetUrl: window.location.origin,
         storageUrl: "https://cartrefs.com" + '/storage/',
+        // storageUrl: window.location.origin + '/storage/',
         defaultRowCount: '25',
         row_counts: [
             '25',
@@ -22,7 +23,7 @@ const store = new Vuex.Store({
         user: {
             authenticated: true,
         },
-        product_filter:{
+        product_filter: {
             url: "/admin/product",
             keyword: "",
             seller_id: "",

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
 use App\ProductSubcategory;
 use Carbon\Carbon;
+use FileHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -33,7 +34,7 @@ class SubCategoryController extends Controller
         /* Query Builder */
         $categories = ProductSubcategory::with('category')
             ->when(isset($status), function ($query) use ($status) {
-                $query->where('status', (int)$status);
+                $query->where('status', (int) $status);
             })
             ->when(isset($category), function ($query) use ($category) {
                 $query->whereHas('category', function ($query) use ($category) {
@@ -46,7 +47,7 @@ class SubCategoryController extends Controller
                         ->orWhere('slug', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('hsn', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('gst', 'LIKE', '%' . $keyword . '%')
-//                        ->orWhere(function($query2) use($keyword) {
+                        //                        ->orWhere(function($query2) use($keyword) {
 //                            $query2->whereHas('category', function ($query3) use ($keyword) {
 //                                $query3->orWhere('name', 'LIKE', '%' . $keyword . '%')
 //                                    ->orWhere('slug', 'LIKE', '%' . $keyword . '%');
@@ -90,17 +91,11 @@ class SubCategoryController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filName = Str::random() . '.' . $file->getClientOriginalExtension();
-            $subFolder = date('FY');
-            $destinationPath = Storage::path('public/product-subcategories/' . $subFolder);
-            if (!File::isDirectory($destinationPath)) {
-                File::makeDirectory($destinationPath, 0777, true, true);
-            }
+            $path = FileHandler::upload($file, 'product-subcategories');
 
-            if ($file->move($destinationPath, $filName)) {
+            if ($path) {
                 //file moved and save to db
-                $dbPath = 'product-subcategories/' . $subFolder . '/' . $filName;
-                $category->image = $dbPath;
+                $category->image = $path;
                 $category->save();
             }
         }
@@ -131,7 +126,7 @@ class SubCategoryController extends Controller
         $request->validate([
             'category_id' => 'nullable|exists:product_categories,id',
             'slug' => "nullable|unique:product_subcategories,slug,{$id}",
-            'image' => 'nullable|image|max:2mib'
+            'image' => 'nullable|image|max:2048'
         ], [
             'category_id.exists' => 'Not an existing category',
             'image.max' => "The image must not be greater than 2 MB"
@@ -142,18 +137,13 @@ class SubCategoryController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filName = Str::random() . '.' . $file->getClientOriginalExtension();
-            $subFolder = date('FY');
-            $destinationPath = Storage::path('public/product-subcategories/' . $subFolder, 'public');
-            if (!File::isDirectory($destinationPath)) {
-                File::makeDirectory($destinationPath, 0777, true, true);
-            }
+            $uploadedPath = FileHandler::upload($file, 'product-subcategories');
+            if ($uploadedPath) {
+                /* deleting existing file */
+                FileHandler::delete($category->image);
 
-            if ($file->move($destinationPath, $filName)) {
-                //file moved and save to db
-                $dbPath = 'product-subcategories/' . $subFolder . '/' . $filName;
-                $category->image = $dbPath;
-                $category->save();
+                /*Replace string with new one*/
+                $category->update(['image' => $uploadedPath]); //update db
             }
         }
 
