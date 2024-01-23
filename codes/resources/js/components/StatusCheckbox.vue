@@ -3,7 +3,7 @@
     <label v-if="wait" class="inline-block  justify-center w-4 h-4">
       <Spinner/>
     </label>
-    <label class="relative inline-flex items-center cursor-pointer" :title="title" v-else>
+    <label class="relative inline-flex items-center cursor-pointer" :title="title" :for="'checkbox_'+id" v-else>
       <input type="checkbox" :id="'checkbox_'+id" value="" :checked="status" @change="toggle($event)" class="sr-only peer">
       <div
           class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer
@@ -34,6 +34,14 @@ export default {
     },
     update: {
       type: Function,
+    },
+    onTitle:{
+      type: String,
+      default:"Unpublish"
+    },
+    offTitle:{
+      type: String,
+      default:"Publish"
     }
   },
   watch: {
@@ -44,9 +52,9 @@ export default {
   computed: {
     title() {
       if (this.status) {
-        return "Click to Unpublish"
+        return "Click to "+this.onTitle;
       }
-      return "Click to Publish"
+      return "Click to "+this.offTitle;
     }
   },
   methods: {

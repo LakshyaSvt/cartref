@@ -3,7 +3,7 @@
     <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
       <!-- Previous btn  -->
       <button class="prev-btn" type="button" :disabled="isPrevDisabled" @click="fetchNewData(pagination.prev_page_url)">
-        <i class="fi fi-ss-angle-small-left text-xl text-center h-6 w-6"></i>
+        <i class="fi fi-ss-angle-small-left text-xl text-gray-600 text-center h-6 w-6"></i>
       </button>
 
       <!-- Links 1,2,3  -->
@@ -20,7 +20,7 @@
 
       <!-- Next btn  -->
       <button type="button" :disabled="isNextDisabled" @click="fetchNewData(pagination.next_page_url)" class="next-btn">
-        <i class="fi fi-ss-angle-small-right text-xl text-center h-6 w-6"></i>
+        <i class="fi fi-ss-angle-small-right text-xl text-gray-600 text-center h-6 w-6"></i>
       </button>
     </nav>
   </div>

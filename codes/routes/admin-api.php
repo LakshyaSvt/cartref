@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\StyleController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\VendorPaymentController;
 use App\Http\Controllers\Admin\WishlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +24,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     /*Cart and Wishlist */
     Route::get('/wishlist', [WishlistController::class, 'fetchWishlists']);
     Route::get('/cart', [CartController::class, 'fetchCarts']);
+
+    /* Vendor Management */
+    Route::resource('/vendor', VendorController::class);
+    Route::resource('/vendor-payment', VendorPaymentController::class);
 
     /*Configurations*/
     Route::resource('/home-slider', HomeSliderController::class);

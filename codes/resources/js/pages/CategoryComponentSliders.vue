@@ -169,7 +169,7 @@
                                     <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">{{
                                         s.icon }}</div>
                                     <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                                        <StatusCheckbox :id="s.id" :status="!!s.is_active" :update="updateStatus" />
+                                        <StatusCheckbox :status="!!s.is_active" :update="updateStatus" />
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">

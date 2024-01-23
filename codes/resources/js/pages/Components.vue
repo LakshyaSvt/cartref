@@ -229,7 +229,7 @@
                                     </div>
                                     <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
                                         :title="component?.description">
-                                        {{ component.description.length > 0 ? (component.description.substr(0, 100) +
+                                        {{ component.description.length > 100 ? (component.description.substr(0, 100) +
                                             '...')
                                             : component.description }}
                                     </div>

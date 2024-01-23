@@ -12,6 +12,9 @@ import ProductSizes from "@pages/ProductSizes.vue";
 import ProductColorEdit from "@pages/ProductColorEdit.vue";
 import ProductEdit from "@pages/ProductEdit.vue";
 
+import Vendors from '@pages/Vendors.vue';
+import VendorPayments from '@pages/VendorPayments.vue';
+
 import Component from '@pages/Components.vue';
 import HomeSliders from '@pages/HomeSliders.vue';
 import CategoryComponentSliders from "@pages/CategoryComponentSliders.vue";
@@ -73,6 +76,18 @@ const routes = [
         name: 'sub-category',
         path: '/admin/product/sub-category',
         component: SubCategory,
+    },
+
+    /*Vendor*/
+    {
+        name: 'vendor',
+        path: '/admin/vendor',
+        component: Vendors,
+    },
+    {
+        name: 'vendor-payments',
+        path: '/admin/vendor-payments',
+        component: VendorPayments,
     },
 
     /* Configuration */

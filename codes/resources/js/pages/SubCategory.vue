@@ -339,10 +339,10 @@ export default {
         })
     },
     deleteSubCategory(id) {
-      this.loading = true;
       if (!confirm("Are you sure you want to delete ?")) {
         return false;
       }
+      this.loading = true;
       axios.delete('/admin/sub-category/' + id)
         .then(res => {
           this.loading = true;

@@ -93,14 +93,14 @@
                         </a>
                         <ul v-if="vendor" class="dropdown-menu">
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'vendor'}" class="dropdown-item">
                                     Vendors
-                                </a>
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'vendor-payments'}" class="dropdown-item">
                                     Vendor Payments
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
                     </li>
@@ -176,7 +176,7 @@
                             </li>
                             <li>
                                 <router-link :to="{ name: 'category-component-sliders' }" class="dropdown-item">
-                                    Category Component Sliders
+                                    Category Sliders
                                 </router-link>
                             </li>
                             <li>
