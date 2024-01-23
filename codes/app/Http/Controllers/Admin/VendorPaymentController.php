@@ -33,13 +33,8 @@ class VendorPaymentController extends Controller
             })
             ->when(isset($keyword), function ($query) use ($keyword) {
                 $query->where(function ($query) use ($keyword) {
-                    $query->orWhere('brand_name', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('contact_name', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('email_address', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('contact_number', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('registered_company_name', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('gst_number', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('marketplaces', 'LIKE', '%' . $keyword . '%');
+                    $query->orWhere('billing_date', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('total', 'LIKE', '%' . $keyword . '%');
                 });
             })
             ->latest()
