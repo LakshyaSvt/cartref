@@ -666,7 +666,6 @@ class SchedulePickup extends AbstractAction
 
         // $channelSpecificOrder = true;
         $response = Shiprocket::order($token)->quickCreate($orderDetails);
-        dd($response);
 
 
         // if has any error
