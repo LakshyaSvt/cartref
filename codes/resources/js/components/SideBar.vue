@@ -141,14 +141,14 @@
                         </a>
                         <ul v-if="collection" class="dropdown-menu">
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'collection-groups'}" class="dropdown-item">
                                     Groups
-                                </a>
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'collection-images'}" class="dropdown-item">
                                     Collection Images
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
                     </li>

@@ -13,6 +13,8 @@ import ProductEdit from "@pages/ProductEdit.vue";
 import Vendors from '@pages/Vendors.vue';
 import VendorPayments from '@pages/VendorPayments.vue';
 import Contacts from "@pages/Contacts.vue";
+import CollectionGroups from "@pages/CollectionGroups.vue";
+import CollectionImages from "@pages/CollectionImages.vue";
 import NewsLetter from "@pages/NewsLetter.vue";
 import Component from '@pages/Components.vue';
 import HomeSliders from '@pages/HomeSliders.vue';
@@ -99,6 +101,18 @@ const routes = [
         name: 'newsletter',
         path: '/admin/lead/newsletter',
         component: NewsLetter,
+    },
+
+    /*Collections*/
+    {
+        name: 'collection-groups',
+        path: '/admin/collection/groups',
+        component: CollectionGroups,
+    },
+    {
+        name: 'collection-images',
+        path: '/admin/collection/images',
+        component: CollectionImages,
     },
 
     /* Configuration */

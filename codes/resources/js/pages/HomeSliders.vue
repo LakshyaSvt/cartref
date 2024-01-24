@@ -15,7 +15,7 @@
                                 <label for="image" class="block mb-2 text-sm font-bold text-gray-900"
                                     title="Those immediately above the category in the hierarchy">Category <span
                                         class="text-red-600">*</span></label>
-                                <select v-model="category" class="form-input" placeholder="western-wear" required>
+                                <select v-model="category" class="form-input" required>
                                     <option value="" selected>Select Category</option>
                                     <option v-for="(category) in categories" :key="category" :value="category">{{ category
                                     }}</option>

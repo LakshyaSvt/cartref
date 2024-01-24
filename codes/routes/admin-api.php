@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CartController;
 use App\Http\Controllers\Admin\CategoryComponentSlidersController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CollectionGroupController;
+use App\Http\Controllers\Admin\CollectionImageController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ComponentController;
 use App\Http\Controllers\Admin\ContactController;
@@ -26,14 +28,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     /*Cart and Wishlist */
     Route::get('/wishlist', [WishlistController::class, 'fetchWishlists']);
     Route::get('/cart', [CartController::class, 'fetchCarts']);
-
     /* Vendor Management */
     Route::resource('/vendor', VendorController::class);
     Route::resource('/vendor-payment', VendorPaymentController::class);
-
     /*Leads*/
     Route::resource('/contact', ContactController::class);
     Route::resource('/newsletter', NewsLetterController::class);
+    /*Collection*/
+    Route::resource('/collection-group', CollectionGroupController::class);
+    Route::resource('/collection-images', CollectionImageController::class);
 
     /*Configurations*/
     Route::resource('/home-slider', HomeSliderController::class);

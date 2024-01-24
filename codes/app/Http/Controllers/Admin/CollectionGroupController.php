@@ -2,56 +2,51 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\HomeSlider;
+use App\Collection;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
 use Carbon\Carbon;
 use FileHandler;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 
-class HomeSliderController extends Controller
+class CollectionGroupController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return ApiResource
      */
     public function index()
     {
         /* Query Parameters */
         $keyword = request()->keyword;
         $status = request()->status;
-        $category_id = request()->category_id;
+        $slider = request()->category_id;
         $rows = request()->rows ?? 25;
 
         if ($rows == 'all') {
-            $rows = HomeSlider::count();
+            $rows = Collection::count();
         }
         /* Query Builder */
-        $sliders = HomeSlider::when(isset($status), function ($query) use ($status) {
-            $query->where('status', (int)$status);
-        })
-            ->when(isset($category_id), function ($query) use ($category_id) {
-                $query->whereHas('category', function ($query) use ($category_id) {
-                    $query->where('id', $category_id);
-                });
+        $collections = Collection::when(isset($status), function ($query) use ($status) {
+                $query->where('status', (int) $status);
             })
             ->when(isset($keyword), function ($query) use ($keyword) {
                 $query->where(function ($query1) use ($keyword) {
-                    $query1->orWhere('category', 'LIKE', '%' . $keyword . '%')
+                    $query1->orWhere('group_name', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('url', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('page_description', 'LIKE', '%' . $keyword . '%');
+                        ->orWhere('category', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('font_size', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('background_color', 'LIKE', '%' . $keyword . '%')
+                    ;
                 });
             })
-            ->latest()
+            ->orderBy('order_id')
             ->paginate($rows);
 
         //Response
-        return new ApiResource($sliders);
+        return new ApiResource($collections);
     }
 
     /**
@@ -69,7 +64,7 @@ class HomeSliderController extends Controller
         ]);
 
 
-        $slider = HomeSlider::create([
+        $slider = Collection::create([
             'category' => $request->category,
             'url' => $request->url,
             'page_description' => $request->page_description,
@@ -104,7 +99,7 @@ class HomeSliderController extends Controller
      */
     public function show($id)
     {
-        $slider = HomeSlider::findOrFail($id);
+        $slider = Collection::findOrFail($id);
         return new ApiResource($slider);
     }
 
@@ -123,7 +118,7 @@ class HomeSliderController extends Controller
             'mb_background_image' => 'nullable|image|max:2048'
         ]);
 
-        $slider = HomeSlider::findOrFail($id);
+        $slider = Collection::findOrFail($id);
 
         if ($request->hasFile('background_image')) {
             $file = $request->file('background_image');
@@ -171,7 +166,7 @@ class HomeSliderController extends Controller
      */
     public function destroy($id)
     {
-        $slider = HomeSlider::findOrFail($id);
+        $slider = Collection::findOrFail($id);
         $slider->deleted_at = Carbon::now();
         $slider->save();
         return response()->json(['status' => 'success', 'msg' => $slider->category . 'Slider Deleted Successfully']);
