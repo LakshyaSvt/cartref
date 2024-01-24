@@ -532,46 +532,47 @@ class myorderscontroller extends Controller
         {
             return abort(404);
         }
-    
-        $relatedproducts = Product::where('admin_status', 'Accepted')->where('subcategory_id', $product->subcategory_id)->take(8)->get();
 
-
-        
-        $shareComponent = \Share::page(
-            route('product.slug', ['slug' => $product->slug]),
-            $product->description,
-        )
-        ->facebook()
-        ->linkedin()
-        ->whatsapp();
-        
-        $previous = '';
-        $next = '';
-        
-        /**
-         * If the product color is sku
-         * Check if the url does has color
-         * Redirect to product.slug.color first color
-         */
-        if(Config::get('icrm.product_sku.color') == 1)
-        {
-            if(empty(request('color')))
-            {
-                if(count($product->productcolors) > 0)
-                {
-                    // return redirect()->route('product.slug', ['slug' => $product->slug, 'color' => $product->productcolors[0]->name]);
-                }
-            }
-        }
-
-        return view('product')->with([
-            'product' => $product,
-            // 'morecolors' => $morecolors,
-            'relatedproducts' => $relatedproducts,
-            'shareComponent' => $shareComponent,
-            'previous' => $previous,
-            'next' => $next
-        ]);
+        return app('App\Http\Controllers\WelcomeController')->product($product->slug);
+//        $relatedproducts = Product::where('admin_status', 'Accepted')->where('subcategory_id', $product->subcategory_id)->take(8)->get();
+//
+//
+//
+//        $shareComponent = \Share::page(
+//            route('product.slug', ['slug' => $product->slug]),
+//            $product->description,
+//        )
+//        ->facebook()
+//        ->linkedin()
+//        ->whatsapp();
+//
+//        $previous = '';
+//        $next = '';
+//
+//        /**
+//         * If the product color is sku
+//         * Check if the url does has color
+//         * Redirect to product.slug.color first color
+//         */
+//        if(Config::get('icrm.product_sku.color') == 1)
+//        {
+//            if(empty(request('color')))
+//            {
+//                if(count($product->productcolors) > 0)
+//                {
+//                    // return redirect()->route('product.slug', ['slug' => $product->slug, 'color' => $product->productcolors[0]->name]);
+//                }
+//            }
+//        }
+//
+//        return view('product')->with([
+//            'product' => $product,
+//            // 'morecolors' => $morecolors,
+//            'relatedproducts' => $relatedproducts,
+//            'shareComponent' => $shareComponent,
+//            'previous' => $previous,
+//            'next' => $next
+//        ]);
     }
 
 }
