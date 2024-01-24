@@ -6,7 +6,7 @@ use App\Component;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
 use Carbon\Carbon;
-use FileHandler;
+use App\Helper\FileHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;

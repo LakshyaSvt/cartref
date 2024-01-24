@@ -43,7 +43,7 @@ class CollectionImageController extends Controller
                     $query1->orWhere('url', 'LIKE', '%' . $keyword . '%');
                 });
             })
-            ->orderBy('order_id', 'desc')
+            ->orderBy('order_id', 'asc')
             ->paginate($rows);
 
         //Response

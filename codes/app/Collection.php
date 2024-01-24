@@ -13,7 +13,27 @@ class Collection extends Model
 
     protected $fillabe = [
         'category',
-//        ''
+        'url',
+        'group_name',
+        'status',
+        'order_id',
+        'image',
+        'desktop_visiblity',
+        'desktop_columns',
+        'mobile_visiblity',
+        'mobile_columns',
+        'background_color',
+        'tablet_visiblity',
+        'tablet_columns',
+        'desktop_carousel',
+        'tablet_carousel',
+        'mobile_carousel',
+        'desktop_gap',
+        'tablet_gap',
+        'mobile_gap',
+        'background_image',
+        'background_opacity',
+        'font_size'
     ];
     public function collections()
     {
