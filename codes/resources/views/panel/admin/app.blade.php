@@ -65,8 +65,8 @@
             color: #fff !important;
             /*@apply bg-primary-700*/
         }
-
         /* Vue MultiSelect */
+
     </style>
     <title>Admin | {{ config('app.name') }}</title>
 </head>

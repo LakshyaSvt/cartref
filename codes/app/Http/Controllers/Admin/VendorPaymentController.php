@@ -22,6 +22,8 @@ class VendorPaymentController extends Controller
         $keyword = request()->keyword;
         $status = request()->status;
         $rows = request()->rows ?? 25;
+        $start_date = request()->start_date;
+        $end_date = request()->end_date;
 
         if ($rows == 'all') {
             $rows = VendorPayment::count();
@@ -31,10 +33,15 @@ class VendorPaymentController extends Controller
             ->when(isset($status), function ($query) use ($status) {
                 $query->where('status', (int)$status);
             })
+            ->when(isset($start_date), function ($query) use ($start_date) {
+                $query->where('billing_date', '>=', $start_date);
+            })
+            ->when(isset($end_date), function ($query) use ($end_date) {
+                $query->where('billing_date', '<=', $end_date);
+            })
             ->when(isset($keyword), function ($query) use ($keyword) {
-                $query->where(function ($query) use ($keyword) {
-                    $query->orWhere('billing_date', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('total', 'LIKE', '%' . $keyword . '%');
+                $query->whereHas('user', function ($query) use ($keyword) {
+                    $query->where('name', 'LIKE', '%' . $keyword . '%');
                 });
             })
             ->latest()
@@ -91,7 +98,7 @@ class VendorPaymentController extends Controller
     public function update(Request $request, $id)
     {
         $vendorPayment = VendorPayment::with('user')->findOrFail($id);
-        $vendorPayment->update($request->except(['vendor_id','billing_date','total']));
+        $vendorPayment->update($request->except(['vendor_id', 'billing_date', 'total']));
 
         if ($request->has('vendor_id')) {
             $vendor = User::findOrFail($request->vendor_id);
@@ -110,7 +117,8 @@ class VendorPaymentController extends Controller
             ]);
         }
 
-        $status = 'success'; $msg = 'Payment Updated Successfully';
+        $status = 'success';
+        $msg = 'Payment Updated Successfully';
         if ($request->filled('status')) {
             if ($request->status) {
                 $msg = 'Payment Published Successfully';

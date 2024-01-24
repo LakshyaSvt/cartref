@@ -59,6 +59,14 @@
               </div>
             </div>
             <div class="flex flex-wrap items-center gap-2">
+              From
+              <div>
+                <input type="date" v-model="start_date" title="Choose Start Date" @change="fetchVendorPayment()" class="form-input !p-2">
+              </div>
+              To
+              <div>
+                <input type="date" v-model="end_date" title="Choose End Date" @change="fetchVendorPayment()" class="form-input !p-2">
+              </div>
               <label for="table-search" class="sr-only">Search</label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer"
@@ -168,6 +176,8 @@ export default {
       vendor_id: '',
       billing_date: '',
       total: 0.0,
+      start_date:'',
+      end_date:'',
       keyword: '',
       row_count: this.$store.state.defaultRowCount,
       showModal: false,
@@ -255,6 +265,8 @@ export default {
           rows: this.row_count,
           keyword: this.keyword.trim(),
           status: this.status,
+          start_date: this.start_date,
+          end_date: this.end_date,
         }
       })
         .then(res => {
