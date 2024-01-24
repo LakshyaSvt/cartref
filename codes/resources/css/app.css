@@ -58,11 +58,18 @@
         focus-visible:border-primary-500;
     }
 
-    .submit-btn {
+    form .submit-btn {
         @apply text-white bg-primary-600 hover:bg-primary-700
         focus:ring-4 focus:outline-none focus:ring-primary-300
         font-bold rounded-lg
         text-base mx-1 px-5 py-2.5
+    }
+    form .clear-btn{
+        @apply text-white bg-gray-600 hover:bg-gray-700
+        focus:ring-4 focus:outline-none focus:ring-gray-300
+        font-bold  rounded-lg
+        text-base
+        mx-1 px-5 py-2.5
     }
 
     /* SideBar */

@@ -30,7 +30,7 @@
                                 {{ this.editId ? 'Update' : 'Create' }}
                             </button>
                             <button type="button" @click="clear()"
-                                class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-bold  rounded-lg text-base mx-1 px-5 py-2.5">
+                                class="clear-btn">
                                 Clear
                             </button>
                         </div>

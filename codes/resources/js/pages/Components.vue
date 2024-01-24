@@ -70,7 +70,7 @@
                                 {{ this.editId ? 'Update' : 'Create' }}
                             </button>
                             <button type="button" @click="clear()"
-                                class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-bold  rounded-lg text-base mx-1 px-5 py-2.5">
+                                class="clear-btn">
                                 Clear
                             </button>
                         </div>
@@ -157,7 +157,7 @@
                                         S.No.
                                     </div>
                                     <div
-                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 w-20">
                                         Image
                                     </div>
                                     <div
@@ -169,11 +169,11 @@
                                         Title 1
                                     </div>
                                     <div
-                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold w-64 p-1">
+                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold w-52 p-1">
                                         Title 2
                                     </div>
                                     <div
-                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold w-72 p-1">
+                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold w-52 p-1">
                                         Description
                                     </div>
                                     <div
@@ -189,7 +189,7 @@
                                         Status
                                     </div>
                                     <div
-                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 w-24">
                                         Last Update
                                     </div>
                                     <div
@@ -213,7 +213,7 @@
                                         class="table-cell border-t border-l border-gray-500 text-sm p-1 text-center !align-middle">
                                         <img @click="imageModal($store.state.storageUrl + component.image)"
                                             v-if="component.image"
-                                            class="w-14 h-14 border border-gray-400 mx-auto p-1 rounded-[50%]"
+                                            class="w-20 h-16 border border-gray-400 mx-auto p-1 rounded-[50%]"
                                             :src="$store.state.storageUrl + component.image" :alt="component.name">
                                         <p class="text-center text-gray-800" v-else>--No Image--</p>
                                     </div>

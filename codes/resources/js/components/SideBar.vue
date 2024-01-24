@@ -117,14 +117,14 @@
                         </a>
                         <ul v-if="lead" class="dropdown-menu">
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'contacts'}" class="dropdown-item">
                                     Contacts
-                                </a>
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'newsletter'}" class="dropdown-item">
                                     Newsletters
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
                     </li>

@@ -3,7 +3,6 @@ import Orders from "@pages/Orders.vue"
 import Showcases from '@pages/Showcases.vue'
 import Wishlist from "@pages/Wishlist.vue";
 import Cart from "@pages/Cart.vue";
-
 import Category from "@pages/Category.vue";
 import SubCategory from "@pages/SubCategory.vue";
 import Products from "@pages/Products.vue";
@@ -11,10 +10,10 @@ import ProductColors from "@pages/ProductColors.vue";
 import ProductSizes from "@pages/ProductSizes.vue";
 import ProductColorEdit from "@pages/ProductColorEdit.vue";
 import ProductEdit from "@pages/ProductEdit.vue";
-
 import Vendors from '@pages/Vendors.vue';
 import VendorPayments from '@pages/VendorPayments.vue';
-
+import Contacts from "@pages/Contacts.vue";
+import NewsLetter from "@pages/NewsLetter.vue";
 import Component from '@pages/Components.vue';
 import HomeSliders from '@pages/HomeSliders.vue';
 import CategoryComponentSliders from "@pages/CategoryComponentSliders.vue";
@@ -88,6 +87,18 @@ const routes = [
         name: 'vendor-payments',
         path: '/admin/vendor-payments',
         component: VendorPayments,
+    },
+
+    /*Lead*/
+    {
+        name: 'contacts',
+        path: '/admin/lead/contacts',
+        component: Contacts,
+    },
+    {
+        name: 'newsletter',
+        path: '/admin/lead/newsletter',
+        component: NewsLetter,
     },
 
     /* Configuration */

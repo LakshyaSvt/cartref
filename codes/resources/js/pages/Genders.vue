@@ -20,7 +20,7 @@
                 {{ this.editId ? 'Update' : 'Create' }}
               </button>
               <button type="button" @click="clear()"
-                class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-bold  rounded-lg text-base mx-1 px-5 py-2.5">
+                class="clear-btn">
                 Clear
               </button>
             </div>
@@ -160,7 +160,6 @@
         </div>
       </div>
     </div>
-    <ImageModal :show="showModal" :hide="closeImageModal" :img="imgModal"></ImageModal>
   </div>
 </template>
 
@@ -175,20 +174,11 @@ export default {
       keyword: '',
       status: '',
       row_count: this.$store.state.defaultRowCount,
-      showModal: false,
-      imgModal: '',
       pagination: {},
       editId: '',
     }
   },
   methods: {
-    imageModal(img) {
-      this.showModal = true;
-      this.imgModal = img;
-    },
-    closeImageModal() {
-      this.showModal = false;
-    },
     updateStatus(id, status) {
       axios.put('/admin/gender/' + id, { status })
         .then(res => {

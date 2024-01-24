@@ -6,8 +6,10 @@ use App\Http\Controllers\Admin\CategoryComponentSlidersController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ComponentController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\GenderController;
 use App\Http\Controllers\Admin\HomeSliderController;
+use App\Http\Controllers\Admin\NewsLetterController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\StyleController;
@@ -28,6 +30,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     /* Vendor Management */
     Route::resource('/vendor', VendorController::class);
     Route::resource('/vendor-payment', VendorPaymentController::class);
+
+    /*Leads*/
+    Route::resource('/contact', ContactController::class);
+    Route::resource('/newsletter', NewsLetterController::class);
 
     /*Configurations*/
     Route::resource('/home-slider', HomeSliderController::class);
