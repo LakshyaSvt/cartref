@@ -5,11 +5,28 @@ namespace App;
 use App\Models\CouponUser;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Coupon extends Model
 {
 
+    protected $fillable = [
+        'type',
+        'value',
+        'code',
+        'description',
+        'min_order_value',
+        'from',
+        'to',
+        'background_color',
+        'is_coupon_for_all',
+        'is_uwc',
+        'user_email',
+        'status'
+    ];
+
+    use SoftDeletes;
     public function sellers()
     {
         return $this->belongsToMany(User::class);

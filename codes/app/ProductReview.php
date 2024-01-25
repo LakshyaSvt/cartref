@@ -3,12 +3,15 @@
 namespace App;
 
 use App\Models\Product;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use TCG\Voyager\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 
 class ProductReview extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['rate', 'comment', 'product_id', 'user_id', 'status',];
 
     public function user()
