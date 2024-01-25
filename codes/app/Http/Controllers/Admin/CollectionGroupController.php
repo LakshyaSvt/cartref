@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Collection;
+use App\Helper\FileHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
 use Carbon\Carbon;
-use App\Helper\FileHandler;
 use Illuminate\Http\Request;
 
 
@@ -30,7 +30,10 @@ class CollectionGroupController extends Controller
         }
         /* Query Builder */
         $collections = Collection::when(isset($status), function ($query) use ($status) {
-                $query->where('status', (int) $status);
+            $query->where('status', (int)$status);
+        })
+            ->when(isset($category), function ($query) use ($category) {
+                $query->where('category', $category);
             })
             ->when(isset($keyword), function ($query) use ($keyword) {
                 $query->where(function ($query1) use ($keyword) {
@@ -38,11 +41,10 @@ class CollectionGroupController extends Controller
                         ->orWhere('url', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('category', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('font_size', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('background_color', 'LIKE', '%' . $keyword . '%')
-                    ;
+                        ->orWhere('background_color', 'LIKE', '%' . $keyword . '%');
                 });
             })
-            ->orderBy('order_id','asc')
+            ->orderBy('order_id', 'asc')
             ->paginate($rows);
 
         //Response
@@ -60,7 +62,6 @@ class CollectionGroupController extends Controller
         $request->validate([
             'category' => 'required',
             'group_name' => 'required',
-            'url' => 'required',
             'tablet_columns' => 'required',
             'mobile_gap' => 'required',
             'mobile_columns' => 'required',
@@ -71,25 +72,23 @@ class CollectionGroupController extends Controller
 
         $collection = Collection::create([
             'category' => $request->category,
-            'url' => $request->url,
             'group_name' => $request->group_name,
-            'status' => $request->status,
-            'order_id' => $request->order_id,
-            'desktop_visiblity' => $request->desktop_visiblity,
-            'desktop_columns' => $request->desktop_columns,
-            'mobile_visiblity' => $request->mobile_visiblity,
-            'mobile_columns' => $request->mobile_columns,
             'background_color' => $request->background_color,
-            'tablet_visiblity' => $request->tablet_visiblity,
-            'tablet_columns' => $request->tablet_columns,
-            'desktop_carousel' => $request->desktop_carousel,
-            'tablet_carousel' => $request->tablet_carousel,
-            'mobile_carousel' => $request->mobile_carousel,
-            'desktop_gap' => $request->desktop_gap,
-            'tablet_gap' => $request->tablet_gap,
-            'mobile_gap' => $request->mobile_gap,
             'background_opacity' => $request->background_opacity,
-            'font_size' => $request->font_size
+            'font_size' => $request->font_size,
+            'desktop_visiblity' => (int)$request->desktop_visiblity,
+            'desktop_columns' => $request->desktop_columns,
+            'desktop_carousel' => (int)$request->desktop_carousel,
+            'desktop_gap' => $request->desktop_gap,
+            'mobile_visiblity' => (int)$request->mobile_visiblity,
+            'mobile_carousel' => (int)$request->mobile_carousel,
+            'mobile_columns' => $request->mobile_columns,
+            'mobile_gap' => $request->mobile_gap,
+            'tablet_visiblity' => (int)$request->tablet_visiblity,
+            'tablet_carousel' => (int)$request->tablet_carousel,
+            'tablet_columns' => $request->tablet_columns,
+            'tablet_gap' => $request->tablet_gap,
+            'status' => $request->status,
         ]);
 
         if ($request->hasFile('background_image')) {

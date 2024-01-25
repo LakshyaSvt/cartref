@@ -11,7 +11,7 @@ class Collection extends Model
 {
     use SoftDeletes;
 
-    protected $fillabe = [
+    protected $fillable = [
         'category',
         'url',
         'group_name',
@@ -37,6 +37,9 @@ class Collection extends Model
     ];
     public function collections()
     {
-        return $this->belongsTo(CollectionImage::class, 'id', 'collection_id')->where('status', 1)->orderBy('order_id', 'asc');
+        return $this
+            ->belongsTo(CollectionImage::class, 'id', 'collection_id')
+            ->where('status', 1)
+            ->orderBy('order_id', 'asc');
     }
 }
