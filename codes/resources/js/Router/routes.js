@@ -1,8 +1,6 @@
 import Dashboard from "@pages/Dashboard.vue"
 import Orders from "@pages/Orders.vue"
 import Showcases from '@pages/Showcases.vue'
-import Wishlist from "@pages/Wishlist.vue";
-import Cart from "@pages/Cart.vue";
 import Category from "@pages/Category.vue";
 import SubCategory from "@pages/SubCategory.vue";
 import Products from "@pages/Products.vue";
@@ -24,6 +22,11 @@ import Brands from "@pages/Brands.vue";
 import Genders from "@pages/Genders.vue";
 import Sizes from "@pages/Sizes.vue";
 import Colors from "@pages/Colors.vue";
+import Seo from "@pages/Seo.vue";
+import ProductReview from "@pages/ProductReview.vue";
+
+import Wishlist from "@pages/Wishlist.vue";
+import Cart from "@pages/Cart.vue";
 
 const routes = [
     {
@@ -155,6 +158,18 @@ const routes = [
         name: 'styles',
         path: '/admin/config/styles',
         component: Styles,
+    },
+
+    /*Control Panel*/
+    {
+        name: 'seo',
+        path: '/admin/control/seo',
+        component: Seo,
+    },
+    {
+        name: 'product-review',
+        path: '/admin/control/product-review',
+        component: ProductReview,
     },
 
     /* Cart & Wishlist */

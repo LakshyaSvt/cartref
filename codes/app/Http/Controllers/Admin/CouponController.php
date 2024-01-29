@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Coupon;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
@@ -82,15 +81,15 @@ class CouponController extends Controller
             'user_email' => 'nullable|email:rfc,dns',
         ]);
 
-        $review = Coupon::create($request->post());
+        $coupon = Coupon::create($request->post());
 
         if ($request->has('brands')) {
             $brands = $request->brands->toArray();
             foreach ($brands as $brand)
-                $review->brands()->attach($brand);
+                $coupon->brands()->attach($brand);
         }
 
-        return response()->json(['status' => 'success', 'msg' => $review->comment . ' Created Successfully']);
+        return response()->json(['status' => 'success', 'msg' => $coupon->code . ' Created Successfully']);
     }
 
     /**
@@ -99,9 +98,10 @@ class CouponController extends Controller
      * @param int $id
      * @return ApiResource
      */
-    public function show(Coupon $review)
+    public function show(Coupon $id)
     {
-        return new ApiResource($review);
+        $coupon = Coupon::findOrFail($id);
+        return new ApiResource($coupon);
     }
 
     /**
@@ -111,34 +111,35 @@ class CouponController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Coupon $review)
+    public function update(Request $request, $id)
     {
+        $coupon = Coupon::findOrFail($id);
         $request->validate([
-            'code' => "required|unique:coupons,code,{$review->id}",
+            'code' => "required|unique:coupons,code,{$coupon->id}",
             'description' => 'required',
             'from' => 'required|date|before:to',
             'to' => 'required|date|after:from',
         ]);
-        $review->update($request->all());
+        $coupon->update($request->all());
 
         if ($request->has('brands')) {
             $brands = $request->brands->toArray();
-            $review->brands()->sync($brands);
+            $coupon->brands()->sync($brands);
         }
 
         $status = 'success';
-        $msg = $review->comment . ' updated successfully';
+        $msg = $coupon->code . ' updated successfully';
 
         if ($request->filled('status')) {
             if ($request->status) {
                 $status = 'success';
-                $msg = $review->comment . ' Published Successfully';
+                $msg = $coupon->code . ' Published Successfully';
             } else {
                 $status = 'warning';
-                $msg = $review->comment . ' Unpublished Successfully';
+                $msg = $coupon->code . ' Unpublished Successfully';
             }
         }
-        return response()->json(['status' => $status, 'msg' => $msg, 'data' => $review]);
+        return response()->json(['status' => $status, 'msg' => $msg, 'data' => $coupon]);
     }
 
     /**
@@ -147,10 +148,10 @@ class CouponController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Coupon $review)
+    public function destroy(Coupon $id)
     {
-        $review->deleted_at = Carbon::now();
-        $review->save();
-        return response()->json(['status' => 'success', 'msg' => $review->comment . ' Deleted Successfully']);
+        $coupon = Coupon::findOrFail($id);
+        $coupon->delete();
+        return response()->json(['status' => 'success', 'msg' => $coupon->code . ' Deleted Successfully']);
     }
 }

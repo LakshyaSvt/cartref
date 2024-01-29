@@ -21,7 +21,7 @@ class ProductReview extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id')->where('status', 1);
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
 }

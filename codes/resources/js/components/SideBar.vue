@@ -219,19 +219,19 @@
                         </a>
                         <ul v-if="control" class="dropdown-menu">
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'seo'}" class="dropdown-item">
                                     SEO
-                                </a>
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'product-review'}" class="dropdown-item">
                                     Product Reviews
-                                </a>
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <router-link :to="{name:'coupon'}" class="dropdown-item">
                                     Coupons
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
                     </li>

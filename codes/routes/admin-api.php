@@ -9,10 +9,13 @@ use App\Http\Controllers\Admin\CollectionImageController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ComponentController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\GenderController;
 use App\Http\Controllers\Admin\HomeSliderController;
 use App\Http\Controllers\Admin\NewsLetterController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductReviewController;
+use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\StyleController;
 use App\Http\Controllers\Admin\SubCategoryController;
@@ -36,7 +39,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('/newsletter', NewsLetterController::class);
     /*Collection*/
     Route::resource('/collection-group', CollectionGroupController::class);
-    Route::resource('/collection-images', CollectionImageController::class);
+    Route::resource('/collection-image', CollectionImageController::class);
 
     /*Configurations*/
     Route::resource('/home-slider', HomeSliderController::class);
@@ -47,6 +50,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('/size', SizeController::class);
     Route::resource('/color', ColorController::class);
     Route::resource('/style', StyleController::class);
+
+    /*Control Panel*/
+    Route::resource('/seo', SeoController::class);
+    Route::resource('/product-review', ProductReviewController::class);
+    Route::resource('/coupon', CouponController::class);
 
     /*Product Management */
     Route::resource('/category', CategoryController::class);

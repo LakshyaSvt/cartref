@@ -27,35 +27,37 @@ class ProductReviewController extends Controller
             $rows = ProductReview::count();
         }
         /* Query Builder */
-        $categories = ProductReview::with('user', 'product')
+        $reviews = ProductReview::with('user', 'product')
             ->when(isset($status), function ($query) use ($status) {
                 $query->where('status', (int)$status);
             })
             ->when(isset($keyword), function ($query) use ($keyword) {
-                $query->where(function ($query1) use ($keyword) {
-                    $query1->orWhere('comment', 'LIKE', '%' . $keyword . '%')
+                $query->where(function ($query) use ($keyword) {
+                    //local table fields
+                    $query
+                        ->orWhere('comment', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('rate', 'LIKE', '%' . $keyword . '%');
-                });
-            })
-            ->whereHas('user', function ($query) use ($keyword){
-                $query->where(function($query) use ($keyword) {
-                    $query->orWhere('name','LIKE','%'.$keyword.'%')
-                        ->orWhere('email','LIKE','%'.$keyword.'%')
-                        ->orWhere('mobile','LIKE','%'.$keyword.'%');
-                });
-            })
-            ->whereHas('product', function ($query) use ($keyword){
-                $query->where(function($query) use ($keyword) {
-                    $query->orWhere('name','LIKE','%'.$keyword.'%')
-                        ->orWhere('slug','LIKE','%'.$keyword.'%')
-                        ->orWhere('sku','LIKE','%'.$keyword.'%');
+                    //product relation fields
+                    $query->orWhereHas('product', function ($query) use ($keyword) {
+                        $query->where('name', 'LIKE', '%' . $keyword . '%')
+                            ->orWhere('slug', 'LIKE', '%' . $keyword . '%')
+                            ->orWhere('sku', 'LIKE', '%' . $keyword . '%');
+                    });
+                    //user relation fields
+                    $query->orWhereHas('user', function ($query) use ($keyword) {
+                        $query->where(function ($query) use ($keyword) {
+                            $query->orWhere('name', 'LIKE', '%' . $keyword . '%')
+                                ->orWhere('email', 'LIKE', '%' . $keyword . '%')
+                                ->orWhere('mobile', 'LIKE', '%' . $keyword . '%');
+                        });
+                    });
                 });
             })
             ->latest()
             ->paginate($rows);
 
         //Response
-        return new ApiResource($categories);
+        return new ApiResource($reviews);
     }
 
     /**
@@ -74,7 +76,7 @@ class ProductReviewController extends Controller
 
         $review = ProductReview::create($request->post());
 
-        return response()->json(['status' => 'success', 'msg' => $review->comment . ' Created Successfully']);
+        return response()->json(['status' => 'success', 'msg' => 'Review Created Successfully']);
     }
 
     /**
@@ -83,8 +85,9 @@ class ProductReviewController extends Controller
      * @param int $id
      * @return ApiResource
      */
-    public function show(ProductReview $review)
+    public function show($id)
     {
+        $review = ProductReview::with('user', 'product')->findOrFail($id);
         return new ApiResource($review);
     }
 
@@ -95,8 +98,9 @@ class ProductReviewController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, ProductReview $review)
+    public function update(Request $request, $id)
     {
+        $review = ProductReview::with('user', 'product')->findOrFail($id);
         $request->validate([
             'user_id' => 'nullable|exists:users,id',
             'product_id' => 'nullable|exists:products,id',
@@ -104,15 +108,15 @@ class ProductReviewController extends Controller
         $review->update($request->all());
 
         $status = 'success';
-        $msg = $review->comment . ' updated successfully';
+        $msg = 'Review updated successfully';
 
         if ($request->filled('status')) {
             if ($request->status) {
                 $status = 'success';
-                $msg = $review->comment . ' Published Successfully';
+                $msg = 'Review Published Successfully';
             } else {
                 $status = 'warning';
-                $msg = $review->comment . ' Unpublished Successfully';
+                $msg = 'Review Unpublished Successfully';
             }
         }
         return response()->json(['status' => $status, 'msg' => $msg, 'data' => $review]);
@@ -124,10 +128,11 @@ class ProductReviewController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(ProductReview $review)
+    public function destroy($id)
     {
+        $review = ProductReview::findOrFail($id);
         $review->deleted_at = Carbon::now();
         $review->save();
-        return response()->json(['status' => 'success', 'msg' => $review->comment . ' Deleted Successfully']);
+        return response()->json(['status' => 'success', 'msg' => 'Review Deleted Successfully']);
     }
 }

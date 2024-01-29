@@ -70,7 +70,7 @@ class SeoController extends Controller
             'footer_script' => $request->footer_script,
         ]);
 
-        return response()->json(['status' => 'success', 'msg' => $seo->url . ' Created Successfully']);
+        return response()->json(['status' => 'success', 'msg' => $seo->meta_title . ' Created Successfully']);
     }
 
     /**
@@ -98,15 +98,15 @@ class SeoController extends Controller
         $seo->update($request->all());
 
         $status = 'success';
-        $msg = $seo->url . ' updated successfully';
+        $msg = $seo->meta_title . ' updated successfully';
 
         if ($request->filled('status')) {
             if ($request->status) {
                 $status = 'success';
-                $msg = $seo->url . ' Published Successfully';
+                $msg = $seo->meta_title . ' Published Successfully';
             } else {
                 $status = 'warning';
-                $msg = $seo->url . ' Unpublished Successfully';
+                $msg = $seo->meta_title . ' Unpublished Successfully';
             }
         }
         return response()->json(['status' => $status, 'msg' => $msg, 'data' => $seo]);
@@ -121,8 +121,7 @@ class SeoController extends Controller
     public function destroy($id)
     {
         $seo = Seo::findOrFail($id);
-        $seo->deleted_at = Carbon::now();
-        $seo->save();
-        return response()->json(['status' => 'success', 'msg' => $seo->url . ' Deleted Successfully']);
+        $seo->delete();
+        return response()->json(['status' => 'success', 'msg' => $seo->meta_title . ' Deleted Successfully']);
     }
 }
