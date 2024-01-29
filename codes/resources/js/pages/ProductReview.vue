@@ -253,6 +253,9 @@ export default {
           })
     },
     deleteProductReview(id) {
+       if (!confirm("Are you sure you want to delete ?")) {
+          return false;
+       }
       axios
           .delete('/admin/product-review/' + id)
           .then(res => {

@@ -24,7 +24,7 @@ import Sizes from "@pages/Sizes.vue";
 import Colors from "@pages/Colors.vue";
 import Seo from "@pages/Seo.vue";
 import ProductReview from "@pages/ProductReview.vue";
-
+import Coupon from "@pages/Coupon.vue";
 import Wishlist from "@pages/Wishlist.vue";
 import Cart from "@pages/Cart.vue";
 
@@ -170,6 +170,11 @@ const routes = [
         name: 'product-review',
         path: '/admin/control/product-review',
         component: ProductReview,
+    },
+    {
+        name: 'coupon',
+        path: '/admin/control/coupon',
+        component: Coupon,
     },
 
     /* Cart & Wishlist */

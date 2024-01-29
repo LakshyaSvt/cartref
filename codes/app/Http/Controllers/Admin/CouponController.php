@@ -26,33 +26,28 @@ class CouponController extends Controller
             $rows = Coupon::count();
         }
         /* Query Builder */
-        $coupons = Coupon::with('sellers', 'brands')
+        $coupons = Coupon::with('brands')
             ->when(isset($status), function ($query) use ($status) {
                 $query->where('status', (int)$status);
             })
             ->when(isset($keyword), function ($query) use ($keyword) {
-                $query->where(function ($query1) use ($keyword) {
-                    $query1->orWhere('code', 'LIKE', '%' . $keyword . '%')
+                $query->where(function ($query) use ($keyword) {
+                    $query
+                        ->orWhere('code', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('type', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('description', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('value', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('rate', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('from', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('to', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('background_color', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('user_email', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('min_order_value', 'LIKE', '%' . $keyword . '%');
-                });
-            })
-            ->whereHas('user', function ($query) use ($keyword) {
-                $query->where(function ($query) use ($keyword) {
-                    $query->orWhere('name', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('email', 'LIKE', '%' . $keyword . '%');
-                });
-            })
-            ->whereHas('brands', function ($query) use ($keyword) {
-                $query->where(function ($query) use ($keyword) {
-                    $query->orWhere('name', 'LIKE', '%' . $keyword . '%');
+
+                    $query->orWhereHas('brands', function ($query) use ($keyword) {
+                        $query->where(function ($query) use ($keyword) {
+                            $query->orWhere('name', 'LIKE', '%' . $keyword . '%');
+                        });
+                    });
                 });
             })
             ->latest()
@@ -72,19 +67,18 @@ class CouponController extends Controller
     {
         $request->validate([
             'type' => 'required',
-            'value' => 'required|integer',
+            'value' => 'required',
             'code' => 'required|unique:coupons,code',
             'description' => 'required',
             'from' => 'required|date|before:to',
             'to' => 'required|date|after:from',
             'background_color' => 'required',
-            'user_email' => 'nullable|email:rfc,dns',
         ]);
 
         $coupon = Coupon::create($request->post());
 
         if ($request->has('brands')) {
-            $brands = $request->brands->toArray();
+            $brands = $request->brands;
             foreach ($brands as $brand)
                 $coupon->brands()->attach($brand);
         }
@@ -98,9 +92,9 @@ class CouponController extends Controller
      * @param int $id
      * @return ApiResource
      */
-    public function show(Coupon $id)
+    public function show($id)
     {
-        $coupon = Coupon::findOrFail($id);
+        $coupon = Coupon::with('brands')->findOrFail($id);
         return new ApiResource($coupon);
     }
 
@@ -115,15 +109,14 @@ class CouponController extends Controller
     {
         $coupon = Coupon::findOrFail($id);
         $request->validate([
-            'code' => "required|unique:coupons,code,{$coupon->id}",
-            'description' => 'required',
-            'from' => 'required|date|before:to',
-            'to' => 'required|date|after:from',
+            'code' => "nullable|unique:coupons,code,{$coupon->id}",
+            'from' => 'nullable|date|before:to',
+            'to' => 'nullable|date|after:from',
         ]);
         $coupon->update($request->all());
 
         if ($request->has('brands')) {
-            $brands = $request->brands->toArray();
+            $brands = $request->brands;
             $coupon->brands()->sync($brands);
         }
 
@@ -148,7 +141,7 @@ class CouponController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Coupon $id)
+    public function destroy($id)
     {
         $coupon = Coupon::findOrFail($id);
         $coupon->delete();
