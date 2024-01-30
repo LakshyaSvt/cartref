@@ -1,6 +1,7 @@
 import Dashboard from "@pages/Dashboard.vue"
 import Orders from "@pages/Orders.vue"
 import Showcases from '@pages/Showcases.vue'
+import DeliveryArea from '@pages/DeliveryArea.vue'
 import Category from "@pages/Category.vue";
 import SubCategory from "@pages/SubCategory.vue";
 import Products from "@pages/Products.vue";
@@ -25,6 +26,7 @@ import Colors from "@pages/Colors.vue";
 import Seo from "@pages/Seo.vue";
 import ProductReview from "@pages/ProductReview.vue";
 import Coupon from "@pages/Coupon.vue";
+import Announcement from "@pages/Announcement.vue";
 import Wishlist from "@pages/Wishlist.vue";
 import Cart from "@pages/Cart.vue";
 
@@ -41,8 +43,13 @@ const routes = [
     },
     {
         name: 'showcases',
-        path: '/admin/showcases',
+        path: '/admin/showcases/orders',
         component: Showcases,
+    },
+    {
+        name: 'delivery-area',
+        path: '/admin/showcases/delivery-area',
+        component: DeliveryArea,
     },
 
     /* Product Management */
@@ -175,6 +182,11 @@ const routes = [
         name: 'coupon',
         path: '/admin/control/coupon',
         component: Coupon,
+    },
+    {
+        name: 'announcement',
+        path: '/admin/control/announcement',
+        component: Announcement,
     },
 
     /* Cart & Wishlist */

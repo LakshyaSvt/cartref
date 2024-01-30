@@ -53,20 +53,20 @@
                      </div>
                      <div class="mb-5 md:w-1/3 w-full md:mx-2 my-1">
                         <label class="block mb-2 text-sm font-bold text-gray-900">Brands <span class="text-red-600">*</span></label>
-                        <Multiselect v-model="brands" :multiple="true" :options="brandDropdown" :showLabels="false" label="name"/>
+                        <Multiselect v-model="brands" :multiple="true" :options="brandDropdown" :showLabels="false" label="name" trackBy="id"/>
                      </div>
                      <div class="mb-5 md:w-1/3 w-full md:mx-2 my-1">
                         <label class="block mb-2 text-sm font-bold text-gray-900" for="background_color">Background Color</label>
                         <input id="background_color" v-model="background_color" class="form-input" required type="color">
                      </div>
-                     <div class="mb-5 w-1/6 md:mx-2 my-1">
+                     <div class="mb-5 md:w-1/6 w-1/2 md:mx-2 my-1">
                         <label class="block mb-2 text-sm font-bold text-gray-900" for="flash_sale">All Brands </label>
                         <label class="relative inline-flex items-center cursor-pointer">
                            <input id="flash_sale" v-model="is_coupon_for_all" :checked="parseInt(is_coupon_for_all) === 1" class="sr-only peer" type="checkbox" value="1">
                            <Checkbox/>
                         </label>
                      </div>
-                     <div class="mb-5 w-1/6 md:mx-2 my-1">
+                     <div class="mb-5 md:w-1/6 w-1/2 md:mx-2 my-1">
                         <label class="block mb-2 text-sm font-bold text-gray-900" for="flash_sale">Use with cashback </label>
                         <label class="relative inline-flex items-center cursor-pointer">
                            <input id="flash_sale" v-model="is_uwc" :checked="parseInt(is_uwc) === 1" class="sr-only peer" type="checkbox" value="1">

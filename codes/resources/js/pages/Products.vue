@@ -340,7 +340,6 @@ export default {
           err.handleGlobally && err.handleGlobally();
         })
     },
-
     fetchProduct(url) {
       url = url || '/admin/product'
       this.dataLoading = true;
