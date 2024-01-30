@@ -319,7 +319,7 @@ export default {
       }
     },
     updateStatus(id, status) {
-      axios.put('/admin/collection-images/' + id, {status})
+      axios.put('/admin/collection-image/' + id, {status})
           .then(res => {
             this.show_toast(res.data.status, res.data.msg);
             let index = this.collection_images.findIndex(image => image.id === id)
@@ -340,7 +340,7 @@ export default {
     },
     editCollectionImage(id) {
       this.loading = true;
-      axios.get('/admin/collection-images/' + id)
+      axios.get('/admin/collection-image/' + id)
           .then(res => {
             this.editId = res.data.data.id;
             this.collection_id = res.data.data.collection_id;
@@ -357,7 +357,7 @@ export default {
       if (!confirm("Are you sure you want to delete ?")) {
         return false;
       }
-      axios.delete('/admin/collection-images/' + id)
+      axios.delete('/admin/collection-image/' + id)
           .then(res => {
             this.loading = true;
             this.show_toast(res.data.status, res.data.msg);
@@ -368,7 +368,7 @@ export default {
           })
     },
     editOrCreateCollectionImage() {
-      let url = '/admin/collection-images';
+      let url = '/admin/collection-image';
       let formData = new FormData();
 
       // Basic fields
@@ -384,7 +384,7 @@ export default {
       }
       //if the action is EDIT
       if (this.editId) {
-        url = '/admin/collection-images/' + this.editId;
+        url = '/admin/collection-image/' + this.editId;
         formData.append('_method', 'PUT');
         formData.append('id', this.editId);
       }
@@ -405,7 +405,7 @@ export default {
     },
     fetchCollectionImage(url) {
       this.dataLoading = true;
-      url = url || '/admin/collection-images'
+      url = url || '/admin/collection-image'
       axios.get(url, {
         params: {
           rows: this.row_count,

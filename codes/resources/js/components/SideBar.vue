@@ -22,19 +22,19 @@
 
                             <span class="group-hover:text-gray-700 flex justify-between w-full">
                                 <span>Showcases At Home</span>
-                                <i class="fi fi-ss-angle-small-up mr-2" v-if="showcases"></i>
-                                <i class="fi fi-ss-angle-small-down mr-2" v-if="!showcases"></i>
+                                <i class="fi fi-rr-angle-small-up mr-2" v-if="showcases"></i>
+                                <i class="fi fi-rr-angle-small-down mr-2" v-if="!showcases"></i>
                             </span>
                         </a>
                         <ul v-if="showcases" class="dropdown-menu">
                             <li>
                                 <router-link :to="{ name: 'showcases' }" class="dropdown-item">
-                                    Showcasess
+                                   <i class="fi fi-rr-house-chimney mr-2"></i> Showcasess
                                 </router-link>
                             </li>
                             <li>
                                 <a href="#" class="dropdown-item">
-                                    Delivert Servicable Areas
+                                   <i class="fi fi-rr-shipping-timed mr-2"></i> Delivert Areas
                                 </a>
                             </li>
                         </ul>
@@ -47,8 +47,8 @@
 
                             <span class="group-hover:text-gray-700 flex justify-between w-full">
                                 <span>Product Management</span>
-                                <i class="fi fi-ss-angle-small-up mr-2" v-if="product"></i>
-                                <i class="fi fi-ss-angle-small-down mr-2" v-if="!product"></i>
+                                <i class="fi fi-rr-angle-small-up mr-2" v-if="product"></i>
+                                <i class="fi fi-rr-angle-small-down mr-2" v-if="!product"></i>
                             </span>
                         </a>
                         <ul v-if="product" class="dropdown-menu">
@@ -83,23 +83,23 @@
                     <li class="min-w-max">
                         <a href="javascript:void(0)" :class="{ 'bg-primary-100': vendor }" @click="vendor = !vendor;"
                             class="group dropdown-btn">
-                            <i class="fi fi-rr-users-alt"></i>
+                            <i class="fi fi-rs-users-alt"></i>
 
                             <span class="group-hover:text-gray-700 flex justify-between w-full">
                                 <span>Vendor Management</span>
-                                <i class="fi fi-ss-angle-small-up mr-2" v-if="vendor"></i>
-                                <i class="fi fi-ss-angle-small-down mr-2" v-if="!vendor"></i>
+                                <i class="fi fi-rr-angle-small-up mr-2" v-if="vendor"></i>
+                                <i class="fi fi-rr-angle-small-down mr-2" v-if="!vendor"></i>
                             </span>
                         </a>
                         <ul v-if="vendor" class="dropdown-menu">
                             <li>
                                 <router-link :to="{name:'vendor'}" class="dropdown-item">
-                                    Vendors
+                                    <i class="fi fi-ss-users-alt mr-2"></i> Vendors
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'vendor-payments'}" class="dropdown-item">
-                                    Vendor Payments
+                                    <i class="fi fi-rr-money-bill-wave mr-2"></i> Vendor Payments
                                 </router-link>
                             </li>
                         </ul>
@@ -111,19 +111,19 @@
 
                             <span class="group-hover:text-gray-700 flex justify-between w-full">
                                 <span>Leads</span>
-                                <i class="fi fi-ss-angle-small-up mr-2" v-if="lead"></i>
-                                <i class="fi fi-ss-angle-small-down mr-2" v-if="!lead"></i>
+                                <i class="fi fi-rr-angle-small-up mr-2" v-if="lead"></i>
+                                <i class="fi fi-rr-angle-small-down mr-2" v-if="!lead"></i>
                             </span>
                         </a>
                         <ul v-if="lead" class="dropdown-menu">
                             <li>
                                 <router-link :to="{name:'contacts'}" class="dropdown-item">
-                                    Contacts
+                                    <i class="fi fi-rs-customer-service mr-2"></i> Contacts
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'newsletter'}" class="dropdown-item">
-                                    Newsletters
+                                    <i class="fi fi-rs-newspaper-open mr-2"></i> Newsletters
                                 </router-link>
                             </li>
                         </ul>
@@ -135,19 +135,19 @@
 
                             <span class="group-hover:text-gray-700 flex justify-between w-full">
                                 <span>Collections</span>
-                                <i class="fi fi-ss-angle-small-up mr-2" v-if="collection"></i>
-                                <i class="fi fi-ss-angle-small-down mr-2" v-if="!collection"></i>
+                                <i class="fi fi-rr-angle-small-up mr-2" v-if="collection"></i>
+                                <i class="fi fi-rr-angle-small-down mr-2" v-if="!collection"></i>
                             </span>
                         </a>
                         <ul v-if="collection" class="dropdown-menu">
                             <li>
                                 <router-link :to="{name:'collection-groups'}" class="dropdown-item">
-                                    Groups
+                                    <i class="fi fi-rr-folders mr-2"></i> Groups
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'collection-images'}" class="dropdown-item">
-                                    Collection Images
+                                    <i class="ffi fi-rr-gallery mr-2"></i> Collection Images
                                 </router-link>
                             </li>
                         </ul>
@@ -159,49 +159,49 @@
 
                             <span class="group-hover:text-gray-700 flex justify-between w-full">
                                 <span>Configurations</span>
-                                <i class="fi fi-ss-angle-small-up mr-2" v-if="config"></i>
-                                <i class="fi fi-ss-angle-small-down mr-2" v-if="!config"></i>
+                                <i class="fi fi-rr-angle-small-up mr-2" v-if="config"></i>
+                                <i class="fi fi-rr-angle-small-down mr-2" v-if="!config"></i>
                             </span>
                         </a>
                         <ul v-if="config" class="dropdown-menu">
                             <li>
                                 <router-link :to="{ name: 'home-sliders' }" class="dropdown-item">
-                                    Home Sliders
+                                    <i class="fi fi-rr-circle-h mr-2"></i> Home Sliders
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'components' }" class="dropdown-item">
-                                    Components
+                                    <i class="fi fi-rs-puzzle-piece mr-2"></i> Components
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'category-component-sliders' }" class="dropdown-item">
-                                    Category Sliders
+                                    <i class="fi fi-rr-settings-sliders mr-2"></i> Category Sliders
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'brands' }" class="dropdown-item">
-                                    Brands
+                                   <i class="fi fi-rr-circle-b mr-2"></i> Brands
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'genders' }" class="dropdown-item">
-                                    Genders
+                                   <i class="fi fi-rr-venus-mars mr-2"></i> Genders
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'sizes' }" class="dropdown-item">
-                                    Sizes
+                                   <i class="fi fi-rr-ruler-combined mr-2"></i> Sizes
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'colors' }" class="dropdown-item">
-                                    Colors
+                                   <i class="fi fi-rr-palette mr-2"></i> Colors
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'styles' }" class="dropdown-item">
-                                    Styles
+                                   <i class="fi fi-rr-circle-s mr-2"></i> Styles
                                 </router-link>
                             </li>
                         </ul>
@@ -213,24 +213,24 @@
 
                             <span class="group-hover:text-gray-700 flex justify-between w-full">
                                 <span>Control Panel</span>
-                                <i class="fi fi-ss-angle-small-up mr-2" v-if="control"></i>
-                                <i class="fi fi-ss-angle-small-down mr-2" v-if="!control"></i>
+                                <i class="fi fi-rr-angle-small-up mr-2" v-if="control"></i>
+                                <i class="fi fi-rr-angle-small-down mr-2" v-if="!control"></i>
                             </span>
                         </a>
                         <ul v-if="control" class="dropdown-menu">
                             <li>
                                 <router-link :to="{name:'seo'}" class="dropdown-item">
-                                    SEO
+                                    <i class="fi fi-rr-site mr-2"></i> SEO
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'product-review'}" class="dropdown-item">
-                                    Product Reviews
+                                    <i class="fi fi-rr-star-sharp-half-stroke mr-2"></i> Product Reviews
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'coupon'}" class="dropdown-item">
-                                    Coupons
+                                    <i class="fi fi-rr-scissors mr-2"></i> Coupons
                                 </router-link>
                             </li>
                         </ul>
@@ -242,19 +242,19 @@
 
                             <span class="group-hover:text-gray-700 flex justify-between w-full">
                                 <span>Blogs</span>
-                                <i class="fi fi-ss-angle-small-up mr-2" v-if="blog"></i>
-                                <i class="fi fi-ss-angle-small-down mr-2" v-if="!blog"></i>
+                                <i class="fi fi-rr-angle-small-up mr-2" v-if="blog"></i>
+                                <i class="fi fi-rr-angle-small-down mr-2" v-if="!blog"></i>
                             </span>
                         </a>
                         <ul v-if="blog" class="dropdown-menu">
                             <li>
                                 <a href="#" class="dropdown-item">
-                                    Categories
+                                    <i class="fi fi-rr-chart-tree mr-2"></i> Categories
                                 </a>
                             </li>
                             <li>
                                 <a href="#" class="dropdown-item">
-                                    Posts
+                                    <i class="fi fi-rr-paper-plane mr-2"></i> Posts
                                 </a>
                             </li>
                         </ul>
@@ -266,19 +266,19 @@
 
                             <span class="group-hover:text-gray-700 flex justify-between w-full">
                                 <span>User Management</span>
-                                <i class="fi fi-ss-angle-small-up mr-2" v-if="user"></i>
-                                <i class="fi fi-ss-angle-small-down mr-2" v-if="!user"></i>
+                                <i class="fi fi-rr-angle-small-up mr-2" v-if="user"></i>
+                                <i class="fi fi-rr-angle-small-down mr-2" v-if="!user"></i>
                             </span>
                         </a>
                         <ul v-if="user" class="dropdown-menu">
                             <li>
                                 <a href="#" class="dropdown-item">
-                                    Users
+                                    <i class="fi fi-rs-users-alt mr-2"></i> Users
                                 </a>
                             </li>
                             <li>
                                 <a href="#" class="dropdown-item">
-                                    Roles
+                                   <i class="fi fi-rr-lock mr-2"></i> Roles
                                 </a>
                             </li>
                         </ul>
