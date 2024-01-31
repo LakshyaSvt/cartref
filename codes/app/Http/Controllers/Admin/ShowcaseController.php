@@ -14,7 +14,7 @@ class ShowcaseController extends Controller
         /* Query Parameters */
         $keyword = request()->keyword;
         $status = request()->status;
-        $show_deleted = (int) request()->show_deleted;
+        $show_deleted = (int)request()->show_deleted;
         //$sub_category_id = request()->sub_category_id;
         //$seller_id = request()->seller_id;
         $rows = request()->row_count ?? 25;
@@ -47,11 +47,13 @@ class ShowcaseController extends Controller
                         ->orWhere('pickup_city', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('pickup_state', 'LIKE', '%' . $keyword . '%');
 
-                    //$query->orWhereHas('product', function ($query) use ($keyword) {
-                    //    $query->orWhere('name', 'LIKE', '%' . $keyword . '%');
-                    //    $query->orWhere('slug', 'LIKE', '%' . $keyword . '%');
-                    //    $query->orWhere('brand_id', 'LIKE', '%' . $keyword . '%');
-                    //});
+                    $query->orWhereHas('product', function ($query) use ($keyword) {
+                        $query->where(function ($query) use ($keyword) {
+                            $query->orWhere('name', 'LIKE', '%' . $keyword . '%');
+                            $query->orWhere('slug', 'LIKE', '%' . $keyword . '%');
+                            $query->orWhere('brand_id', 'LIKE', '%' . $keyword . '%');
+                        });
+                    });
                 });
             })
             ->latest()
@@ -88,7 +90,8 @@ class ShowcaseController extends Controller
         ]);
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $showcase = Showcase::findOrFail($id);
         $showcase->delete();
 
