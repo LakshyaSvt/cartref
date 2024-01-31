@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
 use App\Order;
 use App\Productcolor;
+use App\Showcase;
 use Illuminate\Http\Request;
 
 class ShowcaseController extends Controller
@@ -21,10 +22,10 @@ class ShowcaseController extends Controller
         $rows = request()->row_count ?? 25;
 
         if ($rows == 'all') {
-            $rows = Order::count();
+            $rows = Showcase::count();
         }
         /* Query Builder */
-        $products = Order::with('product', 'vendor', 'subcategory', 'productcolor')
+        $products = Showcase::with('product', 'vendor', 'deliveryboy', 'deliveryhead')
             ->when(isset($status), function ($query) use ($status) {
                 $query->where('order_status', $status);
             })
@@ -71,7 +72,7 @@ class ShowcaseController extends Controller
 
     public function fetchOrder(Request $request, $id)
     {
-        $product = Order::with('sizes', 'colors')->findOrFail($id)->append('json_images');
+        $product = Showcase::with('sizes', 'colors')->findOrFail($id)->append('json_images');
         //Response
         return new ApiResource($product);
     }
@@ -82,7 +83,7 @@ class ShowcaseController extends Controller
             'status' => ['required'],
         ]);
         $status = $request->status;
-        $product = Order::findOrFail($id);
+        $product = Showcase::findOrFail($id);
         $product->update(['admin_status' => $status]);
 
         if ($status == 'Accepted') {
@@ -98,7 +99,7 @@ class ShowcaseController extends Controller
 
     public function fetchProductColors(Request $request, $id)
     {
-        $product = Order::findOrFail($id);
+        $product = Showcase::findOrFail($id);
         $colors = Productcolor::where('product_id', $product->id)->get();
         //Response
         return new ApiResource(['colors' => $colors, 'product' => $product]);

@@ -161,48 +161,58 @@
                         {{ pagination.from || '0' }} - {{ pagination.to || '0' }} of {{ pagination.total || '0' }}
                      </div>
                      <div>
-                        <button :disabled="!pagination.prev_page_url" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50"
+                        <button :disabled="!pagination.prev_page_url" @click="fetchShowcases(pagination.prev_page_url)"
                                 title="Previous"
-                                @click="fetchShowcases(pagination.prev_page_url)">
+                                class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
                            <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
                         </button>
-                        <button :disabled="!pagination.next_page_url" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50"
-                                title="Next" @click="fetchShowcases(pagination.next_page_url)">
+                        <button :disabled="!pagination.next_page_url" @click="fetchShowcases(pagination.next_page_url)"
+                                title="Next" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
                            <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
                         </button>
                      </div>
                   </div>
-                  <div class="flex items-center gap-2">
+                  <div class="flex flex-wrap items-center gap-2">
                      <div class="relative">
-                        <select class="filter-dropdown" title="Status">
-                           <option class="bg-gray-100" value="">Select Status</option>
-                           <option class="bg-gray-100" value="1">Yet to Process!</option>
-                           <option class="bg-gray-100" value="2">Yet to Ship!</option>
-                           <option class="bg-gray-100" value="3">Yet to Deliver!</option>
-                           <option class="bg-gray-100" value="4">Delivered!</option>
-                           <option class="bg-gray-100" value="close">Close Order</option>
+                        <select title="Status" v-model="status" @change="fetchShowcases()"
+                                class="block appearance-none w-32 leading-tight h-full cursor-pointer text-black bg-white border border-gray-400 focus:outline-none hover:shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-none font-medium rounded-lg text-sm px-3 py-2">
+                           <option class="bg-gray-100" value="">All</option>
+                           <option class="bg-gray-100" value="New Order">New Order</option>
+                           <option class="bg-gray-100" value="Accepted">Accepted</option>
+                           <option class="bg-gray-100" value="Non Acceptance">Non Acceptance</option>
+                           <option class="bg-gray-100" value="Cancelled">Cancelled</option>
+                           <option class="bg-gray-100" value="Showcased">Showcased</option>
+                           <option class="bg-gray-100" value="Out For Showcase">Out For Showcase</option>
+                           <option class="bg-gray-100" value="Moved to Bag">Moved to Bag</option>
+                           <option class="bg-gray-100" value="Purchased">Purchased</option>
                         </select>
-                        <div
-                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                            <i class="fi fi-ss-angle-small-down text-xl w-5 h-6 ml-1"></i>
                         </div>
                      </div>
-                     <label class="sr-only" for="table-search">Search</label>
+                     <label for="table-search" class="sr-only">Search</label>
                      <div class="relative">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer"
+                             @click="keyword = ''; fetchShowcases();" v-if="keyword">
+                           <i class="fi fi-rr-cross-small mr-1"></i>
+                        </div>
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none" v-else>
                            <i class="fi fi-rr-search mr-1"></i>
                         </div>
-                        <input class="search" placeholder="Search for users" type="text">
+                        <input type="text" v-model="keyword" class="search" placeholder="Search"
+                               @keydown.enter="fetchShowcases()">
                      </div>
                      <div class="flex border border-gray-600 rounded-lg bg-white">
-                        <button class="px-2 py-1 m-[2px] hover:bg-gray-100 border-r border-solid cursor-pointer">
+                        <button class="px-2 py-1 m-[2px] hover:bg-primary-100 border-r border-solid cursor-pointer"
+                                @click="fetchShowcases()">
                            <i class="ffi fi-rr-refresh mr-1"></i>
                         </button>
-                        <select
-                            class="w-12 block px-1 m-[2px] text-sm text-gray-900 bg-white hover:bg-gray-100 cursor-pointer"
-                            placeholder="Search for users">
-                           <option value="">25</option>
-                           <option value="">50</option>
+                        <select class="w-14 block px-1 m-[2px] text-base text-center text-gray-900 bg-white cursor-pointer"
+                                @change="fetchShowcases()" v-model="row_count">
+                           <option :value="count.toLowerCase()" v-for="(count, index) in $store.state.row_counts" :key="index"
+                                   class="bg-white">
+                              {{ count }}
+                           </option>
                         </select>
                      </div>
                   </div>
@@ -260,17 +270,19 @@
                            </div>
                         </div>
                         <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">{{ pagination.from + index }}</div>
-                        <div class="table-cell border-t border-l border-gray-500 text-sm px-6 text-center w-28 relative">{{ showcase.order_id }}</div>
+                        <div class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-4 text-center">{{ showcase.order_id }}</div>
                         <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1" v-html="formDateTime(showcase.created_at)"></div>
                         <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-left py-1">
                            <div v-if="showcase.product" class="flex gap-2 max-w-xl">
                               <div class="flex gap-1 items-center text-start text-gray-900 whitespace-nowrap dark:text-white w-[70%]">
-                                 <img :src="$store.state.storageUrl + showcase.product.image" alt="product-img"
+                                 <img :src="$store.state.storageUrl + showcase.color_image" alt="product-img"
                                       class="w-14 h-14 border rounded-[50%]"
-                                      @click="imageModal($store.state.storageUrl + showcase.product.image)">
+                                      @click="imageModal($store.state.storageUrl + showcase.color_image)">
                                  <div class="pl-2 w-4/5">
-                                    <div :title="showcase.product?.name" class="text-base font-medium overflow-hidden whitespace-nowrap text-ellipsis">
-                                       {{ showcase.product.name ?? '-' }}
+                                    <div :title="showcase.product?.name" class="text-base font-medium overflow-hidden whitespace-nowrap text-ellipsis hover:underline">
+                                       <a :href="'/product/'+showcase.color_link" target="_blank">
+                                          {{ showcase.product.name ?? '-' }}
+                                       </a>
                                     </div>
                                     <div class="font-normal text-gray-800">{{ showcase.size }}</div>
                                     <div class="font-normal text-gray-800">{{ showcase.color }}</div>
@@ -341,25 +353,30 @@
                               </p>
                            </div>
                         </div>
-                        <div class="table-cell border-t border-l border-gray-500 text-sm p-1 pb-4 text-left">
+                        <div class="table-cell border-t border-l border-gray-500 text-sm p-1 pb-4 text-left whitespace-nowrap">
                            <div class="flex flex-col gap-2">
-                              <div class="font-semibold text-gray-900">{{ showcase.order_status }}</div>
+                              <div :class="'font-semibold '+showcase.status_color_class">{{ showcase.new_order_status }}</div>
                               <div v-if="showcase.order_substatus" class="font-normal text-gray-800">{{ showcase.order_substatus }}</div>
                            </div>
-                           <div v-if="showcase.deliveryboy_id && showcase.deliveryboy" class="flex items-center gap-2">
-                              <div class="font-semibold">Delivery Boy:</div>
+                           <div class="flex flex-wrap gap-1 text-base text-red-500" v-if="Number(showcase.nac_charges) > 0" >
+                              <div class="font-semibold" title="Non Acceptance charges (10.35%)">NAC :-</div>
+                              <div class="font-normal">₹{{ Number(showcase.nac_charges) }}/-</div>
+                           </div>
+                           <div v-if="showcase.deliveryboy_id && showcase.deliveryboy" class="flex flex-wrap items-center gap-1">
+                              <div class="font-semibold">Delivery Boy :</div>
                               <div class="font-normal text-gray-800">{{ showcase.deliveryboy.name }}</div>
                            </div>
-                           <div v-else class="flex items-center gap-2">
+                           <div v-else class="flex flex-wrap items-center gap-1">
                               <div class="font-semibold">Not Assigned</div>
                            </div>
-                           <div v-if="showcase.deliveryhead_id && showcase.deliveryhead" class="flex items-center gap-2">
-                              <div class="font-semibold">Delivery Boy:</div>
+                           <div v-if="showcase.deliveryhead_id && showcase.deliveryhead" class="flex flex-wrap items-center gap-1">
                               <div class="font-normal text-gray-800">
-                                 <a :href="'tel:'+showcase.deliveryhead?.mobile">{{ showcase.deliveryhead?.mobile }}</a>
+                                 <a :href="'tel:'+showcase.deliveryhead?.mobile">
+                                    <i class="fi fi-sr-phone-flip"></i> +91 {{ showcase.deliveryhead?.mobile }}
+                                 </a>
                               </div>
                            </div>
-                           <div v-else class="flex items-center gap-2">
+                           <div v-else class="flex flex-wrap items-center gap-2">
                               <div class="font-semibold">Not Assigned</div>
                            </div>
                         </div>
@@ -381,7 +398,7 @@
                         </div>
                      </div>
                   </div>
-                  <div class="flex items-center justify-between py-4">
+                  <div class="flex flex-wrap items-center justify-between py-4">
                      <div>
                         <p class="text-base text-gray-700">
                            Showing
