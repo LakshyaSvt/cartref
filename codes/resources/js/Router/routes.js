@@ -26,6 +26,7 @@ import Colors from "@pages/Colors.vue";
 import Seo from "@pages/Seo.vue";
 import ProductReview from "@pages/ProductReview.vue";
 import Coupon from "@pages/Coupon.vue";
+import User from "@pages/User.vue";
 import Role from "@pages/Role.vue";
 import Announcement from "@pages/Announcement.vue";
 import Wishlist from "@pages/Wishlist.vue";
@@ -191,6 +192,11 @@ const routes = [
     },
 
     /*User Management*/
+    {
+        name: 'user',
+        path: '/admin/user/user',
+        component: User,
+    },
     {
         name: 'role',
         path: '/admin/user/role',

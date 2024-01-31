@@ -278,9 +278,9 @@
                   </a>
                   <ul v-if="user" class="dropdown-menu">
                      <li>
-                        <a class="dropdown-item" href="#">
+                        <router-link :to="{name:'user'}" class="dropdown-item">
                            <i class="fi fi-rs-users-alt mr-2"></i> Users
-                        </a>
+                        </router-link>
                      </li>
                      <li>
                         <router-link :to="{name:'role'}" class="dropdown-item">
