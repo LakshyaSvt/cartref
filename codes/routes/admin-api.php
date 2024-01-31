@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\HomeSliderController;
 use App\Http\Controllers\Admin\NewsLetterController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductReviewController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\ShowcaseController;
 use App\Http\Controllers\Admin\SizeController;
@@ -29,15 +30,12 @@ use App\Http\Controllers\Admin\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::resource('/user', UserController::class);
-
-    /* Showcases */
+    /* Showcase Orders */
     Route::get('/showcase', [ShowcaseController::class, 'index']);
     Route::get('/showcase/count', [ShowcaseController::class, 'getShowcaseCount']);
     Route::delete('/showcase/{id}', [ShowcaseController::class, 'delete']);
-
+    /* Deliverable Service Area */
     Route::resource('/delivery-area', DeliveryAreasController::class);
-
     /* Vendor Management */
     Route::resource('/vendor', VendorController::class);
     Route::resource('/vendor-payment', VendorPaymentController::class);
@@ -63,9 +61,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     /* Cart and Wishlist */
     Route::get('/wishlist', [WishlistController::class, 'fetchWishlists']);
     Route::get('/cart', [CartController::class, 'fetchCarts']);
+    /* User Management */
+    Route::resource('/user', UserController::class);
+    Route::resource('/role', RoleController::class);
     /* Announcement */
     Route::resource('/announcement', AnnouncementController::class);
-
 
     /*Product Management */
     Route::resource('/category', CategoryController::class);

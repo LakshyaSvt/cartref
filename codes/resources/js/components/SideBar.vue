@@ -283,9 +283,9 @@
                         </a>
                      </li>
                      <li>
-                        <a class="dropdown-item" href="#">
+                        <router-link :to="{name:'role'}" class="dropdown-item">
                            <i class="fi fi-rr-lock mr-2"></i> Roles
-                        </a>
+                        </router-link>
                      </li>
                   </ul>
                </li>

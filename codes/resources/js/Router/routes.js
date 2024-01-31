@@ -26,6 +26,7 @@ import Colors from "@pages/Colors.vue";
 import Seo from "@pages/Seo.vue";
 import ProductReview from "@pages/ProductReview.vue";
 import Coupon from "@pages/Coupon.vue";
+import Role from "@pages/Role.vue";
 import Announcement from "@pages/Announcement.vue";
 import Wishlist from "@pages/Wishlist.vue";
 import Cart from "@pages/Cart.vue";
@@ -187,6 +188,13 @@ const routes = [
         name: 'announcement',
         path: '/admin/control/announcement',
         component: Announcement,
+    },
+
+    /*User Management*/
+    {
+        name: 'role',
+        path: '/admin/user/role',
+        component: Role,
     },
 
     /* Cart & Wishlist */
