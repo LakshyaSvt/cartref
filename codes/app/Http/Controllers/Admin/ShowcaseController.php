@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
-use App\Order;
-use App\Productcolor;
 use App\Showcase;
 use Illuminate\Http\Request;
 
@@ -16,7 +14,7 @@ class ShowcaseController extends Controller
         /* Query Parameters */
         $keyword = request()->keyword;
         $status = request()->status;
-        //$parent_category_id = request()->parent_category_id;
+        $show_deleted = (int) request()->show_deleted;
         //$sub_category_id = request()->sub_category_id;
         //$seller_id = request()->seller_id;
         $rows = request()->row_count ?? 25;
@@ -25,19 +23,13 @@ class ShowcaseController extends Controller
             $rows = Showcase::count();
         }
         /* Query Builder */
-        $products = Showcase::with('product', 'vendor', 'deliveryboy', 'deliveryhead')
+        $orders = Showcase::with('product', 'vendor', 'deliveryboy', 'deliveryhead')
             ->when(isset($status), function ($query) use ($status) {
                 $query->where('order_status', $status);
             })
-            //->when(isset($parent_category_id), function ($query) use ($parent_category_id) {
-            //    $query->where('category_id', $parent_category_id);
-            //})
-            //->when(isset($sub_category_id), function ($query) use ($sub_category_id) {
-            //    $query->where('subcategory_id', $sub_category_id);
-            //})
-            //->when(isset($seller_id), function ($query) use ($seller_id) {
-            //    $query->where('seller_id', $seller_id);
-            //})
+            ->when($show_deleted, function ($query) {
+                $query->onlyTrashed();
+            })
             ->when(isset($keyword), function ($query) use ($keyword) {
                 $query->where(function ($query) use ($keyword) {
                     $query->orWhere('order_id', 'LIKE', '%' . $keyword . '%')
@@ -45,7 +37,7 @@ class ShowcaseController extends Controller
                         ->orWhere('product_sku', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('size', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('color', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('product_offerprice', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('order_value', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('customer_name', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('customer_email', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('customer_alt_contact_number', 'LIKE', '%' . $keyword . '%')
@@ -53,63 +45,53 @@ class ShowcaseController extends Controller
                         ->orWhere('pickup_streetaddress2', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('pickup_pincode', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('pickup_city', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('pickup_state', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('style_id', 'LIKE', '%' . $keyword . '%');
+                        ->orWhere('pickup_state', 'LIKE', '%' . $keyword . '%');
 
-                    $query->orWhereHas('product', function ($query) use($keyword){
-                        $query->orWhere('name','LIKE','%'.$keyword.'%');
-                        $query->orWhere('slug','LIKE','%'.$keyword.'%');
-                        $query->orWhere('brand_id','LIKE','%'.$keyword.'%');
-                    });
+                    //$query->orWhereHas('product', function ($query) use ($keyword) {
+                    //    $query->orWhere('name', 'LIKE', '%' . $keyword . '%');
+                    //    $query->orWhere('slug', 'LIKE', '%' . $keyword . '%');
+                    //    $query->orWhere('brand_id', 'LIKE', '%' . $keyword . '%');
+                    //});
                 });
             })
             ->latest()
             ->paginate($rows);
 
         //Response
-        return new ApiResource($products);
+        return new ApiResource($orders);
     }
 
-    public function fetchOrder(Request $request, $id)
+    public function getShowcaseCount()
     {
-        $product = Showcase::with('sizes', 'colors')->findOrFail($id)->append('json_images');
-        //Response
-        return new ApiResource($product);
-    }
 
-    public function updateProductStatus(Request $request, $id)
-    {
-        $request->validate([
-            'status' => ['required'],
+        $showcases = Showcase::get();
+        $new_order = $showcases->where('order_status', 'New Order')->count();
+        $accepted = $showcases->whereIn('order_status', ['Accepted'])->count();
+        $non_acceptance = $showcases->where('is_order_accepted', false)->whereIn('order_status', ['Non Acceptance'])->count();
+        $pickup = $showcases->where('order_status', 'Out For Showcase')->count();
+        $handover = $showcases->whereIn('order_status', ['Showcased', 'Moved to Bag'])->count();
+        $purchased = $showcases->where('order_status', 'Purchased')->count();
+        $returned = $showcases->where('order_status', 'Returned')->count();
+        $cancelled = $showcases->where('order_status', 'Cancelled')->count();
+        $all = $showcases->count();
+
+        return response()->json([
+            'new_order' => $new_order,
+            'accepted' => $accepted,
+            'non_acceptance' => $non_acceptance,
+            'pickup' => $pickup,
+            'handover' => $handover,
+            'purchased' => $purchased,
+            'returned' => $returned,
+            'cancelled' => $cancelled,
+            'all' => $all
         ]);
-        $status = $request->status;
-        $product = Showcase::findOrFail($id);
-        $product->update(['admin_status' => $status]);
-
-        if ($status == 'Accepted') {
-            $status = 'success';
-            $msg = 'Product Published Successfully';
-        } else {
-            $status = 'warning';
-            $msg = 'Product Unpublished Successfully';
-        }
-        //Response
-        return new ApiResource(['status' => $status, 'msg' => $msg]);
     }
 
-    public function fetchProductColors(Request $request, $id)
-    {
-        $product = Showcase::findOrFail($id);
-        $colors = Productcolor::where('product_id', $product->id)->get();
-        //Response
-        return new ApiResource(['colors' => $colors, 'product' => $product]);
-    }
+    public function delete($id){
+        $showcase = Showcase::findOrFail($id);
+        $showcase->delete();
 
-    public function fetchProductColor(Request $request, $id)
-    {
-        $color = Productcolor::findOrFail($id)->append('json_more_images');
-        //Response
-        return new ApiResource($color);
+        return response()->json(['status' => 'success', 'msg' => $showcase->order_id . ' Deleted Successfully']);
     }
-
 }

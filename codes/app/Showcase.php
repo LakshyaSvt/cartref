@@ -5,11 +5,14 @@ namespace App;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 
 class Showcase extends Model
 {
+
+    use SoftDeletes;
 
     protected $fillable = ['order_status', 'status', 'showcase_timer', 'is_timer_extended', 'is_discount_applied'];
 
@@ -137,7 +140,7 @@ class Showcase extends Model
     public function getStatusColorClassAttribute()
     {
         if ($this->order_status == 'Non Acceptance') {
-            return 'text-red-600 text-base';
+            return 'text-red-600 text-xl';
         }
         if ($this->order_status == 'Under manufacturing') {
             return 'text-orange-500';

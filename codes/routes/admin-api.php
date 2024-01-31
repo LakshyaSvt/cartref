@@ -32,8 +32,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('/user', UserController::class);
 
     /* Showcases */
-    Route::resource('/showcase', ShowcaseController::class);
+    Route::get('/showcase', [ShowcaseController::class, 'index']);
+    Route::get('/showcase/count', [ShowcaseController::class, 'getShowcaseCount']);
+    Route::delete('/showcase/{id}', [ShowcaseController::class, 'delete']);
+
     Route::resource('/delivery-area', DeliveryAreasController::class);
+
     /* Vendor Management */
     Route::resource('/vendor', VendorController::class);
     Route::resource('/vendor-payment', VendorPaymentController::class);
