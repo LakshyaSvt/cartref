@@ -72,9 +72,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('/sub-category', SubCategoryController::class);
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'fetchProducts']);
+        Route::post('/edit-or-create', [ProductController::class, 'editOrCreateProduct']);
         Route::get('/{id}', [ProductController::class, 'fetchProduct']);
         Route::put('/{id}', [ProductController::class, 'updateProductStatus']);
         Route::get('/{id}/colors', [ProductController::class, 'fetchProductColors']);
+        Route::post('/delete-image', [ProductController::class, 'deleteProductImage']);
+        Route::post('/upload-images', [ProductController::class, 'uploadProductImages']);
 
         Route::get('color/{id}', [ProductController::class, 'fetchProductColor']);
         Route::put('color/{id}', [ProductController::class, 'updateProductColorStatus']);

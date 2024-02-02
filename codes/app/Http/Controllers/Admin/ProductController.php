@@ -9,6 +9,7 @@ use App\Http\Resources\ApiResource;
 use App\Models\Product;
 use App\Productcolor;
 use App\Productsku;
+use App\Size;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -41,8 +42,8 @@ class ProductController extends Controller
                 $query->where('seller_id', $seller_id);
             })
             ->when(isset($keyword), function ($query) use ($keyword) {
-                $query->where(function ($query1) use ($keyword) {
-                    $query1->orWhere('name', 'LIKE', '%' . $keyword . '%')
+                $query->where(function ($query) use ($keyword) {
+                    $query->orWhere('name', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('slug', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('sku', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('product_tags', 'LIKE', '%' . $keyword . '%')
@@ -57,9 +58,132 @@ class ProductController extends Controller
         return new ApiResource($products);
     }
 
+    public function editOrCreateProduct(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'slug' => "required|unique:products,slug,{$request->id}",
+            'sku' => "required|unique:products,sku,{$request->id}",
+            'description' => 'required',
+            'features' => 'required',
+            'category_id' => 'required|exists:product_categories,id',
+            'subcategory_id' => 'required|exists:product_subcategories,id',
+            'offer_price' => 'required|numeric',
+            'mrp' => 'required|numeric',
+            'length' => 'required|numeric|min:0.5',
+            'breadth' => 'required|numeric|min:0.5',
+            'height' => 'required|numeric|min:0.5',
+            'weight' => 'required|numeric|min:0.5',
+            //'size_guide' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $product = Product::with('sizes', 'colors')->find($request->id);
+        $msg = 'Product updated successfully';
+        if (!isset($product)) {
+            $product = new Product;
+            $msg = 'Product added successfully';
+        }
+        $product->name = $request->name;
+        $product->slug = $request->slug;
+        $product->sku = $request->sku;
+
+        $product->mrp = (float)$request->mrp;
+        $product->offer_price = (float)$request->offer_price;
+
+        $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
+        $product->brand_id = $request->brand_id;
+        $product->style_id = $request->style_id;
+        $product->occasion_id = $request->occasion_id;
+        $product->gender_id = $request->gender_id;
+
+        $product->length = $request->length;
+        $product->breadth = $request->breadth;
+        $product->height = $request->height;
+        $product->weight = $request->weight;
+
+        $product->features = $request->features;
+        $product->flash_sale = $request->flash_sale;
+        $product->specifications = $request->specifications;
+        $product->description = $request->description;
+        $product->product_tags = $request->product_tags;
+
+        $product->image = $request->image;
+        $product->images = ($request->json_images);
+
+        $product->seller_id = $request->seller_id;
+        $product->admin_comments = $request->admin_comments;
+        $product->admin_status = $request->admin_status;
+        $product->save();
+
+        //colors
+        if (isset($request->multi_selected_colors)) {
+            $colors = json_decode($request->multi_selected_colors);
+            $product->colors()->sync([]);
+            foreach ($colors as $color) {
+                $color = trim($color);
+                $item = Color::where('status', 1)->where('name', 'LIKE', '%' . $color . '%')->first();
+                if (isset($item)) {
+                    $product->colors()->attach($item->id);
+                }
+            }
+        }
+
+        //sizes
+        if (isset($request->multi_selected_sizes)) {
+            $sizes = json_decode($request->multi_selected_sizes);
+            $product->sizes()->sync([]);
+            foreach ($sizes as $size) {
+                $size = trim($size);
+                $item = Size::where('status', 1)->where('name', 'LIKE', '%' . $size . '%')->first();
+                if (isset($item)) {
+                    $product->sizes()->attach($item->id);
+                }
+            }
+        }
+
+        /* Creat Skus */
+        $productSku = new Product();
+        $productSku->createskus($product->id);
+        $productSku->createcolors($product->id);
+        /* Creat Skus */
+
+        return response()->json(['status' => 'success', 'msg' => $msg, 'data' => $product]);
+    }
+
+    public function deleteProductImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required'
+        ]);
+        $image = $request->image;
+        if (FileHandler::delete($image)) {
+            return response()->json(['status' => 'success', 'msg' => 'Image deleted successfully']);
+        }
+        return response()->json(['status' => 'warning', 'msg' => 'Image not found']);
+    }
+
+    public function uploadProductImages(Request $request)
+    {
+        $request->validate([
+            'images' => 'required'
+        ]);
+
+        $files = $request->file('images');
+        $json_images = [];
+
+        foreach ($files as $file) {
+            $uploadedPath = FileHandler::upload($file, 'products');
+            if ($uploadedPath) {
+                array_push($json_images, $uploadedPath);
+            }
+        }
+        return response()->json(['status' => 'success', 'msg' => 'Images uploaded successfully', 'data' => $json_images]);
+    }
+
     public function fetchProduct(Request $request, $id)
     {
-        $product = Product::with('sizes', 'colors')->findOrFail($id)->append('json_images');
+        $product = Product::with('sizes', 'colors')->findOrFail($id);
         //Response
         return new ApiResource($product);
     }
@@ -171,7 +295,6 @@ class ProductController extends Controller
         return response()->json(['status' => 'success', 'msg' => 'Images uploaded successfully']);
 
     }
-
 
     public function uploadMainImage(Request $request, $id)
     {

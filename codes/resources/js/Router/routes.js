@@ -8,7 +8,7 @@ import Products from "@pages/Products.vue";
 import ProductColors from "@pages/ProductColors.vue";
 import ProductSizes from "@pages/ProductSizes.vue";
 import ProductColorEdit from "@pages/ProductColorEdit.vue";
-import ProductEdit from "@pages/ProductEdit.vue";
+import ProductCreateOrEdit from "@pages/ProductCreateOrEdit.vue";
 import Vendors from '@pages/Vendors.vue';
 import VendorPayments from '@pages/VendorPayments.vue';
 import Contacts from "@pages/Contacts.vue";
@@ -63,7 +63,12 @@ const routes = [
     {
         name: 'product-edit',
         path: '/admin/products/:id/edit',
-        component: ProductEdit,
+        component: ProductCreateOrEdit,
+    },
+    {
+        name: 'product-create',
+        path: '/admin/products/create',
+        component: ProductCreateOrEdit,
     },
     {
         name: 'product-colors',

@@ -2,23 +2,22 @@
 
 namespace App\Models;
 
-use App\Size;
 use App\Brand;
 use App\Color;
 use App\Gender;
-use Carbon\Carbon;
-use App\Productsku;
+use App\ProductCategory;
 use App\Productcolor;
 use App\ProductReview;
-use App\ProductCategory;
+use App\Productsku;
 use App\ProductSubcategory;
+use App\Size;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use TCG\Voyager\Models\User;
 use TCG\Voyager\Traits\Resizable;
-use Illuminate\Support\Facades\Auth;
 use TCG\Voyager\Traits\Translatable;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -28,8 +27,26 @@ class Product extends Model
     use HasImpression;
 
     protected $translatable = ['name', 'description'];
-    protected $fillable = ['status'];
+    protected $fillable = ['name', 'image', 'images', 'admin_status'];
+    protected $appends = ['json_images'];
     protected $perPage = 50;
+
+    public static function subcategoryIdRelationship($id)
+    {
+
+        return
+            self::where('products.id', '=', $id)
+                // select field from both the tables
+                ->select('products.subcategory_id', 'product_categories.id as category_id')
+                // join subcategory sizes to size table
+                // ->join('product_subcategories', 'sizes.id', 'ps.size_id')
+                // ->whereIn('sizes.id', 'product_subcategories.size_id')
+                // join subcategory to product table
+                ->join('product_subcategories', 'products.subcategory_id', '=', 'product_subcategories.id')
+                // join category to subcategory table
+                ->join('product_categories', 'product_subcategories.category_id', '=', 'product_categories.id')
+                ->first();
+    }
 
     public function scopeRoleWise($query)
     {
@@ -86,42 +103,6 @@ class Product extends Model
         // return $query;
     }
 
-    public function save(array $options = [])
-    {
-        /**
-         * If vendor saves
-         * If the product is accepted (already approved)
-         * Then label as updated
-         */
-
-        if (auth()->user()->hasRole(['Vendor'])) {
-            if ($this->seller_id != null) {
-                $this->admin_status = 'Updated';
-            }
-        }
-
-
-        if (empty($this->category_id)) {
-            return redirect()->back()->with(['error', 'Category not selected']);
-        }
-
-        if (empty($this->subcategory_id)) {
-            return redirect()->back()->with(['error', 'Subcategory not selected']);
-        }
-
-        // If no author has been assigned, assign the current user's id as the author of the post
-        if (!$this->created_by && Auth::user()) {
-            $this->created_by = Auth::user()->id;
-        }
-
-        if (!$this->seller_id && Auth::user()) {
-            $this->seller_id = Auth::user()->id;
-        }
-
-        parent::save();
-
-    }
-
     public function createskus($id)
     {
         /**
@@ -141,7 +122,6 @@ class Product extends Model
                      * Else create new sku
                      */
                     $skus = Productsku::where('product_id', $id)->where('size', $size->name)->where('color', $color->name)->first();
-
 
 
                     if (!empty($skus)) {
@@ -302,6 +282,42 @@ class Product extends Model
 
     }
 
+    public function save(array $options = [])
+    {
+        /**
+         * If vendor saves
+         * If the product is accepted (already approved)
+         * Then label as updated
+         */
+
+        if (auth()->user()->hasRole(['Vendor'])) {
+            if ($this->seller_id != null) {
+                $this->admin_status = 'Updated';
+            }
+        }
+
+
+        if (empty($this->category_id)) {
+            return redirect()->back()->with(['error', 'Category not selected']);
+        }
+
+        if (empty($this->subcategory_id)) {
+            return redirect()->back()->with(['error', 'Subcategory not selected']);
+        }
+
+        // If no author has been assigned, assign the current user's id as the author of the post
+        if (!$this->created_by && Auth::user()) {
+            $this->created_by = Auth::user()->id;
+        }
+
+        if (!$this->seller_id && Auth::user()) {
+            $this->seller_id = Auth::user()->id;
+        }
+
+        parent::save();
+
+    }
+
     public function createcolors($id)
     {
         /**
@@ -347,28 +363,7 @@ class Product extends Model
         }
 
 
-
-
     }
-
-    public static function subcategoryIdRelationship($id)
-    {
-
-        return
-            self::where('products.id', '=', $id)
-                // select field from both the tables
-                ->select('products.subcategory_id', 'product_categories.id as category_id')
-                // join subcategory sizes to size table
-                // ->join('product_subcategories', 'sizes.id', 'ps.size_id')
-                // ->whereIn('sizes.id', 'product_subcategories.size_id')
-                // join subcategory to product table
-                ->join('product_subcategories', 'products.subcategory_id', '=', 'product_subcategories.id')
-                // join category to subcategory table
-                ->join('product_categories', 'product_subcategories.category_id', '=', 'product_categories.id')
-                ->first();
-    }
-
-
 
     public function productsku()
     {
@@ -437,7 +432,9 @@ class Product extends Model
     {
         return $this->belongsTo(ProductSubcategory::class, 'subcategory_id');
     }
-    public function getJsonImagesAttribute(){
+
+    public function getJsonImagesAttribute()
+    {
         return json_decode($this->images) ?? [];
     }
 
