@@ -386,13 +386,14 @@ class Order extends Model
         $newDiff = round((strtotime($modified) - time()) / 3600, 0);
 
         if ($hourDiff > 36 && ($this->order_status == 'New Order' || $this->order_status == 'Under Manufacturing')) {
-            return '<span class="text-red-500 font-bold text-base">LATE SHIPMENT <br>LPF: '
+            return
+                '<span class="text-red-500 font-bold text-sm">LATE SHIPMENT <br>LPF: '
                 . round($this->product_offerprice * 0.1035, 0) . '/- </span>';
 
         } else if ($hourDiff < 36 && ($this->order_status == 'New Order' || $this->order_status == 'Under Manufacturing')) {
             return
-                '<span class="text-green-500 font-semibold text-base">
-                    Please dispatch your order on or before ' . $modified->format('jS M, Y H:i A') . ' to avoid a late processing fees </span>';
+                '<span class="text-green-600 font-semibold text-sm">
+                    ~ Please dispatch your order on or before ' . $modified->format('jS M, Y H:i A') . ' to avoid a late processing fees </span>';
         }
 
         return null;

@@ -1,9 +1,30 @@
 <template>
    <div>
+      <Wait :show="loading"/>
       <div class="container mx-auto my-2 px-4">
          <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
             <i class="fi fi-rr-boxes"></i>
             <h3 class="text-start my-8">Orders</h3>
+            <button v-if="isSchedulePickup" class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-amber-500 hover:bg-amber-600"
+                    @click="$router.go(-1)">
+               <i class="fi fi-rr-truck-moving text-base w-4 h-5"></i>
+               Schedule Pickup
+            </button>
+            <button v-if="isGenerateLabel" class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-primary-500 hover:bg-primary-600"
+                    @click="$router.go(-1)">
+               <i class="fi fi-rr-document text-base w-4 h-5"></i>
+               Generate Label
+            </button>
+            <button v-if="isMarkAsShipped" class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-green-500 hover:bg-green-600"
+                    @click="$router.go(-1)">
+               <i class="fi fi-rr-truck-moving text-base w-4 h-5"></i>
+               Mark as Shipped
+            </button>
+            <button v-if="isCancelShipment" class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-red-500 hover:bg-red-600"
+                    @click="$router.go(-1)">
+               <i class="fi fi-rr-cross-small text-base w-4 h-5"></i>
+               Cancel Shipment
+            </button>
          </div>
          <div class="bg-primary-200 p-2 md:p-4 overflow-x-auto shadow-md sm:rounded-lg my-4">
             <div class="flex justify-between px-2 md:px-4 py-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-12 lg:px-8 lg:py-4">
@@ -258,7 +279,7 @@
                         <div v-for="(order, index) in orders" :key="order.id" class="table-row table-body hover:bg-primary-100 bg-white">
                            <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
                               <div class="flex items-center">
-                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
+                                 <input v-model="selected_ids" :value="order.id" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" name="checkbox_input[]" type="checkbox">
                               </div>
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">{{ pagination.from + index }}</div>
@@ -313,9 +334,7 @@
                                  <div :class="'font-semibold text-base '+order.status_color_class">{{ order.order_status }}</div>
                                  <div v-if="order.order_substatus" class="font-semibold text-sm text-gray-800">{{ order.order_substatus }}</div>
                               </div>
-                              <div v-if="Number(order.late_fees) > 0" class="text-base" title="Late Shipment Fees">
-                                 <div v-html="order.late_fees"></div>
-                              </div>
+                              <div v-if="order.late_fees" class="my-1" title="Late Shipment Fees" v-html="order.late_fees"></div>
                               <p v-if="order.shipping_provider">~by {{ order.shipping_provider }}</p>
                               <div v-if="order.order_awb" class="flex flex-wrap my-1">
                                  <div>AWB:-</div>
@@ -454,7 +473,7 @@
          return {
             //csrf token
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            loading: false,
+            loading: true,
             dataLoading: true,
             showModal: false,
             order_count: {},
@@ -465,6 +484,69 @@
             status: '',
             row_count: this.$store.state.product_filter?.row_count,
             pagination: {},
+            selected_ids: [],
+         }
+      },
+      computed: {
+         isSchedulePickup() {
+            if (this.selected_ids.length <= 0) {
+               return false;
+            }
+            let statuses = ['New Order', 'Under Manufacturing'];
+            let flag = true;
+            this.orders
+                .filter(order => this.selected_ids.includes(order.id))
+                .forEach(order => {
+                   if (!statuses.includes(order.order_status)) {
+                      flag = false;
+                   }
+                })
+            return flag;
+         },
+         isGenerateLabel() {
+            if (this.selected_ids.length <= 0) {
+               return false;
+            }
+            let statuses = ['Scheduled For Pickup'];
+            let flag = true;
+            this.orders
+                .filter(order => this.selected_ids.includes(order.id))
+                .forEach(order => {
+                   if (!statuses.includes(order.order_status)) {
+                      flag = false;
+                   }
+                })
+            return flag;
+         },
+         isCancelShipment() {
+            if (this.selected_ids.length <= 0) {
+               return false;
+            }
+            let statuses = ['Scheduled For Pickup','Ready to Dispatch'];
+            let flag = true;
+            this.orders
+                .filter(order => this.selected_ids.includes(order.id))
+                .forEach(order => {
+                   if (!statuses.includes(order.order_status)) {
+                      flag = false;
+                   }
+                })
+            return flag;
+         },
+         isMarkAsShipped(){
+            if (this.selected_ids.length <= 0) {
+               return false;
+            }
+            let statuses = ['Ready to dispatch'];
+            let flag = true;
+            this.orders
+                .filter(order => this.selected_ids.includes(order.id))
+                .forEach(order => {
+                   if (!statuses.includes(order.order_status)) {
+                      flag = false;
+                   }
+                })
+            return flag;
          }
       },
       methods: {
@@ -509,6 +591,7 @@
                    pagination.links.pop();
                    pagination.links.shift();
                    this.pagination = pagination;
+                   this.selected_ids = [];
                 })
                 .catch(err => {
                    this.dataLoading = false;
