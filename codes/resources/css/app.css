@@ -64,7 +64,8 @@
         font-bold rounded-lg
         text-base mx-1 px-5 py-2.5
     }
-    form .clear-btn{
+
+    form .clear-btn {
         @apply text-white bg-gray-600 hover:bg-gray-700
         focus:ring-4 focus:outline-none focus:ring-gray-300
         font-bold  rounded-lg
@@ -157,6 +158,10 @@
         focus:z-20 focus:outline-offset-0;
     }
 
+    .prev-next-btn {
+        @apply border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50;
+    }
+
     /* Table */
     .table-body .table-cell {
         /*vertical-align: top;*/
@@ -167,6 +172,16 @@
         /*vertical-align: middle;*/
         /*color: rgb(22 163 74 / var(--tw-bg-opacity));*/
         @apply text-primary-600 align-middle;
+    }
+
+    .stats-card {
+        @apply flex flex-col justify-between
+        overflow-hidden
+        text-left
+        transition-shadow duration-200
+        bg-white text-black
+        shadow-xl rounded-xl
+        hover:shadow-2xl hover:shadow-primary-500
     }
 }
 

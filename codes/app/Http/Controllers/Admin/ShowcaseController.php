@@ -34,7 +34,6 @@ class ShowcaseController extends Controller
                 $query->where(function ($query) use ($keyword) {
                     $query
                         ->orWhere('order_id', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('order_value', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('product_sku', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('size', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('color', 'LIKE', '%' . $keyword . '%')

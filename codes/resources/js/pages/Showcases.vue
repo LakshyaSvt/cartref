@@ -12,8 +12,7 @@
                   <i class="fi fi-rr-shipping-fast"></i>
                </h3>
                <div class="grid gap-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
-                  <div
-                      class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white text-black shadow-xl    rounded-xl group hover:shadow-2xl hover:shadow-primary-500">
+                  <div class="stats-card">
                      <div class="px-2 xl:px-4 py-2">
                         <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
                            {{ showcase_count?.new_order || '0' }}
@@ -21,8 +20,7 @@
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">New Orders</p>
                      </div>
                   </div>
-                  <div
-                      class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white text-black shadow-xl    rounded-xl group hover:shadow-2xl hover:shadow-primary-500">
+                  <div class="stats-card">
                      <div class="px-2 xl:px-4 py-2">
                         <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
                            {{ showcase_count?.accepted || '0' }}
@@ -30,8 +28,7 @@
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Accepted</p>
                      </div>
                   </div>
-                  <div
-                      class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white text-black shadow-xl    rounded-xl group hover:shadow-2xl hover:shadow-primary-500">
+                  <div class="stats-card">
                      <div class="px-2 xl:px-4 py-2">
                         <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
                            {{ showcase_count?.non_acceptance || '0' }}
@@ -39,8 +36,7 @@
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Non Acceptance</p>
                      </div>
                   </div>
-                  <div
-                      class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white text-black shadow-xl    rounded-xl group hover:shadow-2xl hover:shadow-primary-500">
+                  <div class="stats-card">
                      <div class="px-2 xl:px-4 py-2">
                         <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
                            {{ showcase_count?.pickup || '0' }}
@@ -48,8 +44,7 @@
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Pickup</p>
                      </div>
                   </div>
-                  <div
-                      class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white text-black shadow-xl    rounded-xl group hover:shadow-2xl hover:shadow-primary-500">
+                  <div class="stats-card">
                      <div class="px-2 xl:px-4 py-2">
                         <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
                            {{ showcase_count?.handover || '0' }}
@@ -57,8 +52,7 @@
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Handover</p>
                      </div>
                   </div>
-                  <div
-                      class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white text-black shadow-xl    rounded-xl group hover:shadow-2xl hover:shadow-primary-500">
+                  <div class="stats-card">
                      <div class="px-2 xl:px-4 py-2">
                         <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
                            {{ showcase_count?.purchased || '0' }}
@@ -66,8 +60,7 @@
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Purchased</p>
                      </div>
                   </div>
-                  <div
-                      class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white text-black shadow-xl    rounded-xl group hover:shadow-2xl hover:shadow-primary-500">
+                  <div class="stats-card">
                      <div class="px-2 xl:px-4 py-2">
                         <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
                            {{ showcase_count?.returned || '0' }}
@@ -75,8 +68,7 @@
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Returned</p>
                      </div>
                   </div>
-                  <div
-                      class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white text-black shadow-xl    rounded-xl group hover:shadow-2xl hover:shadow-primary-500">
+                  <div class="stats-card">
                      <div class="px-2 xl:px-4 py-2">
                         <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
                            {{ showcase_count?.cancelled || '0' }}
@@ -84,8 +76,7 @@
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Cancelled</p>
                      </div>
                   </div>
-                  <div
-                      class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white text-black shadow-xl    rounded-xl group hover:shadow-2xl hover:shadow-primary-500">
+                  <div class="stats-card">
                      <div class="px-2 xl:px-4 py-2">
                         <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
                            {{ showcase_count?.all || '0' }}
@@ -104,12 +95,12 @@
                         {{ pagination.from || '0' }} - {{ pagination.to || '0' }} of {{ pagination.total || '0' }}
                      </div>
                      <div>
-                        <button :disabled="!pagination.prev_page_url" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50"
+                        <button :disabled="!pagination.prev_page_url" class="prev-next-btn"
                                 title="Previous"
                                 @click="fetchShowcases(pagination.prev_page_url)">
                            <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
                         </button>
-                        <button :disabled="!pagination.next_page_url" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50"
+                        <button :disabled="!pagination.next_page_url" class="prev-next-btn"
                                 title="Next" @click="fetchShowcases(pagination.next_page_url)">
                            <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
                         </button>
@@ -118,9 +109,9 @@
                   <div class="flex flex-wrap items-center gap-2">
                      <div class="flex items-center gap-2 w-auto mr-1">
                         <i class="fi fi-rr-trash text-xl py-2"></i>
-                        <label for="deleted" class="block text-sm font-bold text-gray-900">Trashed </label>
+                        <label class="block text-sm font-bold text-gray-900" for="deleted">Trashed </label>
                         <label class="relative inline-flex items-center cursor-pointer">
-                           <input type="checkbox" id="deleted" value="1" v-model="show_deleted" :checked="!!show_deleted" @change="fetchShowcases()" class="sr-only peer">
+                           <input id="deleted" v-model="show_deleted" :checked="!!show_deleted" class="sr-only peer" type="checkbox" value="1" @change="fetchShowcases()">
                            <Checkbox/>
                         </label>
                      </div>
@@ -282,7 +273,6 @@
                                  </p>
                               </div>
                            </div>
-
                            <div class="table-cell border-t border-l border-gray-500 text-sm p-1 pb-4 text-center">
                               <div class="flex items-center gap-2">
                                  <div class="font-semibold">Name:</div>
@@ -298,7 +288,7 @@
                               </div>
                               <div class="flex items-center gap-2">
                                  <div class="font-semibold">Mobile:</div>
-                                 <div class="font-normal text-gray-800"><a :href="'tel:'+showcase.vendor?.mobile">{{ showcase.vendor ? showcase.vendor.mobile : '-' }}</a></div>
+                                 <div class="font-normal text-gray-800"><a :href="'tel:+91'+showcase.vendor?.mobile">{{ showcase.vendor ? showcase.vendor.mobile : '-' }}</a></div>
                               </div>
                               <div class="text-gray-800 font-normal text-start">
                                  <p>

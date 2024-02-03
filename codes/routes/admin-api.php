@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\DeliveryAreasController;
 use App\Http\Controllers\Admin\GenderController;
 use App\Http\Controllers\Admin\HomeSliderController;
 use App\Http\Controllers\Admin\NewsLetterController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductReviewController;
 use App\Http\Controllers\Admin\RoleController;
@@ -30,6 +31,10 @@ use App\Http\Controllers\Admin\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    /* PAN India Orders */
+    Route::get('/order', [OrderController::class, 'index']);
+    Route::get('/order/count', [OrderController::class, 'getOrderCount']);
+    Route::delete('/order/{id}', [OrderController::class, 'delete']);
     /* Showcase Orders */
     Route::get('/showcase', [ShowcaseController::class, 'index']);
     Route::get('/showcase/count', [ShowcaseController::class, 'getShowcaseCount']);

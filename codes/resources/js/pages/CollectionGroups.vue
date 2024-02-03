@@ -139,12 +139,12 @@
               </div>
               <div>
                 <button :disabled="!pagination.prev_page_url"
-                        class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50" title="Previous"
+                        class="prev-next-btn" title="Previous"
                         @click="fetchCollectionGroup(pagination.prev_page_url)">
                   <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
                 </button>
                 <button :disabled="!pagination.next_page_url"
-                        class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50" title="Next"
+                        class="prev-next-btn" title="Next"
                         @click="fetchCollectionGroup(pagination.next_page_url)">
                   <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
                 </button>

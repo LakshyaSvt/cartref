@@ -14,10 +14,10 @@
                 {{ pagination.from || '0' }} - {{ pagination.to || '0' }} of {{ pagination.total || '0' }}
               </div>
               <div>
-                <button :disabled="!pagination.prev_page_url" @click="fetchWishlist(pagination.prev_page_url)" title="Previous" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
+                <button :disabled="!pagination.prev_page_url" @click="fetchWishlist(pagination.prev_page_url)" title="Previous" class="prev-next-btn">
                   <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
                 </button>
-                <button :disabled="!pagination.next_page_url" @click="fetchWishlist(pagination.next_page_url)" title="Next" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
+                <button :disabled="!pagination.next_page_url" @click="fetchWishlist(pagination.next_page_url)" title="Next" class="prev-next-btn">
                   <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
                 </button>
               </div>

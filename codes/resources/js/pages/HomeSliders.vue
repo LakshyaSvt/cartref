@@ -75,12 +75,12 @@
                             <div>
                                 <button :disabled="!pagination.prev_page_url"
                                     @click="fetchHomeSliders(pagination.prev_page_url)" title="Previous"
-                                    class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
+                                    class="prev-next-btn">
                                     <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
                                 </button>
                                 <button :disabled="!pagination.next_page_url"
                                     @click="fetchHomeSliders(pagination.next_page_url)" title="Next"
-                                    class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50">
+                                    class="prev-next-btn">
                                     <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
                                 </button>
                             </div>

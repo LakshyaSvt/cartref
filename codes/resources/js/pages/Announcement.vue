@@ -58,12 +58,12 @@
                         {{ pagination.from || '0' }} - {{ pagination.to || '0' }} of {{ pagination.total || '0' }}
                      </div>
                      <div>
-                        <button :disabled="!pagination.prev_page_url" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50"
+                        <button :disabled="!pagination.prev_page_url" class="prev-next-btn"
                                 title="Previous"
                                 @click="fetchAnnouncement(pagination.prev_page_url)">
                            <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
                         </button>
-                        <button :disabled="!pagination.next_page_url" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50"
+                        <button :disabled="!pagination.next_page_url" class="prev-next-btn"
                                 title="Next" @click="fetchAnnouncement(pagination.next_page_url)">
                            <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
                         </button>
