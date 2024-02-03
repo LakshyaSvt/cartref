@@ -520,7 +520,9 @@ class WelcomeController extends Controller
                 }
             }
         }
-
+        if(!isset($selectedColor)){
+            abort(404);
+        }
         $selectedColor = Color::where('name', 'Like', '%' . $selectedColor->color . '%')->first();
         $moreColourText = 'More ' . $selectedColor->name . ' ' . $subCat->name;
         $colourCount = $this->getNumberMoreButton($subCat->slug, [$gender], null, [$selectedColor->id]);
