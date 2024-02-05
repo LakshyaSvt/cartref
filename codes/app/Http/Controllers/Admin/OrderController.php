@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Actions\Order\CancelShipment;
+use App\Http\Controllers\Admin\Actions\Order\GenerateLabel;
+use App\Http\Controllers\Admin\Actions\Order\MarkAsShipped;
+use App\Http\Controllers\Admin\Actions\Order\SchedulePickup;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
 use App\Order;
@@ -110,8 +114,32 @@ class OrderController extends Controller
         ]);
     }
 
-    public function schedulePickup(){
+    public function schedulePickup(Request $request)
+    {
+        $res = SchedulePickup::schedule($request->order_ids);
 
+        return response()->json($res);
+    }
+
+    public function generateLabel(Request $request)
+    {
+        $res = GenerateLabel::schedule($request->order_ids);
+
+        return response()->json($res);
+    }
+
+    public function cancelShipment(Request $request)
+    {
+        $res = CancelShipment::cancel($request->order_ids);
+
+        return response()->json($res);
+    }
+
+    public function markAsShipped(Request $request)
+    {
+        $res = MarkAsShipped::shipped($request->order_ids);
+
+        return response()->json($res);
     }
 
     public function delete($id)

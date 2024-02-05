@@ -5,30 +5,6 @@
          <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
             <i class="fi fi-rr-boxes"></i>
             <h3 class="text-start my-8">Orders</h3>
-            <button v-if="isSchedulePickup"
-                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-amber-500 hover:bg-amber-600"
-                    @click="schedulePickup()">
-               <i class="fi fi-rr-truck-moving text-base w-4 h-5"></i>
-               Schedule Pickup
-            </button>
-            <button v-if="isGenerateLabel"
-                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-primary-500 hover:bg-primary-600"
-                    @click="$router.go(-1)">
-               <i class="fi fi-rr-document text-base w-4 h-5"></i>
-               Generate Label
-            </button>
-            <button v-if="isMarkAsShipped"
-                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-green-500 hover:bg-green-600"
-                    @click="$router.go(-1)">
-               <i class="fi fi-rr-truck-moving text-base w-4 h-5"></i>
-               Mark as Shipped
-            </button>
-            <button v-if="isCancelShipment"
-                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-red-500 hover:bg-red-600"
-                    @click="$router.go(-1)">
-               <i class="fi fi-rr-cross-small text-base w-4 h-5"></i>
-               Cancel Shipment
-            </button>
          </div>
          <div class="bg-primary-200 p-2 md:p-4 overflow-x-auto shadow-md sm:rounded-lg my-4">
             <div class="flex justify-between px-2 md:px-4 py-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-12 lg:px-8 lg:py-4">
@@ -38,26 +14,26 @@
                      <i class="fi fi-rr-shipping-fast"></i>
                   </h3>
                   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === 'New Order'}" class="stats-card" @click="status = 'New Order';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.new_order || '0' }}
+                              <div class="mx-auto">{{ order_count?.new_order || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">New Orders</p>
                         </div>
                      </div>
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === 'Ready To Dispatch'}" class="stats-card" @click="status = 'Ready To Dispatch';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.ready_to_dispatch || '0' }}
+                              <div class="mx-auto">{{ order_count?.ready_to_dispatch || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Ready To Dispatch</p>
                         </div>
                      </div>
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === 'Scheduled For Pickup'}" class="stats-card" @click="status = 'Scheduled For Pickup';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.pending_pickup || '0' }}
+                              <div class="mx-auto">{{ order_count?.pending_pickup || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Pending Pickup</p>
                         </div>
@@ -70,26 +46,26 @@
                      <i class="fi fi-rr-person-carry-box"></i>
                   </h3>
                   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === 'Shipped'}" class="stats-card" @click="status = 'Shipped';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.in_transit || '0' }}
+                              <div class="mx-auto">{{ order_count?.in_transit || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">In Transist</p>
                         </div>
                      </div>
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === 'Delivered'}" class="stats-card" @click="status = 'Delivered';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.delivered || '0' }}
+                              <div class="mx-auto">{{ order_count?.delivered || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Delivered</p>
                         </div>
                      </div>
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === 'Cancelled'}" class="stats-card" @click="status = 'Cancelled';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.cancelled || '0' }}
+                              <div class="mx-auto">{{ order_count?.cancelled || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Cancelled</p>
                         </div>
@@ -104,26 +80,26 @@
                      <i class="fi fi-rr-undo"></i>
                   </h3>
                   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === 'RTO'}" class="stats-card" @click="status = 'RTO';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.rto || '0' }}
+                              <div class="mx-auto">{{ order_count?.rto || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Return To Origin</p>
                         </div>
                      </div>
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === 'Request For Return'}" class="stats-card" @click="status = 'Request For Return';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.customer_return || '0' }}
+                              <div class="mx-auto">{{ order_count?.customer_return || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Customer Return</p>
                         </div>
                      </div>
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === 'Returned'}" class="stats-card" @click="status = 'Returned';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.return_delivered || '0' }}
+                              <div class="mx-auto">{{ order_count?.return_delivered || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Return Delivered</p>
                         </div>
@@ -136,26 +112,26 @@
                      <i class="fi fi-rr-route"></i>
                   </h3>
                   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                     <div class="stats-card">
+                     <div class="stats-card" @click="status = '';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.completed_in_90_days || '0' }}
+                              <div class="mx-auto">{{ order_count?.completed_in_90_days || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Completed in 90 days</p>
                         </div>
                      </div>
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === ''}" class="stats-card" @click="status = '';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.all || '0' }}
+                              <div class="mx-auto">{{ order_count?.all || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Total Orders</p>
                         </div>
                      </div>
-                     <div class="stats-card">
+                     <div :class="{'border-2 border-primary-400': status === 'Other'}" class="stats-card" @click="status = 'Other';">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
-                              {{ order_count?.others || '0' }}
+                              <div class="mx-auto">{{ order_count?.others || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Others</p>
                         </div>
@@ -163,6 +139,32 @@
                   </div>
                </div>
             </div>
+         </div>
+         <div class="flex gap-2 items-center text-3xl my-2 text-primary-600 font-semibold">
+            <button v-if="isSchedulePickup"
+                    class="inline-flex items-center gap-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-amber-500 hover:bg-amber-600"
+                    @click="schedulePickup()">
+               <i class="fi fi-rr-truck-moving text-base w-4 h-5"></i>
+               Schedule Pickup
+            </button>
+            <button v-if="isGenerateLabel"
+                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-primary-500 hover:bg-primary-600"
+                    @click="generateLabel()">
+               <i class="fi fi-rr-document text-base w-4 h-5"></i>
+               Generate Label
+            </button>
+            <button v-if="isMarkAsShipped"
+                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-green-500 hover:bg-green-600"
+                    @click="cancelShipment()">
+               <i class="fi fi-rr-truck-moving text-base w-4 h-5"></i>
+               Mark as Shipped
+            </button>
+            <button v-if="isCancelShipment"
+                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-red-500 hover:bg-red-600"
+                    @click="markAsShipped()">
+               <i class="fi fi-rr-cross-small text-base w-4 h-5"></i>
+               Cancel Shipment
+            </button>
          </div>
          <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg">
             <div class="block">
@@ -190,11 +192,11 @@
                         </label>
                      </div>
                      <div class="relative">
-                        <select v-model="status" class="filter-dropdown !w-auto" title="Status" @change="fetchOrders()">
+                        <select v-model="status" class="filter-dropdown !w-auto" title="Status">
                            <option class="bg-gray-100" value="">All</option>
                            <option class="bg-gray-100" value="New Order">New Order</option>
-                           <option class="bg-gray-100" value="Ready To Dispatch">Ready To Dispatch</option>
                            <option class="bg-gray-100" value="Scheduled For Pickup">Scheduled For Pickup</option>
+                           <option class="bg-gray-100" value="Ready To Dispatch">Ready To Dispatch</option>
                            <option class="bg-gray-100" value="Shipped">Shipped</option>
                            <option class="bg-gray-100" value="Delivered">Delivered</option>
                            <option class="bg-gray-100" value="Cancelled">Cancelled</option>
@@ -493,6 +495,11 @@
             selected_ids: [],
          }
       },
+      watch: {
+         status(newValue, oldValue) {
+            this.fetchOrders();
+         }
+      },
       computed: {
          isSchedulePickup() {
             if (this.selected_ids.length <= 0) {
@@ -559,8 +566,7 @@
          selectAll(e) {
             if (e.target.checked) {
                this.selected_ids = this.orders.map(order => order.id);
-            }
-            else{
+            } else {
                this.selected_ids = [];
             }
          },
@@ -571,15 +577,78 @@
          closeImageModal() {
             this.showModal = false;
          },
-         schedulePickup(){
+         schedulePickup() {
+            this.loading = true;
+            axios
+                .post('/admin/order/schedule-pickup', {
+                   'order_ids': this.selected_ids
+                })
+                .then(res => {
+                   this.loading = false;
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.fetchOrders();
+                })
+                .catch(err => {
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         generateLabel() {
+            this.loading = true;
+            axios
+                .post('/admin/order/generate-label', {
+                   'order_ids': this.selected_ids
+                })
+                .then(res => {
+                   this.loading = false;
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.fetchOrders();
+                })
+                .catch(err => {
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
 
+         },
+         cancelShipment() {
+            this.loading = true;
+            axios
+                .post('/admin/order/cancel-shipment', {
+                   'order_ids': this.selected_ids
+                })
+                .then(res => {
+                   this.loading = false;
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.fetchOrders();
+                })
+                .catch(err => {
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         markAsShipped() {
+            this.loading = true;
+            axios
+                .post('/admin/order/mark-as-shipped', {
+                   'order_ids': this.selected_ids
+                })
+                .then(res => {
+                   this.loading = false;
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.fetchOrders();
+                })
+                .catch(err => {
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
          },
          deleteOrder(id) {
             if (!confirm("Are you sure you want to delete ?")) {
                return false;
             }
             this.loading = true;
-            axios.delete('/admin/order/' + id)
+            axios
+                .delete('/admin/order/' + id)
                 .then(res => {
                    this.show_toast(res.data.status, res.data.msg);
                    this.fetchOrders();
@@ -615,6 +684,8 @@
                    this.loading = false;
                    err.handleGlobally && err.handleGlobally();
                 })
+
+            this.fetchOrderCount();
          },
          fetchOrderCount() {
             axios.get('/admin/order/count')
@@ -625,7 +696,6 @@
       },
       created() {
          this.fetchOrders();
-         this.fetchOrderCount();
       },
    }
 </script>

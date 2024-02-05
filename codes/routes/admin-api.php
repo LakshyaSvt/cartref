@@ -35,6 +35,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/order', [OrderController::class, 'index']);
     Route::get('/order/count', [OrderController::class, 'getOrderCount']);
     Route::post('/order/schedule-pickup', [OrderController::class, 'schedulePickup']);
+    Route::post('/order/generate-label', [OrderController::class, 'generateLabel']);
+    Route::post('/order/cancel-shipment', [OrderController::class, 'cancelShipment']);
+    Route::post('/order/mark-as-shipped', [OrderController::class, 'markAsShipped']);
     Route::delete('/order/{id}', [OrderController::class, 'delete']);
     /* Showcase Orders */
     Route::get('/showcase', [ShowcaseController::class, 'index']);

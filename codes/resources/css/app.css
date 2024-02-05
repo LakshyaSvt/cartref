@@ -179,8 +179,8 @@
         overflow-hidden
         text-left
         transition-shadow duration-200
-        bg-white text-black
-        shadow-xl rounded-xl
+        bg-white text-black border-2 border-white
+        shadow-xl rounded-xl cursor-pointer
         hover:shadow-2xl hover:shadow-primary-500
     }
 }
