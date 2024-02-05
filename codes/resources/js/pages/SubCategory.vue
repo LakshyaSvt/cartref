@@ -1,387 +1,388 @@
 <template>
-  <div>
-    <Wait :show="loading" />
-    <div class="container mx-auto my-2 px-4">
-      <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
-        <i class="fi fi-rr-folder-tree"></i>
-        <h3 class="text-start my-8">Sub Category</h3>
-      </div>
+   <div>
+      <Wait :show="loading"/>
+      <div class="container mx-auto my-2 px-4">
+         <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
+            <i class="fi fi-rr-folder-tree"></i>
+            <h3 class="text-start my-8">Sub Category</h3>
+         </div>
 
-      <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg my-4">
-        <div class="block">
-          <form @submit.prevent="editOrCreateSubCategory()">
-            <div class="md:flex mb-3">
-              <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                <label for="sub_category" class="block mb-2 text-sm font-bold text-gray-900"
-                  title="The name is how it appears on your site.">Sub Category
-                  <span class="text-red-600">*</span>
-                </label>
-                <input type="text" v-model="name" id="sub_category" class="form-input" placeholder="Western Wear"
-                  required>
-              </div>
-              <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                <label for="slug" class="block mb-2 text-sm font-bold text-gray-900"
-                  title="The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.">Slug
-                  <span class="text-red-600">*</span></label>
-                <input type="text" v-model="slug" id="slug" class="form-input" placeholder="western-wear" required>
-              </div>
+         <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg my-4">
+            <div class="block">
+               <form @submit.prevent="editOrCreateSubCategory()">
+                  <div class="md:flex mb-3">
+                     <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900" for="sub_category"
+                               title="The name is how it appears on your site.">Sub Category
+                           <span class="text-red-600">*</span>
+                        </label>
+                        <input id="sub_category" v-model="name" class="form-input" placeholder="Western Wear" required
+                               type="text">
+                     </div>
+                     <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900" for="slug"
+                               title="The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.">Slug
+                           <span class="text-red-600">*</span></label>
+                        <input id="slug" v-model="slug" class="form-input" placeholder="western-wear" required type="text">
+                     </div>
+                  </div>
+                  <div class="md:flex mb-3">
+                     <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900" for="image"
+                               title="An image belonging to a specific type, often distinguished by shared characteristics or features.">Category
+                           Image</label>
+                        <input id="image" accept="image/*" class="form-input" placeholder="western-wear"
+                               type="file" @change="handleImageChange($event)">
+                     </div>
+                     <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900" for="image"
+                               title="Those immediately above the category in the hierarchy">Parent Category <span
+                            class="text-red-600">*</span></label>
+                        <select v-model="parent_category_id" class="form-input" placeholder="western-wear" required>
+                           <option selected value="">Select Parent Category</option>
+                           <option v-for="(parent, index) in parent_category" :key="index" :value="parent.id">{{ parent.name }}
+                           </option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="md:flex mb-3">
+                     <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900" for="hsn"
+                               title="A numerical code used to classify products in international trade">HSN (Harmonized System of
+                           Nomenclature)
+                           <span class="text-red-600">*</span>
+                        </label>
+                        <input id="hsn" v-model="hsn" class="form-input" placeholder="8471" type="text">
+                     </div>
+                     <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900" for="gst"
+                               title="GST is a mandatory financial charge imposed by the government on goods and services">GST (%)
+                           <span class="text-red-600">*</span>
+                        </label>
+                        <input id="gst" v-model="gst" class="form-input" placeholder="18" type="number">
+                     </div>
+                  </div>
+                  <div class="text-center">
+                     <button class="submit-btn" type="submit">
+                        {{ this.editId ? 'Update' : 'Create' }}
+                     </button>
+                     <button class="clear-btn" type="button"
+                             @click="clear()">
+                        Clear
+                     </button>
+                  </div>
+               </form>
             </div>
-            <div class="md:flex mb-3">
-              <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                <label for="image" class="block mb-2 text-sm font-bold text-gray-900"
-                  title="An image belonging to a specific type, often distinguished by shared characteristics or features.">Category
-                  Image</label>
-                <input type="file" @change="handleImageChange($event)" id="image" class="form-input"
-                  placeholder="western-wear" accept="image/*">
-              </div>
-              <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                <label for="image" class="block mb-2 text-sm font-bold text-gray-900"
-                  title="Those immediately above the category in the hierarchy">Parent Category <span
-                    class="text-red-600">*</span></label>
-                <select v-model="parent_category_id" class="form-input" placeholder="western-wear" required>
-                  <option value="" selected>Select Parent Category</option>
-                  <option v-for="(parent, index) in parent_category" :key="index" :value="parent.id">{{ parent.name }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="md:flex mb-3">
-              <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                <label for="hsn" class="block mb-2 text-sm font-bold text-gray-900"
-                  title="A numerical code used to classify products in international trade">HSN (Harmonized System of
-                  Nomenclature)
-                  <span class="text-red-600">*</span>
-                </label>
-                <input type="text" id="hsn" v-model="hsn" class="form-input" placeholder="8471">
-              </div>
-              <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                <label for="gst" class="block mb-2 text-sm font-bold text-gray-900"
-                  title="GST is a mandatory financial charge imposed by the government on goods and services">GST (%)
-                  <span class="text-red-600">*</span>
-                </label>
-                <input type="number" id="gst" v-model="gst" class="form-input" placeholder="18">
-              </div>
-            </div>
-            <div class="text-center">
-              <button type="submit" class="submit-btn">
-                {{ this.editId ? 'Update' : 'Create' }}
-              </button>
-              <button type="button" @click="clear()"
-                class="clear-btn">
-                Clear
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+         </div>
 
-      <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg">
-        <div class="block">
-          S
-          <template v-if="dataLoading">
-            <Skeleton />
-          </template>
-          <template v-else-if="sub_category && sub_category.length > 0">
-            <div class="clear-right overflow-x-auto">
-              <div class="table border-solid border border-gray-500 w-full">
-                <div class="table-row table-head">
-                  <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
-                    <div class="flex items-center">
-                      <input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded">
-                    </div>
+         <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg">
+            <div class="block">
+               S
+               <template v-if="dataLoading">
+                  <Skeleton/>
+               </template>
+               <template v-else-if="sub_category && sub_category.length > 0">
+                  <div class="clear-right overflow-x-auto">
+                     <div class="table border-solid border border-gray-500 w-full">
+                        <div class="table-row table-head">
+                           <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
+                              <div class="flex items-center">
+                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
+                              </div>
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
+                              S.No.
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Image
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Parent Category
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Name
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Slug
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              HSN
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              gst
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Status
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Last Update
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Actions
+                           </div>
+                        </div>
+                        <div v-for="(c, index) in sub_category" v-bind:key="index"
+                             :class="{ 'bg-primary-200': c.id === editId }" class="table-row table-body hover:bg-primary-100">
+                           <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
+                              <div class="flex items-center">
+                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
+                              </div>
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">
+                              {{ pagination.from + index }}
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm p-1 text-center !align-middle">
+                              <img v-if="c.image" :alt="c.name"
+                                   :src="$store.state.storageUrl + c.image"
+                                   class="w-14 h-14 border border-gray-400 mx-auto p-1 rounded-[50%]"
+                                   @click="imageModal($store.state.storageUrl + c.image)" @error="imageLoadError">
+                              <p v-else class="text-center text-gray-800">--No Image--</p>
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-1 text-center">
+                              {{ c.category ? c.category.name : '-' }}
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
+                              {{ c.name || '-' }}
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                              {{ c.slug || '-' }}
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                              {{ c.hsn || '-' }}
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                              {{ c.gst || '0' }}%
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                              <StatusCheckbox :id="c.id" :status="!!c.status" :update="updateStatus"/>
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
+                              <div class="font-normal text-gray-900" v-html="formDateTime(c.updated_at)"></div>
+                              <div class="text-sm">({{ timeAgo(c.updated_at) }})</div>
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
+                              <div class="flex gap-4 items-center justify-center">
+                                 <a class="font-medium cursor-pointer text-yellow-500" href="#" type="button"
+                                    @click="editSubCategory(c.id)">
+                                    <i class="fi fi-rr-pencil w-5 h-5 text-xl"></i>
+                                 </a>
+                                 <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button"
+                                    @click="deleteSubCategory(c.id)">
+                                    <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
+                                 </a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="flex items-center justify-between py-4">
+                        <div>
+                           <p class="text-base text-gray-700">
+                              Showing
+                              <span class="font-medium">{{ pagination.from || '0' }}</span>
+                              to
+                              <span class="font-medium">{{ pagination.to || '0' }}</span>
+                              of
+                              <span class="font-medium">{{ pagination.total || '0' }}</span>
+                              results
+                           </p>
+                        </div>
+                        <Pagination :fetchNewData="fetchSubCategory" :pagination="pagination"/>
+                     </div>
                   </div>
-                  <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
-                    S.No.
+               </template>
+               <template v-else>
+                  <div>
+                     <p class="text-center text-2xl">No Sub Categories Found !</p>
                   </div>
-                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                    Image
-                  </div>
-                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                    Parent Category
-                  </div>
-                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                    Name
-                  </div>
-                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                    Slug
-                  </div>
-                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                    HSN
-                  </div>
-                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                    gst
-                  </div>
-                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                    Status
-                  </div>
-                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                    Last Update
-                  </div>
-                  <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                    Actions
-                  </div>
-                </div>
-                <div v-for="(c, index) in sub_category" v-bind:key="index"
-                  class="table-row table-body hover:bg-primary-100" :class="{ 'bg-primary-200': c.id === editId }">
-                  <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
-                    <div class="flex items-center">
-                      <input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded">
-                    </div>
-                  </div>
-                  <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">
-                    {{ pagination.from + index }}
-                  </div>
-                  <div class="table-cell border-t border-l border-gray-500 text-sm p-1 text-center !align-middle">
-                    <img @click="imageModal($store.state.storageUrl + c.image)" v-if="c.image"
-                      class="w-14 h-14 border border-gray-400 mx-auto p-1 rounded-[50%]"
-                      :src="$store.state.storageUrl + c.image" :alt="c.name">
-                    <p class="text-center text-gray-800" v-else>--No Image--</p>
-                  </div>
-                  <div class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-1 text-center">
-                    {{ c.category ? c.category.name : '-' }}
-                  </div>
-                  <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
-                    {{ c.name || '-' }}
-                  </div>
-                  <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                    {{ c.slug || '-' }}
-                  </div>
-                  <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                    {{ c.hsn || '-' }}
-                  </div>
-                  <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                    {{ c.gst || '0' }}%
-                  </div>
-                  <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                    <StatusCheckbox :id="c.id" :status="!!c.status" :update="updateStatus" />
-                  </div>
-                  <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
-                    <div class="font-normal text-gray-900" v-html="formDateTime(c.updated_at)"></div>
-                    <div class="text-sm">({{ timeAgo(c.updated_at) }})</div>
-                  </div>
-                  <div class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
-                    <div class="flex gap-4 items-center justify-center">
-                      <a href="#" @click="editSubCategory(c.id)" type="button"
-                        class="font-medium cursor-pointer text-yellow-500">
-                        <i class="fi fi-rr-pencil w-5 h-5 text-xl"></i>
-                      </a>
-                      <a href="javascript:void(0)" @click="deleteSubCategory(c.id)" type="button"
-                        class="font-medium cursor-pointer text-red-500">
-                        <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between py-4">
-                <div>
-                  <p class="text-base text-gray-700">
-                    Showing
-                    <span class="font-medium">{{ pagination.from || '0' }}</span>
-                    to
-                    <span class="font-medium">{{ pagination.to || '0' }}</span>
-                    of
-                    <span class="font-medium">{{ pagination.total || '0' }}</span>
-                    results
-                  </p>
-                </div>
-                <Pagination :pagination="pagination" :fetchNewData="fetchSubCategory" />
-              </div>
+               </template>
             </div>
-          </template>
-          <template v-else>
-            <div>
-              <p class="text-center text-2xl">No Sub Categories Found !</p>
-            </div>
-          </template>
-        </div>
+         </div>
       </div>
-    </div>
-    <ImageModal :show="showModal" :hide="closeImageModal" :img="imgModal"></ImageModal>
-  </div>
+      <ImageModal :hide="closeImageModal" :img="imgModal" :show="showModal"></ImageModal>
+   </div>
 </template>
 
 <script>
-export default {
-  name: "SubCategory",
-  data() {
-    return {
-      loading: false,
-      dataLoading: true,
-      parent_category: [],
-      sub_category: [{}],
-      name: '',
-      slug: '',
-      hsn: '',
-      gst: '',
-      image: '',
-      parent_category_id: '',
-      keyword: '',
-      status: '',
-      row_count: this.$store.state.defaultRowCount,
-      showModal: false,
-      imgModal: '',
-      pagination: {},
-      editId: '',
-    }
-  },
-  watch: {
-    name: function () {
-      this.slug = this.slugify(this.name);
-    }
-  },
-  methods: {
-    imageModal(img) {
-      this.showModal = true;
-      this.imgModal = img;
-    },
-    closeImageModal() {
-      this.showModal = false;
-    },
-    handleImageChange(e) {
-      let file = e.target?.files[0];
-      if (file) {
-        this.image = file;
-      }
-    },
-    updateStatus(id, status) {
-      axios.put('/admin/sub-category/' + id, { status })
-        .then(res => {
-          this.show_toast(res.data.status, res.data.msg);
-          let index = this.sub_category.findIndex(sub_cat => sub_cat.id === id)
-          this.$set(this.sub_category, index, res.data.data)
-        })
-        .catch(err => {
-          this.dataLoading = false;
-          err.handleGlobally && err.handleGlobally();
-        })
-    },
-    clear() {
-      this.name = '';
-      this.slug = '';
-      this.hsn = '';
-      this.gst = '';
-      this.image = '';
-      this.parent_category_id = '';
-      this.editId = '';
-      $('form').trigger("reset");
-    },
-    editSubCategory(id) {
-      this.loading = true;
-      axios.get('/admin/sub-category/' + id)
-        .then(res => {
-          this.editId = res.data.data.id;
-          this.name = res.data.data.name;
-          this.slug = res.data.data.slug;
-          this.hsn = res.data.data.hsn;
-          this.gst = res.data.data.gst;
-          this.parent_category_id = res.data.data.category_id;
-          this.loading = false;
-        })
-        .catch(err => {
-          this.loading = false;
-          err.handleGlobally && err.handleGlobally();
-        })
-    },
-    deleteSubCategory(id) {
-      if (!confirm("Are you sure you want to delete ?")) {
-        return false;
-      }
-      this.loading = true;
-      axios.delete('/admin/sub-category/' + id)
-        .then(res => {
-          this.loading = true;
-          this.show_toast(res.data.status, res.data.msg);
-          this.fetchSubCategory();
-        })
-        .catch(err => {
-          err.handleGlobally && err.handleGlobally();
-        })
-    },
-    editOrCreateSubCategory() {
-      let url = '/admin/sub-category';
-      let formData = new FormData();
+   export default {
+      name: "SubCategory",
+      data() {
+         return {
+            loading: false,
+            dataLoading: true,
+            parent_category: [],
+            sub_category: [{}],
+            name: '',
+            slug: '',
+            hsn: '',
+            gst: '',
+            image: '',
+            parent_category_id: '',
+            keyword: '',
+            status: '',
+            row_count: this.$store.state.defaultRowCount,
+            showModal: false,
+            imgModal: '',
+            pagination: {},
+            editId: '',
+         }
+      },
+      watch: {
+         name: function () {
+            this.slug = this.slugify(this.name);
+         }
+      },
+      methods: {
+         imageModal(img) {
+            this.showModal = true;
+            this.imgModal = img;
+         },
+         closeImageModal() {
+            this.showModal = false;
+         },
+         handleImageChange(e) {
+            let file = e.target?.files[0];
+            if (file) {
+               this.image = file;
+            }
+         },
+         updateStatus(id, status) {
+            axios.put('/admin/sub-category/' + id, {status})
+                .then(res => {
+                   this.show_toast(res.data.status, res.data.msg);
+                   let index = this.sub_category.findIndex(sub_cat => sub_cat.id === id)
+                   this.$set(this.sub_category, index, res.data.data)
+                })
+                .catch(err => {
+                   this.dataLoading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         clear() {
+            this.name = '';
+            this.slug = '';
+            this.hsn = '';
+            this.gst = '';
+            this.image = '';
+            this.parent_category_id = '';
+            this.editId = '';
+            $('form').trigger("reset");
+         },
+         editSubCategory(id) {
+            this.loading = true;
+            axios.get('/admin/sub-category/' + id)
+                .then(res => {
+                   this.editId = res.data.data.id;
+                   this.name = res.data.data.name;
+                   this.slug = res.data.data.slug;
+                   this.hsn = res.data.data.hsn;
+                   this.gst = res.data.data.gst;
+                   this.parent_category_id = res.data.data.category_id;
+                   this.loading = false;
+                })
+                .catch(err => {
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         deleteSubCategory(id) {
+            if (!confirm("Are you sure you want to delete ?")) {
+               return false;
+            }
+            this.loading = true;
+            axios.delete('/admin/sub-category/' + id)
+                .then(res => {
+                   this.loading = true;
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.fetchSubCategory();
+                })
+                .catch(err => {
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         editOrCreateSubCategory() {
+            let url = '/admin/sub-category';
+            let formData = new FormData();
 
-      // Basic fields
-      formData.append('name', this.name.trim());
-      formData.append('slug', this.slug);
-      formData.append('hsn', this.hsn);
-      formData.append('gst', this.gst);
-      formData.append('category_id', this.parent_category_id);
+            // Basic fields
+            formData.append('name', this.name.trim());
+            formData.append('slug', this.slug);
+            formData.append('hsn', this.hsn);
+            formData.append('gst', this.gst);
+            formData.append('category_id', this.parent_category_id);
 
-      //Image field
-      if (this.image) {
-        formData.append('image', this.image)
-      }
-      //if the action is EDIT
-      if (this.editId) {
-        url = '/admin/sub-category/' + this.editId;
-        formData.append('_method', 'PUT');
-        formData.append('id', this.editId);
-      }
+            //Image field
+            if (this.image) {
+               formData.append('image', this.image)
+            }
+            //if the action is EDIT
+            if (this.editId) {
+               url = '/admin/sub-category/' + this.editId;
+               formData.append('_method', 'PUT');
+               formData.append('id', this.editId);
+            }
 
-      const headers = { 'Content-Type': 'multipart/form-data' };
-      this.loading = true;
-      axios.post(url, formData, { headers })
-        .then(res => {
-          this.loading = false;
-          this.show_toast(res.data.status, res.data.msg);
-          this.clear();
-          this.fetchSubCategory();
-        })
-        .catch(err => {
-          this.loading = false;
-          err.handleGlobally && err.handleGlobally();
-        })
-    },
-    fetchParentCategory() {
-      this.dataLoading = true;
-      axios.get('/admin/category', {
-        params: {
-          rows: 'all',
-          status: 1,
-        }
-      })
-        .then(res => {
-          this.dataLoading = false;
-          this.parent_category = res.data.data;
-        })
-        .catch(err => {
-          this.dataLoading = false;
-          err.handleGlobally && err.handleGlobally();
-        })
-    },
-    fetchSubCategory(url) {
-      this.dataLoading = true;
-      url = url || '/admin/sub-category'
-      axios.get(url, {
-        params: {
-          rows: this.row_count,
-          keyword: this.keyword.trim(),
-          status: this.status,
-        }
-      })
-        .then(res => {
-          this.dataLoading = false;
-          this.loading = false;
-          this.sub_category = res.data.data;
-          let { data, ...pagination } = res.data;
-          pagination.links.pop();
-          pagination.links.shift();
-          this.pagination = pagination;
-        })
-        .catch(err => {
-          this.dataLoading = false;
-          this.loading = false;
-          err.handleGlobally && err.handleGlobally();
-        })
-    }
-  },
-  created() {
-    this.fetchParentCategory();
-    this.fetchSubCategory();
-  },
-}
+            const headers = {'Content-Type': 'multipart/form-data'};
+            this.loading = true;
+            axios.post(url, formData, {headers})
+                .then(res => {
+                   this.loading = false;
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.clear();
+                   this.fetchSubCategory();
+                })
+                .catch(err => {
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         fetchParentCategory() {
+            this.dataLoading = true;
+            axios.get('/admin/category', {
+               params: {
+                  rows: 'all',
+                  status: 1,
+               }
+            })
+                .then(res => {
+                   this.dataLoading = false;
+                   this.parent_category = res.data.data;
+                })
+                .catch(err => {
+                   this.dataLoading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         fetchSubCategory(url) {
+            this.dataLoading = true;
+            url = url || '/admin/sub-category'
+            axios.get(url, {
+               params: {
+                  rows: this.row_count,
+                  keyword: this.keyword.trim(),
+                  status: this.status,
+               }
+            })
+                .then(res => {
+                   this.dataLoading = false;
+                   this.loading = false;
+                   this.sub_category = res.data.data;
+                   let {data, ...pagination} = res.data;
+                   pagination.links.pop();
+                   pagination.links.shift();
+                   this.pagination = pagination;
+                })
+                .catch(err => {
+                   this.dataLoading = false;
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         }
+      },
+      created() {
+         this.fetchParentCategory();
+         this.fetchSubCategory();
+      },
+   }
 </script>
 
 <style lang="scss" scoped></style>

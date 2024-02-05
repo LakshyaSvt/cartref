@@ -5,22 +5,26 @@
          <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
             <i class="fi fi-rr-boxes"></i>
             <h3 class="text-start my-8">Orders</h3>
-            <button v-if="isSchedulePickup" class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-amber-500 hover:bg-amber-600"
-                    @click="$router.go(-1)">
+            <button v-if="isSchedulePickup"
+                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-amber-500 hover:bg-amber-600"
+                    @click="schedulePickup()">
                <i class="fi fi-rr-truck-moving text-base w-4 h-5"></i>
                Schedule Pickup
             </button>
-            <button v-if="isGenerateLabel" class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-primary-500 hover:bg-primary-600"
+            <button v-if="isGenerateLabel"
+                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-primary-500 hover:bg-primary-600"
                     @click="$router.go(-1)">
                <i class="fi fi-rr-document text-base w-4 h-5"></i>
                Generate Label
             </button>
-            <button v-if="isMarkAsShipped" class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-green-500 hover:bg-green-600"
+            <button v-if="isMarkAsShipped"
+                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-green-500 hover:bg-green-600"
                     @click="$router.go(-1)">
                <i class="fi fi-rr-truck-moving text-base w-4 h-5"></i>
                Mark as Shipped
             </button>
-            <button v-if="isCancelShipment" class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-red-500 hover:bg-red-600"
+            <button v-if="isCancelShipment"
+                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-red-500 hover:bg-red-600"
                     @click="$router.go(-1)">
                <i class="fi fi-rr-cross-small text-base w-4 h-5"></i>
                Cancel Shipment
@@ -236,7 +240,8 @@
                         <div class="table-row table-head">
                            <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
                               <div class="flex items-center">
-                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
+                                 <input :checked="selected_ids.length === orders.length" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox"
+                                        @change="selectAll($event)">
                               </div>
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
@@ -290,7 +295,8 @@
                                  <div class="flex gap-1 items-center text-start text-gray-900 whitespace-nowrap dark:text-white w-[70%]">
                                     <img :src="$store.state.storageUrl + order.color_image" alt="img"
                                          class="w-14 h-14 border rounded-[50%]"
-                                         @click="imageModal($store.state.storageUrl + order.color_image)">
+                                         @click="imageModal($store.state.storageUrl + order.color_image)"
+                                         @error="imageLoadError">
                                     <div class="pl-2 w-4/5">
                                        <div :title="order.product?.name" class="text-base font-medium overflow-hidden whitespace-nowrap text-ellipsis hover:underline">
                                           <a :href="order.color_link" target="_blank">
@@ -522,7 +528,7 @@
             if (this.selected_ids.length <= 0) {
                return false;
             }
-            let statuses = ['Scheduled For Pickup','Ready to Dispatch'];
+            let statuses = ['Scheduled For Pickup', 'Ready to Dispatch'];
             let flag = true;
             this.orders
                 .filter(order => this.selected_ids.includes(order.id))
@@ -533,7 +539,7 @@
                 })
             return flag;
          },
-         isMarkAsShipped(){
+         isMarkAsShipped() {
             if (this.selected_ids.length <= 0) {
                return false;
             }
@@ -550,12 +556,23 @@
          }
       },
       methods: {
+         selectAll(e) {
+            if (e.target.checked) {
+               this.selected_ids = this.orders.map(order => order.id);
+            }
+            else{
+               this.selected_ids = [];
+            }
+         },
          imageModal(img) {
             this.showModal = true;
             this.imgModal = img;
          },
          closeImageModal() {
             this.showModal = false;
+         },
+         schedulePickup(){
+
          },
          deleteOrder(id) {
             if (!confirm("Are you sure you want to delete ?")) {

@@ -193,6 +193,7 @@
                                         <img @click="imageModal($store.state.storageUrl + slider.background_image)"
                                             v-if="slider.background_image"
                                             class="w-14 h-14 border border-gray-400 mx-auto p-1 rounded-[50%]"
+                                             @error="imageLoadError"
                                             :src="$store.state.storageUrl + slider.background_image" :alt="slider.name">
                                         <p class="text-center text-gray-800" v-else>--No Image--</p>
                                     </div>
@@ -201,6 +202,7 @@
                                         <img @click="imageModal($store.state.storageUrl + slider.mb_background_image)"
                                             v-if="slider.mb_background_image"
                                             class="w-14 h-14 border border-gray-400 mx-auto p-1 rounded-[50%]"
+                                             @error="imageLoadError"
                                             :src="$store.state.storageUrl + slider.mb_background_image" :alt="slider.name">
                                         <p class="text-center text-gray-800" v-else>--No Image--</p>
                                     </div>

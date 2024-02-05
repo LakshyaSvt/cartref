@@ -34,6 +34,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     /* PAN India Orders */
     Route::get('/order', [OrderController::class, 'index']);
     Route::get('/order/count', [OrderController::class, 'getOrderCount']);
+    Route::post('/order/schedule-pickup', [OrderController::class, 'schedulePickup']);
     Route::delete('/order/{id}', [OrderController::class, 'delete']);
     /* Showcase Orders */
     Route::get('/showcase', [ShowcaseController::class, 'index']);

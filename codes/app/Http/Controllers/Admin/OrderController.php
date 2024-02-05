@@ -110,6 +110,10 @@ class OrderController extends Controller
         ]);
     }
 
+    public function schedulePickup(){
+
+    }
+
     public function delete($id)
     {
         $order = Order::findOrFail($id);

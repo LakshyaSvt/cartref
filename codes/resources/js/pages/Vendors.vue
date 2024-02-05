@@ -152,10 +152,10 @@
                   </div>
                   <div class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
                     <div class="flex gap-4 items-center justify-center">
-                      <a href="javascript:void(0)" @click="editVendor(vendor.id)" type="button"
-                        class="font-medium cursor-pointer text-yellow-500">
-                        <i class="fi fi-rr-pencil w-5 h-5 text-xl"></i>
-                      </a>
+<!--                      <a href="javascript:void(0)" @click="editVendor(vendor.id)" type="button"-->
+<!--                        class="font-medium cursor-pointer text-yellow-500">-->
+<!--                        <i class="fi fi-rr-pencil w-5 h-5 text-xl"></i>-->
+<!--                      </a>-->
                       <a href="javascript:void(0)" @click="deleteVendor(vendor.id)" type="button"
                         class="font-medium cursor-pointer text-red-500">
                         <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>

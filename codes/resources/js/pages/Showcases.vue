@@ -217,9 +217,10 @@
                            <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-left py-1">
                               <div v-if="showcase.product" class="flex gap-2 max-w-xl">
                                  <div class="flex gap-1 items-center text-start text-gray-900 whitespace-nowrap dark:text-white w-[70%]">
-                                    <img :src="$store.state.storageUrl + showcase.color_image" alt="product-img"
+                                    <img :src="$store.state.storageUrl + showcase?.color_image" alt="product-img"
                                          class="w-14 h-14 border rounded-[50%]"
-                                         @click="imageModal($store.state.storageUrl + showcase.color_image)">
+                                         @error="imageLoadError"
+                                         @click="imageModal($store.state.storageUrl + showcase?.color_image)">
                                     <div class="pl-2 w-4/5">
                                        <div :title="showcase.product?.name" class="text-base font-medium overflow-hidden whitespace-nowrap text-ellipsis hover:underline">
                                           <a :href="showcase.color_link" target="_blank">
