@@ -79,12 +79,13 @@ class ShowcaseAtHomeController extends Controller
             $deliveryservicable = DeliveryServicableArea::where('city', Session::get('city'))->where('status', 1)->first();
 
             if (!empty($deliveryservicable)) {
-                if ($deliveryservicable->start_at > date('h:i:s') || $deliveryservicable->end_at < date('h:i:s')) {
+                if ($deliveryservicable->start_at > date('H:i:s') || $deliveryservicable->end_at < date('H:i:s')) {
                     Session::flash('danger', 'Showcase At Home service is not available at this time');
                     Session::remove('showcasepincode');
                     Session::remove('showcasecity');
                     return redirect()->route('products');
                 }
+
             }
 
             if (!empty($deliveryservicable)) {
