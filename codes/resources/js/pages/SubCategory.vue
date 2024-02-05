@@ -77,7 +77,62 @@
 
          <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg">
             <div class="block">
-               S
+               <div class="flex flex-wrap items-center justify-between py-4">
+                  <div class="flex flex-wrap text-base text-gray-700 gap-2">
+                     <div>
+                        {{ pagination.from || '0' }} - {{ pagination.to || '0' }} of {{ pagination.total || '0' }}
+                     </div>
+                     <div>
+                        <button :disabled="!pagination.prev_page_url" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50"
+                                title="Previous"
+                                @click="fetchSubCategory(pagination.prev_page_url)">
+                           <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
+                        </button>
+                        <button :disabled="!pagination.next_page_url" class="border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50"
+                                title="Next" @click="fetchSubCategory(pagination.next_page_url)">
+                           <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
+                        </button>
+                     </div>
+                  </div>
+                  <div class="flex flex-wrap items-center gap-2">
+                     <div class="relative">
+                        <select v-model="status" class="block appearance-none w-32 leading-tight h-full cursor-pointer text-black bg-white border border-gray-400 focus:outline-none hover:shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-none font-medium rounded-lg text-sm px-3 py-2" title="Status"
+                                @change="fetchSubCategory()">
+                           <option class="bg-gray-100" value="">All</option>
+                           <option class="bg-gray-100" value="1">Published</option>
+                           <option class="bg-gray-100" value="0">Un Published</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                           <i class="fi fi-ss-angle-small-down text-xl w-5 h-6 ml-1"></i>
+                        </div>
+                     </div>
+                     <label class="sr-only" for="table-search">Search</label>
+                     <div class="relative">
+                        <div v-if="keyword"
+                             class="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer" @click="keyword = ''; fetchSubCategory();">
+                           <i class="fi fi-rr-cross-small mr-1"></i>
+                        </div>
+                        <div v-else class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                           <i class="fi fi-rr-search mr-1"></i>
+                        </div>
+                        <input v-model="keyword" class="search" placeholder="Search" type="text"
+                               @keydown.enter="fetchSubCategory()">
+                     </div>
+                     <div class="flex border border-gray-600 rounded-lg bg-white">
+                        <button class="px-2 py-1 m-[2px] hover:bg-primary-100 border-r border-solid cursor-pointer"
+                                @click="fetchSubCategory()">
+                           <i class="ffi fi-rr-refresh mr-1"></i>
+                        </button>
+                        <select v-model="row_count"
+                                class="w-14 block px-1 m-[2px] text-base text-center text-gray-900 bg-white cursor-pointer" @change="fetchSubCategory()">
+                           <option v-for="(count, index) in $store.state.row_counts" :key="index" :value="count.toLowerCase()"
+                                   class="bg-white">
+                              {{ count }}
+                           </option>
+                        </select>
+                     </div>
+                  </div>
+               </div>
                <template v-if="dataLoading">
                   <Skeleton/>
                </template>

@@ -6,6 +6,16 @@
             <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
                <i class="fi fi-rr-box-open"></i>
                <h3 class="text-start my-8">Products</h3>
+               <router-link :to="{name:'product-bulk-upload'}"
+                   class="inline-flex items-center gap-2 px-4 py-2 mx-1 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-amber-500 hover:bg-amber-600">
+                  <i class="fi fi-rr-download text-base w-4 h-5"></i>
+                  Excel Download
+               </router-link>
+               <router-link :to="{name:'product-bulk-upload'}" class="inline-flex items-center gap-2 px-4 py-2 mx-1 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-green-500 hover:bg-green-600"
+                       @click="excelUpload()">
+                  <i class="fi fi-rr-upload text-base w-4 h-5"></i>
+                  Excel Upload
+               </router-link>
             </div>
             <div>
                <router-link
@@ -105,7 +115,8 @@
                         <div class="table-row table-head">
                            <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
                               <div class="flex items-center">
-                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
+                                 <input :checked="selected_ids.length === products.length" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox"
+                                        @change="selectAll($event)">
                               </div>
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
@@ -134,7 +145,8 @@
                              class="table-row table-body hover:bg-primary-100">
                            <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
                               <div class="flex items-center">
-                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
+                                 <input v-model="selected_ids" :value="product.id" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" name="checkbox_input[]"
+                                        type="checkbox">
                               </div>
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">
@@ -271,6 +283,7 @@
       name: "Products",
       data() {
          return {
+            selected_ids: [],
             loading: false,
             dataLoading: true,
             products: [{}],
@@ -289,6 +302,19 @@
          }
       },
       methods: {
+         selectAll(e) {
+            if (e.target.checked) {
+               this.selected_ids = this.products.map(product => product.id);
+            } else {
+               this.selected_ids = [];
+            }
+         },
+         excelDownload() {
+
+         },
+         excelUpload() {
+
+         },
          imageModal(img) {
             this.showModal = true;
             this.imgModal = img;

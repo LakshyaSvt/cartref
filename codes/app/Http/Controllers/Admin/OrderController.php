@@ -8,8 +8,13 @@ use App\Http\Controllers\Admin\Actions\Order\MarkAsShipped;
 use App\Http\Controllers\Admin\Actions\Order\SchedulePickup;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
+use App\Imports\ProductImport;
 use App\Order;
+use App\ProductCategory;
+use App\ProductSubcategory;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
 
 class OrderController extends Controller
 {
@@ -140,6 +145,59 @@ class OrderController extends Controller
         $res = MarkAsShipped::shipped($request->order_ids);
 
         return response()->json($res);
+    }
+
+    public function excelDownload(Request $request)
+    {
+
+    }
+
+    public function excelUpload(Request $request)
+    {
+        $request->validate([
+            'category_id' => 'required',
+            'subcategory_id' => 'required',
+        ]);
+        $category = ProductCategory::findOrFail(request()->category_id);
+        $sub_category = ProductSubcategory::findOrFail(request()->subcategory_id);
+
+        try {
+            $imp = Excel::import(new ProductImport($category->id, $sub_category->id), $request->file);
+
+            $response = [
+                'message' => 'Products uploaded successfully',
+                'alert-type' => 'success',
+            ];
+        } catch (ValidationException $e) {
+            //Error Handling
+            $failures = $e->failures();
+            $all_errors = $e->errors();
+            $errormessage = '';
+
+            //Get the error's row position and msg
+            foreach ($failures as $failure) {
+                $err = implode('', $failure->errors());
+                $errormessage .= " At Row <strong>" . ($failure->row() + 1) . "</strong>, ";
+                $errormessage .= "<span>" . $err . "</span>";
+                $errormessage .= " where values are " . json_encode(array_values($failure->values()));
+                $errormessage .= "<br>\n";
+            }
+
+            $response = [
+                'status' => 'error',
+                'msg' => 'Some Error Occurred',
+                'data' => $errormessage,
+            ];
+
+        } catch (\Exception $e) {
+            $response = [
+                'status' => 'error',
+                'msg' => 'Some Error Occurred',
+                'data' => $e->getMessage(),
+            ];
+        }
+
+        return response()->json($response);
     }
 
     public function delete($id)

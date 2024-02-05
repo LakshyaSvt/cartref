@@ -5,6 +5,7 @@ import DeliveryArea from '@pages/DeliveryArea.vue'
 import Category from "@pages/Category.vue";
 import SubCategory from "@pages/SubCategory.vue";
 import Products from "@pages/Products.vue";
+import ProductBulkUpload from "@pages/ProductBulkUpload.vue";
 import ProductColors from "@pages/ProductColors.vue";
 import ProductSizes from "@pages/ProductSizes.vue";
 import ProductColorEdit from "@pages/ProductColorEdit.vue";
@@ -59,6 +60,11 @@ const routes = [
         name: 'products',
         path: '/admin/products',
         component: Products,
+    },
+    {
+        name: 'product-bulk-upload',
+        path: '/admin/products/bulk-upload',
+        component: ProductBulkUpload,
     },
     {
         name: 'product-edit',
