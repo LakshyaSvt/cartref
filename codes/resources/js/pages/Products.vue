@@ -143,7 +143,8 @@
                            <div class="table-cell border-t border-l border-gray-500 text-sm p-1 text-center !align-middle">
                               <img v-if="product.image" :src="$store.state.storageUrl + product.image"
                                    alt="product-img"
-                                   class="w-20 h-20 border border-gray-400 mx-auto p-1 rounded-[50%]" @click="imageModal($store.state.storageUrl + product.image)">
+                                   class="w-20 h-20 border border-gray-400 mx-auto p-1 rounded-[50%]"
+                                   @click="imageModal($store.state.storageUrl + product.image)" @error="imageLoadError">
                               <p v-else class="text-center text-gray-800">--No Image--</p>
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-1 text-center">
@@ -152,8 +153,7 @@
                                      :title="product?.name"
                                      class="w-full text-base font-semibold cursor-pointer hover:underline overflow-hidden whitespace-nowrap text-ellipsis">
                                     <a :href="'/product/' + product.slug" target="_blank">
-                                       {{ product?.name ? product.name.substr(0, 60) : '-' }}{{ product?.name.length > 60 ? '...' : ''
-                                       }}
+                                       {{ product?.name ? product.name.substr(0, 60) : '-' }}{{ product?.name.length > 60 ? '...' : '' }}
                                     </a>
                                  </div>
                                  <div class="flex gap-8 w-full">
