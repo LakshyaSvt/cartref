@@ -180,7 +180,8 @@ Route::post('/search', [WelcomeController::class, 'search'])->name('search');
  * Homepage
  */
 
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+Route::get('/', [WelcomeController::class, 'main'])->name('main');
+Route::get('/home', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/slider/{slug}', [WelcomeController::class, 'slider'])->name('slider.slug');
 /**
  * End homepage

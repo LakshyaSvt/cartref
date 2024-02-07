@@ -36,7 +36,10 @@ class WelcomeController extends Controller
     {
         // $this->middleware(['verified']);
     }
-
+    public function main()
+    {
+        return view('main');
+    }
     /**
      * Display a listing of the resource.
      *
