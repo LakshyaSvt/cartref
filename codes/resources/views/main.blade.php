@@ -6,7 +6,7 @@
     @if (Config::get('icrm.seo.feature') == true)
         @include('components.frontend.seo.seo')
     @endif
-    <link rel="stylesheet" href="{{config('app.url')}}/css/new-main.css">
+    <link rel="stylesheet" href="/css/new-main.css">
 </head>
 <body>
 <header>
