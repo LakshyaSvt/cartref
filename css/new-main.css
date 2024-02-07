@@ -414,6 +414,11 @@ a {
     .footer {
         padding: 4rem 2.5rem;
     }
+    .btn-1 {
+        padding: 1.25rem 1.5rem;
+        border: 3px solid white;
+        background: #EE2737;
+    }
 
     .btn-1 a {
         background: inherit;
@@ -424,7 +429,7 @@ a {
     }
 
     .btn-2 {
-        padding: 1.25rem 0.5rem;
+        padding: 1.25rem 1.5rem;
         border: 3px solid white;
         background: #000000;
     }
@@ -441,6 +446,42 @@ a {
         width: auto;
         height: auto;
         margin: 0 0 -2px 12px;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .btn-1 {
+        padding: 1.75rem 2.5rem;
+        border: 3px solid white;
+        background: #EE2737;
+    }
+
+    .btn-1 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .btn-2 {
+        padding: 1.75rem 2.5rem;
+        border: 3px solid white;
+        background: #000000;
+    }
+
+    .btn-2 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .footer div a img {
+        width: auto;
+        height: auto;
+        margin: 0 0 -4px 12px;
     }
 }
 
@@ -497,7 +538,7 @@ a {
     }
 
     .btn-1 {
-        padding: 1rem 2rem;
+        padding: 2rem 3rem;
         border: 3px solid white;
         background: #EE2737;
     }
@@ -506,12 +547,12 @@ a {
         background: inherit;
         color: white;
         border: none;
-        font-size: 2rem;
+        font-size: 2.5rem;
         font-family: 'Abhaya Libre', serif;
     }
 
     .btn-2 {
-        padding: 1rem 2rem;
+        padding: 2rem 3rem;
         border: 3px solid white;
         background: #000000;
     }
@@ -520,7 +561,7 @@ a {
         background: inherit;
         color: white;
         border: none;
-        font-size: 2rem;
+        font-size: 2.5rem;
         font-family: 'Abhaya Libre', serif;
     }
 
