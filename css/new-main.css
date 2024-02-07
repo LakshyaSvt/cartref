@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre&family=Bebas+Neue&display=swap');
 
-*{
+* {
     scroll-behavior: smooth;
 }
+
 body {
     background-color: black;
     color: white;
@@ -36,6 +37,7 @@ main {
     font-size: 2.5rem;
     line-height: 3rem;
 }
+
 .intro1 span:nth-child(2) {
     color: #00B08B;
 }
@@ -89,8 +91,13 @@ main {
     padding: 0.25rem;
 }
 
+.footer div {
+    display: flex;
+    align-items: center;
+}
+
 .btn-1 {
-    padding: 0.25rem 0;
+    padding: 0.25rem 0.25rem;
     border: 1px solid white;
     background: #EE2737;
 }
@@ -108,7 +115,7 @@ a {
 }
 
 .btn-2 {
-    padding: 0.25rem 0;
+    padding: 0.25rem 0.25rem;
     border: 1px solid white;
     background: #000000;
 }
@@ -128,7 +135,7 @@ a {
 .footer div a img {
     width: 12px;
     height: 12px;
-    margin: 0 0 -2px 8px;
+    margin: 0 0 -2px 4px;
 }
 
 @media screen and (min-width: 400px) {
@@ -169,7 +176,7 @@ a {
     }
 
     .fdesc-2 {
-        font-size: 0.75rem;
+        font-size: 1rem;
         margin: 2px 0;
     }
 
@@ -178,7 +185,7 @@ a {
     }
 
     .btn-1 {
-        padding: 0.25rem 0;
+        padding: 0.25rem 0.25rem;
         border: 1px solid white;
         background: #EE2737;
     }
@@ -187,12 +194,12 @@ a {
         background: inherit;
         color: white;
         border: none;
-        font-size: 0.75rem;
+        font-size: 14px;
         font-family: 'Abhaya Libre', serif;
     }
 
     .btn-2 {
-        padding: 0.25rem 0;
+        padding: 0.25rem 0.25rem;
         border: 1px solid white;
         background: #000000;
     }
@@ -201,14 +208,14 @@ a {
         background: inherit;
         color: white;
         border: none;
-        font-size: 0.75rem;
+        font-size: 14px;
         font-family: 'Abhaya Libre', serif;
     }
 
     .footer div a img {
         width: 12px;
         height: 12px;
-        margin: 0 0 -2px 12px;
+        margin: 0 0 -2px 4px;
     }
 
 }
@@ -273,7 +280,7 @@ a {
         margin: 0 0 -2px 12px;
     }
 
-    .footer{
+    .footer {
         padding: 2rem 1rem;
     }
 }
