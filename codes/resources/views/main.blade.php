@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="image">
-            <img src="/images/new-main.png" alt="">
+            <img src="{{ Voyager::image(setting('site.cover_image')) }}" alt="">
         </div>
         <div class="footer-desc">
             <div class="fdesc-1">Lets Curate Your Shopping Experience</div>
