@@ -295,7 +295,7 @@ a {
 
     header .logo {
         width: 70%;
-        height: 120px;
+        height: 150px;
     }
 
     .intro-wrapper {
@@ -412,10 +412,34 @@ a {
     }
 
     .footer {
-        padding: 4rem 2rem;
+        padding: 4rem 2.5rem;
+    }
+
+    .btn-1 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .btn-2 {
+        padding: 1.25rem 0.5rem;
+        border: 3px solid white;
+        background: #000000;
+    }
+
+    .btn-2 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        font-family: 'Abhaya Libre', serif;
     }
 
     .footer div a img {
+        width: auto;
+        height: auto;
         margin: 0 0 -2px 12px;
     }
 }
