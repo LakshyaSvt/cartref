@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="image">
-            <img src="{{config('app.url')}}/images/new-main.png" alt="">
+            <img src="/images/new-main.png" alt="">
         </div>
         <div class="footer-desc">
             <div class="fdesc-1">Lets Curate Your Shopping Experience</div>
@@ -40,10 +40,10 @@
         </div>
         <div class="footer">
             <div class="btn-1">
-                <a href="{{ route('showcase.getstarted') }}">SHOWROOM AT HOME <img src="{{config('app.url')}}/images/arrow-right.png" alt=""></a>
+                <a href="{{ route('showcase.getstarted') }}">SHOWROOM AT HOME <img src="/images/arrow-right.png" alt=""></a>
             </div>
             <div class="btn-2">
-                <a href="{{ route('welcome') }}">CARTREFS GLOBAL STORE <img src="{{config('app.url')}}/images/arrow-right.png" alt=""></a>
+                <a href="{{ route('welcome') }}">CARTREFS GLOBAL STORE <img src="/images/arrow-right.png" alt=""></a>
             </div>
         </div>
     </div>
