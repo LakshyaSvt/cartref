@@ -39,10 +39,10 @@
             <div class="fdesc-2">Lets get you everything you need to be a showstopper...</div>
         </div>
         <div class="footer">
-            <div class="btn-1">
+            <div class="btn-1" onclick="window.location.href='{{ route('showcase.getstarted') }}'">
                 <a href="{{ route('showcase.getstarted') }}">SHOWROOM AT HOME <img src="/images/arrow-right.png" alt=""></a>
             </div>
-            <div class="btn-2">
+            <div class="btn-2" onclick="window.location.href='{{ route('welcome') }}'">
                 <a href="{{ route('welcome') }}">CARTREFS GLOBAL STORE <img src="/images/arrow-right.png" alt=""></a>
             </div>
         </div>
