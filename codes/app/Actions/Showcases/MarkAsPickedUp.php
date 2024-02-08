@@ -65,8 +65,7 @@ class MarkAsPickedUp extends AbstractAction
         {
             if(request('order_id'))
             {
-                $showcase = Showcase::where('order_id', request('order_id'))->whereIn('order_status', ['New Order'])->count();
-
+                $showcase = Showcase::where('order_id', request('order_id'))->whereIn('order_status', ['Accepted'])->count();
                 if($showcase > 0)
                 {
                     return $this->dataType->slug == 'showcases';
@@ -110,7 +109,7 @@ class MarkAsPickedUp extends AbstractAction
     private function markaspickedup($ids, $comingFrom)
     {
         $orders = Showcase::whereIn('id', $ids)
-                        ->whereIn('order_status', ['New Order'])
+                        ->whereIn('order_status', ['Accepted'])
                         ->get();
 
         /**
@@ -129,7 +128,7 @@ class MarkAsPickedUp extends AbstractAction
          */
 
         Showcase::whereIn('id', $ids)
-                ->whereIn('order_status', ['New Order'])
+                ->whereIn('order_status', ['Accepted'])
                 ->update([
                     'order_status' => 'Out For Showcase'
                 ]);

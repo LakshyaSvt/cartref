@@ -36,7 +36,10 @@ class WelcomeController extends Controller
     {
         // $this->middleware(['verified']);
     }
-
+    public function main()
+    {
+        return view('main');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -522,9 +525,10 @@ class WelcomeController extends Controller
             }
         }
 
-        if($selectedColor){
-            $selectedColor = Color::where('name', 'Like', '%' . $selectedColor->color . '%')->first();
+        if(!isset($selectedColor)){
+            abort(404);
         }
+        $selectedColor = Color::where('name', 'Like', '%' . $selectedColor->color . '%')->first();
         $moreColourText = 'More ' . $selectedColor->name . ' ' . $subCat->name;
         $colourCount = $this->getNumberMoreButton($subCat->slug, [$gender], null, [$selectedColor->id]);
 

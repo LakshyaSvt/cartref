@@ -6,6 +6,7 @@ use App\Component;
 use App\DeliveryServicableArea;
 use App\Models\Product;
 use App\Models\RewardPointLog;
+use App\Models\User;
 use App\Models\UserCreditLog;
 use App\Notifications\OrderEmail;
 use App\Notifications\PushNotification;
@@ -24,7 +25,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Razorpay\Api\Api;
-use App\Models\User;
 
 class ShowcaseAtHomeController extends Controller
 {
@@ -79,6 +79,16 @@ class ShowcaseAtHomeController extends Controller
             $deliveryservicable = DeliveryServicableArea::where('city', Session::get('city'))->where('status', 1)->first();
 
             if (!empty($deliveryservicable)) {
+                if ($deliveryservicable->start_at > date('H:i:s') || $deliveryservicable->end_at < date('H:i:s')) {
+                    Session::flash('danger', 'Showcase At Home service is not available at this time');
+                    Session::remove('showcasepincode');
+                    Session::remove('showcasecity');
+                    return redirect()->route('products');
+                }
+
+            }
+
+            if (!empty($deliveryservicable)) {
                 // check if the selected product is from the vendor who offers delivery in the customers city
                 $showcase = app('showcase')->session($userID);
                 $showcasecontents = app('showcase')->session($userID)->getContent();
@@ -131,7 +141,6 @@ class ShowcaseAtHomeController extends Controller
                 return redirect()->route('products');
             }
 
-
         } else {
             Session::remove('showcasepincode');
             Session::remove('showcasecity');
@@ -139,10 +148,10 @@ class ShowcaseAtHomeController extends Controller
             return redirect()->back();
         }
 
-
     }
 
-    private function mapcitystate($pincode)
+    private
+    function mapcitystate($pincode)
     {
         Session::remove('city');
         Session::remove('state');
@@ -219,7 +228,8 @@ class ShowcaseAtHomeController extends Controller
     }
 
 
-    public function deactivateshowcase()
+    public
+    function deactivateshowcase()
     {
         Session::remove('showcasepincode');
         Session::remove('showcasecity');
@@ -229,7 +239,8 @@ class ShowcaseAtHomeController extends Controller
         return redirect()->back();
     }
 
-    public function bag()
+    public
+    function bag()
     {
         return view('showcase.bag')->with([
 
@@ -237,7 +248,8 @@ class ShowcaseAtHomeController extends Controller
     }
 
 
-    public function checkout()
+    public
+    function checkout()
     {
         return view('showcase.checkout')->with([
 
@@ -245,12 +257,13 @@ class ShowcaseAtHomeController extends Controller
     }
 
 
-    public function paynow(Request $request)
+    public
+    function paynow(Request $request)
     {
         /** Proceed Razorpay payment */
         $input = $request->all();
 
-        if($request->amount > 0){
+        if ($request->amount > 0) {
             $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
 
             $payment = $api->payment->fetch($request->razorpay_payment_id);
@@ -286,8 +299,7 @@ class ShowcaseAtHomeController extends Controller
              * Clear cart
              */
             $this->carttoorder($payInfo);
-        }
-        else{
+        } else {
             $this->carttoorder([]);
         }
 
@@ -298,7 +310,8 @@ class ShowcaseAtHomeController extends Controller
     }
 
 
-    public function carttoorder($payInfo)
+    public
+    function carttoorder($payInfo)
     {
 
         $userID = 0;
@@ -444,7 +457,8 @@ class ShowcaseAtHomeController extends Controller
     }
 
 
-    public function orderemail($orderid)
+    public
+    function orderemail($orderid)
     {
 
         /**
@@ -461,7 +475,7 @@ class ShowcaseAtHomeController extends Controller
             $order = Showcase::where('order_id', $orderid)->first();
             $vendorinfo = User::where('id', $order->vendor_id)->first();
 
-            if(isset($order) && isset($vendorinfo)){
+            if (isset($order) && isset($vendorinfo)) {
                 Notification::route('mail', $vendorinfo->email)->notify(
                     new ShowroomAtHomeOrder($orderid, $vendorinfo->name, $order->customer_name, $order->customer_email)
                 );
@@ -474,23 +488,27 @@ class ShowcaseAtHomeController extends Controller
     }
 
 
-    public function myorders()
+    public
+    function myorders()
     {
         return view('showcase.myorders');
     }
 
 
-    public function ordercomplete()
+    public
+    function ordercomplete()
     {
         return view('showcase.ordercomplete');
     }
 
-    public function buynow()
+    public
+    function buynow()
     {
         return view('showcase.buynow');
     }
 
-    public function addTime($id)
+    public
+    function addTime($id)
     {
         $orders = Showcase::where('order_id', $id)->where('order_status', 'Showcased')->get();
         foreach ($orders as $order) {
@@ -506,7 +524,8 @@ class ShowcaseAtHomeController extends Controller
         ]);
     }
 
-    public function acceptOrder($id)
+    public
+    function acceptOrder($id)
     {
         if (auth()->user()->hasRole(['Vendor'])) {
             $orders = Showcase::where(['order_id' => $id, 'vendor_id' => auth()->user()->id])
@@ -530,7 +549,8 @@ class ShowcaseAtHomeController extends Controller
         }
     }
 
-    public function cancelOrder($id)
+    public
+    function cancelOrder($id)
     {
         $orders = Showcase::where('order_id', $id)->get();
 
@@ -576,7 +596,8 @@ class ShowcaseAtHomeController extends Controller
     }
 
 
-    public function purchasepaynow(Request $request)
+    public
+    function purchasepaynow(Request $request)
     {
         /** Proceed Razorpay payment */
         $input = $request->all();
@@ -623,7 +644,8 @@ class ShowcaseAtHomeController extends Controller
         return response()->json(['success' => 'Payment successful']);
     }
 
-    private function purchasecarttoorder($showcaseorderid)
+    private
+    function purchasecarttoorder($showcaseorderid)
     {
 
         // Generate random order id
@@ -826,7 +848,8 @@ class ShowcaseAtHomeController extends Controller
     }
 
 
-    private function purchaseorderemail($orderid)
+    private
+    function purchaseorderemail($orderid)
     {
         /**
          * Send email to customer about showcase initiated
@@ -838,7 +861,8 @@ class ShowcaseAtHomeController extends Controller
         }
     }
 
-    public function getOrder($order_id)
+    public
+    function getOrder($order_id)
     {
         $showcases = Showcase::with('product')->where('order_id', $order_id)->get();
         return response()->json(['showcases' => $showcases]);

@@ -1,0 +1,574 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre&family=Bebas+Neue&display=swap');
+
+* {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: black;
+    color: white;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 1.25rem auto;
+}
+
+header .logo {
+    width: 72%;
+    height: 60px;
+}
+
+main {
+    margin: auto;
+}
+
+.container {
+    width: auto;
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
+}
+
+.intro-wrapper {
+    margin: 2rem 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    line-height: 3rem;
+}
+
+.intro1 span:nth-child(2) {
+    color: #00B08B;
+}
+
+.intro2 span:nth-child(2) {
+    color: #EE2737;
+}
+
+.description-wrapper {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    font-family: 'Abhaya Libre', serif;
+}
+
+.desc-1 {
+    margin: 1px 0px;
+}
+
+.image {
+    margin: 2rem 0;
+}
+
+.image img {
+    width: 100%;
+    height: 18rem;
+}
+
+.footer-desc {
+    font-family: 'Abhaya Libre', serif;
+}
+
+.fdesc-1 {
+    font-size: 1.3rem;
+    margin: 2px 0;
+}
+
+.fdesc-2 {
+    font-size: 0.75rem;
+    margin: 2px 0;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    /*padding: 1rem 2rem;*/
+    margin: 2rem 0.2rem;
+
+}
+
+.footer {
+    padding: 0.25rem;
+}
+
+.footer div {
+    display: flex;
+    align-items: center;
+}
+
+.btn-1 {
+    padding: 0.25rem 0.25rem;
+    border: 1px solid white;
+    background: #EE2737;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn-1 a {
+    background: inherit;
+    color: white;
+    border: none;
+    font-size: 0.75rem;
+    font-family: 'Abhaya Libre', serif;
+}
+
+.btn-2 {
+    padding: 0.25rem 0.25rem;
+    border: 1px solid white;
+    background: #000000;
+}
+
+.btn-2 a {
+    background: inherit;
+    color: white;
+    border: none;
+    font-size: 0.75rem;
+    font-family: 'Abhaya Libre', serif;
+}
+
+.footer div {
+    cursor: pointer;
+}
+
+.footer div a img {
+    width: 12px;
+    height: 12px;
+    margin: 0 0 -2px 4px;
+}
+
+@media screen and (min-width: 400px) {
+    header {
+        margin: 1.25rem auto;
+    }
+
+    header .logo {
+        width: 72%;
+        height: 60px;
+    }
+
+    .container {
+        padding: 0;
+        margin-right: 0.25rem;
+        margin-left: 0.25rem;
+    }
+
+    .intro-wrapper {
+        font-size: 3rem;
+        line-height: 4rem;
+    }
+
+    .description-wrapper {
+        font-size: 1.7rem;
+        line-height: 2rem;
+        letter-spacing: 0.2px;
+    }
+
+    .image img {
+        width: 100%;
+        height: 18rem;
+    }
+
+    .fdesc-1 {
+        font-size: 1.5rem;
+        margin: 2px 0;
+    }
+
+    .fdesc-2 {
+        font-size: 1rem;
+        margin: 2px 0;
+    }
+
+    .footer {
+        padding: 0;
+    }
+
+    .btn-1 {
+        padding: 0.25rem 0.25rem;
+        border: 1px solid white;
+        background: #EE2737;
+        height: 35px;
+    }
+
+    .btn-1 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 15px;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .btn-2 {
+        padding: 0.25rem 0.25rem;
+        border: 1px solid white;
+        background: #000000;
+        height: 35px;
+    }
+
+    .btn-2 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 15px;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .footer div a img {
+        width: 12px;
+        height: 12px;
+        margin: 0 0 -2px 4px;
+    }
+
+}
+
+@media screen and (min-width: 500px) {
+    header .logo {
+        width: 72%;
+        height: 70px;
+    }
+
+    .intro-wrapper {
+        font-size: 5rem;
+        line-height: 5rem;
+    }
+
+    .image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .fdesc-1 {
+        font-size: 1.75rem;
+        margin: 2px 0;
+    }
+
+    .fdesc-2 {
+        font-size: 1rem;
+        margin: 2px 0;
+    }
+
+    .btn-1 {
+        padding: 0.5rem 0.25rem;
+        border: 2px solid white;
+        background: #EE2737;
+    }
+
+    .btn-1 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 1rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .btn-2 {
+        padding: 0.5rem 0.25rem;
+        border: 2px solid white;
+        background: #000000;
+    }
+
+    .btn-2 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 1rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .footer div a img {
+        width: 12px;
+        height: 12px;
+        margin: 0 0 -2px 12px;
+    }
+
+    .footer {
+        padding: 2rem 1rem;
+    }
+}
+
+@media screen and (min-width: 700px) {
+    .container {
+        padding-right: .75rem;
+        padding-left: .75rem;
+    }
+
+    header .logo {
+        width: 70%;
+        height: 150px;
+    }
+
+    .intro-wrapper {
+        font-size: 6rem;
+        line-height: 7rem;
+        letter-spacing: 0.2px;
+    }
+
+    .description-wrapper {
+        font-size: 1.6rem;
+        line-height: 1.8rem;
+        letter-spacing: 0.2px;
+    }
+
+    .fdesc-1 {
+        font-size: 2rem;
+        margin: 2px 0;
+    }
+
+    .fdesc-2 {
+        font-size: 1.25rem;
+        margin: 2px 0;
+    }
+
+    .btn-1 {
+        padding: 1.25rem 0.5rem;
+        border: 3px solid white;
+        background: #EE2737;
+    }
+
+    .btn-1 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 1.5rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .btn-2 {
+        padding: 1.25rem 0.5rem;
+        border: 3px solid white;
+        background: #000000;
+    }
+
+    .btn-2 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 1.5rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .footer div a img {
+        width: 15px;
+        height: 15px;
+        margin: 0 0 -2px 12px;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .intro-wrapper {
+        font-size: 7rem;
+        line-height: 7rem;
+    }
+
+    .image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .fdesc-1 {
+        font-size: 2.5rem;
+        margin: 2px 0;
+    }
+
+    .fdesc-2 {
+        font-size: 1.25rem;
+        margin: 2px 0;
+    }
+
+    .footer {
+        padding: 4rem 2rem;
+    }
+
+}
+
+@media screen and (min-width: 1000px) {
+    .intro-wrapper {
+        padding: 1rem 1.25rem;
+        font-size: 8rem;
+        line-height: 9rem;
+        letter-spacing: 0.25px;
+    }
+
+    .description-wrapper {
+        padding: 1rem 1.25rem;
+        font-size: 2rem;
+        line-height: 3rem;
+    }
+
+    .image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .fdesc-1 {
+        font-size: 2.75rem;
+        margin: 2px 0;
+    }
+
+    .fdesc-2 {
+        font-size: 1.5rem;
+        margin: 2px 0;
+    }
+
+    .footer {
+        padding: 4rem 2.5rem;
+    }
+    .btn-1 {
+        padding: 1.25rem 1.5rem;
+        border: 3px solid white;
+        background: #EE2737;
+    }
+
+    .btn-1 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .btn-2 {
+        padding: 1.25rem 1.5rem;
+        border: 3px solid white;
+        background: #000000;
+    }
+
+    .btn-2 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .footer div a img {
+        width: auto;
+        height: auto;
+        margin: 0 0 -2px 12px;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .btn-1 {
+        padding: 1.75rem 2.5rem;
+        border: 3px solid white;
+        background: #EE2737;
+    }
+
+    .btn-1 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .btn-2 {
+        padding: 1.75rem 2.5rem;
+        border: 3px solid white;
+        background: #000000;
+    }
+
+    .btn-2 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .footer div a img {
+        width: auto;
+        height: auto;
+        margin: 0 0 -4px 12px;
+    }
+}
+
+@media screen and (min-width: 1350px) {
+    header {
+        margin: 1.6rem auto;
+    }
+
+    header .logo {
+        width: 65%;
+        height: 170px;
+    }
+
+    .container {
+        margin-right: 2rem;
+        margin-left: 2rem;
+    }
+
+    .intro-wrapper {
+        padding: 1rem .25rem;
+        font-size: 10rem;
+        line-height: 10rem;
+        letter-spacing: 0.25px;
+    }
+
+    .description-wrapper {
+        margin: 2.2rem 0;
+        padding: 1rem 0;
+        font-size: 2.25rem;
+        line-height: 3rem;
+    }
+
+    .desc-1 {
+        margin: 4px 0px;
+    }
+
+    .image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .fdesc-1 {
+        font-size: 3rem;
+        margin: 2px 0;
+    }
+
+    .fdesc-2 {
+        font-size: 1.25rem;
+        margin: 2px 0;
+    }
+
+    .footer {
+        padding: 4rem 2rem;
+    }
+
+    .btn-1 {
+        padding: 2rem 3rem;
+        border: 3px solid white;
+        background: #EE2737;
+    }
+
+    .btn-1 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 2.5rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .btn-2 {
+        padding: 2rem 3rem;
+        border: 3px solid white;
+        background: #000000;
+    }
+
+    .btn-2 a {
+        background: inherit;
+        color: white;
+        border: none;
+        font-size: 2.5rem;
+        font-family: 'Abhaya Libre', serif;
+    }
+
+    .footer div a img {
+        width: auto;
+        height: auto;
+        margin: 0 0 -4px 12px;
+    }
+}
+
