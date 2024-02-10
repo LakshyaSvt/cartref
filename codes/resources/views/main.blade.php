@@ -42,8 +42,8 @@
             <div class="btn-1" onclick="window.location.href='{{ route('showcase.getstarted') }}'">
                 <a href="{{ route('showcase.getstarted') }}">SHOWROOM AT HOME <img src="/images/arrow-right.png" alt=""></a>
             </div>
-            <div class="btn-2" onclick="window.location.href='{{ route('welcome') }}'">
-                <a href="{{ route('welcome') }}">CARTREFS GLOBAL STORE <img src="/images/arrow-right.png" alt=""></a>
+            <div class="btn-2" onclick="window.location.href='{{ route('welcome',['page' => 'index']) }}'">
+                <a href="{{ route('welcome',['page' => 'index']) }}">CARTREFS GLOBAL STORE <img src="/images/arrow-right.png" alt=""></a>
             </div>
         </div>
     </div>
