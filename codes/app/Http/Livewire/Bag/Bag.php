@@ -61,7 +61,7 @@ class Bag extends Component
         if(!empty(Session::get('deliverypincode')))
         {
              $this->deliveryavailability = true;
-             Session::flash('deliveryavailable', 'Delivery available in your area');
+             //Session::flash('deliveryavailable', 'Delivery available in your area');
         }else{
             Session::remove('deliveryavailable');
             Session::remove('deliverynotavailable');
