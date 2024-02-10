@@ -197,8 +197,12 @@
                                                                 <label class="size-label">
                                                                     <span class="size-span">
                                                                         <div class="size-span-div">
-                                                                            <span class="size-name"
-                                                                                  @if ($size->available_stock <= 0) style="color:red;" @endif>{{ $size->size }}</span>
+                                                                            <span class="size-name" @if ($size->available_stock <= 0) style="color:red;" @endif>
+                                                                                {{ $size->size }}
+                                                                            </span>
+                                                                            @if ($size->available_stock <= 0)
+                                                                                <span style="color:red;margin-left: 2rem;">(Out of stock) </span>
+                                                                            @endif
                                                                         </div>
                                                                     </span>
                                                                 </label>
@@ -262,12 +266,16 @@
                                                                value=""/>
                                                         <div class="size-div2">
                                                             <label class="size-label">
-                                                                    <span class="size-span">
-                                                                        <div class="size-span-div">
-                                                                            <span class="size-name"
-                                                                                  @if ($size->available_stock <= 0) style="color:red;" @endif>{{ $size->size }}</span>
-                                                                        </div>
-                                                                    </span>
+                                                                <span class="size-span">
+                                                                    <div class="size-span-div">
+                                                                        <span class="size-name" @if ($size->available_stock <= 0) style="color:red;" @endif>
+                                                                            {{ $size->size }}
+                                                                        </span>
+                                                                        @if ($size->available_stock <= 0)
+                                                                            <span style="color:red;margin-left: 2rem;">(Out of stock) </span>
+                                                                        @endif
+                                                                    </div>
+                                                                </span>
                                                             </label>
                                                         </div>
                                                 </div>
@@ -813,7 +821,9 @@
                                            value="{{ $size->size }}"
                                            @if ($size->available_stock <= 0) disabled="disabled"
                                            title="{{ Config::get('icrm.frontend.outofstock.name') }}" @endif>
-                                            {{ $size->size }}
+                                            {{ $size->size }}  @if ($size->available_stock <= 0)
+                                                <span style="color:red;margin-left: 2rem;">(Out of stock) </span>
+                                            @endif
 
                                             {{-- @if ($size->available_stock <= 0)
                                             <br><span class="outofstock">{{ Config::get('icrm.frontend.outofstock.name') }}</span>
@@ -896,7 +906,7 @@
                                         {{ $size->size }}
 
                                         {{-- @if ($size->available_stock <= 0)
-                                        <br><span class="outofstock">Out of stock</span>
+                                        <br><span class="outofstock"><span style=color:red;O>ut of stock<</span>/span>
                                     @endif --}}
                                     </a>
                                 @endforeach
