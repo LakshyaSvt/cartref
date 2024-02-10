@@ -140,7 +140,7 @@
 </header>
 
 <div class="notifications" style="background:#000000eb">
-    <div class="alert alert-news alert-light alert-round alert-inline" style="padding: 0.2em 0;color:white;">
+    <div class="alert alert-news alert-light alert-round alert-inline" style="padding: 0.2em 0;color:white; display: none">
         @if(Session::get('showcasecity'))
             Products Visible from City {{ Session::get('showcasecity') }}
         @else
