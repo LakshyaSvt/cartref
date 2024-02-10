@@ -47,15 +47,6 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-        //dd(request()->cookie('index_page'));
-        if(isset(request()->page)){
-            //dd(request()->page);
-            $cookie = cookie('index_page', request()->page, 10);
-            return redirect()->route('welcome')->cookie($cookie);
-        }
-        if(!request()->cookie('index_page')){
-            return view('main');
-        }
         $homesliders = HomeSlider::where(['status' => 1, 'category' => 'Home'])->orderBy('order_id', 'ASC')->get();
 
         if (Config::get('icrm.frontend.flashsale.feature') == 1) {
