@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Bag;
 
 use App\Productsku;
 use App\Models\Product;
+use Carbon\Carbon;
 use Livewire\Component;
 use Darryldecode\Cart\Cart;
 use Seshac\Shiprocket\Shiprocket;
@@ -559,6 +560,9 @@ class Bag extends Component
             }
 
             $this->deliveryavailability = true;
+
+            //dd($etd, Carbon::parse($etd)->addDays(3)->format('M d, Y'));
+            $etd = Carbon::parse($etd)->addDays(3)->format('M d, Y');
 
             if(Config::get('icrm.order_methods.cod') == 1)
             {
