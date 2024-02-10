@@ -1,9 +1,12 @@
 <div class="dropdown cart-dropdown type2 mr-0 mr-lg-2">
-    <a href="{{ route('bag') }}" class="cart-toggle link">
-        <i class="d-icon-bag">
+    <a href="{{ route('bag') }}" class="cart-toggle link justify-content-center">
+{{--        <i class="d-icon-bag">--}}
+        <img src="{{ config('app.url') }}/images/icons/bag.png" alt="iCommerce"
+             style="height: 1.8em;">
             <span class="cart-count" style="top: -0.15em;">{{ $hcartscount }}</span>
-        </i>
+{{--        </i>--}}
     </a>
+    <span>Bag</span>
     <!-- End Cart Toggle -->
     <div class="dropdown-box">
         @if (count($hcarts) == 0)

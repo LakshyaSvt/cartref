@@ -570,6 +570,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="{{ config('app.url')  }}/css/new-theme/app.css">
 
     @livewireStyles
     <script src="{{ asset('php_ua/assets/js/scripts/phpUaJS.js') }}"></script>

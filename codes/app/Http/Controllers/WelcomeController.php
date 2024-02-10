@@ -56,7 +56,8 @@ class WelcomeController extends Controller
                 ->whereHas('vendor', function ($q) {
                     $q->where('status', 1);
                 })
-                ->inRandomOrder()->limit(Config::get('icrm.frontend.flashsale.count'))->get();
+                ->inRandomOrder()
+                ->limit(Config::get('icrm.frontend.flashsale.count'))->get();
         } else {
             $flashsales = [];
         }

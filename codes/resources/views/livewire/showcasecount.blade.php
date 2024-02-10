@@ -99,21 +99,22 @@
     </div>
 @else
     <div class="dropdown cart-dropdown type2 mr-0 mr-lg-4 mr-4">
-        <a href="{{ route('showcase.introduction') }}" class="cart-toggle link">
+        <a href="{{ route('showcase.introduction') }}" class="cart-toggle link justify-content-center">
             <i>
                 @if (Session::get('showcasecity'))
-                    <img src="{{ config('app.url') }}/images/icons/showroom-2.png" alt="iCommerce"
-                         style="height: 1.5em;">
+                    <img src="{{ config('app.url') }}/images/icons/showroom.png" alt="iCommerce"
+                         style="height: 1.3em;">
                 @else
-                    <img src="{{ config('app.url') }}/images/icons/showroom-1.png" alt="iCommerce"
+                    <img src="{{ config('app.url') }}/images/icons/showroom-red.png" alt="iCommerce"
                          style="height: 1.5em;">
                 @endif
-                <span class="cart-count" style="top: -0.1em; background: darkorange;">{{ count($ssproducts) }}</span>
+                <span class="cart-count" style="top: -0.1em; background: #f00; right: 4px">{{ count($ssproducts) }}</span>
             </i>
             {{-- <i class="d-icon-home">
                 <span class="cart-count" style="top: -0.1em; background: darkorange;">{{ count($ssproducts) }}</span>
             </i> --}}
         </a>
+        <span class="d-block" >Showroom</span>
         <!-- End Cart Toggle -->
         <div class="dropdown-box" style="right: 0;">
             @if (count($ssproducts) == 0)
