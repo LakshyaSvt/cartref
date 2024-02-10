@@ -544,4 +544,4 @@ Route::get('/sds', function(){
     return Auth::check();
 });
 
-require __DIR__ .'/theme.php';
+//require __DIR__ .'/theme.php';
