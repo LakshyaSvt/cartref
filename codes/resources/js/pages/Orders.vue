@@ -369,7 +369,7 @@
                                     Tax Invoice
                                  </a>
                                  <form id="downloadtaxinvoiceForm" action="/sellers/orders/downloadtaxinvoice" class="hidden" method="post" target="_blank">
-                                    <input :value="csrf" name="_token" type="hidden">
+                                    <input v-bind:value="$store.state.csrf" name="_token" type="hidden">
                                     <input :value="order.order_awb" name="order_awb" type="hidden">
                                  </form>
                               </template>
@@ -479,8 +479,6 @@
       components: {Checkbox},
       data() {
          return {
-            //csrf token
-            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             loading: true,
             dataLoading: true,
             showModal: false,

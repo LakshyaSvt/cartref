@@ -50,9 +50,9 @@
                </div>
             </form>
          </div>
-         <!--         <a class=" btn btn-warning btn-add-new" download href="{{ route('products.download-dummy') }}">-->
-         <!--            <i class="voyager-cloud-download"></i> <span>Download Dummy File</span>-->
-         <!--         </a>-->
+         <!--<a class=" btn btn-warning btn-add-new" download href="{{ route('products.download-dummy') }}">-->
+         <!--  <i class="voyager-cloud-download"></i> <span>Download Dummy File</span>-->
+         <!--</a>-->
       </div>
       <a :href="$store.state.url+'/seller/products/download-dummy'"
          class="inline-flex items-center float-right gap-2 px-4 py-2 text-sm font-semibold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-green-500 hover:bg-green-600"

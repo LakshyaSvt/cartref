@@ -6,13 +6,21 @@
             <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
                <i class="fi fi-rr-box-open"></i>
                <h3 class="text-start my-8">Products</h3>
-               <router-link :to="{name:'product-bulk-upload'}"
-                   class="inline-flex items-center gap-2 px-4 py-2 mx-1 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-amber-500 hover:bg-amber-600">
+
+               <form id="excel-download" :action="$store.state.url+'/seller/products/action'" class="hidden" method="post">
+                  <input name="_token" type="hidden" v-bind:value="$store.state.csrf">
+                  <input name="action" type="hidden" value="App\Actions\Download">
+                  <input class="selected_ids" name="ids" type="hidden" v-bind:value="selected_ids.toString()">
+               </form>
+               <a class="inline-flex items-center gap-2 px-4 py-2 mx-1 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-amber-500 hover:bg-amber-600"
+                  href="javascript:void(0)"
+                  onclick="document.getElementById('excel-download').submit()">
                   <i class="fi fi-rr-download text-base w-4 h-5"></i>
                   Excel Download
-               </router-link>
-               <router-link :to="{name:'product-bulk-upload'}" class="inline-flex items-center gap-2 px-4 py-2 mx-1 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-green-500 hover:bg-green-600"
-                       @click="excelUpload()">
+               </a>
+               <router-link
+                   :to="{name:'product-bulk-upload'}"
+                   class="inline-flex items-center gap-2 px-4 py-2 mx-1 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-green-500 hover:bg-green-600">
                   <i class="fi fi-rr-upload text-base w-4 h-5"></i>
                   Excel Upload
                </router-link>

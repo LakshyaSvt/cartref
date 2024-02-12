@@ -12,6 +12,7 @@ const store = new Vuex.Store({
         assetUrl: window.location.origin,
         // storageUrl: "https://cartrefs.com" + '/storage/',
         storageUrl: window.location.origin + '/storage/',
+        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         defaultRowCount: '25',
         row_counts: [
             '25',
