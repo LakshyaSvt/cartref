@@ -22,6 +22,7 @@ mix
         },
     })
     .js('resources/js/app.js', 'public/vue/js')
+    .js('resources/js/vendorApp.js', 'public/vue/js')
     .vue()
     .postCss("resources/css/app.css", "public/vue/css", [
         require("tailwindcss")

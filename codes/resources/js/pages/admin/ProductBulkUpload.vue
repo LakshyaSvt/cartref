@@ -70,7 +70,7 @@
 
 <script setup>
    import {onMounted, ref} from "vue";
-   import toast from "../plugins/toast";
+   import toast from "../../plugins/toast";
 
    const loading = ref(false);
    const parent_category = ref([]);

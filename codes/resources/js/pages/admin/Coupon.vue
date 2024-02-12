@@ -256,7 +256,7 @@
 </template>
 
 <script>
-   import Checkbox from "../components/Checkbox.vue";
+   import Checkbox from "@components/Checkbox.vue";
 
    export default {
       name: "Coupon",

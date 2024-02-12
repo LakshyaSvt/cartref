@@ -162,7 +162,7 @@
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm p-1 text-center !align-middle">
                               <img v-if="product.image" :src="$store.state.storageUrl + product.image"
-                                   alt="product-img"
+                                   alt="product"
                                    class="w-20 h-20 border border-gray-400 mx-auto p-1 rounded-[50%]"
                                    @click="imageModal($store.state.storageUrl + product.image)" @error="imageLoadError">
                               <p v-else class="text-center text-gray-800">--No Image--</p>

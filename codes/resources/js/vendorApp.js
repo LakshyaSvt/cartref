@@ -1,4 +1,4 @@
-import adminRouter from "./Router/adminRouter";
+import vendorRouter from "./Router/vendorRouter";
 
 window.Vue = require('vue');
 global.jQuery = require('jquery');
@@ -15,7 +15,7 @@ var $ = global.jQuery;
 window.$ = $;
 
 //main-components
-Vue.component('side-bar', require('@components/SideBar.vue').default);
+Vue.component('side-bar', require('@components/VendorSideBar.vue').default);
 Vue.component('navbar', require('@components/NavBar.vue').default);
 //utility-components
 Vue.component('Skeleton', require('@components/Skeleton.vue').default);
@@ -30,6 +30,6 @@ Vue.component('Multiselect', Multiselect)
 
 const app = new Vue({
     el: '#app',
-    router: adminRouter,
+    router: vendorRouter,
     store
 });

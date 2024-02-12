@@ -36,6 +36,7 @@ module.exports = {
             },
             animation: {
                 'pulse-fast': 'pulse 0.8s linear infinite',
+                'spin-fast': 'spin 0.8s linear infinite',
             }
         },
     },
