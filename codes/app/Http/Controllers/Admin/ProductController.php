@@ -6,11 +6,15 @@ use App\Color;
 use App\Helper\FileHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
+use App\Imports\ProductImport;
 use App\Models\Product;
+use App\ProductCategory;
 use App\Productcolor;
 use App\Productsku;
+use App\ProductSubcategory;
 use App\Size;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -206,6 +210,52 @@ class ProductController extends Controller
         }
         //Response
         return new ApiResource(['status' => $status, 'msg' => $msg]);
+    }
+
+    public function bulkExcelUpload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,xlsx,xls|max:20000', //20MB
+            'category_id' => 'required',
+            'subcategory_id' => 'required',
+        ]);
+        $category = ProductCategory::findOrFail(request()->category_id);
+        $sub_category = ProductSubcategory::findOrFail(request()->subcategory_id);
+
+        try {
+            $import = new ProductImport($category->id, $sub_category->id);
+            Excel::import($import, $request->file);
+
+            $importedRows = $import->getRowCount(); // Get the count of successfully imported rows
+
+            $response = [
+                'status' => 'success',
+                'msg' => 'Products uploaded successfully',
+                'data' => "<strong>" . $importedRows . "</strong> Rows added",
+            ];
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            //Error Handling
+            $failures = $e->failures();
+            $all_errors = $e->errors();
+            $errormessage = '';
+
+            //Get the error's row position and msg
+            foreach ($failures as $failure) {
+                $err = implode('', $failure->errors());
+                $errormessage .= " At Row <strong>" . ($failure->row() + 1) . "</strong>, ";
+                $errormessage .= "<span>" . $err . "</span>";
+                $errormessage .= " where values are " . json_encode(array_values($failure->values()));
+                $errormessage .= "<br>\n";
+            }
+
+            $response = [
+                'status' => 'error',
+                'msg' => 'Some Error Occurred',
+                'data' => $errormessage
+            ];
+        }
+
+        return response()->json($response);
     }
 
     public function fetchProductColors(Request $request, $id)

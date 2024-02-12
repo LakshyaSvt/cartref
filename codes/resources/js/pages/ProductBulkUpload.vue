@@ -50,7 +50,15 @@
                </div>
             </form>
          </div>
+         <!--         <a class=" btn btn-warning btn-add-new" download href="{{ route('products.download-dummy') }}">-->
+         <!--            <i class="voyager-cloud-download"></i> <span>Download Dummy File</span>-->
+         <!--         </a>-->
       </div>
+      <a :href="$store.state.url+'/seller/products/download-dummy'"
+         class="inline-flex items-center float-right gap-2 px-4 py-2 text-sm font-semibold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-green-500 hover:bg-green-600"
+         download>
+         <i class="fi fi-rr-download text-base w-4 h-5"></i> Download Dummy File
+      </a>
       <div v-if="responseData" class="bg-white p-4 mx-auto my-2 overflow-x-auto shadow-md rounded-lg">
          <h1 class="text-3xl mb-4">Response :- </h1>
          <div class="block">
@@ -62,6 +70,7 @@
 
 <script setup>
    import {onMounted, ref} from "vue";
+   import toast from "../plugins/toast";
 
    const loading = ref(false);
    const parent_category = ref([]);
@@ -98,23 +107,28 @@
             const {loaded, total} = progressEvent;
             let percent = Math.floor((loaded * 100) / total)
 
-            if (percent <= 100) {
+            if (percent > 0 && percent < 100) {
                progress.value = percent + '%'
+            } else {
+               progress.value = '';
             }
          },
       }
       let formData = new FormData();
       formData.append('file', file.value);
+      formData.append('category_id', parent_category_id.value);
+      formData.append('subcategory_id', sub_category_id.value);
 
       uploading.value = true;
       responseData.value = '';
 
       axios.post('/admin/product/bulk-upload', formData, config)
           .then(res => {
-             this.show_toast(res.data.status, res.data.msg);
+             console.log(res.data);
              uploading.value = false;
              progress.value = '';
              responseData.value = (res.data.data);
+             toast.show_toast(res.data.status, res.data.msg);
           })
           .catch(err => {
              err.handleGlobally && err.handleGlobally();
@@ -141,6 +155,7 @@
    }
    const fetchSubCategory = () => {
       sub_category_id.value = '';
+      sub_category.value = [];
       axios.get('/admin/sub-category', {
          params: {
             rows: 'all',
