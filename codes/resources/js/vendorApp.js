@@ -1,16 +1,17 @@
 import vendorRouter from "./Router/vendorRouter";
-
-window.Vue = require('vue');
-global.jQuery = require('jquery');
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Multiselect from 'vue-multiselect'
 import "vue-multiselect/dist/vue-multiselect.min.css"
 import store from './Store/index'
-import mixin from './plugins/mixin';
 import './plugins/directives.js';
+import mixin from './plugins/mixin';
+
+window.Vue = require('vue');
+global.jQuery = require('jquery');
 
 Vue.use(VueRouter);
+
 var $ = global.jQuery;
 window.$ = $;
 

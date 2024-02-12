@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Actions\Order;
+namespace App\Http\Controllers\Actions\Order;
 use App\Order;
 
 class MarkAsShipped

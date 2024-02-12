@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\VendorPaymentController;
 use App\Http\Controllers\Admin\WishlistController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     /* PAN India Orders */
     Route::get('/order', [OrderController::class, 'index']);
@@ -38,9 +39,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/order/generate-label', [OrderController::class, 'generateLabel']);
     Route::post('/order/cancel-shipment', [OrderController::class, 'cancelShipment']);
     Route::post('/order/mark-as-shipped', [OrderController::class, 'markAsShipped']);
-    Route::post('/order/excel-download', [OrderController::class, 'excelDownload']);
     Route::post('/order/excel-upload', [OrderController::class, 'excelUpload']);
     Route::delete('/order/{id}', [OrderController::class, 'delete']);
+
     /* Showcase Orders */
     Route::get('/showcase', [ShowcaseController::class, 'index']);
     Route::get('/showcase/count', [ShowcaseController::class, 'getShowcaseCount']);

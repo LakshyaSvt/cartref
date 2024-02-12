@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Actions\Order\CancelShipment;
 use App\Http\Controllers\Actions\Order\GenerateLabel;
@@ -76,6 +76,8 @@ class OrderController extends Controller
                     });
                 });
             })
+            ->where('vendor_id', auth()->user()->id)
+            ->where('vendor_id', auth()->user()->id)
             ->latest()
             ->paginate($rows);
 
@@ -85,7 +87,7 @@ class OrderController extends Controller
 
     public function getOrderCount()
     {
-        $orders = Order::get();
+        $orders = Order::where('vendor_id', auth()->user()->id)->get();
 
         $new_order = $orders->where('order_status', 'New Order')->count();
         $ready_to_dispatch = $orders->where('order_status', 'Ready To Dispatch')->count();
@@ -121,35 +123,34 @@ class OrderController extends Controller
 
     public function schedulePickup(Request $request)
     {
-        $res = SchedulePickup::schedule($request->order_ids);
+        $order_ids = Order::where('vendor_id', auth()->user()->id)->whereIn('id', $request->order_ids)->pluck('id');
+        $res = SchedulePickup::schedule($order_ids);
 
         return response()->json($res);
     }
 
     public function generateLabel(Request $request)
     {
-        $res = GenerateLabel::schedule($request->order_ids);
+        $order_ids = Order::where('vendor_id', auth()->user()->id)->whereIn('id', $request->order_ids)->pluck('id');
+        $res = GenerateLabel::schedule($order_ids);
 
         return response()->json($res);
     }
 
     public function cancelShipment(Request $request)
     {
-        $res = CancelShipment::cancel($request->order_ids);
+        $order_ids = Order::where('vendor_id', auth()->user()->id)->whereIn('id', $request->order_ids)->pluck('id');
+        $res = CancelShipment::cancel($order_ids);
 
         return response()->json($res);
     }
 
     public function markAsShipped(Request $request)
     {
-        $res = MarkAsShipped::shipped($request->order_ids);
+        $order_ids = Order::where('vendor_id', auth()->user()->id)->whereIn('id', $request->order_ids)->pluck('id');
+        $res = MarkAsShipped::shipped($order_ids);
 
         return response()->json($res);
-    }
-
-    public function excelDownload(Request $request)
-    {
-
     }
 
     public function excelUpload(Request $request)
@@ -200,11 +201,4 @@ class OrderController extends Controller
         return response()->json($response);
     }
 
-    public function delete($id)
-    {
-        $order = Order::findOrFail($id);
-        $order->delete();
-
-        return response()->json(['status' => 'success', 'msg' => $order->order_id . ' Deleted Successfully']);
-    }
 }

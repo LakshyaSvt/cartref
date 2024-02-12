@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Actions\Showroom;
+namespace App\Http\Controllers\Actions\Showroom;
 
 use App\Showcase;
 

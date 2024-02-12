@@ -267,20 +267,6 @@
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-10 w-56">
                               Logistic Details
                            </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Customer
-                              Details
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-10 w-56">
-                              Seller
-                              Information
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-10 w-56">
-                              Pickup and Delivery
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-6">
-                              Actions
-                           </div>
                         </div>
                         <div v-for="(order, index) in orders" :key="order.id" class="table-row table-body hover:bg-primary-100 bg-white">
                            <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
@@ -372,74 +358,6 @@
                                     <input :value="order.order_awb" name="order_awb" type="hidden">
                                  </form>
                               </template>
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 p-1 text-sm text-center">
-                              <div class="flex items-center gap-2">
-                                 <div class="font-semibold">Name:</div>
-                                 <div class="font-normal text-gray-500">{{ order.customer_name }}</div>
-                              </div>
-                              <div class="flex items-center gap-2">
-                                 <a :href="'mailto:'+order?.customer_email" class="hover:underline">
-                                    <i class="fi fi-sr-envelope mr-2"></i>{{ order.customer_email || '-' }}
-                                 </a>
-                              </div>
-                              <div class="text-gray-500 font-normal text-left">
-                                 <p>
-                                    <span class="font-semibold text-black">Address: </span>
-                                    {{ order.dropoff_streetaddress1 + ' ' + order.dropoff_streetaddress2 + ', ' + order.dropoff_city + ' - ' + order.dropoff_pincode }} <br>
-                                    {{ order.dropoff_state + ' - ' + order.dropoff_country }}
-                                 </p>
-                              </div>
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm p-1 pb-4 text-center">
-                              <div class="flex items-center gap-2">
-                                 <div class="font-semibold">Name:</div>
-                                 <div class="font-normal text-gray-800">{{ order.vendor ? order.vendor.name : '-' }}</div>
-                              </div>
-                              <div class="flex items-center gap-2">
-                                 <div class="font-semibold">Brand:</div>
-                                 <div class="font-normal text-gray-800">{{ order.vendor ? order.vendor.brand_name : '-' }}</div>
-                              </div>
-                              <div class="flex items-center gap-2">
-                                 <div class="font-normal text-gray-800">
-                                    <a :href="'mailto:'+order.vendor?.email" class="hover:underline">
-                                       <i class="fi fi-sr-envelope mr-2"></i>{{ order.vendor ? order.vendor.email : '-' }}
-                                    </a>
-                                 </div>
-                              </div>
-                              <div class="flex items-center gap-2">
-                                 <div class="font-normal text-gray-800">
-                                    <a :href="'tel:+91'+order.vendor?.mobile" class="hover:underline">
-                                       <i class="fi fi-sr-phone-flip"></i> +91 {{ order.vendor ? order.vendor.mobile : '-' }}
-                                    </a>
-                                 </div>
-                              </div>
-                              <div class="text-gray-800 font-normal text-start">
-                                 <p>
-                                    <span class="font-semibold text-black">Address: </span>
-                                    {{ order.dropoff_streetaddress1 + ' ' + order.dropoff_streetaddress2 + ', ' + order.dropoff_city + ' - ' + order.dropoff_pincode }}
-                                    {{ order.dropoff_state + ' - ' + order.dropoff_country }}
-                                 </p>
-                              </div>
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm p-1 pb-4 text-left">
-                              <div class="text-gray-500 font-normal text-start">
-                                 <div class="flex flex-wrap my-1">
-                                    <strong class="text-black font-bold">Delivery Date: </strong>
-                                    <p>{{ formatSimpleDate(order.exp_delivery_date) }}</p>
-                                 </div>
-                                 <div class="flex flex-wrap my-1">
-                                    <strong class="text-black font-bold">Pickup Scheduled Date: </strong>
-                                    <p>{{ formatSimpleDate(order.pickup_scheduled_date) }}</p>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
-                              <div class="flex flex-col gap-2 items-center justify-center">
-                                 <button class="font-medium cursor-pointer text-red-500" type="button" @click="deleteOrder(order.id)">
-                                    <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
-                                 </button>
-                              </div>
                            </div>
                         </div>
                      </div>
@@ -577,7 +495,7 @@
          schedulePickup() {
             this.loading = true;
             axios
-                .post('/admin/order/schedule-pickup', {
+                .post('/vendor/order/schedule-pickup', {
                    'order_ids': this.selected_ids
                 })
                 .then(res => {
@@ -593,7 +511,7 @@
          generateLabel() {
             this.loading = true;
             axios
-                .post('/admin/order/generate-label', {
+                .post('/vendor/order/generate-label', {
                    'order_ids': this.selected_ids
                 })
                 .then(res => {
@@ -610,7 +528,7 @@
          cancelShipment() {
             this.loading = true;
             axios
-                .post('/admin/order/cancel-shipment', {
+                .post('/vendor/order/cancel-shipment', {
                    'order_ids': this.selected_ids
                 })
                 .then(res => {
@@ -626,7 +544,7 @@
          markAsShipped() {
             this.loading = true;
             axios
-                .post('/admin/order/mark-as-shipped', {
+                .post('/vendor/order/mark-as-shipped', {
                    'order_ids': this.selected_ids
                 })
                 .then(res => {
@@ -639,25 +557,9 @@
                    err.handleGlobally && err.handleGlobally();
                 })
          },
-         deleteOrder(id) {
-            if (!confirm("Are you sure you want to delete ?")) {
-               return false;
-            }
-            this.loading = true;
-            axios
-                .delete('/admin/order/' + id)
-                .then(res => {
-                   this.show_toast(res.data.status, res.data.msg);
-                   this.fetchOrders();
-                })
-                .catch(err => {
-                   err.handleGlobally && err.handleGlobally();
-                   this.fetchOrders();
-                })
-         },
          fetchOrders(url) {
             this.dataLoading = true;
-            url = url || '/admin/order'
+            url = url || '/vendor/order'
             axios.get(url, {
                params: {
                   row_count: this.row_count,
@@ -685,7 +587,7 @@
             this.fetchOrderCount();
          },
          fetchOrderCount() {
-            axios.get('/admin/order/count')
+            axios.get('/vendor/order/count')
                 .then(res => {
                    this.order_count = res.data;
                 })
