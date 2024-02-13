@@ -181,10 +181,10 @@
                         </div>
                         <div v-for="(showcase, index) in showcases" :key="showcase.id" class="table-row table-body hover:bg-primary-100 bg-white">
                            <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
-                              <template v-if="!showcase.is_order_accepted && showcase.order_status === 'New Order'">
+                              <template v-if="!showcase.is_order_accepted && showcase.order_status === 'New Order' && showcase.order_status !== 'Non Acceptance'">
                                  <div class="mx-auto">
                                     <span class="text-green-600 font-semibold">New Order !!</span>
-                                    <a :href="`/showcase-at-home/my-orders/order/${showcase.id}/accept-order`"
+                                    <a :href="`/showcase-at-home/my-orders/order/${showcase.id}/accept-order`" target="_blank"
                                        class="inline-flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-green-500 hover:bg-green-600">
                                        <i class="fi fi-rr-check text-base w-4 h-5"></i>
                                        Accept

@@ -14,7 +14,7 @@ class Showcase extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['order_status', 'status', 'showcase_timer', 'is_timer_extended', 'is_discount_applied'];
+    protected $fillable = ['order_status', 'status', 'showcase_timer', 'is_timer_extended', 'is_discount_applied', 'is_order_accepted', 'order_status'];
 
     protected $appends = ['color_image', 'color_link', 'nac_charges', 'status_color_class', 'new_order_status'];
 

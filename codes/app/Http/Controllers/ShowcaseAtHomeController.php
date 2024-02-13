@@ -536,14 +536,14 @@ class ShowcaseAtHomeController extends Controller
                     'order_status' => 'Accepted'
                 ]);
 
-            return redirect()->route('voyager.showcases.index', ['order_id' => $id])->with([
-                'message' => "Showcase order accepted successfully",
-                'alert-type' => 'success',
-            ]);
-            //            return redirect()->back()->with([
-            //                'message' => "Showcase order accepted successfully",
-            //                'alert-type' => 'success',
-            //            ]);
+            //return redirect()->route('voyager.showcases.index', ['order_id' => $id])->with([
+            //    'message' => "Showcase order accepted successfully",
+            //    'alert-type' => 'success',
+            //]);
+                return redirect()->back()->with([
+                    'message' => "Showcase order accepted successfully",
+                    'alert-type' => 'success',
+                ]);
         } else {
             abort(404);
         }
