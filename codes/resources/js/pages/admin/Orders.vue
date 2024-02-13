@@ -16,7 +16,7 @@
                   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                      <div :class="{'border-2 border-primary-400': status === 'New Order'}" class="stats-card" @click="status = 'New Order';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.new_order || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">New Orders</p>
@@ -24,7 +24,7 @@
                      </div>
                      <div :class="{'border-2 border-primary-400': status === 'Ready To Dispatch'}" class="stats-card" @click="status = 'Ready To Dispatch';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.ready_to_dispatch || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Ready To Dispatch</p>
@@ -32,7 +32,7 @@
                      </div>
                      <div :class="{'border-2 border-primary-400': status === 'Scheduled For Pickup'}" class="stats-card" @click="status = 'Scheduled For Pickup';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.pending_pickup || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Pending Pickup</p>
@@ -48,7 +48,7 @@
                   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                      <div :class="{'border-2 border-primary-400': status === 'Shipped'}" class="stats-card" @click="status = 'Shipped';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.in_transit || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">In Transist</p>
@@ -56,7 +56,7 @@
                      </div>
                      <div :class="{'border-2 border-primary-400': status === 'Delivered'}" class="stats-card" @click="status = 'Delivered';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.delivered || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Delivered</p>
@@ -64,7 +64,7 @@
                      </div>
                      <div :class="{'border-2 border-primary-400': status === 'Cancelled'}" class="stats-card" @click="status = 'Cancelled';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.cancelled || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Cancelled</p>
@@ -82,7 +82,7 @@
                   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                      <div :class="{'border-2 border-primary-400': status === 'RTO'}" class="stats-card" @click="status = 'RTO';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.rto || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Return To Origin</p>
@@ -90,7 +90,7 @@
                      </div>
                      <div :class="{'border-2 border-primary-400': status === 'Request For Return'}" class="stats-card" @click="status = 'Request For Return';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.customer_return || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Customer Return</p>
@@ -98,7 +98,7 @@
                      </div>
                      <div :class="{'border-2 border-primary-400': status === 'Returned'}" class="stats-card" @click="status = 'Returned';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.return_delivered || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Return Delivered</p>
@@ -114,7 +114,7 @@
                   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                      <div class="stats-card" @click="status = '';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.completed_in_90_days || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Completed in 90 days</p>
@@ -122,7 +122,7 @@
                      </div>
                      <div :class="{'border-2 border-primary-400': status === ''}" class="stats-card" @click="status = '';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.all || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Total Orders</p>
@@ -130,7 +130,7 @@
                      </div>
                      <div :class="{'border-2 border-primary-400': status === 'Other'}" class="stats-card" @click="status = 'Other';">
                         <div class="px-2 xl:px-4 py-2">
-                           <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                           <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.others || '0' }}</div>
                            </div>
                            <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Others</p>
@@ -368,7 +368,7 @@
                                     Tax Invoice
                                  </a>
                                  <form id="downloadtaxinvoiceForm" action="/sellers/orders/downloadtaxinvoice" class="hidden" method="post" target="_blank">
-                                    <input v-bind:value="$store.state.csrf" name="_token" type="hidden">
+                                    <input name="_token" type="hidden" v-bind:value="$store.state.csrf">
                                     <input :value="order.order_awb" name="order_awb" type="hidden">
                                  </form>
                               </template>

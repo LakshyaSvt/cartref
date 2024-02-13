@@ -11,7 +11,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('{any}', function () {
         return view('panel.admin.app');
     })->where('any', '.*');
-
 });
 
 Route::prefix('vendor')->middleware(['auth', 'vendor'])->group(function () {
@@ -21,5 +20,4 @@ Route::prefix('vendor')->middleware(['auth', 'vendor'])->group(function () {
     Route::get('{any}', function () {
         return view('panel.vendor.app');
     })->where('any', '.*');
-
 });

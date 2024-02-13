@@ -16,15 +16,13 @@
                   </router-link>
                </li>
                <li class="min-w-max">
-                  <a :class="{ 'bg-primary-100': showcases }" class="group dropdown-btn"
-                     href="javascript:void(0)" @click="showcases = !showcases;">
+                  <a :class="{ 'bg-primary-100': showcases }" class="group dropdown-btn" href="javascript:void(0)" @click="showcases = !showcases;">
                      <i class="fi fi-rr-house-chimney"></i>
-
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>Showcases At Home</span>
-                                <i v-if="showcases" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!showcases" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                          <span>Showcases At Home</span>
+                          <i v-if="showcases" class="fi fi-rr-angle-small-up mr-2"></i>
+                          <i v-if="!showcases" class="fi fi-rr-angle-small-down mr-2"></i>
+                      </span>
                   </a>
                   <ul v-if="showcases" class="dropdown-menu">
                      <li>
@@ -41,10 +39,10 @@
                      <i v-if="!product" class="fi fi-rr-folder"></i>
 
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>Product Management</span>
-                                <i v-if="product" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!product" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                          <span>Product Management</span>
+                          <i v-if="product" class="fi fi-rr-angle-small-up mr-2"></i>
+                          <i v-if="!product" class="fi fi-rr-angle-small-down mr-2"></i>
+                      </span>
                   </a>
                   <ul v-if="product" class="dropdown-menu">
                      <li>
@@ -55,15 +53,13 @@
                   </ul>
                </li>
                <li class="min-w-max">
-                  <a :class="{ 'bg-primary-100': control }" class="group dropdown-btn" href="javascript:void(0)"
-                     @click="control = !control;">
+                  <a :class="{ 'bg-primary-100': control }" class="group dropdown-btn" href="javascript:void(0)" @click="control = !control;">
                      <i class="fi fi-rr-broadcast-tower"></i>
-
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>Control Panel</span>
-                                <i v-if="control" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!control" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                          <span>Control Panel</span>
+                          <i v-if="control" class="fi fi-rr-angle-small-up mr-2"></i>
+                          <i v-if="!control" class="fi fi-rr-angle-small-down mr-2"></i>
+                      </span>
                   </a>
                   <ul v-if="control" class="dropdown-menu">
                      <li>

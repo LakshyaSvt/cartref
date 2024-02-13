@@ -1,11 +1,12 @@
 import VueRouter from 'vue-router'
 import Dashboard from "@pages/vendor/Dashboard.vue"
 import Orders from "@pages/vendor/Orders.vue";
+import Showcases from "@pages/vendor/Showcases.vue";
 
 const adminRoutes = [
     {name: 'dashboard', path: '/vendor/dashboard', component: Dashboard},
     {name: 'orders', path: '/vendor/orders', component: Orders},
-    // {name: 'showcases', path: '/vendor/showcases/orders', component: Showcases},
+    {name: 'showcases', path: '/vendor/showcases/orders', component: Showcases},
 
     // /* Product Management */
     // {name: 'products', path: '/vendor/products', component: Products},

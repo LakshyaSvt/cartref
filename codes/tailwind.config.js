@@ -37,7 +37,14 @@ module.exports = {
             animation: {
                 'pulse-fast': 'pulse 0.8s linear infinite',
                 'spin-fast': 'spin 0.8s linear infinite',
-            }
+                "fade": "fadeOut .5s ease-in-out infinite",
+            },
+            keyframes: (theme) => ({
+                fadeOut: {
+                    "0%": {backgroundColor: theme("colors.green.300")},
+                    "100%": {backgroundColor: theme("colors.green.500")},
+                },
+            })
         },
     },
     plugins: [],

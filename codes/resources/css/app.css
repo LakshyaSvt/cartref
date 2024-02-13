@@ -193,6 +193,10 @@
         shadow-xl rounded-xl cursor-pointer
         hover:shadow-2xl hover:shadow-primary-500
     }
+
+    .stats-count {
+        @apply flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold justify-center;
+    }
 }
 
 @layer utilities {

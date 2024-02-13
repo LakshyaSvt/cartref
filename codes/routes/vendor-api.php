@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Vendor\DashboardController;
 use App\Http\Controllers\Vendor\OrderController;
+use App\Http\Controllers\Vendor\ShowcaseController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -22,4 +23,8 @@ Route::prefix('vendor')->middleware(['auth', 'vendor'])->group(function () {
     Route::post('/order/cancel-shipment', [OrderController::class, 'cancelShipment']);
     Route::post('/order/mark-as-shipped', [OrderController::class, 'markAsShipped']);
     Route::post('/order/excel-upload', [OrderController::class, 'excelUpload']);
+
+    /* Showcase Orders */
+    Route::get('/showcase', [ShowcaseController::class, 'index']);
+    Route::get('/showcase/count', [ShowcaseController::class, 'getShowcaseCount']);
 });
