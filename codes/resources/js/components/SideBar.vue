@@ -21,15 +21,15 @@
                      <i class="fi fi-rr-house-chimney"></i>
 
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>Showcases At Home</span>
-                                <i v-if="showcases" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!showcases" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                          <span>Showcases At Home</span>
+                          <i v-if="showcases" class="fi fi-rr-angle-small-up mr-2"></i>
+                          <i v-if="!showcases" class="fi fi-rr-angle-small-down mr-2"></i>
+                      </span>
                   </a>
                   <ul v-if="showcases" class="dropdown-menu">
                      <li>
                         <router-link :to="{ name: 'showcases' }" class="dropdown-item">
-                           <i class="fi fi-rr-house-chimney mr-2"></i> Showcasess
+                           <i class="fi fi-rr-house-chimney mr-2"></i> Showcases
                         </router-link>
                      </li>
                      <li>
@@ -46,10 +46,10 @@
                      <i v-if="!product" class="fi fi-rr-folder"></i>
 
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>Product Management</span>
-                                <i v-if="product" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!product" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                          <span>Product Management</span>
+                          <i v-if="product" class="fi fi-rr-angle-small-up mr-2"></i>
+                          <i v-if="!product" class="fi fi-rr-angle-small-down mr-2"></i>
+                      </span>
                   </a>
                   <ul v-if="product" class="dropdown-menu">
                      <li>
@@ -110,10 +110,10 @@
                      <i class="fi fi-rr-gallery"></i>
 
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>Collections</span>
-                                <i v-if="collection" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!collection" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                        <span>Collections</span>
+                         <i v-if="collection" class="fi fi-rr-angle-small-up mr-2"></i>
+                         <i v-if="!collection" class="fi fi-rr-angle-small-down mr-2"></i>
+                     </span>
                   </a>
                   <ul v-if="collection" class="dropdown-menu">
                      <li>
@@ -134,10 +134,10 @@
                      <i class="fi fi-rr-settings"></i>
 
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>Configurations</span>
-                                <i v-if="config" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!config" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                          <span>Configurations</span>
+                          <i v-if="config" class="fi fi-rr-angle-small-up mr-2"></i>
+                          <i v-if="!config" class="fi fi-rr-angle-small-down mr-2"></i>
+                      </span>
                   </a>
                   <ul v-if="config" class="dropdown-menu">
                      <li>
@@ -188,10 +188,10 @@
                      <i class="fi fi-rr-broadcast-tower"></i>
 
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>Control Panel</span>
-                                <i v-if="control" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!control" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                          <span>Control Panel</span>
+                          <i v-if="control" class="fi fi-rr-angle-small-up mr-2"></i>
+                          <i v-if="!control" class="fi fi-rr-angle-small-down mr-2"></i>
+                      </span>
                   </a>
                   <ul v-if="control" class="dropdown-menu">
                      <li>
@@ -223,10 +223,10 @@
                      <i class="fi fi-rr-phone-call"></i>
 
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>Leads</span>
-                                <i v-if="lead" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!lead" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                          <span>Leads</span>
+                          <i v-if="lead" class="fi fi-rr-angle-small-up mr-2"></i>
+                          <i v-if="!lead" class="fi fi-rr-angle-small-down mr-2"></i>
+                      </span>
                   </a>
                   <ul v-if="lead" class="dropdown-menu">
                      <li>
@@ -247,10 +247,10 @@
                      <i class="fi fi-rr-radio-alt"></i>
 
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>Blogs</span>
-                                <i v-if="blog" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!blog" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                          <span>Blogs</span>
+                          <i v-if="blog" class="fi fi-rr-angle-small-up mr-2"></i>
+                          <i v-if="!blog" class="fi fi-rr-angle-small-down mr-2"></i>
+                      </span>
                   </a>
                   <ul v-if="blog" class="dropdown-menu">
                      <li>
@@ -271,10 +271,10 @@
                      <i class="fi fi-br-user-gear"></i>
 
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                                <span>User Management</span>
-                                <i v-if="user" class="fi fi-rr-angle-small-up mr-2"></i>
-                                <i v-if="!user" class="fi fi-rr-angle-small-down mr-2"></i>
-                            </span>
+                          <span>User Management</span>
+                          <i v-if="user" class="fi fi-rr-angle-small-up mr-2"></i>
+                          <i v-if="!user" class="fi fi-rr-angle-small-down mr-2"></i>
+                      </span>
                   </a>
                   <ul v-if="user" class="dropdown-menu">
                      <li>

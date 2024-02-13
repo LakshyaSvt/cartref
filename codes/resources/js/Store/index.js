@@ -32,6 +32,15 @@ const store = new Vuex.Store({
             parent_category_id: "",
             sub_category_id: "",
             row_count: "25",
+        },
+        vendor_product_filter: {
+            url: "/vendor/product",
+            keyword: "",
+            seller_id: "",
+            status: "",
+            parent_category_id: "",
+            sub_category_id: "",
+            row_count: "25",
         }
     },
     mutations: {},

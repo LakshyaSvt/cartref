@@ -122,7 +122,7 @@
       uploading.value = true;
       responseData.value = '';
 
-      axios.post('/vendor/product/bulk-upload', formData, config)
+      axios.post('/product/bulk-upload', formData, config)
           .then(res => {
              console.log(res.data);
              uploading.value = false;
@@ -159,7 +159,6 @@
       axios.get('/vendor/sub-category', {
          params: {
             rows: 'all',
-            status: 1,
             category_id: parent_category_id.value,
          }
       })

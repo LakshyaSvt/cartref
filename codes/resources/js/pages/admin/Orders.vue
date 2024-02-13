@@ -112,7 +112,7 @@
                      <i class="fi fi-rr-route"></i>
                   </h3>
                   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                     <div class="stats-card" @click="status = '';">
+                     <div class="stats-card">
                         <div class="px-2 xl:px-4 py-2">
                            <div class="stats-count">
                               <div class="mx-auto">{{ order_count?.completed_in_90_days || '0' }}</div>

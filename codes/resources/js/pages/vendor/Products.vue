@@ -43,27 +43,24 @@
                         {{ pagination.from || '0' }} - {{ pagination.to || '0' }} of {{ pagination.total || '0' }}
                      </div>
                      <div>
-                        <button :disabled="!pagination.prev_page_url" class="prev-next-btn"
-                                title="Previous"
-                                @click="fetchProduct(pagination.prev_page_url)">
+                        <button :disabled="!pagination.prev_page_url" class="prev-next-btn" title="Previous" @click="fetchProduct(pagination.prev_page_url)">
                            <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
                         </button>
-                        <button :disabled="!pagination.next_page_url" class="prev-next-btn" title="Next"
-                                @click="fetchProduct(pagination.next_page_url)">
+                        <button :disabled="!pagination.next_page_url" class="prev-next-btn" title="Next" @click="fetchProduct(pagination.next_page_url)">
                            <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
                         </button>
                      </div>
                   </div>
                   <div class="flex flex-wrap items-center gap-2">
-                     <div class="relative">
-                        <select v-model="seller_id" class="filter-dropdown" title="Sellers" @change="fetchProduct()">
-                           <option selected value="">All Sellers</option>
-                           <option v-for="(seller, index) in sellers" :key="index" :value="seller.id">{{ seller.name }}</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                           <i class="fi fi-ss-angle-small-down text-xl w-5 h-6 ml-1"></i>
-                        </div>
-                     </div>
+<!--                     <div class="relative">-->
+<!--                        <select v-model="seller_id" class="filter-dropdown" title="Sellers" @change="fetchProduct()">-->
+<!--                           <option selected value="">All Sellers</option>-->
+<!--                           <option v-for="(seller, index) in sellers" :key="index" :value="seller.id">{{ seller.name }}</option>-->
+<!--                        </select>-->
+<!--                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">-->
+<!--                           <i class="fi fi-ss-angle-small-down text-xl w-5 h-6 ml-1"></i>-->
+<!--                        </div>-->
+<!--                     </div>-->
                      <div class="relative">
                         <select v-model="parent_category_id" class="w-32 filter-dropdown" title="Category"
                                 @change="fetchProduct()">
@@ -221,18 +218,6 @@
                               </div>
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
-                              <label :id="'wait_' + product.id" class="hidden inline-block  justify-center w-4 h-4">
-                                 <Spinner/>
-                              </label>
-                              <label :id="'status_' + product.id" :title="product.admin_status === 'Accepted' ? 'Click to Reject' : 'Click to Accept'"
-                                     class="relative inline-flex items-center cursor-pointer">
-                                 <input :id="'checkbox_' + product.id" :checked="product.admin_status === 'Accepted'" class="sr-only peer"
-                                        type="checkbox" value=""
-                                        @change="updateStatus(product.id, $event)">
-                                 <div
-                                     class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
-                                 </div>
-                              </label>
                               <div>
                                  <label>{{ product.admin_status }}</label>
                               </div>
@@ -251,9 +236,6 @@
                                               class="font-medium cursor-pointer text-blue-500">
                                     <i class="fi fi-rr-eye w-5 h-5 text-xl"></i>
                                  </router-link>
-                                 <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button">
-                                    <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
-                                 </a>
                               </div>
                            </div>
                         </div>
@@ -298,12 +280,11 @@
             parent_category: [],
             sub_category: [],
             sellers: [],
-            seller_id: this.$store.state.product_filter?.seller_id,
-            parent_category_id: this.$store.state.product_filter?.parent_category_id,
-            sub_category_id: this.$store.state.product_filter?.sub_category_id,
-            keyword: this.$store.state.product_filter?.keyword,
-            status: this.$store.state.product_filter?.status,
-            row_count: this.$store.state.product_filter?.row_count,
+            parent_category_id: this.$store.state.vendor_product_filter?.parent_category_id,
+            sub_category_id: this.$store.state.vendor_product_filter?.sub_category_id,
+            keyword: this.$store.state.vendor_product_filter?.keyword,
+            status: this.$store.state.vendor_product_filter?.status,
+            row_count: this.$store.state.vendor_product_filter?.row_count,
             showModal: false,
             imgModal: '',
             pagination: {},
@@ -336,41 +317,6 @@
                this.image = file;
             }
          },
-         updateStatus(id, e) {
-            let status = e.target.checked ? 'Accepted' : 'Rejected';
-            document.getElementById('wait_' + id).classList.remove('hidden')
-            document.getElementById('status_' + id).classList.add('hidden')
-
-            axios.put('/vendor/product/' + id, {
-               status: status
-            })
-                .then(res => {
-                   this.show_toast(res.data.data.status, res.data.data.msg);
-                   document.getElementById('wait_' + id).classList.add('hidden')
-                   document.getElementById('status_' + id).classList.remove('hidden')
-                   document.getElementById('checkbox_' + id).checked = e.target.checked;
-                })
-                .catch(err => {
-                   err.handleGlobally && err.handleGlobally();
-                })
-
-         },
-         fetchSellers() {
-            axios
-                .get('/vendor/user', {
-                   params: {
-                      rows: 'all',
-                      status: 1,
-                      roles: JSON.stringify(["Vendor"])
-                   }
-                })
-                .then(res => {
-                   this.sellers = res.data.data;
-                })
-                .catch(err => {
-                   err.handleGlobally && err.handleGlobally();
-                })
-         },
          fetchParentCategory() {
             this.dataLoading = true;
             axios.get('/vendor/category', {
@@ -399,8 +345,8 @@
                parent_category_id: this.parent_category_id,
                sub_category_id: this.sub_category_id,
             };
-            this.$store.state.product_filter = filters;
-            this.$store.state.product_filter.url = url;
+            this.$store.state.vendor_product_filter = filters;
+            this.$store.state.vendor_product_filter.url = url;
 
             axios.get(url, {params: filters})
                 .then(res => {
@@ -420,8 +366,7 @@
          },
       },
       created() {
-         this.fetchProduct(this.$store.state.product_filter.url);
-         this.fetchSellers();
+         this.fetchProduct(this.$store.state.vendor_product_filter.url);
          this.fetchParentCategory();
       },
    }

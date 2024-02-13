@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\VendorPaymentController;
 use App\Http\Controllers\Admin\WishlistController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/product/bulk-upload', [ProductController::class, 'bulkExcelUpload']);
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     /* PAN India Orders */
@@ -85,7 +86,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'fetchProducts']);
         Route::post('/edit-or-create', [ProductController::class, 'editOrCreateProduct']);
-        Route::post('/bulk-upload', [ProductController::class, 'bulkExcelUpload']);
+        //Route::post('/bulk-upload', [ProductController::class, 'bulkExcelUpload']);
         Route::get('/{id}', [ProductController::class, 'fetchProduct']);
         Route::put('/{id}', [ProductController::class, 'updateProductStatus']);
         Route::get('/{id}/colors', [ProductController::class, 'fetchProductColors']);

@@ -10,72 +10,36 @@
                   </router-link>
                </li>
                <li class="min-w-max">
+                  <router-link :to="{ name: 'showcases' }" class="single-item">
+                     <i class="fi fi-rr-house-chimney"></i>
+                     <span class="">Showcases</span>
+                  </router-link>
+               </li>
+               <li class="min-w-max">
                   <router-link :to="{ name: 'orders' }" class="single-item">
                      <i class="fi fi-rr-boxes"></i>
                      <span class="">Orders</span>
                   </router-link>
                </li>
                <li class="min-w-max">
-                  <a :class="{ 'bg-primary-100': showcases }" class="group dropdown-btn" href="javascript:void(0)" @click="showcases = !showcases;">
-                     <i class="fi fi-rr-house-chimney"></i>
-                     <span class="group-hover:text-gray-700 flex justify-between w-full">
-                          <span>Showcases At Home</span>
-                          <i v-if="showcases" class="fi fi-rr-angle-small-up mr-2"></i>
-                          <i v-if="!showcases" class="fi fi-rr-angle-small-down mr-2"></i>
-                      </span>
-                  </a>
-                  <ul v-if="showcases" class="dropdown-menu">
-                     <li>
-                        <router-link :to="{ name: 'showcases' }" class="dropdown-item">
-                           <i class="fi fi-rr-house-chimney mr-2"></i> Showcasess
-                        </router-link>
-                     </li>
-                  </ul>
+                  <router-link :to="{ name: 'products' }" class="single-item">
+                     <i class="fi fi-rr-box-open"></i>
+                     <span class="">Products</span>
+                  </router-link>
                </li>
                <li class="min-w-max">
-                  <a :class="{ 'bg-primary-100': product }" class="group dropdown-btn" href="javascript:void(0)"
-                     @click="product = !product;">
-                     <i v-if="product" class="fi fi-rr-folder-open"></i>
-                     <i v-if="!product" class="fi fi-rr-folder"></i>
-
-                     <span class="group-hover:text-gray-700 flex justify-between w-full">
-                          <span>Product Management</span>
-                          <i v-if="product" class="fi fi-rr-angle-small-up mr-2"></i>
-                          <i v-if="!product" class="fi fi-rr-angle-small-down mr-2"></i>
-                      </span>
-                  </a>
-                  <ul v-if="product" class="dropdown-menu">
-                     <li>
-                        <router-link :to="{ name: 'products' }" class="dropdown-item">
-                           <i class="fi fi-rr-box-open mr-2"></i> Products
-                        </router-link>
-                     </li>
-                  </ul>
+                  <router-link :to="{ name: 'vendor-payments' }" class="single-item">
+                     <i class="fi fi-rr-money-bill-wave"></i>
+                     <span class="">Vendor Payments</span>
+                  </router-link>
                </li>
                <li class="min-w-max">
-                  <a :class="{ 'bg-primary-100': control }" class="group dropdown-btn" href="javascript:void(0)" @click="control = !control;">
-                     <i class="fi fi-rr-broadcast-tower"></i>
-                     <span class="group-hover:text-gray-700 flex justify-between w-full">
-                          <span>Control Panel</span>
-                          <i v-if="control" class="fi fi-rr-angle-small-up mr-2"></i>
-                          <i v-if="!control" class="fi fi-rr-angle-small-down mr-2"></i>
-                      </span>
-                  </a>
-                  <ul v-if="control" class="dropdown-menu">
-                     <li>
-                        <router-link :to="{name:'announcement'}" class="dropdown-item">
-                           <i class="fi fi-rr-megaphone mr-2"></i> Announcement
-                        </router-link>
-                     </li>
-                  </ul>
+                  <router-link :to="{ name: 'coupon' }" class="single-item">
+                     <i class="fi fi-rr-scissors"></i>
+                     <span class="">Coupons</span>
+                  </router-link>
                </li>
             </ul>
-            <div class="min-w-max mb-14">
-               <a class="group single-item" href="#">
-                  <i class="fi fi-rr-gears text-xl w-5 h-5 "></i>
-                  <span>Settings</span>
-               </a>
-            </div>
          </div>
       </div>
    </div>
@@ -85,38 +49,11 @@
    export default {
       name: "VendorSideBar",
       data() {
-         return {
-            showcases: false,
-            product: false,
-            vendor: false,
-            lead: false,
-            collection: false,
-            config: false,
-            control: false,
-            blog: false,
-            user: false,
-         }
+         return {}
       },
-      watch: {
-         $route: function () {
-            this.updateNav();
-         }
-      },
-      methods: {
-         updateNav() {
-            this.showcases = this.$route.path.startsWith('/vendor/showcases');
-            this.product = this.$route.path.startsWith('/vendor/product');
-            this.vendor = this.$route.path.startsWith('/vendor/vendor');
-            this.lead = this.$route.path.startsWith('/vendor/lead');
-            this.collection = this.$route.path.startsWith('/vendor/collection');
-            this.config = this.$route.path.startsWith('/vendor/config');
-            this.control = this.$route.path.startsWith('/vendor/control');
-            this.blog = this.$route.path.startsWith('/vendor/blog');
-            this.user = this.$route.path.startsWith('/vendor/user');
-         }
-      },
+      methods: {},
       created() {
-         this.updateNav();
+
       }
    }
 </script>
