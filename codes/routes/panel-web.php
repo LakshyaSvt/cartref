@@ -21,3 +21,12 @@ Route::prefix('vendor')->middleware(['auth', 'vendor'])->group(function () {
         return view('panel.vendor.app');
     })->where('any', '.*');
 });
+
+Route::prefix('delivery-head')->middleware(['auth', 'delivery-head'])->group(function () {
+    Route::get('/', function () {
+        return redirect('/delivery-head/dashboard');
+    });
+    Route::get('{any}', function () {
+        return view('panel.delivery-head.app');
+    })->where('any', '.*');
+});
