@@ -4415,6 +4415,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     fetchShowcases: function fetchShowcases(url) {
       var _this2 = this;
 
+      this.fetchShowcaseCount();
       this.dataLoading = true;
       url = url || '/vendor/showcase';
       axios.get(url, {
@@ -4451,7 +4452,6 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
   },
   created: function created() {
     this.fetchShowcases();
-    this.fetchShowcaseCount();
   }
 });
 

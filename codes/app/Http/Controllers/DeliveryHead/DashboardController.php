@@ -14,16 +14,20 @@ class DashboardController extends Controller
      */
     public function fetchCount()
     {
-        $newShowcase =  Showcase::where(function($q){
+        $newShowcase = Showcase::where(function ($q) {
             $q->where('deliveryhead_id', auth()->user()->id)
                 ->orWhere('dropoff_city', auth()->user()->city)
                 ->where('order_status', 'New Order');
-        })->count();
+        })
+        ->where('is_order_accepted', true)
+        ->count();
 
         $showcase = Showcase::where(function ($q) {
             $q->where('deliveryhead_id', auth()->user()->id)
                 ->orWhere('dropoff_city', auth()->user()->city);
-        })->count();
+        })
+        ->where('is_order_accepted', true)
+        ->count();
 
         return response()->json([
             'newShowcase' => $newShowcase,

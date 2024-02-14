@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,7 @@ class Showcase extends Model
         'deliveryboy_id'
     ];
 
-    protected $appends = ['color_image', 'color_link', 'nac_charges', 'status_color_class', 'new_order_status'];
+    protected $appends = ['color_image', 'color_link', 'nac_charges', 'status_color_class', 'new_order_status','diff_showcase_timer'];
 
     public function scopeRolewise($query)
     {
@@ -68,6 +69,7 @@ class Showcase extends Model
 
         return $query->orderBy('updated_at', 'desc');
     }
+
 
 //    public function  updateDelayAcceptance(){
 //        Showcase::where(['is_order_accepted' => 0, 'order_status' => 'New Order'])->where('created_at', '<',now()->subMinute(30))->update([
@@ -174,6 +176,18 @@ class Showcase extends Model
             return 'Handover';
         }
         return $this->order_status;
+    }
+
+    public function getDiffShowcaseTimerAttribute()
+    {
+        $timer = Carbon::parse($this->showcase_timer);
+        $current = Carbon::now();
+        $diff = $current->diff($timer)->format('%I:%S');
+
+        if (strtotime($this->showcase_timer) > time()) {
+            return $diff;
+        }
+        return null;
     }
 
 }

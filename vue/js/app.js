@@ -7309,6 +7309,11 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       pagination: {}
     };
   },
+  watch: {
+    status: function status(newValue, oldValue) {
+      this.fetchShowcases();
+    }
+  },
   methods: {
     imageModal: function imageModal(img) {
       this.showModal = true;
@@ -23145,75 +23150,148 @@ var render = function render() {
   }, [_vm._m(1), _vm._v(" "), _c("div", {
     staticClass: "grid gap-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8"
   }, [_c("div", {
-    staticClass: "stats-card"
+    staticClass: "stats-card",
+    "class": {
+      "animate-fade border-2 !border-green-400": _vm.showcase_count.new_order > 0,
+      "border-2 border-primary-400": _vm.status === "New Order"
+    },
+    on: {
+      click: function click($event) {
+        _vm.status = "New Order";
+      }
+    }
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_vm._v("\n                        " + _vm._s(((_vm$showcase_count = _vm.showcase_count) === null || _vm$showcase_count === void 0 ? void 0 : _vm$showcase_count.new_order) || "0") + "\n                     ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-2 whitespace-nowrap text-sm leading-5 text-gray-900"
   }, [_vm._v("New Orders")])])]), _vm._v(" "), _c("div", {
-    staticClass: "stats-card"
+    staticClass: "stats-card",
+    "class": {
+      "border-2 border-primary-400": _vm.status === "Accepted"
+    },
+    on: {
+      click: function click($event) {
+        _vm.status = "Accepted";
+      }
+    }
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_vm._v("\n                        " + _vm._s(((_vm$showcase_count2 = _vm.showcase_count) === null || _vm$showcase_count2 === void 0 ? void 0 : _vm$showcase_count2.accepted) || "0") + "\n                     ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-2 whitespace-nowrap text-sm leading-5 text-gray-900"
   }, [_vm._v("Accepted")])])]), _vm._v(" "), _c("div", {
-    staticClass: "stats-card"
+    staticClass: "stats-card",
+    "class": {
+      "border-2 border-primary-400": _vm.status === "Non Acceptance"
+    },
+    on: {
+      click: function click($event) {
+        _vm.status = "Non Acceptance";
+      }
+    }
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_vm._v("\n                        " + _vm._s(((_vm$showcase_count3 = _vm.showcase_count) === null || _vm$showcase_count3 === void 0 ? void 0 : _vm$showcase_count3.non_acceptance) || "0") + "\n                     ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-2 whitespace-nowrap text-sm leading-5 text-gray-900"
   }, [_vm._v("Non Acceptance")])])]), _vm._v(" "), _c("div", {
-    staticClass: "stats-card"
+    staticClass: "stats-card",
+    "class": {
+      "border-2 border-primary-400": _vm.status === "Out For Showcase"
+    },
+    on: {
+      click: function click($event) {
+        _vm.status = "Out For Showcase";
+      }
+    }
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_vm._v("\n                        " + _vm._s(((_vm$showcase_count4 = _vm.showcase_count) === null || _vm$showcase_count4 === void 0 ? void 0 : _vm$showcase_count4.pickup) || "0") + "\n                     ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-2 whitespace-nowrap text-sm leading-5 text-gray-900"
   }, [_vm._v("Pickup")])])]), _vm._v(" "), _c("div", {
-    staticClass: "stats-card"
+    staticClass: "stats-card",
+    "class": {
+      "border-2 border-primary-400": _vm.status === "Showcased,Moved to Bag"
+    },
+    on: {
+      click: function click($event) {
+        _vm.status = "Showcased,Moved to Bag";
+      }
+    }
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_vm._v("\n                        " + _vm._s(((_vm$showcase_count5 = _vm.showcase_count) === null || _vm$showcase_count5 === void 0 ? void 0 : _vm$showcase_count5.handover) || "0") + "\n                     ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-2 whitespace-nowrap text-sm leading-5 text-gray-900"
   }, [_vm._v("Handover")])])]), _vm._v(" "), _c("div", {
-    staticClass: "stats-card"
+    staticClass: "stats-card",
+    "class": {
+      "border-2 border-primary-400": _vm.status === "Purchased"
+    },
+    on: {
+      click: function click($event) {
+        _vm.status = "Purchased";
+      }
+    }
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_vm._v("\n                        " + _vm._s(((_vm$showcase_count6 = _vm.showcase_count) === null || _vm$showcase_count6 === void 0 ? void 0 : _vm$showcase_count6.purchased) || "0") + "\n                     ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-2 whitespace-nowrap text-sm leading-5 text-gray-900"
   }, [_vm._v("Purchased")])])]), _vm._v(" "), _c("div", {
-    staticClass: "stats-card"
+    staticClass: "stats-card",
+    "class": {
+      "border-2 border-primary-400": _vm.status === "Returned"
+    },
+    on: {
+      click: function click($event) {
+        _vm.status = "Returned";
+      }
+    }
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_vm._v("\n                        " + _vm._s(((_vm$showcase_count7 = _vm.showcase_count) === null || _vm$showcase_count7 === void 0 ? void 0 : _vm$showcase_count7.returned) || "0") + "\n                     ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-2 whitespace-nowrap text-sm leading-5 text-gray-900"
   }, [_vm._v("Returned")])])]), _vm._v(" "), _c("div", {
-    staticClass: "stats-card"
+    staticClass: "stats-card",
+    "class": {
+      "border-2 border-primary-400": _vm.status === "Cancelled"
+    },
+    on: {
+      click: function click($event) {
+        _vm.status = "Cancelled";
+      }
+    }
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_vm._v("\n                        " + _vm._s(((_vm$showcase_count8 = _vm.showcase_count) === null || _vm$showcase_count8 === void 0 ? void 0 : _vm$showcase_count8.cancelled) || "0") + "\n                     ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-2 whitespace-nowrap text-sm leading-5 text-gray-900"
   }, [_vm._v("Cancelled")])])]), _vm._v(" "), _c("div", {
-    staticClass: "stats-card"
+    staticClass: "stats-card",
+    "class": {
+      "border-2 border-primary-400": _vm.status === ""
+    },
+    on: {
+      click: function click($event) {
+        _vm.status = "";
+      }
+    }
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_vm._v("\n                        " + _vm._s(((_vm$showcase_count9 = _vm.showcase_count) === null || _vm$showcase_count9 === void 0 ? void 0 : _vm$showcase_count9.all) || "0") + "\n                     ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-2 whitespace-nowrap text-sm leading-5 text-gray-900"
   }, [_vm._v("All")])])])])])]), _vm._v(" "), _c("div", {
@@ -23345,6 +23423,31 @@ var render = function render() {
   }, [_vm._v("Accepted")]), _vm._v(" "), _c("option", {
     staticClass: "bg-gray-100",
     attrs: {
+      value: "Out For Showcase"
+    }
+  }, [_vm._v("Out For Showcase")]), _vm._v(" "), _c("option", {
+    staticClass: "bg-gray-100",
+    attrs: {
+      value: "Showcased,Moved to Bag"
+    }
+  }, [_vm._v("Handover")]), _vm._v(" "), _c("option", {
+    staticClass: "bg-gray-100",
+    attrs: {
+      value: "Showcased"
+    }
+  }, [_vm._v("Showcased")]), _vm._v(" "), _c("option", {
+    staticClass: "bg-gray-100",
+    attrs: {
+      value: "Moved to Bag"
+    }
+  }, [_vm._v("Moved to Bag")]), _vm._v(" "), _c("option", {
+    staticClass: "bg-gray-100",
+    attrs: {
+      value: "Purchased"
+    }
+  }, [_vm._v("Purchased")]), _vm._v(" "), _c("option", {
+    staticClass: "bg-gray-100",
+    attrs: {
       value: "Non Acceptance"
     }
   }, [_vm._v("Non Acceptance")]), _vm._v(" "), _c("option", {
@@ -23355,24 +23458,9 @@ var render = function render() {
   }, [_vm._v("Cancelled")]), _vm._v(" "), _c("option", {
     staticClass: "bg-gray-100",
     attrs: {
-      value: "Showcased"
+      value: "Returned"
     }
-  }, [_vm._v("Showcased")]), _vm._v(" "), _c("option", {
-    staticClass: "bg-gray-100",
-    attrs: {
-      value: "Out For Showcase"
-    }
-  }, [_vm._v("Out For Showcase")]), _vm._v(" "), _c("option", {
-    staticClass: "bg-gray-100",
-    attrs: {
-      value: "Moved to Bag"
-    }
-  }, [_vm._v("Moved to Bag")]), _vm._v(" "), _c("option", {
-    staticClass: "bg-gray-100",
-    attrs: {
-      value: "Purchased"
-    }
-  }, [_vm._v("Purchased")])]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c("label", {
+  }, [_vm._v("Returned")])]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c("label", {
     staticClass: "sr-only",
     attrs: {
       "for": "table-search"
@@ -23491,10 +23579,10 @@ var render = function render() {
         alt: "product-img"
       },
       on: {
-        error: _vm.imageLoadError,
         click: function click($event) {
           return _vm.imageModal(_vm.$store.state.storageUrl + (showcase === null || showcase === void 0 ? void 0 : showcase.color_image));
-        }
+        },
+        error: _vm.imageLoadError
       }
     }), _vm._v(" "), _c("div", {
       staticClass: "pl-2 w-4/5"
@@ -23752,11 +23840,11 @@ var staticRenderFns = [function () {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                           Amount\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                           Customer\n                           Details\n                        ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                           Customer Details\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                           Seller\n                           Information\n                        ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                           Seller Information\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                           Logistic\n                           Details\n                        ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                           Logistic Details\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                           Actions\n                        ")])]);
 }, function () {

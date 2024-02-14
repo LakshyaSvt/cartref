@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\AdminMiddlware::class,
         'vendor' => \App\Http\Middleware\VendorMiddlware::class,
         'delivery-head' => \App\Http\Middleware\DeliveryHeadMiddlware::class,
+        'delivery-boy' => \App\Http\Middleware\DeliveryBoyMiddlware::class,
     ];
 
 

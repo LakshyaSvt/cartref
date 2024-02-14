@@ -30,3 +30,12 @@ Route::prefix('delivery-head')->middleware(['auth', 'delivery-head'])->group(fun
         return view('panel.delivery-head.app');
     })->where('any', '.*');
 });
+
+Route::prefix('delivery-boy')->middleware(['auth', 'delivery-boy'])->group(function () {
+    Route::get('/', function () {
+        return redirect('/delivery-boy/dashboard');
+    });
+    Route::get('{any}', function () {
+        return view('panel.delivery-boy.app');
+    })->where('any', '.*');
+});

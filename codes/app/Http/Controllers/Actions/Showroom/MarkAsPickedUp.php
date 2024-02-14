@@ -6,47 +6,26 @@ use App\Showcase;
 
 class MarkAsPickedUp
 {
-    public static function pickup($ids): array
+    public static function pickup($id)
     {
-        $response = [];
-
-        /**
-         * Check if the order is selected
-         */
-
-        if ($ids[0] == 0) {
-            return [
-                'status' => 'warning',
-                'msg' => "You haven't selected any order to schedule pickup",
-            ];
-        }
-
-        return self::markaspickedup($ids);
-    }
-
-
-    private static function markaspickedup($ids)
-    {
-        $orders = Showcase::whereIn('id', $ids)
-            ->whereIn('order_status', ['New Order'])
-            ->get();
-
-        /**
-         * Check if order exists
-         */
-        if (count($orders) == 0) {
+        $showcase = Showcase::where('order_id', $id)->whereIn('order_status', ['Accepted'])->count();
+        if (count($showcase) > 0) {
             return [
                 'status' => 'error',
-                'msg' => "You can only mark new orders as picked-up",
+                'msg' => "Order not found or may be already marked as pickeup",
             ];
         }
 
+        return self::markaspickedup($id);
+    }
+
+    private static function markaspickedup($id)
+    {
         /**
          * Move under manufacturing
          */
 
-        Showcase::whereIn('id', $ids)
-            ->whereIn('order_status', ['New Order'])
+        Showcase::where('order_id', $id)->whereIn('order_status', ['Accepted'])
             ->update([
                 'order_status' => 'Out For Showcase'
             ]);
@@ -55,6 +34,5 @@ class MarkAsPickedUp
             'status' => 'success',
             'msg' => "Selected orders successfully marked as picked-up",
         ];
-
     }
 }
