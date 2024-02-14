@@ -5832,7 +5832,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('subcategory_id', sub_category_id.value);
       uploading.value = true;
       responseData.value = '';
-      axios.post('/admin/product/bulk-upload', formData, config).then(function (res) {
+      axios.post('/vendor/product/bulk-upload', formData, config).then(function (res) {
         console.log(res.data);
         uploading.value = false;
         progress.value = '';
@@ -5846,7 +5846,7 @@ __webpack_require__.r(__webpack_exports__);
 
     var fetchParentCategory = function fetchParentCategory() {
       loading.value = true;
-      axios.get('/admin/category', {
+      axios.get('/vendor/category', {
         params: {
           rows: 'all',
           status: 1
@@ -5863,7 +5863,7 @@ __webpack_require__.r(__webpack_exports__);
     var fetchSubCategory = function fetchSubCategory() {
       sub_category_id.value = '';
       sub_category.value = [];
-      axios.get('/admin/sub-category', {
+      axios.get('/vendor/sub-category', {
         params: {
           rows: 'all',
           status: 1,
@@ -8825,7 +8825,7 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fi fi-rr-house-chimney mr-2"
-  }), _vm._v(" Showcasess\n                     ")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
+  }), _vm._v(" Showcases\n                     ")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
     staticClass: "dropdown-item",
     attrs: {
       to: {
@@ -16037,7 +16037,7 @@ var staticRenderFns = [function () {
   }, [_c("div", {
     staticClass: "grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4"
   }, [_c("div", {
-    staticClass: "flex flex-col items-center gap-3 px-8 py-10 bg-white rounded-xl shadow-lg hover:bg-gray-50 cursor-pointer"
+    staticClass: "dashboard-card"
   }, [_c("i", {
     staticClass: "fi fi-rr-box-open text-4xl w-8 h-8 text-primary-600"
   }), _vm._v(" "), _c("p", {
@@ -16050,7 +16050,7 @@ var staticRenderFns = [function () {
       href: "mailto: hello@loopple.com"
     }
   }, [_vm._v("View all")])]), _vm._v(" "), _c("div", {
-    staticClass: "flex flex-col items-center gap-3 px-8 py-10 bg-white rounded-xl shadow-lg hover:bg-gray-50 cursor-pointer"
+    staticClass: "dashboard-card"
   }, [_c("i", {
     staticClass: "fi fi-rr-boxes text-4xl w-8 h-8 text-primary-600"
   }), _vm._v(" "), _c("p", {
@@ -16063,7 +16063,7 @@ var staticRenderFns = [function () {
       href: "mailto: hello@loopple.com"
     }
   }, [_vm._v("View all")])]), _vm._v(" "), _c("div", {
-    staticClass: "flex flex-col items-center gap-3 px-8 py-10 bg-white rounded-xl shadow-lg hover:bg-gray-50 cursor-pointer"
+    staticClass: "dashboard-card"
   }, [_c("i", {
     staticClass: "fi fi-sr-boxes text-4xl w-8 h-8 text-primary-600"
   }), _vm._v(" "), _c("p", {
@@ -16076,7 +16076,7 @@ var staticRenderFns = [function () {
       href: "mailto: hello@loopple.com"
     }
   }, [_vm._v("View all")])]), _vm._v(" "), _c("div", {
-    staticClass: "flex flex-col items-center gap-3 px-8 py-10 bg-white rounded-xl shadow-lg hover:bg-gray-50 cursor-pointer"
+    staticClass: "dashboard-card"
   }, [_c("i", {
     staticClass: "fi fi-rr-house-chimney text-4xl w-8 h-8 text-primary-600"
   }), _vm._v(" "), _c("p", {
@@ -16089,7 +16089,7 @@ var staticRenderFns = [function () {
       href: "mailto: hello@loopple.com"
     }
   }, [_vm._v("View all")])]), _vm._v(" "), _c("div", {
-    staticClass: "flex flex-col items-center gap-3 px-8 py-10 bg-white rounded-xl shadow-lg hover:bg-gray-50 cursor-pointer"
+    staticClass: "dashboard-card"
   }, [_c("i", {
     staticClass: "fi fi-sr-house-chimney text-4xl w-8 h-8 text-primary-600"
   }), _vm._v(" "), _c("p", {
@@ -16102,7 +16102,7 @@ var staticRenderFns = [function () {
       href: "mailto: hello@loopple.com"
     }
   }, [_vm._v("View all")])]), _vm._v(" "), _c("div", {
-    staticClass: "flex flex-col items-center gap-3 px-8 py-10 bg-white rounded-xl shadow-lg hover:bg-gray-50 cursor-pointer"
+    staticClass: "dashboard-card"
   }, [_c("i", {
     staticClass: "fi fi-rr-users-alt text-4xl w-8 h-8 text-primary-600"
   }), _vm._v(" "), _c("p", {
@@ -16115,7 +16115,7 @@ var staticRenderFns = [function () {
       href: "mailto: hello@loopple.com"
     }
   }, [_vm._v("View all")])]), _vm._v(" "), _c("div", {
-    staticClass: "flex flex-col items-center gap-3 px-8 py-10 bg-white rounded-xl shadow-lg hover:bg-gray-50 cursor-pointer"
+    staticClass: "dashboard-card"
   }, [_c("i", {
     staticClass: "fi fi-rr-paper-plane text-4xl w-8 h-8 text-primary-600"
   }), _vm._v(" "), _c("p", {
@@ -17960,7 +17960,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count = _vm.order_count) === null || _vm$order_count === void 0 ? void 0 : _vm$order_count.new_order) || "0"))])]), _vm._v(" "), _c("p", {
@@ -17978,7 +17978,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count2 = _vm.order_count) === null || _vm$order_count2 === void 0 ? void 0 : _vm$order_count2.ready_to_dispatch) || "0"))])]), _vm._v(" "), _c("p", {
@@ -17996,7 +17996,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count3 = _vm.order_count) === null || _vm$order_count3 === void 0 ? void 0 : _vm$order_count3.pending_pickup) || "0"))])]), _vm._v(" "), _c("p", {
@@ -18018,7 +18018,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count4 = _vm.order_count) === null || _vm$order_count4 === void 0 ? void 0 : _vm$order_count4.in_transit) || "0"))])]), _vm._v(" "), _c("p", {
@@ -18036,7 +18036,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count5 = _vm.order_count) === null || _vm$order_count5 === void 0 ? void 0 : _vm$order_count5.delivered) || "0"))])]), _vm._v(" "), _c("p", {
@@ -18054,7 +18054,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count6 = _vm.order_count) === null || _vm$order_count6 === void 0 ? void 0 : _vm$order_count6.cancelled) || "0"))])]), _vm._v(" "), _c("p", {
@@ -18078,7 +18078,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count7 = _vm.order_count) === null || _vm$order_count7 === void 0 ? void 0 : _vm$order_count7.rto) || "0"))])]), _vm._v(" "), _c("p", {
@@ -18096,7 +18096,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count8 = _vm.order_count) === null || _vm$order_count8 === void 0 ? void 0 : _vm$order_count8.customer_return) || "0"))])]), _vm._v(" "), _c("p", {
@@ -18114,7 +18114,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count9 = _vm.order_count) === null || _vm$order_count9 === void 0 ? void 0 : _vm$order_count9.return_delivered) || "0"))])]), _vm._v(" "), _c("p", {
@@ -18124,16 +18124,11 @@ var render = function render() {
   }, [_vm._m(4), _vm._v(" "), _c("div", {
     staticClass: "grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
   }, [_c("div", {
-    staticClass: "stats-card",
-    on: {
-      click: function click($event) {
-        _vm.status = "";
-      }
-    }
+    staticClass: "stats-card"
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count10 = _vm.order_count) === null || _vm$order_count10 === void 0 ? void 0 : _vm$order_count10.completed_in_90_days) || "0"))])]), _vm._v(" "), _c("p", {
@@ -18151,7 +18146,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count11 = _vm.order_count) === null || _vm$order_count11 === void 0 ? void 0 : _vm$order_count11.all) || "0"))])]), _vm._v(" "), _c("p", {
@@ -18169,7 +18164,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "px-2 xl:px-4 py-2"
   }, [_c("div", {
-    staticClass: "flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold"
+    staticClass: "stats-count"
   }, [_c("div", {
     staticClass: "mx-auto"
   }, [_vm._v(_vm._s(((_vm$order_count12 = _vm.order_count) === null || _vm$order_count12 === void 0 ? void 0 : _vm$order_count12.others) || "0"))])]), _vm._v(" "), _c("p", {
@@ -18509,14 +18504,14 @@ var render = function render() {
   }, [_vm._v("\n                           Qty\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                           Amount\n                        ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-10"
-  }, [_vm._v("\n                           Pickup and Delivery\n                        ")]), _vm._v(" "), _c("div", {
+    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-10 w-56"
+  }, [_vm._v("\n                           Logistic Details\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                           Customer\n                           Details\n                        ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-10"
+    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-10 w-56"
   }, [_vm._v("\n                           Seller\n                           Information\n                        ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-10"
-  }, [_vm._v("\n                           Logistic\n                           Details\n                        ")]), _vm._v(" "), _c("div", {
+    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-10 w-56"
+  }, [_vm._v("\n                           Pickup and Delivery\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-6"
   }, [_vm._v("\n                           Actions\n                        ")])]), _vm._v(" "), _vm._l(_vm.orders, function (order, index) {
     var _order$product, _order$product$name, _order$product$brand_, _order$product2, _order$product2$produ, _order$vendor, _order$vendor2;
@@ -27373,6 +27368,15 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
       parent_category_id: "",
       sub_category_id: "",
       row_count: "25"
+    },
+    vendor_product_filter: {
+      url: "/vendor/product",
+      keyword: "",
+      seller_id: "",
+      status: "",
+      parent_category_id: "",
+      sub_category_id: "",
+      row_count: "25"
     }
   },
   mutations: {},
@@ -27400,15 +27404,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _plugins_mixin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./plugins/mixin */ "./resources/js/plugins/mixin.js");
 /* harmony import */ var _plugins_directives_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./plugins/directives.js */ "./resources/js/plugins/directives.js");
 
+
+
+
+
+
+
+
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 __webpack_require__.g.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-
-
-
-
-
-
-
 vue__WEBPACK_IMPORTED_MODULE_6__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_7__["default"]);
 var $ = __webpack_require__.g.jQuery;
 window.$ = $; //main-components

@@ -14,7 +14,17 @@ class Showcase extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['order_status', 'status', 'showcase_timer', 'is_timer_extended', 'is_discount_applied', 'is_order_accepted', 'order_status'];
+    protected $fillable = [
+        'order_status',
+        'status',
+        'showcase_timer',
+        'is_timer_extended',
+        'is_discount_applied',
+        'is_order_accepted',
+        'order_status',
+        'deliveryhead_id',
+        'deliveryboy_id'
+    ];
 
     protected $appends = ['color_image', 'color_link', 'nac_charges', 'status_color_class', 'new_order_status'];
 
@@ -49,6 +59,7 @@ class Showcase extends Model
             $query->where('pickup_city', auth()->user()->city);
             $query->where('is_order_accepted', true);
         }
+
 
         if (Auth::user()->hasRole(['Delivery Boy'])) {
             $query->where('deliveryboy_id', auth()->user()->id);

@@ -1,6 +1,6 @@
 <template>
    <div>
-      <Wait :show="loading" />
+      <Wait :show="loading"/>
       <div class="container mx-auto my-2 px-4">
          <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
             <i class="fi fi-rr-boxes"></i>
@@ -13,73 +13,74 @@
                   <i class="fi fi-rr-shipping-fast"></i>
                </h3>
                <div class="grid gap-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
-                  <div class="stats-card">
+                  <div :class="{'animate-fade border-2 !border-green-400':showcase_count.new_order > 0, 'border-2 border-primary-400': status ===  'New Order'}" class="stats-card"
+                       @click="status = 'New Order'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                        <div class="stats-count">
                            {{ showcase_count?.new_order || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">New Orders</p>
                      </div>
                   </div>
-                  <div class="stats-card">
+                  <div :class="{'border-2 border-primary-400': status ===  'Accepted'}" class="stats-card" @click="status = 'Accepted'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                        <div class="stats-count">
                            {{ showcase_count?.accepted || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Accepted</p>
                      </div>
                   </div>
-                  <div class="stats-card">
+                  <div :class="{'border-2 border-primary-400': status ===  'Non Acceptance'}" class="stats-card" @click="status = 'Non Acceptance'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                        <div class="stats-count">
                            {{ showcase_count?.non_acceptance || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Non Acceptance</p>
                      </div>
                   </div>
-                  <div class="stats-card">
+                  <div :class="{'border-2 border-primary-400': status ===  'Out For Showcase'}" class="stats-card" @click="status = 'Out For Showcase'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                        <div class="stats-count">
                            {{ showcase_count?.pickup || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Pickup</p>
                      </div>
                   </div>
-                  <div class="stats-card">
+                  <div :class="{'border-2 border-primary-400': status ===  'Showcased,Moved to Bag'}" class="stats-card" @click="status = 'Showcased,Moved to Bag'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                        <div class="stats-count">
                            {{ showcase_count?.handover || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Handover</p>
                      </div>
                   </div>
-                  <div class="stats-card">
+                  <div :class="{'border-2 border-primary-400': status ===  'Purchased'}" class="stats-card" @click="status = 'Purchased'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                        <div class="stats-count">
                            {{ showcase_count?.purchased || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Purchased</p>
                      </div>
                   </div>
-                  <div class="stats-card">
+                  <div :class="{'border-2 border-primary-400': status ===  'Returned'}" class="stats-card" @click="status = 'Returned'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                        <div class="stats-count">
                            {{ showcase_count?.returned || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Returned</p>
                      </div>
                   </div>
-                  <div class="stats-card">
+                  <div :class="{'border-2 border-primary-400': status ===  'Cancelled'}" class="stats-card" @click="status = 'Cancelled'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                        <div class="stats-count">
                            {{ showcase_count?.cancelled || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Cancelled</p>
                      </div>
                   </div>
-                  <div class="stats-card">
+                  <div :class="{'border-2 border-primary-400': status ===  ''}" class="stats-card" @click="status = ''">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold">
+                        <div class="stats-count">
                            {{ showcase_count?.all || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">All</p>
@@ -121,12 +122,14 @@
                            <option class="bg-gray-100" value="">All</option>
                            <option class="bg-gray-100" value="New Order">New Order</option>
                            <option class="bg-gray-100" value="Accepted">Accepted</option>
-                           <option class="bg-gray-100" value="Non Acceptance">Non Acceptance</option>
-                           <option class="bg-gray-100" value="Cancelled">Cancelled</option>
-                           <option class="bg-gray-100" value="Showcased">Showcased</option>
                            <option class="bg-gray-100" value="Out For Showcase">Out For Showcase</option>
+                           <option class="bg-gray-100" value="Showcased,Moved to Bag">Handover</option>
+                           <option class="bg-gray-100" value="Showcased">Showcased</option>
                            <option class="bg-gray-100" value="Moved to Bag">Moved to Bag</option>
                            <option class="bg-gray-100" value="Purchased">Purchased</option>
+                           <option class="bg-gray-100" value="Non Acceptance">Non Acceptance</option>
+                           <option class="bg-gray-100" value="Cancelled">Cancelled</option>
+                           <option class="bg-gray-100" value="Returned">Returned</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                            <i class="fi fi-ss-angle-small-down text-xl w-5 h-6 ml-1"></i>
@@ -168,7 +171,7 @@
                         <div class="table-row table-head">
                            <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
                               <div class="flex items-center">
-                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded  " type="checkbox">
+                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
                               </div>
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
@@ -190,16 +193,13 @@
                               Amount
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Customer
-                              Details
+                              Customer Details
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Seller
-                              Information
+                              Seller Information
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Logistic
-                              Details
+                              Logistic Details
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                               Actions
@@ -219,8 +219,8 @@
                                  <div class="flex gap-1 items-center text-start text-gray-900 whitespace-nowrap dark:text-white w-[70%]">
                                     <img :src="$store.state.storageUrl + showcase?.color_image" alt="product-img"
                                          class="w-14 h-14 border rounded-[50%]"
-                                         @error="imageLoadError"
-                                         @click="imageModal($store.state.storageUrl + showcase?.color_image)">
+                                         @click="imageModal($store.state.storageUrl + showcase?.color_image)"
+                                         @error="imageLoadError">
                                     <div class="pl-2 w-4/5">
                                        <div :title="showcase.product?.name" class="text-base font-medium overflow-hidden whitespace-nowrap text-ellipsis hover:underline">
                                           <a :href="showcase.color_link" target="_blank">
@@ -341,14 +341,6 @@
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
                               <div class="flex flex-col gap-2 items-center justify-center">
-                                 <!--<a class="font-medium cursor-pointer text-blue-500" href="#"-->
-                                 <!--type="button">-->
-                                 <!--<i class="fi fi-rr-eye w-5 h-5 text-xl"></i>-->
-                                 <!--</a>-->
-                                 <!--<a class="font-medium cursor-pointer text-yellow-500" href="#"-->
-                                 <!--type="button">-->
-                                 <!--<i class="fi fi-rr-pencil w-5 h-5 text-xl"></i>-->
-                                 <!--</a>-->
                                  <button class="font-medium cursor-pointer text-red-500" type="button" @click="deleteShowcase(showcase.id)">
                                     <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
                                  </button>
@@ -402,6 +394,11 @@
             status: '',
             row_count: this.$store.state.product_filter?.row_count,
             pagination: {},
+         }
+      },
+      watch: {
+         status(newValue, oldValue) {
+            this.fetchShowcases();
          }
       },
       methods: {

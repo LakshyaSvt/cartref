@@ -195,7 +195,7 @@
     }
 
     .stats-count {
-        @apply flex items-center w-10 h-10 rounded-full text-black bg-white text-lg font-semibold justify-center;
+        @apply flex items-center w-14 h-14 rounded-full text-black bg-white text-lg font-semibold justify-center;
     }
 }
 

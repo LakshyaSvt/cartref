@@ -12,35 +12,19 @@
                   Order Haulage
                   <i class="fi fi-rr-shipping-fast"></i>
                </h3>
-               <div class="grid gap-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+               <div class="grid gap-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-7">
                   <div :class="{'animate-fade border-2 !border-green-400':showcase_count.new_order > 0, 'border-2 border-primary-400': status ===  'New Order'}" class="stats-card"
                        @click="status = 'New Order'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="stats-count">
+                        <div class="stats-count bg-primary-200">
                            {{ showcase_count?.new_order || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">New Orders</p>
                      </div>
                   </div>
-                  <div :class="{'border-2 border-primary-400': status ===  'Accepted'}" class="stats-card" @click="status = 'Accepted'">
-                     <div class="px-2 xl:px-4 py-2">
-                        <div class="stats-count">
-                           {{ showcase_count?.accepted || '0' }}
-                        </div>
-                        <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Accepted</p>
-                     </div>
-                  </div>
-                  <div :class="{'border-2 border-primary-400': status ===  'Non Acceptance'}" class="stats-card" @click="status = 'Non Acceptance'">
-                     <div class="px-2 xl:px-4 py-2">
-                        <div class="stats-count">
-                           {{ showcase_count?.non_acceptance || '0' }}
-                        </div>
-                        <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Non Acceptance</p>
-                     </div>
-                  </div>
                   <div :class="{'border-2 border-primary-400': status ===  'Out For Showcase'}" class="stats-card" @click="status = 'Out For Showcase'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="stats-count">
+                        <div class="stats-count bg-primary-200">
                            {{ showcase_count?.pickup || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Pickup</p>
@@ -48,7 +32,7 @@
                   </div>
                   <div :class="{'border-2 border-primary-400': status ===  'Showcased,Moved to Bag'}" class="stats-card" @click="status = 'Showcased,Moved to Bag'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="stats-count">
+                        <div class="stats-count bg-primary-200">
                            {{ showcase_count?.handover || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Handover</p>
@@ -56,7 +40,7 @@
                   </div>
                   <div :class="{'border-2 border-primary-400': status ===  'Purchased'}" class="stats-card" @click="status = 'Purchased'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="stats-count">
+                        <div class="stats-count bg-primary-200">
                            {{ showcase_count?.purchased || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Purchased</p>
@@ -64,7 +48,7 @@
                   </div>
                   <div :class="{'border-2 border-primary-400': status ===  'Returned'}" class="stats-card" @click="status = 'Returned'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="stats-count">
+                        <div class="stats-count bg-primary-200">
                            {{ showcase_count?.returned || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Returned</p>
@@ -72,7 +56,7 @@
                   </div>
                   <div :class="{'border-2 border-primary-400': status ===  'Cancelled'}" class="stats-card" @click="status = 'Cancelled'">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="stats-count">
+                        <div class="stats-count bg-primary-200">
                            {{ showcase_count?.cancelled || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Cancelled</p>
@@ -80,7 +64,7 @@
                   </div>
                   <div :class="{'border-2 border-primary-400': status ===  ''}" class="stats-card" @click="status = ''">
                      <div class="px-2 xl:px-4 py-2">
-                        <div class="stats-count">
+                        <div class="stats-count bg-primary-200">
                            {{ showcase_count?.all || '0' }}
                         </div>
                         <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">All</p>
@@ -97,26 +81,27 @@
                         {{ pagination.from || '0' }} - {{ pagination.to || '0' }} of {{ pagination.total || '0' }}
                      </div>
                      <div>
-                        <button :disabled="!pagination.prev_page_url" class="prev-next-btn" title="Previous" @click="fetchShowcases(pagination.prev_page_url)">
+                        <button :disabled="!pagination.prev_page_url" class="prev-next-btn"
+                                title="Previous"
+                                @click="fetchShowcases(pagination.prev_page_url)">
                            <i class="fi fi-rr-angle-small-left text-xl px-1 py-2"></i>
                         </button>
-                        <button :disabled="!pagination.next_page_url" class="prev-next-btn" title="Next" @click="fetchShowcases(pagination.next_page_url)">
+                        <button :disabled="!pagination.next_page_url" class="prev-next-btn"
+                                title="Next" @click="fetchShowcases(pagination.next_page_url)">
                            <i class="fi fi-rr-angle-small-right text-xl px-1 py-2"></i>
                         </button>
                      </div>
                   </div>
                   <div class="flex flex-wrap items-center gap-2">
                      <div class="relative">
-                        <select v-model="status" class="filter-dropdown !w-auto" title="Status">
+                        <select v-model="status" class="filter-dropdown !w-auto" title="Status" @change="fetchShowcases()">
                            <option class="bg-gray-100" value="">All</option>
                            <option class="bg-gray-100" value="New Order">New Order</option>
-                           <option class="bg-gray-100" value="Accepted">Accepted</option>
                            <option class="bg-gray-100" value="Out For Showcase">Out For Showcase</option>
                            <option class="bg-gray-100" value="Showcased,Moved to Bag">Handover</option>
                            <option class="bg-gray-100" value="Showcased">Showcased</option>
                            <option class="bg-gray-100" value="Moved to Bag">Moved to Bag</option>
                            <option class="bg-gray-100" value="Purchased">Purchased</option>
-                           <option class="bg-gray-100" value="Non Acceptance">Non Acceptance</option>
                            <option class="bg-gray-100" value="Cancelled">Cancelled</option>
                            <option class="bg-gray-100" value="Returned">Returned</option>
                         </select>
@@ -126,20 +111,25 @@
                      </div>
                      <label class="sr-only" for="table-search">Search</label>
                      <div class="relative">
-                        <div v-if="keyword" class="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer" @click="keyword = ''; fetchShowcases();">
+                        <div v-if="keyword"
+                             class="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer" @click="keyword = ''; fetchShowcases();">
                            <i class="fi fi-rr-cross-small mr-1"></i>
                         </div>
                         <div v-else class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                            <i class="fi fi-rr-search mr-1"></i>
                         </div>
-                        <input v-model="keyword" class="search" placeholder="Search" type="text" @keydown.enter="fetchShowcases()">
+                        <input v-model="keyword" class="search" placeholder="Search" type="text"
+                               @keydown.enter="fetchShowcases()">
                      </div>
                      <div class="flex border border-gray-600 rounded-lg bg-white">
-                        <button class="px-2 py-1 m-[2px] hover:bg-primary-100 border-r border-solid cursor-pointer" @click="fetchShowcases()">
+                        <button class="px-2 py-1 m-[2px] hover:bg-primary-100 border-r border-solid cursor-pointer"
+                                @click="fetchShowcases()">
                            <i class="ffi fi-rr-refresh mr-1"></i>
                         </button>
-                        <select v-model="row_count" class="w-14 block px-1 m-[2px] text-base text-center text-gray-900 bg-white cursor-pointer" @change="fetchShowcases()">
-                           <option v-for="(count, index) in $store.state.row_counts" :key="index" :value="count.toLowerCase()" class="bg-white">
+                        <select v-model="row_count"
+                                class="w-14 block px-1 m-[2px] text-base text-center text-gray-900 bg-white cursor-pointer" @change="fetchShowcases()">
+                           <option v-for="(count, index) in $store.state.row_counts" :key="index" :value="count.toLowerCase()"
+                                   class="bg-white">
                               {{ count }}
                            </option>
                         </select>
@@ -153,11 +143,9 @@
                   <div class="clear-right overflow-x-auto">
                      <div class="table border-solid border border-gray-500 w-full">
                         <div class="table-row table-head">
-                           <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
-                              Actions
-                           </div>
+                           <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">Actions</div>
                            <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
-                              S.no
+                              S.No.
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                               Order No
@@ -178,19 +166,25 @@
                               Logistic
                               Details
                            </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Customer
+                              Details
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Seller
+                              Information
+                           </div>
                         </div>
                         <div v-for="(showcase, index) in showcases" :key="showcase.id" class="table-row table-body hover:bg-primary-100 bg-white">
-                           <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
-                              <template v-if="!showcase.is_order_accepted && showcase.order_status === 'New Order' && showcase.order_status !== 'Non Acceptance'">
-                                 <div class="mx-auto">
-                                    <span class="text-green-600 font-semibold">New Order !!</span>
-                                    <a :href="`/showcase-at-home/my-orders/order/${showcase.id}/accept-order`" class="inline-flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-green-500 hover:bg-green-600"
-                                       target="_blank">
-                                       <i class="fi fi-rr-check text-base w-4 h-5"></i>
-                                       Accept
-                                    </a>
-                                 </div>
-                              </template>
+                           <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2 !align-middle">
+                              <div class="flex items-center">
+                                 <button
+                                     class="inline-flex items-center gap-2 px-4 py-2 text-base font-semibold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-primary-500 hover:bg-primary-600"
+                                     @click="openDeliveryModal(showcase.order_id)">
+                                    <i class="fi fi-rr-user-pen text-base w-4 h-5"></i>
+                                    Assign
+                                 </button>
+                              </div>
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">{{ pagination.from + index }}</div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-4 text-center">{{ showcase.order_id }}</div>
@@ -280,6 +274,46 @@
                                  <div class="font-semibold">Delivery Head:- Not Assigned</div>
                               </div>
                            </div>
+                           <div class="table-cell border-t border-l border-gray-500 p-1 text-sm text-center">
+                              <div class="flex items-center gap-2">
+                                 <div class="font-semibold">Name:</div>
+                                 <div class="font-normal text-gray-800">{{ showcase.customer_name }}</div>
+                              </div>
+                              <div class="flex items-center gap-2">
+                                 <div class="font-semibold">Email:</div>
+                                 <div class="font-normal text-gray-800">{{ showcase.customer_email }}</div>
+                              </div>
+                              <div class="text-gray-800 font-normal text-left">
+                                 <p>
+                                    {{ showcase.dropoff_streetaddress1 + ' ' + showcase.dropoff_streetaddress2 + ', ' + showcase.dropoff_city + ' - ' + showcase.dropoff_pincode }} <br>
+                                    {{ showcase.dropoff_state + ' - ' + showcase.dropoff_country }}
+                                 </p>
+                              </div>
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm p-1 pb-4 text-center">
+                              <div class="flex items-center gap-2">
+                                 <div class="font-semibold">Name:</div>
+                                 <div class="font-normal text-gray-800">{{ showcase.vendor ? showcase.vendor.name : '-' }}</div>
+                              </div>
+                              <div class="flex items-center gap-2">
+                                 <div class="font-semibold">Brand:</div>
+                                 <div class="font-normal text-gray-800">{{ showcase.vendor ? showcase.vendor.brand_name : '-' }}</div>
+                              </div>
+                              <div class="flex items-center gap-2">
+                                 <div class="font-semibold">Email:</div>
+                                 <div class="font-normal text-gray-800">{{ showcase.vendor ? showcase.vendor.email : '-' }}</div>
+                              </div>
+                              <div class="flex items-center gap-2">
+                                 <div class="font-semibold">Mobile:</div>
+                                 <div class="font-normal text-gray-800"><a :href="'tel:+91'+showcase.vendor?.mobile">{{ showcase.vendor ? showcase.vendor.mobile : '-' }}</a></div>
+                              </div>
+                              <div class="text-gray-800 font-normal text-start">
+                                 <p>
+                                    {{ showcase.dropoff_streetaddress1 + ' ' + showcase.dropoff_streetaddress2 + ', ' + showcase.dropoff_city + ' - ' + showcase.dropoff_pincode }}
+                                    {{ showcase.dropoff_state + ' - ' + showcase.dropoff_country }}
+                                 </p>
+                              </div>
+                           </div>
                         </div>
                      </div>
                   </div>
@@ -306,19 +340,48 @@
             </div>
          </div>
       </div>
+      <Modal :hide="closeDeliveryModal" :show="dilveryModal" title="Assign Delivery Boy">
+         <!-- Modal body -->
+         <form @submit.prevent="assignDeliveryBoy()">
+            <div class="py-6 px-4 space-y-6">
+               <div class="md:flex mb-3">
+                  <div class="mb-2 w-full">
+                     <label class="block mb-2 text-sm font-bold text-gray-900" for="category">Delivery Boy</label>
+                     <div class="relative">
+                        <select v-model="delivery_boy_id" class="filter-dropdown !w-full !h-auto" required title="Status">
+                           <option v-for="user in delivery_boys" :key="user.id" :value="user.id" class="bg-gray-100">{{ user.name }}</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                           <i class="fi fi-ss-angle-small-down text-xl w-5 h-6 ml-1"></i>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+               <button class="submit-btn" type="submit">Assign</button>
+            </div>
+         </form>
+      </Modal>
       <ImageModal :hide="closeImageModal" :img="imgModal" :show="showModal"></ImageModal>
    </div>
 </template>
 <script>
    import Checkbox from "@components/Checkbox.vue";
+   import Modal from "@components/Modal.vue";
 
    export default {
       name: "Showcases",
-      components: {Checkbox},
+      components: {Checkbox, Modal},
       data() {
          return {
             loading: true,
             dataLoading: true,
+            dilveryModal: false,
+            order_id: '',
+            delivery_boy_id: '',
+            delivery_boys: [],
             showModal: false,
             showcase_count: {},
             showcases: [{}],
@@ -342,12 +405,43 @@
          closeImageModal() {
             this.showModal = false;
          },
+         openDeliveryModal(id) {
+            this.order_id = id;
+            axios.get('/delivery-head/delivery-boys?rows=all')
+                .then(res => {
+                   this.delivery_boys = res.data.data;
+                   this.dilveryModal = true;
+                })
+                .catch(err => {
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         assignDeliveryBoy() {
+            this.loading = true;
+            axios
+                .post('/delivery-head/assign-delivery-boys/' + this.order_id, {
+                   user_id: this.delivery_boy_id
+                })
+                .then(res => {
+                   this.loading = false;
+                   this.closeDeliveryModal()
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.fetchShowcases();
+                })
+                .catch(err => {
+                   err.handleGlobally && err.handleGlobally();
+                   this.loading = false;
+                })
+         },
+         closeDeliveryModal() {
+            this.dilveryModal = false;
+         },
          deleteShowcase(id) {
             if (!confirm("Are you sure you want to delete ?")) {
                return false;
             }
             this.loading = true;
-            axios.delete('/vendor/showcase/' + id)
+            axios.delete('/delivery-head/showcase/' + id)
                 .then(res => {
                    this.show_toast(res.data.status, res.data.msg);
                    this.fetchShowcases();
@@ -360,7 +454,7 @@
          fetchShowcases(url) {
             this.fetchShowcaseCount();
             this.dataLoading = true;
-            url = url || '/vendor/showcase'
+            url = url || '/delivery-head/showcase'
             axios.get(url, {
                params: {
                   rows: this.row_count,
@@ -384,7 +478,7 @@
                 })
          },
          fetchShowcaseCount() {
-            axios.get('/vendor/showcase/count')
+            axios.get('/delivery-head/showcase/count')
                 .then(res => {
                    this.showcase_count = res.data;
                 })

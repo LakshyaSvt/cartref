@@ -2,13 +2,11 @@
 
 
 use App\Http\Controllers\Vendor\BasicDataController;
-use App\Http\Controllers\Vendor\CategoryController;
 use App\Http\Controllers\Vendor\CouponController;
 use App\Http\Controllers\Vendor\DashboardController;
 use App\Http\Controllers\Vendor\OrderController;
 use App\Http\Controllers\Vendor\ProductController;
 use App\Http\Controllers\Vendor\ShowcaseController;
-use App\Http\Controllers\Vendor\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /**
