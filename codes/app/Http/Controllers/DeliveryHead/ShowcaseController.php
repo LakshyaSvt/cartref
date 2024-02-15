@@ -70,7 +70,7 @@ class ShowcaseController extends Controller
     {
 
         $showcases = Showcase::where('pickup_city', auth()->user()->city)->where('is_order_accepted', true)->get();
-        $new_order = $showcases->where('order_status', 'New Order')->count();
+        $new_order = $showcases->where('order_status', 'Accepted')->count();
         $pickup = $showcases->where('order_status', 'Out For Showcase')->count();
         $handover = $showcases->whereIn('order_status', ['Showcased', 'Moved to Bag'])->count();
         $purchased = $showcases->where('order_status', 'Purchased')->count();

@@ -184,7 +184,7 @@
                               <template v-if="!showcase.is_order_accepted && showcase.order_status === 'New Order' && showcase.order_status !== 'Non Acceptance'">
                                  <div class="mx-auto">
                                     <span class="text-green-600 font-semibold">New Order !!</span>
-                                    <a :href="`/showcase-at-home/my-orders/order/${showcase.id}/accept-order`" class="inline-flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-green-500 hover:bg-green-600"
+                                    <a :href="`/showcase-at-home/my-orders/order/${showcase.order_id}/accept-order`" class="inline-flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-green-500 hover:bg-green-600"
                                        target="_blank">
                                        <i class="fi fi-rr-check text-base w-4 h-5"></i>
                                        Accept

@@ -14,7 +14,7 @@ class MarkAsShowcased
          * Check if the order is selected
          */
 
-        if ($ids[0] == 0) {
+        if ($ids == 0) {
             return [
                 'status' => 'warning',
                 'msg' => "You haven't selected any order to mark as handovered",

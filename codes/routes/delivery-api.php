@@ -26,7 +26,9 @@ Route::prefix('delivery-boy')->middleware(['auth', 'delivery-boy'])->group(funct
     Route::get('/showcase', [DeliveryBoyShowcaseController::class, 'index']);
     Route::get('/showcase/count', [DeliveryBoyShowcaseController::class, 'getShowcaseCount']);
     Route::get('/delivery-boys', [DeliveryBoyShowcaseController::class, 'getDeliveryBoys']);
-    Route::post('/showcase/mark-as-pickedup', [DeliveryBoyShowcaseController::class, 'markAsPickedup']);
+    Route::post('/showcase/mark-as-pickup', [DeliveryBoyShowcaseController::class, 'markAsPickup']);
     Route::post('/showcase/mark-as-showcased', [DeliveryBoyShowcaseController::class, 'markAsShowcased']);
     Route::post('/assign-delivery-boys/{order_id}', [DeliveryBoyShowcaseController::class, 'assignDeliveryBoy']);
+    Route::post('/showcase/add-time/{id}',[DeliveryBoyShowcaseController::class, 'addTime']);
+    Route::post('/showcase/cancel-order/{id}',[DeliveryBoyShowcaseController::class, 'cancelOrder']);
 });

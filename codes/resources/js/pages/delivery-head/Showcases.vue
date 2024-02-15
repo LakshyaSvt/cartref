@@ -13,8 +13,8 @@
                   <i class="fi fi-rr-shipping-fast"></i>
                </h3>
                <div class="grid gap-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-7">
-                  <div :class="{'animate-fade border-2 !border-green-400':showcase_count.new_order > 0, 'border-2 border-primary-400': status ===  'New Order'}" class="stats-card"
-                       @click="status = 'New Order'">
+                  <div :class="{'animate-fade border-2 !border-green-400':showcase_count.new_order > 0, 'border-2 border-primary-400': status ===  'Accepted'}" class="stats-card"
+                       @click="status = 'Accepted'">
                      <div class="px-2 xl:px-4 py-2">
                         <div class="stats-count bg-primary-200">
                            {{ showcase_count?.new_order || '0' }}
@@ -96,7 +96,7 @@
                      <div class="relative">
                         <select v-model="status" class="filter-dropdown !w-auto" title="Status" @change="fetchShowcases()">
                            <option class="bg-gray-100" value="">All</option>
-                           <option class="bg-gray-100" value="New Order">New Order</option>
+                           <option class="bg-gray-100" value="Accepted">New Order</option>
                            <option class="bg-gray-100" value="Out For Showcase">Out For Showcase</option>
                            <option class="bg-gray-100" value="Showcased,Moved to Bag">Handover</option>
                            <option class="bg-gray-100" value="Showcased">Showcased</option>
@@ -177,13 +177,18 @@
                         </div>
                         <div v-for="(showcase, index) in showcases" :key="showcase.id" class="table-row table-body hover:bg-primary-100 bg-white">
                            <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2 !align-middle">
-                              <div class="flex items-center">
-                                 <button
-                                     class="inline-flex items-center gap-2 px-4 py-2 text-base font-semibold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-primary-500 hover:bg-primary-600"
-                                     @click="openDeliveryModal(showcase.order_id)">
-                                    <i class="fi fi-rr-user-pen text-base w-4 h-5"></i>
-                                    Assign
-                                 </button>
+                              <div class="flex flex-col gap-2 items-center">
+                                 <div v-if="showcase.deliveryboy_id && showcase.deliveryboy" class="block my-2">
+                                    Assigned:- <div class="block font-semibold text-base text-black">{{ showcase.deliveryboy.name }}</div>
+                                 </div>
+                                 <div class="block">
+                                    <button
+                                        class="inline-flex items-center gap-2 px-4 py-2 text-base font-semibold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-primary-500 hover:bg-primary-600"
+                                        @click="openDeliveryModal(showcase.order_id)">
+                                       <i class="fi fi-rr-user-pen text-base w-4 h-5"></i>
+                                       Assign
+                                    </button>
+                                 </div>
                               </div>
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">{{ pagination.from + index }}</div>

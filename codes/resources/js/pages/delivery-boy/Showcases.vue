@@ -73,6 +73,20 @@
                </div>
             </div>
          </div>
+         <div class="flex gap-2 items-center text-3xl my-2 text-primary-600 font-semibold">
+            <button v-if="isMarkAsPickup"
+                    class="inline-flex items-center gap-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-green-500 hover:bg-green-600"
+                    @click="markAsPickup()">
+               <i class="fi fi-rr-truck-moving text-base w-4 h-5"></i>
+               Mark As Pickup
+            </button>
+            <button v-if="isMarkAsShowcase"
+                    class="inline-flex items-center gap-2 ml-2 px-4 py-2 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-amber-500 hover:bg-amber-600"
+                    @click="markAsShowcased()">
+               <i class="fi fi-rr-document text-base w-4 h-5"></i>
+               Mark As Handover
+            </button>
+         </div>
          <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg">
             <div class="block">
                <div class="flex flex-wrap items-center justify-between py-4">
@@ -143,7 +157,13 @@
                   <div class="clear-right overflow-x-auto">
                      <div class="table border-solid border border-gray-500 w-full">
                         <div class="table-row table-head">
-                           <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-14">Actions</div>
+                           <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-8">Actions</div>
+                           <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1 px-2">
+                              <div class="flex items-center">
+                                 <input :checked="selected_ids.length === showcases.length" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox"
+                                        @change="selectAll($event)">
+                              </div>
+                           </div>
                            <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
                               S.No.
                            </div>
@@ -177,7 +197,57 @@
                         </div>
                         <div v-for="(showcase, index) in showcases" :key="showcase.id" class="table-row table-body hover:bg-primary-100 bg-white">
                            <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2 !align-middle">
-                              
+                              <div v-if="showcase.diff_showcase_timer">
+                                 <p class="text-primary-500 text-xl text-center">
+                                    <span class="font-bold showcase_timer">{{ showcaseTimer(showcase.showcase_timer) ?? showcase.diff_showcase_timer }}</span>
+                                    mins left
+                                 </p>
+                                 <!--                                 <form v-if="showcase.is_timer_extended"-->
+                                 <!--                                       id="cancel-form" class="hidden" method="POST" @submit.prevent="cancelOrder(showcase.order_id)">-->
+                                 <!--                                 </form>-->
+                                 <button v-if="showcase.is_timer_extended" id="cancel-form" class="hidden" method="POST" type="button" @click="cancelOrder(showcase.order_id)"></button>
+                              </div>
+                              <div v-else-if="showcase.showcase_timer">
+                                 <p class="text-red-500 text-sm text-center">
+                                    <span class="font-bold">Time ended at {{ formatTime(showcase.showcase_timer) }}</span>
+                                 </p>
+                                 <ul v-if="!showcase.is_timer_extended" class="flex flex-col gap-2 mt-2">
+                                    <button
+                                        class="w-fit inline-flex items-center gap-1 px-4 py-2 mx-auto text-sm font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-red-500 hover:bg-red-600"
+                                        type="button"
+                                        @click="cancelOrder(showcase.order_id)">
+                                       <i class="fi fi-rr-cross-small text-base w-4 h-5"></i>
+                                       No
+                                    </button>
+                                    <button
+                                        class="inline-flex gap-1 px-2 py-1 font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-primary-500 hover:bg-primary-600"
+                                        type="button"
+                                        @click="needMoreTime(showcase.order_id)">
+                                       <i class="fi fi-rr-hourglass-end text-base w-4 h-5"></i>
+                                       Need More Time ?
+                                    </button>
+                                 </ul>
+                              </div>
+                              <div class="my-2">
+                                 <a v-if="showcase.order_status == 'Showcased'" :href="`/showcase-at-home/my-orders/order/${showcase.order_id}/buynow`"
+                                    class="inline-flex gap-2 px-4 py-2 font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-primary-500 hover:bg-primary-600"
+                                 >
+                                    <i class="fi fi-rr-truck-bolt text-base w-4 h-5"></i>
+                                    Order
+                                 </a>
+                                 <a v-else-if="showcase.order_status == 'Moved to Bag'" :href="`/showcase-at-home/my-orders/order/${showcase.order_id}`"
+                                    class="inline-flex gap-2 px-4 py-2 font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-primary-500 hover:bg-primary-600"
+                                 >
+                                    <i class="fi fi-rr-truck-bolt text-base w-4 h-5"></i>
+                                    Order
+                                 </a>
+                              </div>
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1 px-2">
+                              <div class="flex items-center">
+                                 <input v-model="selected_ids" :value="showcase.id" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" name="checkbox_input[]"
+                                        type="checkbox">
+                              </div>
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">{{ pagination.from + index }}</div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-4 text-center">{{ showcase.order_id }}</div>
@@ -350,6 +420,7 @@
             showModal: false,
             showcase_count: {},
             showcases: [{}],
+            selected_ids: [],
             imgModal: '',
             keyword: '',
             status: '',
@@ -363,17 +434,150 @@
          }
       },
       computed: {
-         getShowcaseTimer(id) {
-            return this.showcases.find(el => el.id === id)[0].showcase_timer;
-         }
+         isMarkAsPickup() {
+            if (this.selected_ids.length <= 0) {
+               return false;
+            }
+            let statuses = ['Accepted'];
+            let flag = true;
+            this.showcases
+                .filter(order => this.selected_ids.includes(order.id))
+                .forEach(order => {
+                   if (!statuses.includes(order.order_status)) {
+                      flag = false;
+                   }
+                })
+            return flag;
+         },
+         isMarkAsShowcase() {
+            if (this.selected_ids.length <= 0) {
+               return false;
+            }
+            let statuses = ['Out For Showcase'];
+            let flag = true;
+            this.showcases
+                .filter(order => this.selected_ids.includes(order.id))
+                .forEach(order => {
+                   if (!statuses.includes(order.order_status)) {
+                      flag = false;
+                   }
+                })
+            return flag;
+         },
       },
       methods: {
+         selectAll(e) {
+            if (e.target.checked) {
+               this.selected_ids = this.showcases.map(order => order.id);
+            } else {
+               this.selected_ids = [];
+            }
+         },
          imageModal(img) {
             this.showModal = true;
             this.imgModal = img;
          },
          closeImageModal() {
             this.showModal = false;
+         },
+         markAsPickup() {
+            this.loading = true;
+            const order_id = this.showcases.filter(order => this.selected_ids.includes(order.id))[0].order_id;
+            if (!order_id) {
+               return false;
+            }
+            axios
+                .post('/delivery-boy/showcase/mark-as-pickup', {
+                   'order_id': order_id
+                })
+                .then(res => {
+                   this.loading = false;
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.fetchShowcases();
+                })
+                .catch(err => {
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         markAsShowcased() {
+            this.loading = true;
+            if (this.selected_ids.length <= 0) {
+               return false;
+            }
+            axios
+                .post('/delivery-boy/showcase/mark-as-showcased', {
+                   'order_ids': this.selected_ids
+                })
+                .then(res => {
+                   this.loading = false;
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.fetchShowcases();
+                })
+                .catch(err => {
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         cancelOrder(id) {
+            this.dataLoading = true;
+            axios.post('/delivery-boy/showcase/cancel-order/' + id)
+                .then(res => {
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.dataLoading = false;
+                   this.fetchShowcases();
+                })
+                .catch(err => {
+                   this.dataLoading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         needMoreTime(id) {
+            this.dataLoading = true;
+            axios.post('/delivery-boy/showcase/add-time/' + id)
+                .then(res => {
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.dataLoading = false;
+                   this.fetchShowcases();
+                })
+                .catch(err => {
+                   this.dataLoading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
+         },
+         showcaseTimer(date) {
+            if (!date) {
+               return;
+            }
+            var countDownDate = new Date(date).getTime();
+            const x = setInterval(function () {
+               // Get today's date and time
+               var now = new Date().getTime();
+               // Find the diff between now and the count down date
+               var diff = countDownDate - now;
+
+               // Time calculations for days, hours, minutes and seconds
+               // var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+               var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+               var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+               minutes = minutes.toString().padStart(2, '0'); // 00:00 format
+               seconds = seconds.toString().padStart(2, '0');
+
+               console.log(minutes + ":" + seconds);
+
+               $('.showcase_timer').html(minutes + ":" + seconds);
+
+               // If the count down is over, write some text
+               if (diff < 0) {
+                  clearInterval(x);
+                  if ($('#cancel-form')) {
+                     $('#cancel-form').click();
+                  } else {
+                     window.location.reload();
+                  }
+                  $('.showcase_timer').html("0");
+               }
+            }, 1000);
          },
          deleteShowcase(id) {
             if (!confirm("Are you sure you want to delete ?")) {

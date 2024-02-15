@@ -6,9 +6,11 @@ use App\Http\Controllers\Actions\Showroom\MarkAsPickedUp;
 use App\Http\Controllers\Actions\Showroom\MarkAsShowcased;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
-use App\Models\User;
+use App\Productsku;
 use App\Showcase;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class ShowcaseController extends Controller
 {
@@ -91,7 +93,7 @@ class ShowcaseController extends Controller
         ]);
     }
 
-    public function markAsPickedup(Request $request)
+    public function markAsPickup(Request $request)
     {
         $res = MarkAsPickedUp::pickup($request->order_id);
 
@@ -105,4 +107,80 @@ class ShowcaseController extends Controller
         return response()->json($res);
     }
 
+    public function addTime($id)
+    {
+        $orders = Showcase::where('order_id', $id)->where('order_status', 'Showcased')->get();
+
+        if (count($orders) <= 0) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => "Showcase order not found",
+            ]);
+        }
+
+        foreach ($orders as $order) {
+            if (!$order->is_timer_extended) {
+                $order->showcase_timer = Carbon::parse($order->showcase_timer)->addMinutes($orders->count() * 2.5);
+                $order->is_timer_extended = true;
+                $order->save();
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'msg' => "Showcase order time has been extended successfully",
+        ]);
+    }
+
+    public function cancelOrder($id)
+    {
+        $orders = Showcase::where('order_id', $id)->get();
+
+        if (count($orders) <= 0) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => "Showcase order not found",
+            ]);
+        }
+
+        $orderStatus = true;
+        foreach ($orders as $item) {
+            if ($item->order_status != 'Showcased') {
+                $orderStatus = false;
+                break;
+            }
+        }
+        if ($orderStatus) {
+            $orders = Showcase::where('order_id', $id)->where('order_status', 'Showcased')->get();
+            foreach ($orders as $order) {
+
+                $order->update([
+                    'order_status' => 'Returned',
+                    'status' => '0',
+                ]);
+
+                if (Config::get('icrm.stock_management.feature') == 1) {
+                    if (Config::get('icrm.product_sku.color') == 1) {
+                        $updatestock = Productsku::where('product_id', $order->product_id)->where('color', $order->color)->where('size', $order->size)->first();
+                    } else {
+                        $updatestock = Productsku::where('product_id', $order->product_id)->where('size', $order->size)->first();
+                    }
+
+                    $updatestock->update([
+                        'available_stock' => $updatestock->available_stock + $order->qty,
+                    ]);
+                }
+            }
+
+            return response()->json([
+                'msg' => "Showcase order has been cancelled",
+                'status' => 'warning',
+            ]);
+        } else {
+            return response()->json([
+                'msg' => "Failed to cancel the order",
+                'status' => 'error',
+            ]);
+        }
+    }
 }

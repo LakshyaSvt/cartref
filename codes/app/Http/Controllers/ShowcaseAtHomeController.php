@@ -528,7 +528,7 @@ class ShowcaseAtHomeController extends Controller
     function acceptOrder($id)
     {
         if (auth()->user()->hasRole(['Vendor'])) {
-            $orders = Showcase::where(['order_id' => $id, 'vendor_id' => auth()->user()->id])
+           $orders = Showcase::where(['order_id' => $id, 'vendor_id' => auth()->user()->id])
                 ->where('is_order_accepted', false)
                 ->where('order_status', '!=', 'Non Acceptance')
                 ->update([

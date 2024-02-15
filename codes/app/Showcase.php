@@ -158,7 +158,7 @@ class Showcase extends Model
         if ($this->order_status == 'Under manufacturing') {
             return 'text-orange-500';
         }
-        if ($this->order_status == 'Delivered' || $this->order_status == 'Scheduled for pickup' || $this->order_status == 'Purchased') {
+        if ($this->order_status == 'Accepted' || $this->order_status == 'Delivered' || $this->order_status == 'Scheduled for pickup' || $this->order_status == 'Purchased') {
             return 'text-green-500';
         }
         if ($this->order_status == 'Returned' || $this->order_status == 'Cancelled') {
