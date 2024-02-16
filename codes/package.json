@@ -28,6 +28,7 @@
     "dependencies": {
         "@tinymce/tinymce-vue": "^3.2.8",
         "jquery": "^3.7.1",
+        "pusher-js": "^8.4.0-rc2",
         "tinymce": "^4.9.11",
         "vue-multiselect": "^2.1.8",
         "vue-router": "^3.6.5",

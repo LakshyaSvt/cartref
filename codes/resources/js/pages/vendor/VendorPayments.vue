@@ -170,7 +170,6 @@
       },
       created() {
          this.fetchVendorPayment();
-         this.fetchSellers();
       },
    }
 </script>

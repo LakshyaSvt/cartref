@@ -2,7 +2,7 @@
    <Transition>
       <div v-if="show"
            class="fixed right-0 left-0 top-0 bottom-0 z-50 items-center justify-center bg-gray-900 bg-opacity-60 px-4 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full">
-         <div class="relative max-w-2xl max-h-full mx-auto my-auto">
+         <div class="relative max-w-4xl max-h-full mx-auto my-auto">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                <!-- Modal header -->
