@@ -254,14 +254,14 @@
                   </a>
                   <ul v-if="blog" class="dropdown-menu">
                      <li>
-                        <a class="dropdown-item" href="#">
+                        <router-link :to="{name:'post-category'}" class="dropdown-item">
                            <i class="fi fi-rr-chart-tree mr-2"></i> Categories
-                        </a>
+                        </router-link>
                      </li>
                      <li>
-                        <a class="dropdown-item" href="#">
+                        <router-link :to="{name:'post'}" class="dropdown-item">
                            <i class="fi fi-rr-paper-plane mr-2"></i> Posts
-                        </a>
+                        </router-link>
                      </li>
                   </ul>
                </li>
@@ -343,7 +343,7 @@
             this.collection = this.$route.path.startsWith('/admin/collection');
             this.config = this.$route.path.startsWith('/admin/config');
             this.control = this.$route.path.startsWith('/admin/control');
-            this.blog = this.$route.path.startsWith('/admin/blog');
+            this.blog = this.$route.path.startsWith('/admin/post');
             this.user = this.$route.path.startsWith('/admin/user');
          }
       },

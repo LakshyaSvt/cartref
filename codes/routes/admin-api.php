@@ -11,11 +11,14 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ComponentController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DeliveryAreasController;
 use App\Http\Controllers\Admin\GenderController;
 use App\Http\Controllers\Admin\HomeSliderController;
 use App\Http\Controllers\Admin\NewsLetterController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PostCategoryController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductReviewController;
 use App\Http\Controllers\Admin\RoleController;
@@ -33,6 +36,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/product/bulk-upload', [ProductController::class, 'bulkExcelUpload']);
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    /*Dashboard*/
+    Route::get('/dashboard-count', [DashboardController::class, 'fetchCount']);
     /* PAN India Orders */
     Route::get('/order', [OrderController::class, 'index']);
     Route::get('/order/count', [OrderController::class, 'getOrderCount']);
@@ -77,6 +82,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     /* User Management */
     Route::resource('/user', UserController::class);
     Route::resource('/role', RoleController::class);
+    /* Post and Category */
+    Route::resource('/post/category', PostCategoryController::class);
+    Route::resource('/post', PostController::class);
     /* Announcement */
     Route::resource('/announcement', AnnouncementController::class);
 

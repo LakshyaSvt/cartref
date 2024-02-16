@@ -262,6 +262,9 @@ export default {
                 })
         },
         deleteCategory(id) {
+           if (!confirm("Are you sure you want to delete ?")) {
+              return false;
+           }
             axios.delete('/admin/category/' + id)
                 .then(res => {
                     this.show_toast(res.data.status, res.data.msg);

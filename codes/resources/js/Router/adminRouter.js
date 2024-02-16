@@ -33,6 +33,8 @@ import Role from "@pages/admin/Role.vue";
 import Announcement from "@pages/admin/Announcement.vue";
 import Wishlist from "@pages/admin/Wishlist.vue";
 import Cart from "@pages/admin/Cart.vue";
+import PostCategory from "@pages/admin/PostCategory.vue";
+import Post from "@pages/admin/Post.vue";
 
 const adminRoutes = [
     {name: 'dashboard', path: '/admin/dashboard', component: Dashboard},
@@ -82,6 +84,10 @@ const adminRoutes = [
     /*User Management*/
     {name: 'user', path: '/admin/user/user', component: User},
     {name: 'role', path: '/admin/user/role', component: Role},
+
+    /*Post & Category*/
+    {name: 'post', path: '/admin/post/blog', component: Post},
+    {name: 'post-category', path: '/admin/post/category', component: PostCategory},
 
     /* Cart & Wishlist */
     {name: 'carts', path: '/admin/carts', component: Cart},

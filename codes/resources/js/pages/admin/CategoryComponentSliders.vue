@@ -285,6 +285,9 @@ export default {
                 })
         },
         deleteSlider(id) {
+           if (!confirm("Are you sure you want to delete ?")) {
+              return false;
+           }
             axios.delete('/admin/category-component-slider/' + id)
                 .then(res => {
                     this.show_toast(res.data.status, res.data.msg);

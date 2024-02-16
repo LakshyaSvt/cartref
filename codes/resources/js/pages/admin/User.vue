@@ -74,116 +74,116 @@
                   <div class="clear-right overflow-x-auto">
                      <div class="table border-solid border border-gray-500 w-full">
                         <div class="table-row table-head">
-                           <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
-                              <div class="flex items-center">
-                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
+                              <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
+                                 <div class="flex items-center">
+                                    <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
+                                 </div>
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
+                                 S.No.
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-4 w-44">
+                                 Avatar
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 Role
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 Name
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 Email
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 Mobile
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 Brand
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 Company Name
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 GST IN
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 City
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 Showcase At Home
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 Status
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 w-36">
+                                 Last Update
+                              </div>
+                              <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                 Actions
                               </div>
                            </div>
-                           <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
-                              S.No.
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-4 w-44">
-                              Avatar
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Role
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Name
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Email
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Mobile
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Brand
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Company Name
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              GST IN
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              City
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Showcase At Home
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Status
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 w-36">
-                              Last Update
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                              Actions
-                           </div>
-                        </div>
                         <div v-for="(user, index) in users" v-bind:key="index" class="table-row table-body hover:bg-primary-100">
-                           <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
-                              <div class="flex items-center">
-                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
+                              <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
+                                 <div class="flex items-center">
+                                    <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
+                                 </div>
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">
+                                 {{ pagination.from + index }}
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm p-1 px-2 text-center !align-middle">
+                                 <img v-if="user.avatar"
+                                      :alt="user.avatar"
+                                      :src="$store.state.storageUrl + user.avatar"
+                                      class="w-20 h-16 border border-gray-400 mx-auto p-1 rounded-[50%]" @click="imageModal($store.state.storageUrl + user.avatar)">
+                                 <p v-else class="text-center text-gray-800">--No Image--</p>
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
+                                 {{ user.role ? user.role.display_name : '-' }}
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                                 {{ user.name || '-' }}
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                                 {{ user.email || '-' }}
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                                 {{ user.mobile || '-' }}
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                                 {{ user.brand_name || '-' }}
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                                 {{ user.company_name || '-' }}
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                                 {{ user.gst_number || '-' }}
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                                 {{ user.city || '-' }}
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                                 <StatusCheckbox :id="user.id" :status="!!user.showcase_at_home" :update="(id, value) => { updateStatus(id, value, 'showcase_at_home') }"/>
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                                 <StatusCheckbox :id="user.id" :status="!!user.status" :update="updateStatus"/>
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
+                                 <div class="font-normal text-gray-900" v-html="formDateTime(user.updated_at)"></div>
+                                 <div class="text-sm">({{ timeAgo(user.updated_at) }})</div>
+                              </div>
+                              <div class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
+                                 <div class="flex gap-4 items-center justify-center">
+                                    <a class="font-medium cursor-pointer text-yellow-500" href="#" type="button">
+                                       <i class="fi fi-rr-pencil w-5 h-5 text-xl"></i>
+                                    </a>
+                                    <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button"
+                                       @click="deleteUser(user.id)">
+                                       <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
+                                    </a>
+                                 </div>
                               </div>
                            </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">
-                              {{ pagination.from + index }}
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm p-1 px-2 text-center !align-middle">
-                              <img v-if="user.avatar"
-                                   :alt="user.avatar"
-                                   :src="$store.state.storageUrl + user.avatar"
-                                   class="w-20 h-16 border border-gray-400 mx-auto p-1 rounded-[50%]" @click="imageModal($store.state.storageUrl + user.avatar)">
-                              <p v-else class="text-center text-gray-800">--No Image--</p>
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
-                              {{ user.role ? user.role.display_name : '-' }}
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                              {{ user.name || '-' }}
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                              {{ user.email || '-' }}
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                              {{ user.mobile || '-' }}
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                              {{ user.brand_name || '-' }}
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                              {{ user.company_name || '-' }}
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                              {{ user.gst_number || '-' }}
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                              {{ user.city || '-' }}
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                              <StatusCheckbox :id="user.id" :status="!!user.showcase_at_home" :update="(id, value) => { updateStatus(id, value, 'showcase_at_home') }"/>
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                              <StatusCheckbox :id="user.id" :status="!!user.status" :update="updateStatus"/>
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
-                              <div class="font-normal text-gray-900" v-html="formDateTime(user.updated_at)"></div>
-                              <div class="text-sm">({{ timeAgo(user.updated_at) }})</div>
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
-                              <div class="flex gap-4 items-center justify-center">
-                                 <a class="font-medium cursor-pointer text-yellow-500" href="#" type="button">
-                                    <i class="fi fi-rr-pencil w-5 h-5 text-xl"></i>
-                                 </a>
-                                 <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button"
-                                    @click="deleteUser(user.id)">
-                                    <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
-                                 </a>
-                              </div>
-                           </div>
-                        </div>
                      </div>
                   </div>
                   <div class="flex items-center justify-between py-4">
@@ -324,4 +324,15 @@
    }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.table-head-wrapper {
+   position: sticky;
+   top: 0;
+   z-index: 1; /* Ensure it appears above other content */
+}
+
+.table-body-wrapper {
+   /* Adjust the top margin to accommodate the sticky header */
+   margin-top: 12rem;/* Height of the sticky header */
+}
+</style>
