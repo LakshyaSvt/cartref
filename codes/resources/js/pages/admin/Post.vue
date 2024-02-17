@@ -5,24 +5,56 @@
             <i class="fi fi-rr-chart-tree-map"></i>
             <h3 class="text-start my-8">Post</h3>
          </div>
-
          <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg my-4">
             <div class="block">
                <form @submit.prevent="editOrCreatePost()">
                   <div class="md:flex mb-3">
-                     <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
-                        <label class="block mb-2 text-sm font-bold text-gray-900" for="style"
-                               title="The name is how it appears on your site.">Post <span
-                            class="text-red-600">*</span></label>
-                        <input id="style" v-model="name" class="form-input" placeholder="Floral Print" required
-                               type="text">
+                     <div class="mb-5 md:w-1/2 w-full md:mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900" for="style" title="The name is how it appears on your site.">Title
+                           <span class="text-red-600">*</span>
+                        </label>
+                        <input id="style" v-model="title" class="form-input" placeholder="Floral Print" required type="text" @change="slug = slugify(title)">
                      </div>
-                     <div class="mb-5 md:w-1/2 w-full mx-2 my-1">
+                     <div class="mb-5 md:w-1/2 w-full md:mx-2 my-1">
                         <label class="block mb-2 text-sm font-bold text-gray-900" for="slug"
-                               title="The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.">Slug
-                           <span class="text-red-600">*</span></label>
+                               title="The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.">
+                           Slug <span class="text-red-600">*</span></label>
                         <input id="slug" v-model="slug" class="form-input" placeholder="floral-print" required
                                type="text">
+                     </div>
+                  </div>
+                  <div class="md:flex mb-3">
+                     <div class="mb-5 w-full md:mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900">Body</label>
+                        <RichTextEditor :initial_value="body" :setVal="(val) => body = val" height="400"/>
+                     </div>
+                  </div>
+                  <div class="md:flex mb-3">
+                     <div class="mb-5 md:w-1/2 w-full md:mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900">Category <span class="text-red-600">*</span></label>
+                        <div class="relative">
+                           <select id="style_id" v-model="category_id" class="form-input appearance-none" required>
+                              <option selected value="">Select Category</option>
+                              <option v-for="(category) in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+                           </select>
+                           <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                              <i class="fi fi-ss-angle-small-down text-xl w-5 h-6 ml-1"></i>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="mb-5 md:w-1/2 w-full md:mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900">Image </label>
+                        <input id="img" accept="image/*" class="form-input" name="main_img" type="file" @change="handleImageChange($event)">
+                     </div>
+                  </div>
+                  <div class="md:flex mb-3">
+                     <div class="mb-5 md:w-1/2 w-full md:mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900">Meta Description </label>
+                        <textarea id="description" v-model="meta_description" class="form-input h-36" placeholder=""></textarea>
+                     </div>
+                     <div class="mb-5 md:w-1/2 w-full md:mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900">Excerpt <small>Small description of this post</small></label>
+                        <textarea id="excerpt" v-model="excerpt" class="form-input h-36" placeholder=""></textarea>
                      </div>
                   </div>
                   <div class="text-center">
@@ -78,19 +110,14 @@
                         <div v-else class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                            <i class="fi fi-rr-search mr-1"></i>
                         </div>
-                        <input v-model="keyword" class="search" placeholder="Search" type="text"
-                               @keydown.enter="fetchPost()">
+                        <input v-model="keyword" class="search" placeholder="Search" type="text" @keydown.enter="fetchPost()">
                      </div>
                      <div class="flex border border-gray-600 rounded-lg bg-white">
-                        <button class="px-2 py-1 m-[2px] hover:bg-primary-100 border-r border-solid cursor-pointer"
-                                @click="fetchPost()">
+                        <button class="px-2 py-1 m-[2px] hover:bg-primary-100 border-r border-solid cursor-pointer" @click="fetchPost()">
                            <i class="ffi fi-rr-refresh mr-1"></i>
                         </button>
-                        <select
-                            v-model="row_count"
-                            class="w-14 block px-1 m-[2px] text-base text-center text-gray-900 bg-white cursor-pointer" @change="fetchPost()">
-                           <option v-for="(count, index) in $store.state.row_counts" :key="index"
-                                   :value="count.toLowerCase()" class="bg-white">
+                        <select v-model="row_count" class="w-14 block px-1 m-[2px] text-base text-center text-gray-900 bg-white cursor-pointer" @change="fetchPost()">
+                           <option v-for="(count, index) in $store.state.row_counts" :key="index" :value="count.toLowerCase()" class="bg-white">
                               {{ count }}
                            </option>
                         </select>
@@ -157,7 +184,7 @@
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                               <StatusCheckbox :id="post.id" :status="post.status === 'PUBLISHED'" :update="(id, value) => { updateStatus(id, value, 'status') }"/>
-                              <div>{{ post.status}}</div>
+                              <div>{{ post.status }}</div>
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
                               <div class="font-normal text-gray-900" v-html="formDateTime(post.updated_at)"></div>
@@ -209,10 +236,19 @@
       data() {
          return {
             loading: true,
-            toggleLoadingId: '',
+
             posts: [{}],
-            name: '',
+            categories: [],
+            title: '',
             slug: '',
+            category_id: '',
+            body: '',
+            meta_description: '',
+            meta_keywords: '',
+            seo_title: '',
+            excerpt: '',
+            image: '',
+
             keyword: '',
             status: '',
             showModal: false,
@@ -222,11 +258,6 @@
             editId: '',
          }
       },
-      watch: {
-         name: function () {
-            this.slug = this.slugify(this.name);
-         }
-      },
       methods: {
          imageModal(img) {
             this.showModal = true;
@@ -234,6 +265,13 @@
          },
          closeImageModal() {
             this.showModal = false;
+         },
+         handleImageChange(e) {
+            let files = e.target.files;
+            if (files.length <= 0) {
+               return false;
+            }
+            this.image = files[0];
          },
          updateStatus(id, value, field) {
             let data = {};
@@ -250,16 +288,29 @@
                 })
          },
          clear() {
-            this.name = '';
+            this.title = '';
             this.slug = '';
-            this.editId = '';
+            this.category_id = '';
+            this.body = '';
+            this.meta_description = '';
+            this.meta_keywords = '';
+            this.seo_title = '';
+            this.excerpt = '';
+            this.image = '';
+            $('form').reset();
          },
          editPost(id) {
             axios.get('admin/post/' + id)
                 .then(res => {
                    this.editId = res.data.data.id;
-                   this.name = res.data.data.name;
+                   this.title = res.data.data.title;
                    this.slug = res.data.data.slug;
+                   this.category_id = res.data.data.category_id;
+                   this.body = res.data.data.body;
+                   this.meta_description = res.data.data.meta_description;
+                   this.meta_keywords = res.data.data.meta_keywords;
+                   this.seo_title = res.data.data.seo_title;
+                   this.excerpt = res.data.data.excerpt;
                 })
                 .catch(err => {
                    err.handleGlobally && err.handleGlobally();
@@ -280,23 +331,26 @@
                 })
          },
          editOrCreatePost() {
-            let url, data;
+            let url = 'admin/post';
+            let formData = new FormData();
+
+            formData.append('title', this.title);
+            formData.append('slug', this.slug);
+            formData.append('category_id', this.category_id);
+            formData.append('body', this.body);
+            formData.append('meta_description', this.meta_description);
+            formData.append('meta_keywords', this.meta_keywords);
+            formData.append('seo_title', this.seo_title);
+            formData.append('excerpt', this.excerpt);
+            formData.append('image', this.image);
+
             if (this.editId) {
                url = 'admin/post/' + this.editId;
-               data = {
-                  _method: 'PUT',
-                  id: this.editId,
-                  name: this.name.trim(),
-                  slug: this.slug,
-               }
-            } else {
-               url = 'admin/post'
-               data = {
-                  name: this.name.trim(),
-                  slug: this.slug,
-               }
+               formData.append('_method', 'PUT');
+               formData.append('id', this.editId)
             }
-            axios.post(url, data)
+
+            axios.post(url, formData)
                 .then(res => {
                    this.show_toast(res.data.status, res.data.msg);
                    this.clear();
@@ -329,10 +383,28 @@
                    this.loading = false;
                    err.handleGlobally && err.handleGlobally();
                 })
+         },
+         fetchCategory() {
+            this.loading = true;
+            axios.get('admin/post/category', {
+               params: {
+                  rows: 'all',
+                  status: 1,
+               }
+            })
+                .then(res => {
+                   this.loading = false;
+                   this.categories = res.data.data || [];
+                })
+                .catch(err => {
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
          }
       },
       created() {
          this.fetchPost();
+         this.fetchCategory();
       },
    }
 </script>
