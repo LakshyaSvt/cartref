@@ -4,28 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Announcement extends Model
 {
     use HasFactory;
 
-    /**
-     * @var mixed
-     */
+    protected $fillable = [
+        'message',
+        'priority',
+        'for_all_vendors',
+        'is_active'
+    ];
 
-    public function users(){
+    public function users()
+    {
         return $this->belongsToMany(User::class);
     }
+
     public function getColorAttribute(): string
     {
         if ($this->priority === 'high') {
-//            return '#FA3E18';
             return 'danger';
         } else if ($this->priority === 'regular') {
-//            return '#37AFF1';
             return 'primary';
         } else {
-//            return '#42D07E';
             return 'success';
         }
     }

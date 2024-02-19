@@ -48,12 +48,19 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'namespace' => 'Api\\V1\\'], 
         // Will dump a beauty json :3
         var_dump(json_decode($result, true));
 
-        // { 
-        // "orgPincode":"560040", 
+        // {
+        // "orgPincode":"560040",
         // "desPincode":"586103"
-        // } 
-            
+        // }
+
     });
  });
+
+
+require __DIR__ . '/admin-api.php';
+require __DIR__ . '/vendor-api.php';
+require __DIR__ . '/delivery-api.php';
+
+
 Route::get('/fetch/showroom-orders/{order_id}',[\App\Http\Controllers\ShowcaseAtHomeController::class, 'getOrder']);
 Route::get('/fetch/announcement',[\App\Http\Controllers\AnnouncementController::class, 'fetchAnnouncements']);

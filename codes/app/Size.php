@@ -3,17 +3,21 @@
 namespace App;
 
 use App\Models\Product;
-use App\ProductSubcategory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Size extends Model
 {
+    use SoftDeletes;
+
+    protected $fillable = ['name', 'slug', 'status', 'order_id'];
+
     public function scopeActive($query)
     {
         return $query->where('status', 1);
     }
-    
+
     public function products()
     {
         return $this->belongsToMany(Product::class, 'size_product');

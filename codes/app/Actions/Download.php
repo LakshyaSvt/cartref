@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Order;
+use Dompdf\Exception;
 use Illuminate\Support\Facades\Session;
 use TCG\Voyager\Actions\AbstractAction;
 
@@ -65,52 +65,50 @@ class Download extends AbstractAction
     public function massAction($ids, $comingFrom)
     {
         // Do something with the IDs
-        
-        $filename = ucwords($this->dataType->name).' Updated Till '.date('d-M-Y h:i:sa');
+
+        $filename = ucwords($this->dataType->name) . ' Updated Till ' . date('d-M-Y h:i:sa');
 
         $headers = [
-                'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
-                'Content-type'        => 'text/csv',
-                'Content-Disposition' => 'attachment; filename='.$filename.'.csv',
-                'Expires'             => '0'
-            ,   'Pragma'              => 'public'
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename=' . $filename . '.csv',
+            'Expires' => '0'
+            , 'Pragma' => 'public'
         ];
 
         $modelname = $this->dataType->model_name::query();
-        
-        if($this->dataType->name == 'products')
-        {
+
+        if ($this->dataType->name == 'products') {
             $this->productqueries($modelname);
         }
 
-        if($this->dataType->name == 'orders')
-        {
+        if ($this->dataType->name == 'orders') {
             $this->orderqueries($modelname);
         }
 
         $list = $modelname->get()->toArray();
 
-        if($ids[0] > 0)
-        {
+        if ($ids[0] > 0) {
             $list = $modelname->where('id', $ids)->get()->toArray();
         }
 
-        
-        
 
         # add headers for each column in the CSV download
         array_unshift($list, array_keys($list[0]));
 
-        $callback = function() use ($list) 
-        {
+        $callback = function () use ($list) {
             $FH = fopen('php://output', 'w');
-            foreach ($list as $row) { 
-                fputcsv($FH, $row);
+            foreach ($list as $row) {
+                try {
+                    fputcsv($FH, $row);
+                } catch (Exception $e) {
+
+                }
             }
             fclose($FH);
         };
 
-        Session::flash('message', ucwords($this->dataType->name).' table successfully downloaded');
+        Session::flash('message', ucwords($this->dataType->name) . ' table successfully downloaded');
         Session::flash('alert-type', 'success');
 
         return response()->stream($callback, 200, $headers);
@@ -120,109 +118,91 @@ class Download extends AbstractAction
 
     private function productqueries($modelname)
     {
-        if(request('type') == 'regular')
-        {
+        if (request('type') == 'regular') {
             $modelname->where('customize_images', null);
         }
 
-        if(request('type') == 'customized')
-        {
+        if (request('type') == 'customized') {
             $modelname->where('customize_images', '!=', null);
         }
 
-        if(request('filter') == 'activeproducts')
-        {
+        if (request('filter') == 'activeproducts') {
             $modelname->where('admin_status', 'Accepted');
         }
 
-        if(request('filter') == 'inactiveproducts')
-        {
+        if (request('filter') == 'inactiveproducts') {
             $modelname->where('admin_status', 'Pending For Verification')->orWhere('admin_status', 'Rejected');
         }
 
-        if(request('outofstockproducts') == 'outofstockproducts')
-        {
-            $modelname->whereHas('productskus', function($q){
-                    $q->where('available_stock', '<=', 0)->where('status', 1);
-                });
+        if (request('outofstockproducts') == 'outofstockproducts') {
+            $modelname->whereHas('productskus', function ($q) {
+                $q->where('available_stock', '<=', 0)->where('status', 1);
+            });
         }
 
         // if admin show all data else show only individual data
-        if(auth()->user()->hasRole(['admin']))
-        {
+        if (auth()->user()->hasRole(['admin'])) {
             $modelname;
-        }elseif(auth()->user()->hasRole(['Client'])){
+        } elseif (auth()->user()->hasRole(['Client'])) {
             $modelname;
-        }else{
+        } else {
             $modelname->where('created_by', auth()->user()->id);
         }
     }
 
     private function orderqueries($modelname)
     {
-        if(request('type') == 'regular')
-        {
+        if (request('type') == 'regular') {
             $modelname->where('type', 'Regular');
         }
 
-        if(request('type') == 'customized')
-        {
+        if (request('type') == 'customized') {
             $modelname->where('type', 'Customized');
         }
 
-        if(request('type') == 'showcaseathome')
-        {
+        if (request('type') == 'showcaseathome') {
             $modelname->where('type', 'Showcase at home');
         }
 
-        if(request('filter') == 'neworders')
-        {
+        if (request('filter') == 'neworders') {
             $modelname->where('order_status', 'New order');
         }
 
-        if(request('filter') == 'underprocessing')
-        {
+        if (request('filter') == 'underprocessing') {
             $modelname->where('order_status', 'Under processing');
         }
 
-        if(request('filter') == 'readytodispatch')
-        {
+        if (request('filter') == 'readytodispatch') {
             $modelname->where('order_status', 'Ready to dispatch');
         }
 
-        if(request('filter') == 'shipped')
-        {
+        if (request('filter') == 'shipped') {
             $modelname->where('order_status', 'Shipped');
         }
 
-        if(request('filter') == 'rto')
-        {
+        if (request('filter') == 'rto') {
             $modelname->where('order_status', 'RTO');
         }
 
-        if(request('filter') == 'delivered')
-        {
+        if (request('filter') == 'delivered') {
             $modelname->where('order_status', 'Delivered');
         }
 
-        if(request('filter') == 'ndr')
-        {
+        if (request('filter') == 'ndr') {
             $modelname->where('order_status', 'NDR');
         }
 
-        if(request('order_id'))
-        {
+        if (request('order_id')) {
             $modelname->where('order_id', request('order_id'));
         }
 
-        if(auth()->user()->hasRole(['admin']))
-        {
+        if (auth()->user()->hasRole(['admin'])) {
             $modelname;
-        }elseif(auth()->user()->hasRole(['Client'])){
+        } elseif (auth()->user()->hasRole(['Client'])) {
             $modelname;
-        }elseif(auth()->user()->hasRole(['Vendor'])){
+        } elseif (auth()->user()->hasRole(['Vendor'])) {
             $modelname->where('vendor_id', auth()->user()->id);
-        }else{
+        } else {
             $modelname->where('vendor_id', auth()->user()->id);
         }
     }

@@ -11,13 +11,16 @@
 |
 */
 
+use App\Color;
 use App\EmailNotification;
 use App\Events\MyEvent;
 use App\Http\Controllers\ShiprocketController;
 use App\Models\User;
+use App\Models\Wishlist;
 use App\Notifications\CodOrderEmail;
 use App\Notifications\PushNotification;
 use App\Notifications\TestNotification;
+use App\Productcolor;
 use App\Showcase;
 use Illuminate\Http\Request;
 use Craftsys\Msg91\Facade\Msg91;
@@ -72,6 +75,7 @@ use App\Http\Controllers\VoyagerResetPasswordController;
 // })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/panel-web.php';
 require __DIR__ . '/cron.php';
 
 // Route::get('/msg91', function(){
@@ -517,14 +521,7 @@ Route::view('/invoice/test', 'vendor.invoices.templates.default');
 
 
 Route::get('/get', function () {
-    return route('passwords.sent');
-    if ("sd" !='' && "sdsd" !='' && "ddf" !='') {
-        return 323434;
-    }
-   $product = \App\Models\Product::find(3016);
-   return $product->productskus()
-       ->where(['size' => 'UK 3', 'color' => 'Blue'])->update(['available_stock' => 15])
-;
+    
 });
 
 //Calling this route by shiprocket

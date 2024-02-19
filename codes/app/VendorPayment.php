@@ -2,12 +2,22 @@
 
 namespace App;
 
+use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 
 class VendorPayment extends Model
 {
+    use SoftDeletes;
+
+    protected  $fillable = [
+        'vendor_id',
+        'billing_date',
+        'total',
+        'status'
+    ];
     public function save(array $options = [])
     {
 
@@ -34,5 +44,11 @@ class VendorPayment extends Model
         }
 
         return $query;
+    }
+
+    public function user(){
+        return $this
+                ->belongsTo(User::class,'vendor_id', 'id')
+                ->select('id','role_id','name','email','brand_name');
     }
 }

@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    input {
+        accent-color: rgb(59 130 246 / var(--tw-bg-opacity));
+    }
+
+    ::-moz-selection {
+        /* Code for Firefox */
+        @apply bg-primary-500 text-white;
+    }
+
+    ::selection {
+        @apply bg-primary-500 text-white;
+    }
+
+    /*Dashboard*/
+    .dashboard-card {
+        @apply flex flex-col
+        items-center gap-3
+        px-8 py-10
+        bg-white hover:bg-gray-50
+        rounded-xl shadow-lg
+        cursor-pointer
+    }
+
+    select.filter-dropdown {
+        @apply w-32 h-full
+        block appearance-none
+        pl-2 pr-8
+        px-3 py-2
+        text-sm leading-tight
+        text-black bg-white
+        border border-gray-400
+        focus:outline-none
+        hover:shadow-sm focus:ring-2
+        focus:ring-primary-500
+        focus:border-none
+        font-medium
+        cursor-pointer
+        rounded-lg
+    }
+
+    input.search {
+        @apply w-32  md:!w-52
+        block bg-white
+        p-2 pl-10 text-sm text-gray-900
+        focus-visible:outline
+        focus-visible:outline-1
+        focus-visible:outline-primary-500
+        focus-visible:border-primary-500
+        border border-gray-400
+        rounded-lg
+
+    }
+
+    .form-input {
+        @apply block w-full
+        text-gray-900 text-sm
+        rounded-lg p-2.5
+        border border-gray-300
+        shadow-sm bg-gray-50
+        focus-visible:outline
+        focus-visible:outline-1
+        focus-visible:outline-primary-500
+        focus-visible:border-primary-500;
+    }
+
+    form .submit-btn {
+        @apply text-white bg-primary-600 hover:bg-primary-700
+        focus:ring-4 focus:outline-none focus:ring-primary-300
+        font-bold rounded-lg
+        text-base mx-1 px-5 py-2.5
+    }
+
+    form .clear-btn {
+        @apply text-white bg-gray-600 hover:bg-gray-700
+        focus:ring-4 focus:outline-none focus:ring-gray-300
+        font-bold  rounded-lg
+        text-base
+        mx-1 px-5 py-2.5
+    }
+
+    /* SideBar */
+    .sidebar {
+        transition: all 0.2s ease-in-out;
+        @apply max-h-screen w-[3.35rem] hover:w-64 overflow-hidden border-r hover:bg-white hover:shadow-lg;
+    }
+
+    .sidebar i {
+        @apply text-xl h-6 w-6;
+    }
+
+    .single-item {
+        @apply flex items-center space-x-4 pl-5 py-3 text-gray-600 hover:bg-primary-200;
+    }
+
+    .dropdown-btn {
+        @apply flex items-center space-x-4 rounded-md pl-5 py-3 text-gray-600;
+    }
+
+    .dropdown-menu {
+        @apply hidden max-md:block group-hover:block py-2 space-y-2;
+    }
+
+    li a.dropdown-item {
+        @apply flex items-center w-full p-2 text-base font-normal text-gray-700 transition duration-75 hover:bg-primary-200 pl-11;
+    }
+
+    /* Pagination */
+    .prev-btn {
+        @apply relative
+        inline-flex
+        items-center
+        rounded-l-md
+        px-2 py-2
+        text-gray-400
+        ring-1 ring-inset ring-gray-300
+        hover:bg-gray-50
+        focus:z-20 focus:outline-offset-0
+        cursor-pointer
+        disabled:cursor-not-allowed
+        disabled:opacity-50;
+    }
+
+    .next-btn {
+        @apply relative
+        inline-flex
+        items-center
+        rounded-r-md
+        px-2 py-2
+        text-gray-400
+        ring-1 ring-inset ring-gray-300
+        hover:bg-primary-100
+        focus:z-20 focus:outline-offset-0
+        cursor-pointer
+        disabled:cursor-not-allowed
+        disabled:opacity-50;
+    }
+
+    .active-link {
+        @apply relative
+        z-10
+        inline-flex
+        items-center
+        bg-primary-600
+        px-4 py-2
+        text-sm font-semibold text-white
+        focus:z-20
+        focus-visible:outline
+        focus-visible:outline-2
+        focus-visible:outline-offset-2
+        focus-visible:outline-primary-600;
+    }
+
+    .default-link {
+        @apply relative
+        inline-flex
+        items-center
+        px-4 py-2
+        hover:bg-primary-100
+        text-sm
+        font-semibold
+        text-gray-900
+        ring-1 ring-inset ring-gray-300
+        focus:z-20 focus:outline-offset-0;
+    }
+
+    .prev-next-btn {
+        @apply border border-transparent rounded-full hover:bg-primary-400 disabled:opacity-50;
+    }
+
+    /* Table */
+    .table-body .table-cell {
+        /*vertical-align: top;*/
+        @apply align-top;
+    }
+
+    .table-head .table-cell {
+        /*vertical-align: middle;*/
+        /*color: rgb(22 163 74 / var(--tw-bg-opacity));*/
+        @apply text-primary-600 align-middle;
+    }
+
+    .stats-card {
+        @apply flex flex-col justify-between
+        overflow-hidden
+        text-left
+        transition-shadow duration-200
+        bg-white text-black border-2 border-white
+        shadow-xl rounded-xl cursor-pointer
+        hover:shadow-2xl hover:shadow-primary-500
+    }
+
+    .stats-count {
+        @apply flex items-center w-14 h-14 rounded-full text-black bg-white text-lg font-semibold justify-center;
+    }
+}
+
+@layer utilities {
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+        border-radius: 2px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        @apply bg-primary-400;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-primary-700;
+        border-radius: 50px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        @apply bg-primary-800;
+    }
+}
+
+#toast-div {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    z-index: 99;
+}
+
+/* Vue MultiSelect */
+.multiselect__tag {
+    background: rgb(59 130 246) !important; /* bg-primary-500*/
+    border: 0.1px solid #80808075;
+}
+
+.multiselect__tag .color-backdrop {
+    background: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 0.1px solid #80808024;
+}
+
+.multiselect__tag .color {
+    color: black;
+    line-height: 15px !important;
+}
+
+.multiselect__tag-icon::after {
+    color: rgb(29 78 216) !important; /* bg-primary-700*/
+}
+
+.multiselect__tag-icon:focus, .multiselect__tag-icon:hover {
+    background-color: black !important; /* bg-primary-600*/
+    color: white !important;
+    /*@apply !text-primary-600;*/
+}
+
+.multiselect__tag-icon:focus::after, .multiselect__tag-icon:hover::after {
+    color: white !important;
+}
+
+.multiselect__option--highlight {
+    background: rgb(59 130 246) !important; /* bg-primary-500*/
+    outline: none !important;
+    color: #fff !important;
+}
+
+.multiselect__option--selected.multiselect__option--highlight {
+    background: rgb(29 78 216) !important; /* bg-red-500*/
+    color: #fff !important;
+    /*@apply bg-primary-700*/
+}
+
+/* Vue MultiSelect */
+

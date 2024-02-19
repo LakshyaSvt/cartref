@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 
 class ProductImport implements ToCollection, WithMultipleSheets, WithValidation
 {
+    private $rowCount = 0;
     public $category_id;
     public $sub_category_id;
 
@@ -98,6 +99,8 @@ class ProductImport implements ToCollection, WithMultipleSheets, WithValidation
             $product->seller_id = auth()->user()->id;
             $product->save();
 
+            $this->rowCount++;
+
             /* Multiple Sizes and Colors comma(,) seperated
 
             //colors
@@ -157,6 +160,11 @@ class ProductImport implements ToCollection, WithMultipleSheets, WithValidation
                     ->update(['available_stock' => (int) $row[8]]);
             }
         }
+    }
+
+    public function getRowCount(): int
+    {
+        return $this->rowCount;
     }
 
 }

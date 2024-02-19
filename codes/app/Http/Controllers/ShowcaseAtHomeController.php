@@ -528,7 +528,7 @@ class ShowcaseAtHomeController extends Controller
     function acceptOrder($id)
     {
         if (auth()->user()->hasRole(['Vendor'])) {
-            $orders = Showcase::where(['order_id' => $id, 'vendor_id' => auth()->user()->id])
+           $orders = Showcase::where(['order_id' => $id, 'vendor_id' => auth()->user()->id])
                 ->where('is_order_accepted', false)
                 ->where('order_status', '!=', 'Non Acceptance')
                 ->update([
@@ -536,14 +536,14 @@ class ShowcaseAtHomeController extends Controller
                     'order_status' => 'Accepted'
                 ]);
 
-            return redirect()->route('voyager.showcases.index', ['order_id' => $id])->with([
-                'message' => "Showcase order accepted successfully",
-                'alert-type' => 'success',
-            ]);
-            //            return redirect()->back()->with([
-            //                'message' => "Showcase order accepted successfully",
-            //                'alert-type' => 'success',
-            //            ]);
+            //return redirect()->route('voyager.showcases.index', ['order_id' => $id])->with([
+            //    'message' => "Showcase order accepted successfully",
+            //    'alert-type' => 'success',
+            //]);
+                return redirect()->back()->with([
+                    'message' => "Showcase order accepted successfully",
+                    'alert-type' => 'success',
+                ]);
         } else {
             abort(404);
         }

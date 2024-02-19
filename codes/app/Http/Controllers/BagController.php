@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RewardPointLog;
 use App\Models\UserCreditLog;
+use App\Notifications\NewOrderMailToAdmin;
 use App\Size;
 use Redirect;
 use App\Order;

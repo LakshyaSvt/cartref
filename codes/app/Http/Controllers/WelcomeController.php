@@ -511,11 +511,12 @@ class WelcomeController extends Controller
         /*
          * Colour
         */
+        $selectedColor = '';
         if (request('color') != null) {
             $selectedColor = request('color');
-            $selectedColor = Productcolor::where('status', 1)->where('color', $selectedColor)->first();
+            $selectedColor = Productcolor::where('status', 1)->where('color', $selectedColor)->firstOrFail();
         } else {
-            $firstcolor = Productcolor::where('status', 1)->where('product_id', $product->id)->first();
+            $firstcolor = Productcolor::where('status', 1)->where('product_id', $product->id)->firstOrFail();
 
             if (isset($firstcolor)) {
                 if (!empty($firstcolor->color)) {
@@ -523,6 +524,7 @@ class WelcomeController extends Controller
                 }
             }
         }
+
         if(!isset($selectedColor)){
             abort(404);
         }

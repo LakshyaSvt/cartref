@@ -854,7 +854,7 @@
                                                         @elseif($data->order_status == 'Delivered' or $data->order_status == 'Scheduled for pickup')
                                                             <span
                                                                 style="color: green; font-weight:600; font-size:15px">{{ strtoupper($data->order_status) }}</span>
-                                                        @elseif($data->order_status == 'Cancelled')
+                                                            @elseif($data->order_status == 'Cancelled')
                                                             <span
                                                                 style="color: red; font-weight:600; font-size:15px">{{ strtoupper($data->order_status) }}</span>
                                                         @else
