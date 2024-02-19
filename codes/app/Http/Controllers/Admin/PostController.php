@@ -35,6 +35,7 @@ class PostController extends Controller
                 $query->where(function ($query1) use ($keyword) {
                     $query1
                         ->orWhere('title', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('slug', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('excerpt', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('body', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('meta_keywords', 'LIKE', '%' . $keyword . '%')

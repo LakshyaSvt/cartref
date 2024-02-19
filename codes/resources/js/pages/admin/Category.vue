@@ -106,14 +106,8 @@
                         <div class="clear-right overflow-x-auto">
                             <div class="table border-solid border border-gray-500 w-full">
                                 <div class="table-row table-head">
-                                    <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
-                                        <div class="flex items-center">
-                                            <input type="checkbox"
-                                                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded">
-                                        </div>
-                                    </div>
                                     <div
-                                        class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
+                                        class="table-cell border-gray-500 text-center font-semibold uppercase w-10 p-1">
                                         S.No.
                                     </div>
                                     <div
@@ -136,15 +130,8 @@
                                 <div v-for="(c, index) in category" v-bind:key="index"
                                     class="table-row table-body hover:bg-primary-100"
                                     :class="{ 'bg-primary-200': c.id === editId }">
-                                    <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
-                                        <div class="flex items-center">
-                                            <input type="checkbox"
-                                                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded">
-                                        </div>
-                                    </div>
-                                    <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">
-                                        {{
-                                            pagination.from + index }}</div>
+                                    <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1">
+                                        {{ pagination.from + index }}</div>
                                     <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">{{
                                         c.name }}</div>
                                     <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">

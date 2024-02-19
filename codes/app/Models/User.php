@@ -4,11 +4,10 @@ namespace App\Models;
 
 use App\Address;
 use App\Showcase;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use TCG\Voyager\Models\Role;
 
 // extends \TCG\Voyager\Models\User
@@ -23,21 +22,46 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
      * @var string[]
      */
     protected $fillable = [
-        'avatar',
-        'name',
-        'email',
-        'mobile',
-        'password',
         'client_id',
         'client_token',
         'client_refresh_token',
         'client_name',
+
+        'name',
+        'email',
         'gender',
+        'mobile',
+        'password',
+        'role_id',
+        'street_address_1',
+        'street_address_2',
+        'landmark',
+        'pincode',
+        'city',
+        'state',
+        'country',
+        //side-info
+        'avatar',
+        'brand_store_rating',
+        'status',
+        'brand_name',
         'company_name',
         'gst_number',
-        'brands',
+        'gst_certificate',
+        'company_pancard_number',
+        'company_pancard',
         'signature',
+        //bank-info
+        'bank_name',
+        'account_number',
+        'ifsc_code',
+        'bank_address',
         'cancelled_check',
+        //brand-info
+        'brands',
+        'brand_description',
+        'brand_logo',
+        'brand_bg_color',
         'is_first_shopping'
     ];
 
@@ -101,7 +125,7 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
     public function scopeSeller($query)
     {
         return $query
-            ->when(auth()->user()->hasRole(['admin', 'Client']), function($que) {
+            ->when(auth()->user()->hasRole(['admin', 'Client']), function ($que) {
                 return $que->whereHas('role', function ($q) {
                     $q->whereIn('name', ['Vendor']);
                 });

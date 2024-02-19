@@ -117,12 +117,7 @@
                   <div class="clear-right overflow-x-auto">
                      <div class="table border-solid border border-gray-500 w-full">
                         <div class="table-row table-head">
-                           <div class="table-cell border-gray-500 text-center uppercase font-semibold p-1 px-2">
-                              <div class="flex items-center">
-                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
-                              </div>
-                           </div>
-                           <div class="table-cell border-l border-gray-500 text-center font-semibold uppercase w-10 p-1">
+                           <div class="table-cell border-gray-500 text-center font-semibold uppercase w-10 p-1">
                               S.No.
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 w-64">
@@ -146,12 +141,8 @@
                         </div>
                         <div v-for="(announcement, index) in announcements" v-bind:key="index"
                              :class="{ 'bg-primary-200': announcement.id === editId }" class="table-row table-body hover:bg-primary-100">
-                           <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
-                              <div class="flex items-center">
-                                 <input class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" type="checkbox">
-                              </div>
-                           </div>
-                           <div class="table-cell border-t border-l border-gray-500 text-sm text-center w-10 p-1">
+
+                           <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1">
                               {{ pagination.from + index }}
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm font-semibold px-1 text-center">

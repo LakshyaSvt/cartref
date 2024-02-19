@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Helper\FileHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -59,81 +61,81 @@ class UserController extends Controller
         return new ApiResource($users);
     }
 
+    public function uploadImages(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'images' => 'required'
+        ]);
 
-//    /**
-//     * Store a newly created resource in storage.
-//     *
-//     * @param \Illuminate\Http\Request $request
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function store(Request $request)
-//    {
-//        $request->validate([
-//            'name' => ['required'],
-//            'slug' => ['required', 'unique:brands']
-//        ]);
-//
-//        $brnad = User::create([
-//            'name' => $request->name,
-//            'slug' => $request->slug,
-//        ]);
-//
-//        return response()->json(['status' => 'success', 'msg' => $brnad->name . ' Created Successfully']);
-//    }
-//
-//    /**
-//     * Display the specified resource.
-//     *
-//     * @param int $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function show($id)
-//    {
-//        $brnad = User::findOrFail($id);
-//        return new ApiResource($brnad);
-//    }
-//
-//    /**
-//     * Update the specified resource in storage.
-//     *
-//     * @param \Illuminate\Http\Request $request
-//     * @param int $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function update(Request $request, $id)
-//    {
-//        $request->validate([
-//            'slug' => "nullable|unique:product_categories,slug,{$id}"
-//        ]);
-//        $brand = User::findOrFail($id);
-//        $brand->update($request->all());
-//
-//        $status = 'success';
-//        $msg = $brand->name . ' updated successfully';
-//
-//        if ($request->filled('status')) {
-//            if ($request->status) {
-//                $status = 'success';
-//                $msg = $brand->name . ' Published Successfully';
-//            } else {
-//                $status = 'warning';
-//                $msg = $brand->name . ' Unpublished Successfully';
-//            }
-//        }
-//        return response()->json(['status' => $status, 'msg' => $msg, 'data' => $brand]);
-//    }
-//
-//    /**
-//     * Remove the specified resource from storage.
-//     *
-//     * @param int $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function destroy($id)
-//    {
-//        $brand = User::findOrFail($id);
-//        $brand->deleted_at = Carbon::now();
-//        $brand->save();
-//        return response()->json(['status' => 'success', 'msg' => $brand->name . ' Deleted Successfully']);
-//    }
+        $files = $request->file('images');
+        $json_images = [];
+
+        foreach ($files as $file) {
+            $uploadedPath = FileHandler::upload($file, 'users');
+            if ($uploadedPath) {
+                $json_images[] = $uploadedPath;
+            }
+        }
+        return response()->json(['status' => 'success', 'msg' => 'Images uploaded successfully', 'data' => $json_images]);
+
+    }
+
+    public function uploadCheck(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'file' => 'required'
+        ]);
+
+        $file = $request->file('file');
+        $json_images = [];
+
+        $uploadedPath = FileHandler::upload($file, 'users');
+        if ($uploadedPath) {
+            $json_images[] = (object)['download_link' => $uploadedPath, 'original_name' => $file->getClientOriginalName()];
+        }
+        return response()->json(['status' => 'success', 'msg' => 'Cheque uploaded successfully', 'data' => $json_images]);
+
+    }
+
+    public function editOrCreate(Request $request)
+    {
+        $request->validate([
+            'email' => "required|unique:users,email,{$request->id}",
+
+        ]);
+
+        $user = User::with('address')->find($request->id);
+        $msg = 'User updated successfully';
+        if (!isset($user)) {
+            $user = new User;
+            $msg = 'User added successfully';
+        }
+
+        $user->update($request->except('password'));
+
+        if ($request->has('password')) {
+            $user->update(['password' => Hash::make($request->password)]);
+        }
+
+        return response()->json(['status' => 'success', 'msg' => $msg, 'data' => $user]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return ApiResource
+     */
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        return new ApiResource($user);
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return response()->json(['status' => 'success', 'msg' => $user->name . ' Deleted Successfully']);
+    }
 }

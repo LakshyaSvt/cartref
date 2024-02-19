@@ -29,6 +29,7 @@ import Seo from "@pages/admin/Seo.vue";
 import ProductReview from "@pages/admin/ProductReview.vue";
 import Coupon from "@pages/admin/Coupon.vue";
 import User from "@pages/admin/User.vue";
+import UserCreateOrEdit from "@pages/admin/UserCreateOrEdit.vue";
 import Role from "@pages/admin/Role.vue";
 import Announcement from "@pages/admin/Announcement.vue";
 import Wishlist from "@pages/admin/Wishlist.vue";
@@ -82,7 +83,9 @@ const adminRoutes = [
     {name: 'announcement', path: '/admin/control/announcement', component: Announcement},
 
     /*User Management*/
-    {name: 'user', path: '/admin/user/user', component: User},
+    {name: 'user', path: '/admin/users', component: User},
+    {name: 'user-create', path: '/admin/user/create', component: UserCreateOrEdit},
+    {name: 'user-edit', path: '/admin/users/edit/:id', component: UserCreateOrEdit},
     {name: 'role', path: '/admin/user/role', component: Role},
 
     /*Post & Category*/
