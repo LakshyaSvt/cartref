@@ -12,9 +12,9 @@
       </h1>
 
       <!-- hover:dropdown --->
-      <div class="w-3/12 flex justify-end mx-4 group">
-         <label class="text-white px-2 py-1 mr-2 font-semibold" v-if="$store.state.user">{{ $store.state.user.name }}</label>
-         <div class="relative inline-block text-left ">
+      <div class="w-3/12 flex justify-end mx-4">
+         <label v-if="$store.state.user" class="text-white px-2 py-1 mr-2 font-semibold ">{{ $store.state.user.name }}</label>
+         <div class="relative inline-block text-left group px-2">
             <div class="menu-hover">
                <i class="fi fi-rr-circle-user text-white text-2xl h-3 p-1 hover:text-primary-500 duration-200"></i>
             </div>

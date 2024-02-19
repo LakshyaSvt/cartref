@@ -3,7 +3,7 @@
     <Wait :show="loading"/>
     <div class="container mx-auto my-2 px-4">
       <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
-        <i class="fi fi-rr-folder-tree"></i>
+        <i class="fi fi-rr-folders"></i>
         <h3 class="text-start my-8">Collection Groups</h3>
       </div>
 

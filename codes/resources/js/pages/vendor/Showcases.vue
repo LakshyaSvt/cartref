@@ -3,7 +3,7 @@
       <Wait :show="loading"/>
       <div class="container mx-auto my-2 px-4">
          <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
-            <i class="fi fi-rr-boxes"></i>
+            <i class="fi fi-rr-house-chimney"></i>
             <h3 class="text-start my-8">Showcase Orders</h3>
          </div>
          <div class="bg-primary-200 p-2 overflow-x-auto shadow-md sm:rounded-lg mb-4">

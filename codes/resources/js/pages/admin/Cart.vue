@@ -2,7 +2,7 @@
    <div>
       <div class="container mx-auto my-2 px-4">
          <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
-            <i class="fi fi-rr-heart"></i>
+            <i class="fi fi-rr-shopping-cart"></i>
             <h3 class="text-start my-8">Carts</h3>
          </div>
 
