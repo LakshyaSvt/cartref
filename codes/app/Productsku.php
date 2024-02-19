@@ -4,11 +4,12 @@ namespace App;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Productsku extends Model
 {
-    
+    use SoftDeletes;
     protected $table = 'productsku';
     
     protected $fillable = ['available_stock', 'status', 'length', 'breath', 'height', 'weight'];   

@@ -251,7 +251,7 @@
                                               class="font-medium cursor-pointer text-blue-500">
                                     <i class="fi fi-rr-eye w-5 h-5 text-xl"></i>
                                  </router-link>
-                                 <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button">
+                                 <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button" @click="deleteProduct(product.id)">
                                     <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
                                  </a>
                               </div>
@@ -354,6 +354,22 @@
                    err.handleGlobally && err.handleGlobally();
                 })
 
+         },
+         deleteProduct(id) {
+            if (!confirm("Are you sure you want to delete ?")) {
+               return false;
+            }
+            this.loading = true;
+            axios.delete('/admin/product/' + id)
+                .then(res => {
+                   this.loading = false;
+                   this.show_toast(res.data.status, res.data.msg);
+                   this.fetchProduct();
+                })
+                .catch(err => {
+                   this.loading = false;
+                   err.handleGlobally && err.handleGlobally();
+                })
          },
          fetchSellers() {
             axios

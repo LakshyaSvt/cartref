@@ -13,6 +13,7 @@ use App\ProductSubcategory;
 use App\Size;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use TCG\Voyager\Models\User;
@@ -25,6 +26,7 @@ class Product extends Model
     use Resizable;
     use Translatable;
     use HasImpression;
+    use SoftDeletes;
 
     protected $translatable = ['name', 'description'];
     protected $fillable = ['name', 'image', 'images', 'admin_status'];

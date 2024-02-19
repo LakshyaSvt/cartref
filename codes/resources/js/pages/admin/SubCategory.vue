@@ -337,11 +337,12 @@
             this.loading = true;
             axios.delete('/admin/sub-category/' + id)
                 .then(res => {
-                   this.loading = true;
+                   this.loading = false;
                    this.show_toast(res.data.status, res.data.msg);
                    this.fetchSubCategory();
                 })
                 .catch(err => {
+                   this.loading = false;
                    err.handleGlobally && err.handleGlobally();
                 })
          },

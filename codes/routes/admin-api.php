@@ -100,6 +100,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         //Route::post('/bulk-upload', [ProductController::class, 'bulkExcelUpload']);
         Route::get('/{id}', [ProductController::class, 'fetchProduct']);
         Route::put('/{id}', [ProductController::class, 'updateProductStatus']);
+        Route::delete('/{id}', [ProductController::class, 'destroy']);
         Route::get('/{id}/colors', [ProductController::class, 'fetchProductColors']);
         Route::post('/delete-image', [ProductController::class, 'deleteProductImage']);
         Route::post('/upload-images', [ProductController::class, 'uploadProductImages']);

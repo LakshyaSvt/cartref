@@ -423,4 +423,17 @@ class ProductController extends Controller
         return response()->json(['status' => $status, 'msg' => $msg, 'data' => $size]);
     }
 
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $colors = Productcolor::where('product_id', $product->id)->delete();
+        $sizes = Productsku::where(['product_id' => $product->id])->delete();
+
+        $product->delete();
+        //$colors->delete();
+        //$sizes->delete();
+
+        return response()->json(['status' => 'success', 'msg' => $product->name . ' Deleted Successfully']);
+    }
+
 }

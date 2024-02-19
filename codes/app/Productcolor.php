@@ -2,14 +2,16 @@
 
 namespace App;
 
-use App\Color;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Productcolor extends Model
 {
-    protected $fillable = ['color','status','more_images','main_image'];
+    use SoftDeletes;
+
+    protected $fillable = ['color', 'status', 'more_images', 'main_image'];
 
 
     public function colors()
@@ -22,7 +24,8 @@ class Productcolor extends Model
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
-    public function getJsonMoreImagesAttribute(){
+    public function getJsonMoreImagesAttribute()
+    {
         return json_decode($this->more_images) ?? [];
     }
 }
