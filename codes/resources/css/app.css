@@ -201,23 +201,21 @@
 
 @layer utilities {
     .custom-scrollbar::-webkit-scrollbar {
-        width: 3px;
-        height: 3px;
+        width: 4px;
+        height: 4px;
         border-radius: 2px;
     }
 
     .custom-scrollbar::-webkit-scrollbar-track {
-        @apply bg-primary-400;
+        @apply bg-primary-200;
     }
 
     .custom-scrollbar::-webkit-scrollbar-thumb {
-        @apply bg-primary-700;
-        border-radius: 50px;
+        @apply bg-primary-600;
+        border-radius: 100px;
     }
 
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        @apply bg-primary-800;
-    }
+
 }
 
 #toast-div {
@@ -272,4 +270,27 @@
 }
 
 /* Vue MultiSelect */
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-700;
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    border-radius: 2px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    @apply bg-primary-200;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-primary-600;
+    border-radius: 120px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-700;
+}
 

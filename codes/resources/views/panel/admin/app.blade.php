@@ -22,7 +22,7 @@
     <title>Admin | {{ config('app.name') }}</title>
 </head>
 
-<body class="bg-primary-50">
+<body class="bg-primary-50 scrollbar">
 <!--Vue App-->
 <div id="app">
     <main-app :user="{{auth()->user()}}"></main-app>
