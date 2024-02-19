@@ -115,6 +115,7 @@ class ProductController extends Controller
 
         $product->image = $request->image;
         $product->images = ($request->json_images);
+        $product->size_guide = $request->size_guide;
 
         $product->seller_id = auth()->user()->id;
         $product->save();

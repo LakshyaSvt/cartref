@@ -15,7 +15,6 @@
             <h3 v-if="editId" class="text-start my-8">Edit User</h3>
             <h3 v-else class="text-start my-8">Add User</h3>
          </div>
-
          <div class="p-2 overflow-x-auto my-2">
             <div class="block">
                <form @submit.prevent="submitForm">
@@ -59,7 +58,8 @@
                                     <label class="w-full py-4 ms-2 text-sm font-medium text-gray-900 " for="gender-1">Male</label>
                                  </div>
                                  <div class="w-full md:w-1/2 h-10 flex items-center ps-4 border border-gray-200 bg-white rounded-md">
-                                    <input id="gender-2" v-model="user.gender" :checked="user.gender === 'Female'" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" name="gender"
+                                    <input id="gender-2" v-model="user.gender" :checked="user.gender === 'Female'"
+                                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" name="gender"
                                            type="radio" value="Female">
                                     <label class="w-full py-4 ms-2 text-sm font-medium text-gray-900" for="gender-2">Female</label>
                                  </div>
@@ -92,7 +92,7 @@
                                    @click="imageModal($store.state.storageUrl + user.avatar)"
                                    @error="imageLoadError"/>
                            </div>
-                           <div>
+                           <div class="my-2">
                               <input id="avatar_img" accept="image/*" class="form-input" name="avatar" type="file" @change="handleImageChange($event)">
                            </div>
                            <div>
@@ -170,7 +170,7 @@
                                    class="w-100 border h-[23rem] max:h-full w-full rounded-md shadow-md cursor-zoom-in"
                                    @click="imageModal($store.state.storageUrl + user.brand_logo)"
                                    @error="imageLoadError"/>
-                              <div>
+                              <div class="my-2">
                                  <input id="brand_logo_img" accept="image/*" class="form-input" name="avatar" type="file" @change="handleBrandLogoChange($event)">
                               </div>
                            </div>
@@ -234,7 +234,7 @@
                                       @click="imageModal($store.state.storageUrl + user.signature)"
                                       @error="imageLoadError"/>
                               </div>
-                              <div>
+                              <div class="my-2">
                                  <input id="signature_img" accept="image/*" class="form-input" name="signature" type="file" @change="handleSignatureChange($event)">
                               </div>
                            </div>
@@ -266,7 +266,7 @@
                                     {{ (user.cancelled_check)[0]?.original_name }}
                                  </a>
                               </div>
-                              <div>
+                              <div class="my-2">
                                  <input id="cancelled_check_img" class="form-input" name="cancelled_check" type="file" @change="handleCancelledChequeChange($event)">
                               </div>
                            </div>

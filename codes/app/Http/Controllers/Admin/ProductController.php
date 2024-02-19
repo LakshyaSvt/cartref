@@ -114,6 +114,7 @@ class ProductController extends Controller
 
         $product->image = $request->image;
         $product->images = ($request->json_images);
+        $product->size_guide = ($request->size_guide);
 
         $product->seller_id = $request->seller_id;
         $product->admin_comments = $request->admin_comments;

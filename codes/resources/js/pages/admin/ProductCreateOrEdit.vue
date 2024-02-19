@@ -217,13 +217,6 @@
                               <input id="weight" v-model="product.weight" class="form-input" placeholder="20" required type="text">
                            </div>
                         </div>
-                        <div class="w-full my-2">
-                           <label class="block mb-2 text-sm font-bold text-gray-900" for="size_guide"
-                                  title="An image which references chart indicating measurements for selecting appropriate clothing or products.">
-                              Size Guide
-                           </label>
-                           <input id="size_guide" accept="image/*" class="form-input" type="file" @change="handleSizeImageChange">
-                        </div>
                         <div class="flex flex-col md:flex-row gap-4 w-full mt-2 mb-1">
                            <div class="md:w-1/2 w-full">
                               <label class="block mb-2 text-sm font-bold text-gray-900" for="mrp">Maximum Retail Price (MRP) <span class="text-red-600">*</span></label>
@@ -276,6 +269,22 @@
                         </div>
                      </div>
                      <div class="block md:w-2/5 w-full">
+                        <div class="w-full my-2">
+                           <div>
+                              <label class="block mb-1 text-sm font-bold text-gray-900" title="An image which references chart indicating measurements for selecting appropriate clothing or products.">
+                                 Size Guide
+                              </label>
+                              <img v-if="product && product.size_guide"
+                                   :src="$store.state.storageUrl + product.size_guide"
+                                   alt="main-img"
+                                   class="w-100 border h-[23rem] max:h-full w-full rounded-md shadow-md cursor-zoom-in"
+                                   @click="imageModal($store.state.storageUrl + product.size_guide)"
+                                   @error="imageLoadError"/>
+                           </div>
+                           <div class="my-2">
+                              <input id="size_guide" accept="image/*" class="form-input" name="signature" type="file" @change="handleSizeImageChange($event)">
+                           </div>
+                        </div>
                         <label class="block mb-2 text-sm font-bold text-gray-900">More Images</label>
                         <div class="grid gap-2 grid-cols-2">
                            <template v-if="product.json_images && Array.isArray(product.json_images) && product.json_images.length > 0">
@@ -387,7 +396,7 @@
          }
       },
       watch: {
-         "product.category_id": function (newValue, oldValue) {
+         "product.category_id": function (newValue) {
             this.fetchSubCategory();
          }
       },
@@ -441,7 +450,12 @@
             if (files.length <= 0) {
                return false;
             }
-            this.product.size_guide = files[0];
+            const formData = new FormData();
+            formData.append('images[0]', files[0]);
+            this.uploadImageToServer(formData).then(res => {
+               this.product.size_guide = res[0];
+               $('#size_guide').val('')
+            });
          },
          handleImageChange(e) {
             let files = e.target.files;
@@ -507,7 +521,7 @@
             }
             formData.append('multi_selected_sizes', JSON.stringify(this.multi_selected_sizes));
             formData.append('multi_selected_colors', JSON.stringify(this.multi_selected_colors));
-            //appned all keys of product object
+            //append all keys of product object
             Object.keys(this.product).forEach(function(key) {
                const value = this.product[key];
                if(value){
