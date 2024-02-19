@@ -13,6 +13,7 @@ Vue.use(VueRouter);
 var $ = global.jQuery;
 window.$ = $;
 
+Vue.component('main-app', require('@pages/delivery-boy/Main.vue').default);
 //main-components
 Vue.component('side-bar', require('@components/DeliveryBoySideBar.vue').default);
 Vue.component('navbar', require('@components/NavBar.vue').default);

@@ -2,7 +2,7 @@
    <div>
       <Wait :show="loading"/>
       <div class="container mx-auto my-2 px-4">
-         <h1 v-if="editId && user.name" class="text-center text-2xl underline uppercase">{{ user.name }}</h1>
+         <h1 v-if="editId && $store.state.user" class="text-center text-2xl underline uppercase">{{ $store.state.user.name }}</h1>
          <div class="mt-6 pt-2">
             <a class="inline-flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-gray-800 hover:bg-black hover:text-white"
                @click="$router.go(-1)">
@@ -62,20 +62,6 @@
                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" name="gender"
                                            type="radio" value="Female">
                                     <label class="w-full py-4 ms-2 text-sm font-medium text-gray-900" for="gender-2">Female</label>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="mb-5 md:w-1/2 w-full">
-                              <label class="block mb-2 text-sm font-bold text-gray-900" for="role_id">
-                                 Role <span class="text-red-600">*</span>
-                              </label>
-                              <div class="relative">
-                                 <select id="role_id" v-model="user.role_id" class="form-input appearance-none" required>
-                                    <option selected value="">Choose Role</option>
-                                    <option v-for="(role) in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
-                                 </select>
-                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <i class="fi fi-ss-angle-small-down text-xl w-5 h-6 ml-1"></i>
                                  </div>
                               </div>
                            </div>
@@ -275,7 +261,6 @@
                   </div>
                   <div class="text-center">
                      <button class="submit-btn" type="submit"> {{ this.editId ? 'Update' : 'Create' }}</button>
-                     <button class="submit-btn bg-gray-600 hover:bg-gray-700" type="button" @click="clear()">Clear</button>
                   </div>
                </form>
             </div>
@@ -297,7 +282,7 @@
             dataLoading: false,
             showModal: false,
             imgModal: '',
-            editId: this.$route.params.id,
+            editId: this.$store.state.user.id,
             roles: [],
 
             user: {
@@ -348,10 +333,6 @@
          closeImageModal() {
             this.showModal = false;
          },
-         clear() {
-            $('form').reset();
-            this.editId = '';
-         },
          uploadImageToServer(formData) {
             return new Promise((resolve, reject) => {
                //uploading to db
@@ -359,7 +340,7 @@
                   headers: {'Content-Type': 'multipart/form-data'}
                }
                this.loading = true;
-               axios.post(`/admin/user/upload-images`, formData, config)
+               axios.post(`/user/upload-images`, formData, config)
                    .then((res) => {
                       this.loading = false;
                       this.show_toast(res.data.status, res.data.msg);
@@ -440,7 +421,7 @@
             const formData = new FormData();
             formData.append('file', files[0]);
             this.loading = true;
-            axios.post(`/admin/user/upload-check`, formData)
+            axios.post(`/user/upload-check`, formData)
                 .then((res) => {
                    this.loading = false;
                    this.show_toast(res.data.status, res.data.msg);
@@ -455,18 +436,17 @@
          submitForm() {
             this.loading = true;
             let formData = this.user;
-            if (this.editId) {
-               formData.id = this.editId;
-            }
+            formData.id = this.editId;
             if (this.user.cancelled_check) {
                formData.cancelled_check = JSON.stringify(formData.cancelled_check);
             }
 
             axios
-                .post('/admin/user/edit-or-create', formData)
+                .post('/user/edit', formData)
                 .then(res => {
                    this.loading = false;
-                   this.fetchUser();
+                   if (res.data.data)
+                      this.$store.state.user = res.data.data;
                    this.show_toast(res.data.status, res.data.msg);
                 })
                 .catch(err => {
@@ -476,41 +456,13 @@
          },
          fetchUser() {
             this.loading = true;
-            axios
-                .get('admin/user/' + this.editId)
-                .then(res => {
-                   this.user = res.data.data;
-                   this.user.cancelled_check = JSON.parse(this.user.cancelled_check) || [];
-                   this.loading = false;
-                })
-                .catch(err => {
-                   this.loading = false;
-                   err.handleGlobally && err.handleGlobally();
-                })
+            this.user = JSON.parse(JSON.stringify(this.$store.state.user));
+            this.user.cancelled_check = JSON.parse(this.$store.state.user.cancelled_check) || [];
+            this.loading = false;
          },
-         fetchRole(url) {
-            this.dataLoading = true;
-            url = url || '/admin/role'
-            axios.get(url, {
-               params: {
-                  rows: 'all',
-               }
-            })
-                .then(res => {
-                   this.dataLoading = false;
-                   this.loading = false;
-                   this.roles = res.data.data;
-                })
-                .catch(err => {
-                   this.dataLoading = false;
-                   this.loading = false;
-                   err.handleGlobally && err.handleGlobally();
-                })
-         }
       },
       created() {
-         this.editId && this.fetchUser();
-         this.fetchRole();
+         this.fetchUser();
       }
    }
 </script>

@@ -31,9 +31,15 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\VendorPaymentController;
 use App\Http\Controllers\Admin\WishlistController;
+use App\Http\Controllers\Panel\UserController as PanelUserController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/product/bulk-upload', [ProductController::class, 'bulkExcelUpload']);
+Route::middleware(['auth'])->group(function () {
+    Route::post('/product/bulk-upload', [ProductController::class, 'bulkExcelUpload']);
+    Route::post('/user/edit', [PanelUserController::class, 'edit']);
+    Route::post('/user/upload-images', [PanelUserController::class, 'uploadImages']);
+    Route::post('/user/upload-check', [PanelUserController::class, 'uploadCheck']);
+});
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     /*Dashboard*/

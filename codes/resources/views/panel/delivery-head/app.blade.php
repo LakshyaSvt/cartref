@@ -25,11 +25,7 @@
 <body class="bg-primary-50">
 <!--Vue App-->
 <div id="app">
-    <navbar></navbar>
-    <side-bar></side-bar>
-    <div id="main" class="mt-12 xl:mt-20 md:pl-[3.35rem] mb-6">
-        <router-view></router-view>
-    </div>
+    <main-app :user="{{auth()->user()}}"></main-app>
 </div>
 
 <!-- Toast msg -->

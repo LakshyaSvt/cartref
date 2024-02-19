@@ -57,7 +57,7 @@
       }
    }
 </script>
-<style>
+<style scoped>
 .router-link-exact-active,
 .router-link-exact-active:hover {
    background-color: #3b82f6 !important;

@@ -44,6 +44,19 @@ class AuthenticatedSessionController extends Controller
             $this->saveLoggedInCart();
             $this->saveShowroomCart();
         }
+
+        if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('Client')){
+            return redirect('/admin/dashboard');
+        }
+        if(auth()->user()->hasRole('Vendor')){
+            return redirect('/vendor/dashboard');
+        }
+        if(auth()->user()->hasRole('Delivery Head')){
+            return redirect('/delivery-head/dashboard');
+        }
+        if(auth()->user()->hasRole('Delivery Boy')){
+            return redirect('/delivery-boy/dashboard');
+        }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

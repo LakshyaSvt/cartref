@@ -43,7 +43,7 @@
                   <i class="fi fi-rr-paper-plane text-4xl w-8 h-8 text-primary-600"></i>
                   <p class="text-2xl font-extrabold text-dark-grey-900">{{ stats?.post || '0' }}</p>
                   <p class="text-3xl leading-7 text-dark-grey-600">Posts</p>
-                  <router-link :to="{name:'posts'}" class="px-8 py-2 mt-4 text-white bg-primary-600 hover:bg-primary-700 rounded-lg text-lg">View all</router-link>
+                  <router-link :to="{name:'post'}" class="px-8 py-2 mt-4 text-white bg-primary-600 hover:bg-primary-700 rounded-lg text-lg">View all</router-link>
                </div>
             </div>
          </div>

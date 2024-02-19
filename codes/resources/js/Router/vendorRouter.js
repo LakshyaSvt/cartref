@@ -10,8 +10,11 @@ import ProductColorEdit from "@pages/vendor/ProductColorEdit.vue";
 import ProductCreateOrEdit from "@pages/vendor/ProductCreateOrEdit.vue";
 import VendorPayments from "@pages/vendor/VendorPayments";
 import Coupon from "@pages/vendor/Coupon";
+import Profile from "@pages/Profile.vue";
 
-const adminRoutes = [
+const vendorRoutes = [
+    {name: 'profile', path: '/vendor/profile', component: Profile},
+
     {name: 'dashboard', path: '/vendor/dashboard', component: Dashboard},
     {name: 'orders', path: '/vendor/orders', component: Orders},
     {name: 'showcases', path: '/vendor/showcases/orders', component: Showcases},
@@ -31,9 +34,9 @@ const adminRoutes = [
 ]
 
 
-const adminRouter = new VueRouter({
+const vendorRouter = new VueRouter({
     mode: 'history',
-    routes: adminRoutes,
+    routes: vendorRoutes,
 });
 
-export default adminRouter;
+export default vendorRouter;

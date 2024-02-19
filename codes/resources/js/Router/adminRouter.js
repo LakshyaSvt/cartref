@@ -36,8 +36,11 @@ import Wishlist from "@pages/admin/Wishlist.vue";
 import Cart from "@pages/admin/Cart.vue";
 import PostCategory from "@pages/admin/PostCategory.vue";
 import Post from "@pages/admin/Post.vue";
+import Profile from "@pages/Profile.vue";
 
 const adminRoutes = [
+    {name: 'profile', path: '/admin/profile', component: Profile},
+
     {name: 'dashboard', path: '/admin/dashboard', component: Dashboard},
     {name: 'orders', path: '/admin/orders', component: Orders},
     {name: 'showcases', path: '/admin/showcases/orders', component: Showcases},
