@@ -55,7 +55,7 @@
                         </button>
                       </div>
                     </template>
-                    <div class="flex items-center justify-center col-span-2 h-52">
+                    <div class="flex items-center justify-center col-span-2 h-52" v-if="color.json_more_images && color.json_more_images.length < 4">
                       <label for="dropzone-file"
                              class="relative flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:rounded-xl hover:shadow-md">
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -145,6 +145,10 @@ export default {
         return false;
       }
 
+      if((files.length + this.color.json_images.length) > 4){
+         alert('You can upload upto 4 only');
+         return false;
+      }
       //4 files selected txt
       $('#dropzone-file-select').html(files.length+' file(s) selected')
 

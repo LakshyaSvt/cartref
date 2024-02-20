@@ -55,6 +55,7 @@
                      </div>
 
                      <template v-if="sizes && sizes.length > 0">
+                        <h1 class="font-medium text-base px-2 py-1"> Note:- Double click to edit the size and L/B/H/W </h1>
                         <div v-for="(size, index) in sizes" :key="size.id" class="table-row table-body hover:bg-primary-100 bg-white">
                            <div class="table-cell border-t border-gray-500 text-sm px-1 text-center py-4 relative">
                               {{ size.sku ?? '-' }}
@@ -70,7 +71,7 @@
                               <div v-else class="text-sm py-2.5">-</div>
                            </div>
                            <div :title="size.length +' cms / ' + size.breath + ' cms / ' + size.height + ' cms / ' + size.weight + ' kgs' " class="table-cell border-t border-l border-gray-500 p-1 text-center"
-                                @dblclick="editDimension(size)">
+                                title="Double click to edit" @dblclick="editDimension(size)">
                               <div v-if="editDimensionId === size.id" v-click-outside="closeDimensionEdit" class="flex justify-around items-center font-semibold text-gray-600 py-2.5"
                                    tabindex="0">
                                  <input v-model="editLength" v-click-outside="closeStockEdit" autofocus

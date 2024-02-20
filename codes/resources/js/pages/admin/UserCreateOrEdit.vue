@@ -11,7 +11,7 @@
             </a>
          </div>
          <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
-            <i class="fi fi-rr-box-open"></i>
+            <i class="fi fi-rr-user"></i>
             <h3 v-if="editId" class="text-start my-8">Edit User</h3>
             <h3 v-else class="text-start my-8">Add User</h3>
          </div>

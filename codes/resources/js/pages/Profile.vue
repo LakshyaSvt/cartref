@@ -11,7 +11,7 @@
             </a>
          </div>
          <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
-            <i class="fi fi-rr-box-open"></i>
+            <i class="fi fi-rr-user"></i>
             <h3 v-if="editId" class="text-start my-8">Edit User</h3>
             <h3 v-else class="text-start my-8">Add User</h3>
          </div>
@@ -69,18 +69,18 @@
                      </div>
                      <div class="flex flex-col md:w-1/3 w-full shadow-md sm:rounded-lg bg-white px-4 py-2 rounded-md">
                         <div class="flex flex-col gap-4" title="The primary or featured image representing a subject, often used in media and content.">
-                           <div>
-                              <label class="block mb-1 text-sm font-bold text-gray-900">Profile Picture</label>
-                              <img v-if="user && user.avatar"
-                                   :src="$store.state.storageUrl + user.avatar"
-                                   alt="main-img"
-                                   class="w-100 h-60 w-60 max:h-full mx-auto cursor-zoom-in"
-                                   @click="imageModal($store.state.storageUrl + user.avatar)"
-                                   @error="imageLoadError"/>
-                           </div>
-                           <div class="my-2">
-                              <input id="avatar_img" accept="image/*" class="form-input" name="avatar" type="file" @change="handleImageChange($event)">
-                           </div>
+<!--                           <div>-->
+<!--                              <label class="block mb-1 text-sm font-bold text-gray-900">Profile Picture</label>-->
+<!--                              <img v-if="user && user.avatar"-->
+<!--                                   :src="$store.state.storageUrl + user.avatar"-->
+<!--                                   alt="main-img"-->
+<!--                                   class="w-100 h-60 w-60 max:h-full mx-auto cursor-zoom-in"-->
+<!--                                   @click="imageModal($store.state.storageUrl + user.avatar)"-->
+<!--                                   @error="imageLoadError"/>-->
+<!--                           </div>-->
+<!--                           <div class="my-2">-->
+<!--                              <input id="avatar_img" accept="image/*" class="form-input" name="avatar" type="file" @change="handleImageChange($event)">-->
+<!--                           </div>-->
                            <div>
                               <label class="block mb-2 text-sm font-bold text-gray-900">Store Rating</label>
                               <input v-model="user.brand_store_rating" class="form-input" placeholder="4.7" step="0.01" type="number">
