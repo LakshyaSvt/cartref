@@ -2,7 +2,7 @@
    <div>
       <Wait :show="loading"/>
       <div class="container mx-auto my-2 px-4">
-         <h1 class="text-center text-2xl underline uppercase" v-if="editId && product.name">{{ product.name }}</h1>
+         <h1 v-if="editId && product.name" class="text-center text-2xl underline uppercase">{{ product.name }}</h1>
          <div class="mt-6">
             <a class="inline-flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-gray-800 hover:bg-black hover:text-white"
                @click="$router.go(-1)">
@@ -12,8 +12,8 @@
          </div>
          <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
             <i class="fi fi-rr-box-open"></i>
-            <h3 class="text-start my-8" v-if="editId">Edit Product</h3>
-            <h3 class="text-start my-8" v-else>Add Product</h3>
+            <h3 v-if="editId" class="text-start my-8">Edit Product</h3>
+            <h3 v-else class="text-start my-8">Add Product</h3>
          </div>
 
          <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg my-4">
@@ -33,7 +33,7 @@
                                   title="The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.">
                               URL / Slug <span class="text-red-600">*</span>
                            </label>
-                           <input id="slug" v-model="product.slug" class="form-input" placeholder="western-wear" required readonly type="text">
+                           <input id="slug" v-model="product.slug" class="form-input" placeholder="western-wear" readonly required type="text">
                         </div>
                         <div class="w-full my-2">
                            <label class="block mb-2 text-sm font-bold text-gray-900" for="code"
@@ -129,11 +129,28 @@
                      <textarea id="description" v-model="product.description" class="form-input h-36" placeholder="Describe your product here..."></textarea>
                   </div>
                   <div class="w-full my-1 mb-3">
-                     <label class="block mb-2 text-sm font-bold text-gray-900" for="features"
-                            title="Distinctive attributes or characteristics of something, often highlighting its unique qualities or functions.">
-                        Features <span class="text-red-600">*</span>
-                     </label>
-                     <RichTextEditor :initial_value="product.features" :setVal="(val) => product.features = val" height="350"/>
+                     <div class="flex justify-between items-center mb-4">
+                        <label class="block mb-2 text-sm font-bold text-gray-900" for="features"
+                               title="Distinctive attributes or characteristics of something, often highlighting its unique qualities or functions.">
+                           Features <span class="text-red-600">*</span>
+                        </label>
+                        <button class="text-primary-500 text-2xl cursor-pointer mr-4" type="button" @click="addFeature()">
+                           <i class="fi fi-rr-add"></i>
+                        </button>
+                     </div>
+                     <div v-for="(feature, index) in features" :key="index" class="flex flex-col gap-2">
+                        <div class="flex flex-wrap gap-4 mb-2 items-center">
+                           <label for="">{{ index + 1 }}.)</label>
+                           <div class="w-[92%]">
+                              <input v-model="features[index]" class="form-input" placeholder="Feature points..." type="text">
+                           </div>
+                           <div class="">
+                              <button class="text-red-500 text-xl cursor-pointer" type="button" @click="features.splice(index, 1);">
+                                 <i class="fi fi-rr-circle-xmark"></i>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                   <div class="flex flex-col md:flex-row gap-8 mx-2 mb-3">
                      <div class="flex flex-col md:w-3/5 w-full">
@@ -178,14 +195,14 @@
                                  Available Colors <span class="text-red-600">*</span>
                               </label>
                               <Multiselect v-model="multi_selected_colors" :multiple="true" :options="colorDropdown" :showLabels="false">
-<!--                                 <template v-slot:selection="{values, remove}">-->
-<!--                                   <span v-for="color in values" :key="color" :style="'background-color:'+color+'!important;'" class="multiselect__tag">-->
-<!--                                     <div class="color-backdrop">-->
-<!--                                       <span class="color">{{ color }}</span>-->
-<!--                                     </div>-->
-<!--                                     <i class="multiselect__tag-icon" tabindex="1" @click="remove(color)"></i>-->
-<!--                                   </span>-->
-<!--                                 </template>-->
+                                 <!--                                 <template v-slot:selection="{values, remove}">-->
+                                 <!--                                   <span v-for="color in values" :key="color" :style="'background-color:'+color+'!important;'" class="multiselect__tag">-->
+                                 <!--                                     <div class="color-backdrop">-->
+                                 <!--                                       <span class="color">{{ color }}</span>-->
+                                 <!--                                     </div>-->
+                                 <!--                                     <i class="multiselect__tag-icon" tabindex="1" @click="remove(color)"></i>-->
+                                 <!--                                   </span>-->
+                                 <!--                                 </template>-->
                               </Multiselect>
                            </div>
                         </div>
@@ -271,7 +288,8 @@
                      <div class="block md:w-2/5 w-full">
                         <div class="w-full my-2">
                            <div>
-                              <label class="block mb-1 text-sm font-bold text-gray-900" title="An image which references chart indicating measurements for selecting appropriate clothing or products.">
+                              <label class="block mb-1 text-sm font-bold text-gray-900"
+                                     title="An image which references chart indicating measurements for selecting appropriate clothing or products.">
                                  Size Guide
                               </label>
                               <img v-if="product && product.size_guide"
@@ -393,6 +411,7 @@
                flash_sale: false,
                admin_status: 'Accepted',
             },
+            features: [''],
          }
       },
       watch: {
@@ -427,6 +446,12 @@
          },
          clear() {
 
+         },
+         addFeature() {
+            if (this.features.length >= 8) {
+               return;
+            }
+            this.features.push('')
          },
          deleteImage(img) {
             if (!confirm("Are you sure want to delete this image ? ")) {
@@ -518,6 +543,12 @@
 
          submitForm() {
             this.loading = true;
+            let featureHtml = "<ul>";
+            this.features.forEach(feature => {
+               featureHtml += "<li>" + feature + "</li>";
+            })
+            featureHtml += "</ul>";
+
             const formData = new FormData();
             if (this.editId) {
                formData.append('id', this.editId);
@@ -525,9 +556,9 @@
             formData.append('multi_selected_sizes', JSON.stringify(this.multi_selected_sizes));
             formData.append('multi_selected_colors', JSON.stringify(this.multi_selected_colors));
             //append all keys of product object
-            Object.keys(this.product).forEach(function(key) {
+            Object.keys(this.product).forEach(function (key) {
                const value = this.product[key];
-               if(value){
+               if (value) {
                   if (Array.isArray(value)) {
                      formData.append(key, JSON.stringify(value));
                   } else {
@@ -535,6 +566,8 @@
                   }
                }
             }, this);
+            formData.append('features', featureHtml);
+
 
             axios
                 .post('/admin/product/edit-or-create', formData)
@@ -556,6 +589,13 @@
                    this.multi_selected_sizes = this.product.sizes.map(size => size.name)
                    this.multi_selected_colors = this.product.colors.map(color => color.name)
                    this.loading = false;
+
+                   // Create a temporary element
+                   const tempElement = document.createElement('div');
+                   // Set the innerHTML of the temporary element
+                   tempElement.innerHTML = res.data.data.features;
+                   // Extract list items into an array
+                   this.features = Array.from(tempElement.querySelectorAll('li')).map(li => li.textContent);
                 })
                 .catch(err => {
                    this.loading = false;

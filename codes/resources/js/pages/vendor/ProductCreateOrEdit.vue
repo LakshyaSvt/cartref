@@ -115,11 +115,28 @@
                      <textarea id="description" v-model="product.description" class="form-input h-36" placeholder="Describe your product here..."></textarea>
                   </div>
                   <div class="w-full my-1 mb-3">
-                     <label class="block mb-2 text-sm font-bold text-gray-900" for="features"
-                            title="Distinctive attributes or characteristics of something, often highlighting its unique qualities or functions.">
-                        Features <span class="text-red-600">*</span>
-                     </label>
-                     <RichTextEditor :initial_value="product.features" :setVal="(val) => product.features = val" height="350"/>
+                     <div class="flex justify-between items-center mb-4">
+                        <label class="block mb-2 text-sm font-bold text-gray-900" for="features"
+                               title="Distinctive attributes or characteristics of something, often highlighting its unique qualities or functions.">
+                           Features <span class="text-red-600">*</span>
+                        </label>
+                        <button class="text-primary-500 text-2xl cursor-pointer mr-4" type="button" @click="addFeature()">
+                           <i class="fi fi-rr-add"></i>
+                        </button>
+                     </div>
+                     <div v-for="(feature, index) in features" :key="index" class="flex flex-col gap-2">
+                        <div class="flex flex-wrap gap-4 mb-2 items-center">
+                           <label for="">{{ index + 1 }}.)</label>
+                           <div class="w-[92%]">
+                              <input v-model="features[index]" class="form-input" placeholder="Feature points..." type="text">
+                           </div>
+                           <div class="">
+                              <button class="text-red-500 text-xl cursor-pointer" type="button" @click="features.splice(index, 1);">
+                                 <i class="fi fi-rr-circle-xmark"></i>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                   <div class="flex flex-col md:flex-row gap-8 mx-2 mb-3">
                      <div class="flex flex-col md:w-3/5 w-full">
@@ -232,7 +249,8 @@
                      <div class="block md:w-2/5 w-full">
                         <div class="w-full my-2">
                            <div>
-                              <label class="block mb-1 text-sm font-bold text-gray-900" title="An image which references chart indicating measurements for selecting appropriate clothing or products.">
+                              <label class="block mb-1 text-sm font-bold text-gray-900"
+                                     title="An image which references chart indicating measurements for selecting appropriate clothing or products.">
                                  Size Guide
                               </label>
                               <img v-if="product && product.size_guide"
@@ -349,6 +367,7 @@
                features: "<p>Describe your product's features here...</p>",
                product_tags: "",
             },
+            features: [''],
          }
       },
       watch: {
@@ -380,6 +399,12 @@
          },
          clear() {
 
+         },
+         addFeature() {
+            if (this.features.length >= 8) {
+               return;
+            }
+            this.features.push('')
          },
          deleteImage(img) {
             if (!confirm("Are you sure want to delete this image ? ")) {
@@ -471,6 +496,12 @@
 
          submitForm() {
             this.loading = true;
+            let featureHtml = "<ul>";
+            this.features.forEach(feature => {
+               featureHtml += "<li>" + feature + "</li>";
+            })
+            featureHtml += "</ul>";
+
             const formData = new FormData();
             if (this.editId) {
                formData.append('id', this.editId);
@@ -488,6 +519,8 @@
                   }
                }
             }, this);
+
+            formData.append('features', featureHtml);
 
             axios
                 .post('/vendor/product/edit-or-create', formData)
@@ -509,6 +542,13 @@
                    this.multi_selected_sizes = this.product.sizes.map(size => size.name)
                    this.multi_selected_colors = this.product.colors.map(color => color.name)
                    this.loading = false;
+
+                   // Create a temporary element
+                   const tempElement = document.createElement('div');
+                   // Set the innerHTML of the temporary element
+                   tempElement.innerHTML = res.data.data.features;
+                   // Extract list items into an array
+                   this.features = Array.from(tempElement.querySelectorAll('li')).map(li => li.textContent);
                 })
                 .catch(err => {
                    this.loading = false;
