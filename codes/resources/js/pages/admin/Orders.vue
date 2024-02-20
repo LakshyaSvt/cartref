@@ -5,6 +5,17 @@
          <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
             <i class="fi fi-rr-boxes"></i>
             <h3 class="text-start my-8">Orders</h3>
+            <form id="excel-download" :action="$store.state.url+'/seller/orders/action'" class="hidden" method="post">
+               <input name="_token" type="hidden" v-bind:value="$store.state.csrf">
+               <input name="action" type="hidden" value="App\Actions\Download">
+               <input class="selected_ids" name="ids" type="hidden" v-bind:value="selected_ids.toString()">
+            </form>
+            <a class="inline-flex items-center gap-2 px-4 py-2 mx-1 text-sm text-center text-white align-middle transition-all rounded cursor-pointer bg-amber-500 hover:bg-amber-600"
+               href="javascript:void(0)"
+               onclick="document.getElementById('excel-download').submit()">
+               <i class="fi fi-rr-download text-base w-4 h-5"></i>
+               Excel Download
+            </a>
          </div>
          <div class="bg-primary-200 p-2 md:p-4 overflow-x-auto shadow-md sm:rounded-lg my-4">
             <div class="flex justify-between px-2 md:px-4 py-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-12 lg:px-8 lg:py-4">

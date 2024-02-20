@@ -149,8 +149,8 @@
                               Actions
                            </div>
                         </div>
-                        <div v-for="(product, index) in products" v-bind:key="index"
-                             class="table-row table-body hover:bg-primary-100">
+                        <div v-for="(product, index) in products" v-bind:key="index" class="table-row table-body hover:bg-primary-100 cursor-pointer"
+                             @click="$router.push({ name: 'product-colors', params: { id: product.id } })">
                            <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
                               <div class="flex items-center">
                                  <input v-model="selected_ids" :value="product.id" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded" name="checkbox_input[]"
@@ -247,10 +247,10 @@
                                               class="font-medium cursor-pointer text-yellow-500">
                                     <i class="fi fi-rr-pencil w-5 h-5 text-xl"></i>
                                  </router-link>
-                                 <router-link :to="{ name: 'product-colors', params: { id: product.id } }"
-                                              class="font-medium cursor-pointer text-blue-500">
-                                    <i class="fi fi-rr-eye w-5 h-5 text-xl"></i>
-                                 </router-link>
+                                 <!--                                 <router-link :to="{ name: 'product-colors', params: { id: product.id } }"-->
+                                 <!--                                              class="font-medium cursor-pointer text-blue-500">-->
+                                 <!--                                    <i class="fi fi-rr-eye w-5 h-5 text-xl"></i>-->
+                                 <!--                                 </router-link>-->
                                  <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button" @click="deleteProduct(product.id)">
                                     <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
                                  </a>

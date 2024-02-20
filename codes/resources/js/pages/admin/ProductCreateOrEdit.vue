@@ -33,7 +33,7 @@
                                   title="The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.">
                               URL / Slug <span class="text-red-600">*</span>
                            </label>
-                           <input id="slug" v-model="product.slug" class="form-input" placeholder="western-wear" required type="text">
+                           <input id="slug" v-model="product.slug" class="form-input" placeholder="western-wear" required readonly type="text">
                         </div>
                         <div class="w-full my-2">
                            <label class="block mb-2 text-sm font-bold text-gray-900" for="code"
@@ -178,14 +178,14 @@
                                  Available Colors <span class="text-red-600">*</span>
                               </label>
                               <Multiselect v-model="multi_selected_colors" :multiple="true" :options="colorDropdown" :showLabels="false">
-                                 <template v-slot:selection="{values, remove}">
-                                   <span v-for="color in values" :key="color" :style="'background-color:'+color+'!important;'" class="multiselect__tag">
-                                     <div class="color-backdrop">
-                                       <span class="color">{{ color }}</span>
-                                     </div>
-                                     <i class="multiselect__tag-icon" tabindex="1" @click="remove(color)"></i>
-                                   </span>
-                                 </template>
+<!--                                 <template v-slot:selection="{values, remove}">-->
+<!--                                   <span v-for="color in values" :key="color" :style="'background-color:'+color+'!important;'" class="multiselect__tag">-->
+<!--                                     <div class="color-backdrop">-->
+<!--                                       <span class="color">{{ color }}</span>-->
+<!--                                     </div>-->
+<!--                                     <i class="multiselect__tag-icon" tabindex="1" @click="remove(color)"></i>-->
+<!--                                   </span>-->
+<!--                                 </template>-->
                               </Multiselect>
                            </div>
                         </div>
@@ -398,6 +398,9 @@
       watch: {
          "product.category_id": function (newValue) {
             this.fetchSubCategory();
+         },
+         "product.name": function () {
+            this.product.slug = this.slugify(this.product.name);
          }
       },
       computed: {

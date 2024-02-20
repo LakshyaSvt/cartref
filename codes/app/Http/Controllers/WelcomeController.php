@@ -13,7 +13,7 @@ use App\Component;
 use App\Collection;
 use App\Coupon;
 use App\HomeSlider;
-use App\Newsletter;
+use App\NewsLetter;
 use App\Productsku;
 use App\Models\Product;
 use App\Models\User;
@@ -1012,7 +1012,7 @@ class WelcomeController extends Controller
             ]
         );
 
-        $newsletter = new Newsletter;
+        $newsletter = new NewsLetter;
         $newsletter->email = $request->email;
         $newsletter->save();
 
