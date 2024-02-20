@@ -30,7 +30,7 @@
                <li class="min-w-max">
                   <router-link :to="{ name: 'vendor-payments' }" class="single-item">
                      <i class="fi fi-rr-money-bill-wave"></i>
-                     <span class="">Vendor Payments</span>
+                     <span class="">Payments</span>
                   </router-link>
                </li>
                <li class="min-w-max">

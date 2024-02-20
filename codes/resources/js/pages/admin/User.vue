@@ -2,10 +2,22 @@
    <div>
       <Wait :show="loading"/>
       <div class="container mx-auto my-2 px-4">
-         <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
-            <i class="fi fi-rs-users-alt"></i>
-            <h3 class="text-start my-8">User</h3>
+         <div class="flex flex-wrap justify-between items-center">
+            <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
+               <i class="fi fi-rs-users-alt"></i>
+               <h3 class="text-start my-8">User</h3>
+            </div>
+            <div>
+               <router-link
+                   :to="{ name: 'user-create'}"
+                   class="flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-gray-900 hover:bg-black"
+               >
+                  Add User
+                  <i class="fi fi-rr-add text-base w-6 h-5"></i>
+               </router-link>
+            </div>
          </div>
+
 
          <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg">
             <div class="block">
@@ -125,8 +137,8 @@
                               <img v-if="user.avatar"
                                    :src="$store.state.storageUrl + user.avatar"
                                    alt="avatar_img"
-                                   @error="imageLoadError"
-                                   class="w-20 h-16 border border-gray-400 mx-auto p-1 rounded-[50%]" @click="imageModal($store.state.storageUrl + user.avatar)">
+                                   class="w-20 h-16 border border-gray-400 mx-auto p-1 rounded-[50%]"
+                                   @click="imageModal($store.state.storageUrl + user.avatar)" @error="imageLoadError">
                               <p v-else class="text-center text-gray-800">--No Image--</p>
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">

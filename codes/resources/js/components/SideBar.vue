@@ -67,6 +67,23 @@
                            <i class="fi fi-rr-folder-tree mr-2"></i> Sub Category
                         </router-link>
                      </li>
+
+                     <li>
+                        <router-link :to="{ name: 'brands' }" class="dropdown-item">
+                           <i class="fi fi-rr-circle-b mr-2"></i> Brands
+                        </router-link>
+                     </li>
+
+                     <li>
+                        <router-link :to="{ name: 'sizes' }" class="dropdown-item">
+                           <i class="fi fi-rr-ruler-combined mr-2"></i> Sizes
+                        </router-link>
+                     </li>
+                     <li>
+                        <router-link :to="{ name: 'colors' }" class="dropdown-item">
+                           <i class="fi fi-rr-palette mr-2"></i> Colors
+                        </router-link>
+                     </li>
                      <!-- <li>
                          <a href="#" class="dropdown-item">
                              <i class="fi fi-rr-note-medical mr-2"></i> SKU Report
@@ -99,7 +116,7 @@
                      </li>
                      <li>
                         <router-link :to="{name:'vendor-payments'}" class="dropdown-item">
-                           <i class="fi fi-rr-money-bill-wave mr-2"></i> Vendor Payments
+                           <i class="fi fi-rr-money-bill-wave mr-2"></i> Payments
                         </router-link>
                      </li>
                   </ul>
@@ -156,23 +173,8 @@
                         </router-link>
                      </li>
                      <li>
-                        <router-link :to="{ name: 'brands' }" class="dropdown-item">
-                           <i class="fi fi-rr-circle-b mr-2"></i> Brands
-                        </router-link>
-                     </li>
-                     <li>
                         <router-link :to="{ name: 'genders' }" class="dropdown-item">
                            <i class="fi fi-rr-venus-mars mr-2"></i> Genders
-                        </router-link>
-                     </li>
-                     <li>
-                        <router-link :to="{ name: 'sizes' }" class="dropdown-item">
-                           <i class="fi fi-rr-ruler-combined mr-2"></i> Sizes
-                        </router-link>
-                     </li>
-                     <li>
-                        <router-link :to="{ name: 'colors' }" class="dropdown-item">
-                           <i class="fi fi-rr-palette mr-2"></i> Colors
                         </router-link>
                      </li>
                      <li>
@@ -282,11 +284,11 @@
                            <i class="fi fi-rs-users-alt mr-2"></i> Users
                         </router-link>
                      </li>
-                     <li>
-                        <router-link :to="{name:'role'}" class="dropdown-item">
-                           <i class="fi fi-rr-lock mr-2"></i> Roles
-                        </router-link>
-                     </li>
+<!--                     <li>-->
+<!--                        <router-link :to="{name:'role'}" class="dropdown-item">-->
+<!--                           <i class="fi fi-rr-lock mr-2"></i> Roles-->
+<!--                        </router-link>-->
+<!--                     </li>-->
                   </ul>
                </li>
                <li class="min-w-max">

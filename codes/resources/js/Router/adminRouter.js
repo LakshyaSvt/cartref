@@ -48,6 +48,9 @@ const adminRoutes = [
 
     /* Product Management */
     {name: 'products', path: '/admin/products', component: Products},
+    {name: 'brands', path: '/admin/product/brands', component: Brands},
+    {name: 'sizes', path: '/admin/product/sizes', component: Sizes},
+    {name: 'colors', path: '/admin/product/colors', component: Colors},
     {name: 'product-bulk-upload', path: '/admin/products/bulk-upload', component: ProductBulkUpload},
     {name: 'product-edit', path: '/admin/products/:id/edit', component: ProductCreateOrEdit},
     {name: 'product-create', path: '/admin/products/create', component: ProductCreateOrEdit},
@@ -73,10 +76,7 @@ const adminRoutes = [
     {name: 'home-sliders', path: '/admin/config/home-sliders', component: HomeSliders},
     {name: 'components', path: '/admin/config/components', component: Component},
     {name: 'category-component-sliders', path: '/admin/config/category-component-sliders', component: CategoryComponentSliders},
-    {name: 'brands', path: '/admin/config/brands', component: Brands},
     {name: 'genders', path: '/admin/config/genders', component: Genders},
-    {name: 'sizes', path: '/admin/config/sizes', component: Sizes},
-    {name: 'colors', path: '/admin/config/colors', component: Colors},
     {name: 'styles', path: '/admin/config/styles', component: Styles},
 
     /*Control Panel*/
@@ -89,7 +89,7 @@ const adminRoutes = [
     {name: 'user', path: '/admin/users', component: User},
     {name: 'user-create', path: '/admin/user/create', component: UserCreateOrEdit},
     {name: 'user-edit', path: '/admin/users/edit/:id', component: UserCreateOrEdit},
-    {name: 'role', path: '/admin/user/role', component: Role},
+    // {name: 'role', path: '/admin/user/role', component: Role},
 
     /*Post & Category*/
     {name: 'post', path: '/admin/post/blog', component: Post},

@@ -7,7 +7,6 @@ use App\Helper\FileHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -107,11 +106,15 @@ class UserController extends Controller
         $user = User::with('address')->find($request->id);
         $msg = 'User updated successfully';
         if (!isset($user)) {
-            $user = new User;
-            $msg = 'User added successfully';
-        }
+            $data = $request->all();
+            $data['password'] = Hash::make($request->password);
 
-        $user->update($request->except('password'));
+            $user = User::create($data);
+            $msg = 'User added successfully';
+
+        } else {
+            $user->update($request->except('password'));
+        }
 
         if ($request->has('password')) {
             $user->update(['password' => Hash::make($request->password)]);

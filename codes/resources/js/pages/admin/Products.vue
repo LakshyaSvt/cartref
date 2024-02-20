@@ -251,9 +251,9 @@
                                  <!--                                              class="font-medium cursor-pointer text-blue-500">-->
                                  <!--                                    <i class="fi fi-rr-eye w-5 h-5 text-xl"></i>-->
                                  <!--                                 </router-link>-->
-                                 <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button" @click="deleteProduct(product.id)">
-                                    <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>
-                                 </a>
+<!--                                 <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button" @click="deleteProduct(product.id)">-->
+<!--                                    <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>-->
+<!--                                 </a>-->
                               </div>
                            </div>
                         </div>

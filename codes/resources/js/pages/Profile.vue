@@ -2,7 +2,7 @@
    <div>
       <Wait :show="loading"/>
       <div class="container mx-auto my-2 px-4">
-         <h1 v-if="editId && $store.state.user" class="text-center text-2xl underline uppercase">{{ $store.state.user.name }}</h1>
+         <h1 v-if="editId && $store.state.user" class="text-center text-5xl tracking-wide underline uppercase">{{ $store.state.user.name }}</h1>
          <div class="mt-6 pt-2">
             <a class="inline-flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-gray-800 hover:bg-black hover:text-white"
                @click="$router.go(-1)">
@@ -43,27 +43,6 @@
                                  <span class="text-red-600">*</span>
                               </label>
                               <input v-model="user.password" :required="!editId" class="form-input" placeholder="Password" type="password">
-                           </div>
-                        </div>
-                        <div class="flex gap-4 w-full my-2">
-                           <div class="mb-5 md:w-1/2 w-full">
-                              <label class="block mb-2 text-sm font-bold text-gray-900">
-                                 Gender <span class="text-red-600">*</span>
-                              </label>
-                              <div class="flex gap-2">
-                                 <div class="w-full md:w-1/2 flex h-10 items-center ps-4 border border-gray-200 bg-white rounded-md dark:border-gray-700">
-                                    <input id="gender-1" v-model="user.gender" :checked="user.gender === 'Male'"
-                                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" name="gender" type="radio"
-                                           value="Male">
-                                    <label class="w-full py-4 ms-2 text-sm font-medium text-gray-900 " for="gender-1">Male</label>
-                                 </div>
-                                 <div class="w-full md:w-1/2 h-10 flex items-center ps-4 border border-gray-200 bg-white rounded-md">
-                                    <input id="gender-2" v-model="user.gender" :checked="user.gender === 'Female'"
-                                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" name="gender"
-                                           type="radio" value="Female">
-                                    <label class="w-full py-4 ms-2 text-sm font-medium text-gray-900" for="gender-2">Female</label>
-                                 </div>
-                              </div>
                            </div>
                         </div>
                      </div>

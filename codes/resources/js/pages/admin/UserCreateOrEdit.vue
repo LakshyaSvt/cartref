@@ -2,7 +2,7 @@
    <div>
       <Wait :show="loading"/>
       <div class="container mx-auto my-2 px-4">
-         <h1 v-if="editId && user.name" class="text-center text-2xl underline uppercase">{{ user.name }}</h1>
+         <h1 v-if="editId && user.name" class="text-center text-5xl tracking-wide underline uppercase">{{ user.name }}</h1>
          <div class="mt-6 pt-2">
             <a class="inline-flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-gray-800 hover:bg-black hover:text-white"
                @click="$router.go(-1)">
@@ -23,7 +23,7 @@
                         <div class="w-full my-2">
                            <label class="block mb-2 text-sm font-bold text-gray-900" for="title"
                                   title="A concise name describing a product for easy identification and marketing.">
-                              Name <span class="text-red-600">*</span>
+                              Store Name <span class="text-red-600">*</span>
                            </label>
                            <input id="title" v-model="user.name" class="form-input" placeholder="John Doe" required type="text">
                         </div>
@@ -46,25 +46,6 @@
                            </div>
                         </div>
                         <div class="flex gap-4 w-full my-2">
-                           <div class="mb-5 md:w-1/2 w-full">
-                              <label class="block mb-2 text-sm font-bold text-gray-900">
-                                 Gender <span class="text-red-600">*</span>
-                              </label>
-                              <div class="flex gap-2">
-                                 <div class="w-full md:w-1/2 flex h-10 items-center ps-4 border border-gray-200 bg-white rounded-md dark:border-gray-700">
-                                    <input id="gender-1" v-model="user.gender" :checked="user.gender === 'Male'"
-                                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" name="gender" type="radio"
-                                           value="Male">
-                                    <label class="w-full py-4 ms-2 text-sm font-medium text-gray-900 " for="gender-1">Male</label>
-                                 </div>
-                                 <div class="w-full md:w-1/2 h-10 flex items-center ps-4 border border-gray-200 bg-white rounded-md">
-                                    <input id="gender-2" v-model="user.gender" :checked="user.gender === 'Female'"
-                                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" name="gender"
-                                           type="radio" value="Female">
-                                    <label class="w-full py-4 ms-2 text-sm font-medium text-gray-900" for="gender-2">Female</label>
-                                 </div>
-                              </div>
-                           </div>
                            <div class="mb-5 md:w-1/2 w-full">
                               <label class="block mb-2 text-sm font-bold text-gray-900" for="role_id">
                                  Role <span class="text-red-600">*</span>
@@ -466,7 +447,9 @@
                 .post('/admin/user/edit-or-create', formData)
                 .then(res => {
                    this.loading = false;
-                   this.fetchUser();
+                   if (!this.editId) {
+                      this.$router.push({name: 'user'})
+                   }
                    this.show_toast(res.data.status, res.data.msg);
                 })
                 .catch(err => {
