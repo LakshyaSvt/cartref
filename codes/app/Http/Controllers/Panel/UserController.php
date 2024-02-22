@@ -62,7 +62,7 @@ class UserController extends Controller
 
         $user = User::with('address')->findOrFail($request->user()->id);
 
-        $user->update($request->except('password'));
+        $user->update($request->except('password','status','brand_store_rating'));
 
         if ($request->has('password')) {
             $user->update(['password' => Hash::make($request->password)]);

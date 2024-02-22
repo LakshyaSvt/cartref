@@ -19,7 +19,7 @@
             <div class="block">
                <form @submit.prevent="submitForm">
                   <div class="flex flex-col md:flex-row gap-8">
-                     <div class="flex flex-col md:w-2/3 w-full shadow-md sm:rounded-lg bg-white px-4 py-2 rounded-md">
+                     <div class="w-full flex flex-col shadow-md sm:rounded-lg bg-white px-4 py-2 rounded-md">
                         <div class="w-full my-2">
                            <label class="block mb-2 text-sm font-bold text-gray-900" for="title"
                                   title="A concise name describing a product for easy identification and marketing.">
@@ -43,33 +43,6 @@
                                  <span class="text-red-600">*</span>
                               </label>
                               <input v-model="user.password" :required="!editId" class="form-input" placeholder="Password" type="password">
-                           </div>
-                        </div>
-                     </div>
-                     <div class="flex flex-col md:w-1/3 w-full shadow-md sm:rounded-lg bg-white px-4 py-2 rounded-md">
-                        <div class="flex flex-col gap-4" title="The primary or featured image representing a subject, often used in media and content.">
-<!--                           <div>-->
-<!--                              <label class="block mb-1 text-sm font-bold text-gray-900">Profile Picture</label>-->
-<!--                              <img v-if="user && user.avatar"-->
-<!--                                   :src="$store.state.storageUrl + user.avatar"-->
-<!--                                   alt="main-img"-->
-<!--                                   class="w-100 h-60 w-60 max:h-full mx-auto cursor-zoom-in"-->
-<!--                                   @click="imageModal($store.state.storageUrl + user.avatar)"-->
-<!--                                   @error="imageLoadError"/>-->
-<!--                           </div>-->
-<!--                           <div class="my-2">-->
-<!--                              <input id="avatar_img" accept="image/*" class="form-input" name="avatar" type="file" @change="handleImageChange($event)">-->
-<!--                           </div>-->
-                           <div>
-                              <label class="block mb-2 text-sm font-bold text-gray-900">Store Rating</label>
-                              <input v-model="user.brand_store_rating" class="form-input" placeholder="4.7" step="0.01" type="number">
-                           </div>
-                           <div>
-                              <label class="block mb-2 text-sm font-bold text-gray-900">Status</label>
-                              <label class="relative inline-flex items-center cursor-pointer">
-                                 <input id="flash_sale" :checked="!!user.status" class="sr-only peer" type="checkbox" value="1">
-                                 <Checkbox/>
-                              </label>
                            </div>
                         </div>
                      </div>
