@@ -42,7 +42,11 @@
                               <label class="block mb-2 text-sm font-bold text-gray-900">Password
                                  <span class="text-red-600">*</span>
                               </label>
-                              <input v-model="user.password" :required="!editId" class="form-input" placeholder="Password" type="password">
+                              <div class="relative">
+                                 <input v-model="user.password" :required="!editId" :type="passwordType ? 'text' : 'password'" class="form-input" placeholder="Password">
+                                 <i v-if="passwordType" class="absolute right-2.5 top-2.5 fi-rr-eye text-base w-4 h-5 cursor-pointer" @click="togglePasswordType()"></i>
+                                 <i v-else class="absolute right-2.5 top-2.5 fi-rs-crossed-eye text-base w-4 h-5 cursor-pointer" @click="togglePasswordType()"></i>
+                              </div>
                            </div>
                         </div>
                      </div>
@@ -226,7 +230,7 @@
    import Checkbox from "@components/Checkbox.vue";
 
    export default {
-      name: "UserCreateOrEdit",
+      name: "Profile",
       components: {Checkbox},
       data() {
          return {
@@ -234,6 +238,7 @@
             dataLoading: false,
             showModal: false,
             imgModal: '',
+            passwordType: 0,
             editId: this.$store.state.user.id,
             roles: [],
 
@@ -284,6 +289,9 @@
          },
          closeImageModal() {
             this.showModal = false;
+         },
+         togglePasswordType() {
+            this.passwordType = !this.passwordType;
          },
          uploadImageToServer(formData) {
             return new Promise((resolve, reject) => {
@@ -412,7 +420,8 @@
             this.user.cancelled_check = JSON.parse(this.$store.state.user.cancelled_check) || [];
             this.loading = false;
          },
-      },
+      }
+      ,
       created() {
          this.fetchUser();
       }

@@ -2341,7 +2341,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @components/Checkbox.vue */ "./resources/js/components/Checkbox.vue");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "UserCreateOrEdit",
+  name: "Profile",
   components: {
     Checkbox: _components_Checkbox_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -2351,6 +2351,7 @@ __webpack_require__.r(__webpack_exports__);
       dataLoading: false,
       showModal: false,
       imgModal: '',
+      passwordType: 0,
       editId: this.$store.state.user.id,
       roles: [],
       user: {
@@ -2400,6 +2401,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     closeImageModal: function closeImageModal() {
       this.showModal = false;
+    },
+    togglePasswordType: function togglePasswordType() {
+      this.passwordType = !this.passwordType;
     },
     uploadImageToServer: function uploadImageToServer(formData) {
       var _this = this;
@@ -3444,7 +3448,9 @@ var render = function render() {
     }
   })]), _vm._v(" "), _c("div", {
     staticClass: "md:w-1/2 w-full"
-  }, [_vm._m(3), _vm._v(" "), _c("input", {
+  }, [_vm._m(3), _vm._v(" "), _c("div", {
+    staticClass: "relative"
+  }, [(_vm.passwordType ? "text" : "password") === "checkbox" ? _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3455,7 +3461,64 @@ var render = function render() {
     attrs: {
       required: !_vm.editId,
       placeholder: "Password",
-      type: "password"
+      type: "checkbox"
+    },
+    domProps: {
+      checked: Array.isArray(_vm.user.password) ? _vm._i(_vm.user.password, null) > -1 : _vm.user.password
+    },
+    on: {
+      change: function change($event) {
+        var $$a = _vm.user.password,
+            $$el = $event.target,
+            $$c = $$el.checked ? true : false;
+
+        if (Array.isArray($$a)) {
+          var $$v = null,
+              $$i = _vm._i($$a, $$v);
+
+          if ($$el.checked) {
+            $$i < 0 && _vm.$set(_vm.user, "password", $$a.concat([$$v]));
+          } else {
+            $$i > -1 && _vm.$set(_vm.user, "password", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.$set(_vm.user, "password", $$c);
+        }
+      }
+    }
+  }) : (_vm.passwordType ? "text" : "password") === "radio" ? _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.user.password,
+      expression: "user.password"
+    }],
+    staticClass: "form-input",
+    attrs: {
+      required: !_vm.editId,
+      placeholder: "Password",
+      type: "radio"
+    },
+    domProps: {
+      checked: _vm._q(_vm.user.password, null)
+    },
+    on: {
+      change: function change($event) {
+        return _vm.$set(_vm.user, "password", null);
+      }
+    }
+  }) : _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.user.password,
+      expression: "user.password"
+    }],
+    staticClass: "form-input",
+    attrs: {
+      required: !_vm.editId,
+      placeholder: "Password",
+      type: _vm.passwordType ? "text" : "password"
     },
     domProps: {
       value: _vm.user.password
@@ -3467,7 +3530,21 @@ var render = function render() {
         _vm.$set(_vm.user, "password", $event.target.value);
       }
     }
-  })])])])]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _vm.passwordType ? _c("i", {
+    staticClass: "absolute right-2.5 top-2.5 fi-rr-eye text-base w-4 h-5 cursor-pointer",
+    on: {
+      click: function click($event) {
+        return _vm.togglePasswordType();
+      }
+    }
+  }) : _c("i", {
+    staticClass: "absolute right-2.5 top-2.5 fi-rs-crossed-eye text-base w-4 h-5 cursor-pointer",
+    on: {
+      click: function click($event) {
+        return _vm.togglePasswordType();
+      }
+    }
+  })])])])])]), _vm._v(" "), _c("div", {
     staticClass: "flex flex-col md:flex-row gap-8 my-4"
   }, [_c("div", {
     staticClass: "flex flex-col md:w-2/3 w-full"
