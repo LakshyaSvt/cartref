@@ -1155,6 +1155,9 @@ li a.dropdown-item:hover {
   margin-top: auto;
   margin-bottom: auto;
 }
+.\!ml-\[12px\] {
+  margin-left: 12px !important;
+}
 .-ml-2 {
   margin-left: -0.5rem;
 }
@@ -1277,15 +1280,6 @@ li a.dropdown-item:hover {
 }
 .mt-8 {
   margin-top: 2rem;
-}
-.ml-\[13px\] {
-  margin-left: 13px;
-}
-.ml-\[12px\] {
-  margin-left: 12px;
-}
-.\!ml-\[12px\] {
-  margin-left: 12px !important;
 }
 .block {
   display: block;
@@ -1816,10 +1810,6 @@ li a.dropdown-item:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
 }
-.bg-dark-1 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
-}
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -2325,10 +2315,6 @@ li a.dropdown-item:hover {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(0 0 0 / var(--tw-ring-opacity));
 }
-.ring-white {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(255 255 255 / var(--tw-ring-opacity));
-}
 .ring-opacity-5 {
   --tw-ring-opacity: 0.05;
 }
@@ -2456,6 +2442,24 @@ li a.dropdown-item:hover {
 .scrollbar::-webkit-scrollbar-thumb:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
+
+.sliding-btn-div {
+    position: fixed;
+    bottom: 11px;
+    right: 15px;
+    z-index: 1000;
+    background: white;
+    border: none;
+}
+
+.sliding-btn-div button {
+    color: black !important;
+}
+
+.sliding-btn-div button:hover {
+    color: white !important;
+    background: rgb(59 130 246 / 1) !important;
 }
 
 .after\:absolute::after {
@@ -2611,11 +2615,6 @@ li a.dropdown-item:hover {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.hover\:text-black:hover {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
-}
-
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -2710,6 +2709,14 @@ li a.dropdown-item:hover {
 .group:hover .group-hover\:text-gray-700 {
   --tw-text-opacity: 1;
   color: rgb(55 65 81 / var(--tw-text-opacity));
+}
+
+.group:focus .group-focus\:visible {
+  visibility: visible;
+}
+
+.group:active .group-active\:visible {
+  visibility: visible;
 }
 
 .peer:checked ~ .peer-checked\:bg-primary-600 {
@@ -2927,6 +2934,10 @@ li a.dropdown-item:hover {
     width: 13rem;
   }
 
+  .md\:w-3\/12 {
+    width: 25%;
+  }
+
   .md\:max-w-full {
     max-width: 100%;
   }
@@ -3065,5 +3076,3 @@ li a.dropdown-item:hover {
     line-height: 2.25rem;
   }
 }
-
-

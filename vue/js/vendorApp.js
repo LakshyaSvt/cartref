@@ -2629,10 +2629,19 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
+  watch: {
+    $route: function $route(from, to) {
+      this.hideSideBar();
+    }
+  },
   methods: {
     toggleSideBar: function toggleSideBar() {
       document.getElementById('sidenav').classList.toggle('hidden');
       document.getElementById('sidenav').classList.toggle('max-md:w-64');
+    },
+    hideSideBar: function hideSideBar() {
+      document.getElementById('sidenav').classList.add('hidden');
+      document.getElementById('sidenav').classList.remove('max-md:w-64');
     }
   }
 });
@@ -5123,13 +5132,13 @@ var render = function render() {
       width: "150"
     }
   })])], 1), _vm._v(" "), _c("div", {
-    staticClass: "w-3/12 flex justify-end mx-4"
+    staticClass: "w-1/2 md:w-3/12 flex justify-end md:mx-4"
   }, [_vm.$store.state.user ? _c("label", {
     staticClass: "text-black px-2 py-1 mr-2 font-semibold"
   }, [_vm._v(_vm._s(_vm.$store.state.user.name))]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "relative inline-block text-left group px-2"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "invisible absolute right-0 z-10 mt-0 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none group-hover:visible",
+    staticClass: "invisible absolute right-0 z-10 mt-0 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none group-focus:visible group-active:visible group-hover:visible",
     attrs: {
       role: "menu",
       tabindex: "-1"
@@ -5518,7 +5527,7 @@ var render = function render() {
     staticClass: "fi fi-rr-boxes"
   }), _vm._v(" "), _c("span", {
     staticClass: "!ml-[12px]"
-  }, [_vm._v("Orders National Shopping")])])], 1), _vm._v(" "), _c("li", {
+  }, [_vm._v("Orders National Shipping")])])], 1), _vm._v(" "), _c("li", {
     staticClass: "min-w-max"
   }, [_c("router-link", {
     staticClass: "single-item",
@@ -11563,7 +11572,23 @@ var render = function render() {
       staticClass: "flex flex-wrap items-center gap-2"
     }, [_c("div", {
       staticClass: "font-semibold"
-    }, [_vm._v("Delivery Head:- Not Assigned")])])])]);
+    }, [_vm._v("Delivery Head:- Not Assigned")])])]), _vm._v(" "), _c("div", {
+      staticClass: "table-cell border-t border-l border-gray-500 p-1 text-sm text-center"
+    }, [_c("div", {
+      staticClass: "flex items-center gap-2"
+    }, [_c("div", {
+      staticClass: "font-semibold"
+    }, [_vm._v("Name:")]), _vm._v(" "), _c("div", {
+      staticClass: "font-normal text-gray-800"
+    }, [_vm._v(_vm._s(showcase.customer_name))])]), _vm._v(" "), _c("div", {
+      staticClass: "flex items-center gap-2"
+    }, [_c("div", {
+      staticClass: "font-semibold"
+    }, [_vm._v("Email:")]), _vm._v(" "), _c("div", {
+      staticClass: "font-normal text-gray-800"
+    }, [_vm._v(_vm._s(showcase.customer_email))])]), _vm._v(" "), _c("div", {
+      staticClass: "text-gray-800 font-normal text-left"
+    }, [_c("p", [_vm._v("\n                                 " + _vm._s(showcase.dropoff_streetaddress1 + " " + showcase.dropoff_streetaddress2 + ", " + showcase.dropoff_city + " - " + showcase.dropoff_pincode) + " "), _c("br"), _vm._v("\n                                 " + _vm._s(showcase.dropoff_state + " - " + showcase.dropoff_country) + "\n                              ")])])])]);
   })], 2)]), _vm._v(" "), _c("div", {
     staticClass: "flex flex-wrap items-center justify-between py-4"
   }, [_c("div", [_c("p", {
@@ -11639,7 +11664,9 @@ var staticRenderFns = [function () {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                           Amount\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                           Logistic\n                           Details\n                        ")])]);
+  }, [_vm._v("\n                           Logistic\n                           Details\n                        ")]), _vm._v(" "), _c("div", {
+    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
+  }, [_vm._v("\n                           Customer Details\n                        ")])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;

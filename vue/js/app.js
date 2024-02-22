@@ -2629,10 +2629,19 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
+  watch: {
+    $route: function $route(from, to) {
+      this.hideSideBar();
+    }
+  },
   methods: {
     toggleSideBar: function toggleSideBar() {
       document.getElementById('sidenav').classList.toggle('hidden');
       document.getElementById('sidenav').classList.toggle('max-md:w-64');
+    },
+    hideSideBar: function hideSideBar() {
+      document.getElementById('sidenav').classList.add('hidden');
+      document.getElementById('sidenav').classList.remove('max-md:w-64');
     }
   }
 });
@@ -9778,13 +9787,13 @@ var render = function render() {
       width: "150"
     }
   })])], 1), _vm._v(" "), _c("div", {
-    staticClass: "w-3/12 flex justify-end mx-4"
+    staticClass: "w-1/2 md:w-3/12 flex justify-end md:mx-4"
   }, [_vm.$store.state.user ? _c("label", {
     staticClass: "text-black px-2 py-1 mr-2 font-semibold"
   }, [_vm._v(_vm._s(_vm.$store.state.user.name))]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "relative inline-block text-left group px-2"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "invisible absolute right-0 z-10 mt-0 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none group-hover:visible",
+    staticClass: "invisible absolute right-0 z-10 mt-0 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none group-focus:visible group-active:visible group-hover:visible",
     attrs: {
       role: "menu",
       tabindex: "-1"
@@ -10506,24 +10515,10 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fi fi-rr-heart"
-  }), _vm._v(" "), _c("span", [_vm._v("Wishlists")])])], 1)]), _vm._v(" "), _vm._m(0)])])]);
+  }), _vm._v(" "), _c("span", [_vm._v("Wishlists")])])], 1)])])])]);
 };
 
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "min-w-max mb-14"
-  }, [_c("a", {
-    staticClass: "group single-item",
-    attrs: {
-      href: "#"
-    }
-  }, [_c("i", {
-    staticClass: "fi fi-rr-gears text-xl w-5 h-5"
-  }), _vm._v(" "), _c("span", [_vm._v("Settings")])])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
@@ -12684,7 +12679,7 @@ var render = function render() {
       value: _vm.keyword,
       expression: "keyword"
     }],
-    staticClass: "filter-dropdown",
+    staticClass: "search",
     attrs: {
       placeholder: "Search",
       type: "text"
@@ -12695,7 +12690,7 @@ var render = function render() {
     on: {
       keydown: function keydown($event) {
         if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        return _vm.fetchCart();
+        return _vm.fetchWishlist();
       },
       input: function input($event) {
         if ($event.target.composing) return;

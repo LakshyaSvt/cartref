@@ -18,7 +18,7 @@
                <li class="min-w-max">
                   <router-link :to="{ name: 'orders' }" class="single-item">
                      <i class="fi fi-rr-boxes"></i>
-                     <span class="!ml-[12px]">Orders National Shopping</span>
+                     <span class="!ml-[12px]">Orders National Shipping</span>
                   </router-link>
                </li>
                <li class="min-w-max">
