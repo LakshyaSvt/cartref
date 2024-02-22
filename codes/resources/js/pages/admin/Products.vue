@@ -35,6 +35,46 @@
                </router-link>
             </div>
          </div>
+         <div class="bg-primary-200 p-2 md:p-4 overflow-x-auto shadow-md sm:rounded-lg my-4">
+            <div class="md:flex justify-between px-2 md:px-2 py-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl lg:py-4">
+               <div class="">
+                  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                     <div class="stats-card">
+                        <div class="px-2 xl:px-4 py-2">
+                           <div class="stats-count">
+                              <div class="mx-auto">{{ product_count?.total || '0' }}</div>
+                           </div>
+                           <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Total</p>
+                        </div>
+                     </div>
+                     <div class="stats-card">
+                        <div class="px-2 xl:px-4 py-2">
+                           <div class="stats-count">
+                              <div class="mx-auto">{{ product_count?.active || '0' }}</div>
+                           </div>
+                           <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Active</p>
+                        </div>
+                     </div>
+                     <div class="stats-card">
+                        <div class="px-2 xl:px-4 py-2">
+                           <div class="stats-count">
+                              <div class="mx-auto">{{ product_count?.inactive || '0' }}</div>
+                           </div>
+                           <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">InActive</p>
+                        </div>
+                     </div>
+                     <div class="stats-card">
+                        <div class="px-2 xl:px-4 py-2">
+                           <div class="stats-count">
+                              <div class="mx-auto">{{ product_count?.pfv || '0' }}</div>
+                           </div>
+                           <p class="mb-2 whitespace-nowrap text-sm leading-5 text-gray-900">Pending For Verification</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
          <div class="bg-white p-4 overflow-x-auto shadow-md sm:rounded-lg">
             <div class="block">
                <div class="flex flex-wrap items-center justify-between py-4">
@@ -251,9 +291,9 @@
                                  <!--                                              class="font-medium cursor-pointer text-blue-500">-->
                                  <!--                                    <i class="fi fi-rr-eye w-5 h-5 text-xl"></i>-->
                                  <!--                                 </router-link>-->
-<!--                                 <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button" @click="deleteProduct(product.id)">-->
-<!--                                    <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>-->
-<!--                                 </a>-->
+                                 <!--                                 <a class="font-medium cursor-pointer text-red-500" href="javascript:void(0)" type="button" @click="deleteProduct(product.id)">-->
+                                 <!--                                    <i class="fi fi-rr-trash w-5 h-5 text-xl"></i>-->
+                                 <!--                                 </a>-->
                               </div>
                            </div>
                         </div>
@@ -294,6 +334,7 @@
             selected_ids: [],
             loading: false,
             dataLoading: true,
+            product_count: {},
             products: [{}],
             parent_category: [],
             sub_category: [],
@@ -434,8 +475,15 @@
                    err.handleGlobally && err.handleGlobally();
                 })
          },
+         fetchProductCount() {
+            axios.get('/admin/product/count')
+                .then(res => {
+                   this.product_count = res.data;
+                })
+         }
       },
       created() {
+         this.fetchProductCount()
          this.fetchProduct(this.$store.state.product_filter.url);
          this.fetchSellers();
          this.fetchParentCategory();

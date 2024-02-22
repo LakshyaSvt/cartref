@@ -102,6 +102,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('/sub-category', SubCategoryController::class);
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'fetchProducts']);
+        Route::get('/count', [ProductController::class, 'getProductCount']);
         Route::post('/edit-or-create', [ProductController::class, 'editOrCreateProduct']);
         //Route::post('/bulk-upload', [ProductController::class, 'bulkExcelUpload']);
         Route::get('/{id}', [ProductController::class, 'fetchProduct']);

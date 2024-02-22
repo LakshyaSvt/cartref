@@ -44,6 +44,7 @@ Route::prefix('vendor')->middleware(['auth', 'vendor'])->group(function () {
     /*Product Management */
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'fetchProducts']);
+        Route::get('/count', [ProductController::class, 'getProductCount']);
         Route::post('/edit-or-create', [ProductController::class, 'editOrCreateProduct']);
         Route::post('/bulk-upload', [ProductController::class, 'bulkExcelUpload']);
         Route::get('/{id}', [ProductController::class, 'fetchProduct']);

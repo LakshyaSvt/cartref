@@ -63,6 +63,23 @@ class ProductController extends Controller
         return new ApiResource($products);
     }
 
+    public function getProductCount()
+    {
+        $product = Product::where('seller_id', auth()->user()->id)->get();
+
+        $total = $product->count();
+        $active = $product->where('admin_status', 'Accepted')->count();
+        $inactive = $product->where('admin_status', 'Rejected')->count();
+        $pfv = $product->where('admin_status', 'Pending For Verification')->count();
+
+        return response()->json([
+            'total' => $total,
+            'active' => $active,
+            'inactive' => $inactive,
+            'pfv' => $pfv,
+        ]);
+    }
+
     public function editOrCreateProduct(Request $request)
     {
         $request->validate([
