@@ -19,8 +19,8 @@ class DashboardController extends Controller
     public function fetchCount()
     {
         $product = Product::count();
-        $newOrder = Order::where('order_status', 'New Order')->count();
-        $order = Order::count();
+        $newOrder = Order::where('order_status', 'New Order')->where('type', 'Regular')->count();
+        $order = Order::where('type', 'Regular')->count();
         $newShowcase = Showcase::where('order_status', 'Accepted')->count();
         $showcase = Showcase::count();
         $user = User::count();
@@ -33,7 +33,7 @@ class DashboardController extends Controller
             'newShowcase' => $newShowcase,
             'showcase' => $showcase,
             'user' => $user,
-                'post' => $post,
+            'post' => $post,
         ]);
     }
 

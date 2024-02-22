@@ -259,6 +259,9 @@
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-10 w-56">
                               Logistic Details
                            </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Customer Details
+                           </div>
                         </div>
                         <div v-for="(order, index) in orders" :key="order.id" class="table-row table-body hover:bg-primary-100 bg-white">
                            <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
@@ -346,10 +349,28 @@
                                     Tax Invoice
                                  </a>
                                  <form id="downloadtaxinvoiceForm" action="/sellers/orders/downloadtaxinvoice" class="hidden" method="post" target="_blank">
-                                    <input v-bind:value="$store.state.csrf" name="_token" type="hidden">
+                                    <input name="_token" type="hidden" v-bind:value="$store.state.csrf">
                                     <input :value="order.order_awb" name="order_awb" type="hidden">
                                  </form>
                               </template>
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 p-1 text-sm text-center">
+                              <div class="flex items-center gap-2">
+                                 <div class="font-semibold">Name:</div>
+                                 <div class="font-normal text-gray-500">{{ order.customer_name }}</div>
+                              </div>
+                              <div class="flex items-center gap-2">
+                                 <a :href="'mailto:'+order?.customer_email" class="hover:underline">
+                                    <i class="fi fi-sr-envelope mr-2"></i>{{ order.customer_email || '-' }}
+                                 </a>
+                              </div>
+                              <div class="text-gray-500 font-normal text-left">
+                                 <p>
+                                    <span class="font-semibold text-black">Address: </span>
+                                    {{ order.dropoff_streetaddress1 + ' ' + order.dropoff_streetaddress2 + ', ' + order.dropoff_city + ' - ' + order.dropoff_pincode }} <br>
+                                    {{ order.dropoff_state + ' - ' + order.dropoff_country }}
+                                 </p>
+                              </div>
                            </div>
                         </div>
                      </div>

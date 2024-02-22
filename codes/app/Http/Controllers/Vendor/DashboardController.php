@@ -17,8 +17,8 @@ class DashboardController extends Controller
     public function fetchCount()
     {
         $product = Product::where('seller_id', auth()->user()->id)->count();
-        $newOrder = Order::where('order_status', 'New Order')->where('vendor_id', auth()->user()->id)->count();
-        $order = Order::where('vendor_id', auth()->user()->id)->count();
+        $newOrder = Order::where('order_status', 'New Order')->where('vendor_id', auth()->user()->id)->where('type', 'Regular')->count();
+        $order = Order::where('vendor_id', auth()->user()->id)->where('type', 'Regular')->count();
         $newShowcase = Showcase::where('vendor_id', auth()->user()->id)->where('order_status', 'New Order')->count();
         $showcase = Showcase::where('vendor_id', auth()->user()->id)->count();
 

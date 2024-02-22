@@ -36,6 +36,7 @@ class OrderController extends Controller
             ->when(isset($status), function ($query) use ($status) {
                 $query->where('order_status', $status);
             })
+            ->where('type', 'Regular')
             ->when($show_deleted, function ($query) {
                 $query->onlyTrashed();
             })
@@ -85,7 +86,7 @@ class OrderController extends Controller
 
     public function getOrderCount()
     {
-        $orders = Order::get();
+        $orders = Order::where('type', 'Regular')->get();
 
         $new_order = $orders->where('order_status', 'New Order')->count();
         $ready_to_dispatch = $orders->where('order_status', 'Ready To Dispatch')->count();

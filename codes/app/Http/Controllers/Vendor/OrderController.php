@@ -76,8 +76,7 @@ class OrderController extends Controller
                     });
                 });
             })
-            ->where('vendor_id', auth()->user()->id)
-            ->where('vendor_id', auth()->user()->id)
+            ->where('vendor_id', auth()->user()->id)->where('type', 'Regular')
             ->latest()
             ->paginate($rows);
 
@@ -87,7 +86,7 @@ class OrderController extends Controller
 
     public function getOrderCount()
     {
-        $orders = Order::where('vendor_id', auth()->user()->id)->get();
+        $orders = Order::where('vendor_id', auth()->user()->id)->where('type', 'Regular')->get();
 
         $new_order = $orders->where('order_status', 'New Order')->count();
         $ready_to_dispatch = $orders->where('order_status', 'Ready To Dispatch')->count();
