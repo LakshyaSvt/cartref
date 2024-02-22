@@ -1239,9 +1239,6 @@ li a.dropdown-item:hover {
 .mr-auto {
   margin-right: auto;
 }
-.ms-2 {
-  margin-inline-start: 0.5rem;
-}
 .ms-3 {
   margin-inline-start: 0.75rem;
 }
@@ -1280,6 +1277,15 @@ li a.dropdown-item:hover {
 }
 .mt-8 {
   margin-top: 2rem;
+}
+.ml-\[13px\] {
+  margin-left: 13px;
+}
+.ml-\[12px\] {
+  margin-left: 12px;
+}
+.\!ml-\[12px\] {
+  margin-left: 12px !important;
 }
 .block {
   display: block;
@@ -1490,6 +1496,9 @@ li a.dropdown-item:hover {
 }
 .w-\[70\%\] {
   width: 70%;
+}
+.w-\[92\%\] {
+  width: 92%;
 }
 .w-\[95\%\] {
   width: 95%;
@@ -2041,9 +2050,6 @@ li a.dropdown-item:hover {
 .pr-5 {
   padding-right: 1.25rem;
 }
-.ps-4 {
-  padding-inline-start: 1rem;
-}
 .pt-0 {
   padding-top: 0px;
 }
@@ -2112,6 +2118,10 @@ li a.dropdown-item:hover {
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
 }
 .text-base {
   font-size: 1rem;
@@ -2191,10 +2201,6 @@ li a.dropdown-item:hover {
 .text-blue-500 {
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity));
-}
-.text-blue-600 {
-  --tw-text-opacity: 1;
-  color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 .text-gray-100 {
   --tw-text-opacity: 1;
@@ -2318,6 +2324,10 @@ li a.dropdown-item:hover {
 .ring-black {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(0 0 0 / var(--tw-ring-opacity));
+}
+.ring-white {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(255 255 255 / var(--tw-ring-opacity));
 }
 .ring-opacity-5 {
   --tw-ring-opacity: 0.05;
@@ -2601,6 +2611,11 @@ li a.dropdown-item:hover {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.hover\:text-black:hover {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -2674,11 +2689,6 @@ li a.dropdown-item:hover {
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
-.focus\:ring-blue-500:focus {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
-}
-
 .focus\:ring-primary-500:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
@@ -2746,11 +2756,6 @@ li a.dropdown-item:hover {
   .dark\:border-gray-600 {
     --tw-border-opacity: 1;
     border-color: rgb(75 85 99 / var(--tw-border-opacity));
-  }
-
-  .dark\:border-gray-700 {
-    --tw-border-opacity: 1;
-    border-color: rgb(55 65 81 / var(--tw-border-opacity));
   }
 
   .dark\:bg-gray-700 {

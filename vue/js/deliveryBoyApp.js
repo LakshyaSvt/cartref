@@ -3123,7 +3123,7 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("header", {
-    staticClass: "header fixed w-screen z-20 top-0 bg-dark-1 shadow-md flex items-center justify-between p-2"
+    staticClass: "header fixed w-screen z-20 top-0 bg-white shadow-md flex items-center justify-between p-2"
   }, [_c("h1", {
     staticClass: "w-4/12 flex gap-1 md:mx-4"
   }, [_c("a", {
@@ -3137,7 +3137,7 @@ var render = function render() {
       }
     }
   }, [_c("i", {
-    staticClass: "fi fi-br-bars-sort text-white text-2xl h-8 p-1 hover:text-primary-500 duration-200"
+    staticClass: "fi fi-br-bars-sort text-black text-2xl h-8 p-1 hover:text-primary-500 duration-200"
   })]), _vm._v(" "), _c("router-link", {
     attrs: {
       to: {
@@ -3147,15 +3147,15 @@ var render = function render() {
   }, [_c("img", {
     staticClass: "w-52 h-8 md:w-52 md:h-8 xl:w-48 xl:h-12",
     attrs: {
+      src: _vm.$store.state.url + "/images/black-logo.png",
       alt: "Cartrefs logo",
       height: "35",
-      src: "https://cartrefs.com/storage/settings/April2023/DRWK4IgZ3N2GnkZSiN2V.png",
       width: "150"
     }
   })])], 1), _vm._v(" "), _c("div", {
     staticClass: "w-3/12 flex justify-end mx-4"
   }, [_vm.$store.state.user ? _c("label", {
-    staticClass: "text-white px-2 py-1 mr-2 font-semibold"
+    staticClass: "text-black px-2 py-1 mr-2 font-semibold"
   }, [_vm._v(_vm._s(_vm.$store.state.user.name))]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "relative inline-block text-left group px-2"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
@@ -3170,7 +3170,7 @@ var render = function render() {
       role: "none"
     }
   }, [_c("router-link", {
-    staticClass: "text-gray-700 block px-4 py-2 text-base hover:bg-primary-500 hover:text-white",
+    staticClass: "text-black block px-4 py-2 text-base hover:bg-primary-500 hover:text-white",
     attrs: {
       to: {
         name: "profile"
@@ -3203,14 +3203,14 @@ var staticRenderFns = [function () {
   return _c("div", {
     staticClass: "menu-hover"
   }, [_c("i", {
-    staticClass: "fi fi-rr-circle-user text-white text-2xl h-3 p-1 hover:text-primary-500 duration-200"
+    staticClass: "fi fi-rr-circle-user text-black text-2xl h-3 p-1 hover:text-primary-500 duration-200"
   })]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
 
   return _c("button", {
-    staticClass: "text-gray-700 block w-full px-4 py-2 text-left text-base hover:bg-primary-500 hover:text-white",
+    staticClass: "text-black block w-full px-4 py-2 text-left text-base hover:bg-primary-500 hover:text-white",
     attrs: {
       role: "menuitem",
       tabindex: "-1"
@@ -3428,8 +3428,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var render = function render() {
   var _vm$user$cancelled_ch, _vm$user$cancelled_ch2;
 
@@ -3443,7 +3441,7 @@ var render = function render() {
   }), _vm._v(" "), _c("div", {
     staticClass: "container mx-auto my-2 px-4"
   }, [_vm.editId && _vm.$store.state.user ? _c("h1", {
-    staticClass: "text-center text-2xl underline uppercase"
+    staticClass: "text-center text-5xl tracking-wide underline uppercase"
   }, [_vm._v(_vm._s(_vm.$store.state.user.name))]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "mt-6 pt-2"
   }, [_c("a", {
@@ -3455,10 +3453,10 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fi fi-rr-arrow-left text-base w-4 h-5"
-  }), _vm._v("\n            Back\n         ")])]), _vm._v(" "), _c("div", {
+  }), _vm._v("\n               Back\n            ")])]), _vm._v(" "), _c("div", {
     staticClass: "flex gap-2 items-center text-3xl text-primary-600 font-semibold"
   }, [_c("i", {
-    staticClass: "fi fi-rr-box-open"
+    staticClass: "fi fi-rr-user"
   }), _vm._v(" "), _vm.editId ? _c("h3", {
     staticClass: "text-start my-8"
   }, [_vm._v("Edit User")]) : _c("h3", {
@@ -3582,71 +3580,7 @@ var render = function render() {
         _vm.$set(_vm.user, "password", $event.target.value);
       }
     }
-  })])]), _vm._v(" "), _c("div", {
-    staticClass: "flex gap-4 w-full my-2"
-  }, [_c("div", {
-    staticClass: "mb-5 md:w-1/2 w-full"
-  }, [_vm._m(4), _vm._v(" "), _c("div", {
-    staticClass: "flex gap-2"
-  }, [_c("div", {
-    staticClass: "w-full md:w-1/2 flex h-10 items-center ps-4 border border-gray-200 bg-white rounded-md dark:border-gray-700"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.user.gender,
-      expression: "user.gender"
-    }],
-    staticClass: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500",
-    attrs: {
-      id: "gender-1",
-      name: "gender",
-      type: "radio",
-      value: "Male"
-    },
-    domProps: _defineProperty({
-      checked: _vm.user.gender === "Male"
-    }, "checked", _vm._q(_vm.user.gender, "Male")),
-    on: {
-      change: function change($event) {
-        return _vm.$set(_vm.user, "gender", "Male");
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "w-full py-4 ms-2 text-sm font-medium text-gray-900",
-    attrs: {
-      "for": "gender-1"
-    }
-  }, [_vm._v("Male")])]), _vm._v(" "), _c("div", {
-    staticClass: "w-full md:w-1/2 h-10 flex items-center ps-4 border border-gray-200 bg-white rounded-md"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.user.gender,
-      expression: "user.gender"
-    }],
-    staticClass: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500",
-    attrs: {
-      id: "gender-2",
-      name: "gender",
-      type: "radio",
-      value: "Female"
-    },
-    domProps: _defineProperty({
-      checked: _vm.user.gender === "Female"
-    }, "checked", _vm._q(_vm.user.gender, "Female")),
-    on: {
-      change: function change($event) {
-        return _vm.$set(_vm.user, "gender", "Female");
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "w-full py-4 ms-2 text-sm font-medium text-gray-900",
-    attrs: {
-      "for": "gender-2"
-    }
-  }, [_vm._v("Female")])])])])])]), _vm._v(" "), _c("div", {
+  })])])]), _vm._v(" "), _c("div", {
     staticClass: "flex flex-col md:w-1/3 w-full shadow-md sm:rounded-lg bg-white px-4 py-2 rounded-md"
   }, [_c("div", {
     staticClass: "flex flex-col gap-4",
@@ -3654,35 +3588,6 @@ var render = function render() {
       title: "The primary or featured image representing a subject, often used in media and content."
     }
   }, [_c("div", [_c("label", {
-    staticClass: "block mb-1 text-sm font-bold text-gray-900"
-  }, [_vm._v("Profile Picture")]), _vm._v(" "), _vm.user && _vm.user.avatar ? _c("img", {
-    staticClass: "w-100 h-60 w-60 max:h-full mx-auto cursor-zoom-in",
-    attrs: {
-      src: _vm.$store.state.storageUrl + _vm.user.avatar,
-      alt: "main-img"
-    },
-    on: {
-      click: function click($event) {
-        return _vm.imageModal(_vm.$store.state.storageUrl + _vm.user.avatar);
-      },
-      error: _vm.imageLoadError
-    }
-  }) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "my-2"
-  }, [_c("input", {
-    staticClass: "form-input",
-    attrs: {
-      id: "avatar_img",
-      accept: "image/*",
-      name: "avatar",
-      type: "file"
-    },
-    on: {
-      change: function change($event) {
-        return _vm.handleImageChange($event);
-      }
-    }
-  })]), _vm._v(" "), _c("div", [_c("label", {
     staticClass: "block mb-2 text-sm font-bold text-gray-900"
   }, [_vm._v("Store Rating")]), _vm._v(" "), _c("input", {
     directives: [{
@@ -3813,7 +3718,7 @@ var render = function render() {
     staticClass: "flex flex-col md:flex-row gap-4 w-full mt-2 mb-1"
   }, [_c("div", {
     staticClass: "md:w-1/2 w-full"
-  }, [_vm._m(5), _vm._v(" "), _c("input", {
+  }, [_vm._m(4), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3840,7 +3745,7 @@ var render = function render() {
     }
   })]), _vm._v(" "), _c("div", {
     staticClass: "md:w-1/2 w-full"
-  }, [_vm._m(6), _vm._v(" "), _c("input", {
+  }, [_vm._m(5), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3868,7 +3773,7 @@ var render = function render() {
     staticClass: "flex flex-col md:flex-row gap-4 w-full mt-2 mb-1"
   }, [_c("div", {
     staticClass: "md:w-1/2 w-full"
-  }, [_vm._m(7), _vm._v(" "), _c("input", {
+  }, [_vm._m(6), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3894,7 +3799,7 @@ var render = function render() {
     }
   })]), _vm._v(" "), _c("div", {
     staticClass: "md:w-1/2 w-full"
-  }, [_vm._m(8), _vm._v(" "), _c("input", {
+  }, [_vm._m(7), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -4355,7 +4260,7 @@ var render = function render() {
       href: _vm.$store.state.storageUrl + ((_vm$user$cancelled_ch = _vm.user.cancelled_check[0]) === null || _vm$user$cancelled_ch === void 0 ? void 0 : _vm$user$cancelled_ch.download_link),
       target: "_blank"
     }
-  }, [_vm._v("\n                                 " + _vm._s((_vm$user$cancelled_ch2 = _vm.user.cancelled_check[0]) === null || _vm$user$cancelled_ch2 === void 0 ? void 0 : _vm$user$cancelled_ch2.original_name) + "\n                              ")])]) : _vm._e(), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                                    " + _vm._s((_vm$user$cancelled_ch2 = _vm.user.cancelled_check[0]) === null || _vm$user$cancelled_ch2 === void 0 ? void 0 : _vm$user$cancelled_ch2.original_name) + "\n                                 ")])]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "my-2"
   }, [_c("input", {
     staticClass: "form-input",
@@ -4395,7 +4300,7 @@ var staticRenderFns = [function () {
       "for": "title",
       title: "A concise name describing a product for easy identification and marketing."
     }
-  }, [_vm._v("\n                           Name "), _c("span", {
+  }, [_vm._v("\n                              Name "), _c("span", {
     staticClass: "text-red-600"
   }, [_vm._v("*")])]);
 }, function () {
@@ -4407,7 +4312,7 @@ var staticRenderFns = [function () {
     attrs: {
       "for": "email"
     }
-  }, [_vm._v("\n                           Email "), _c("span", {
+  }, [_vm._v("\n                              Email "), _c("span", {
     staticClass: "text-red-600"
   }, [_vm._v("*")])]);
 }, function () {
@@ -4425,16 +4330,7 @@ var staticRenderFns = [function () {
 
   return _c("label", {
     staticClass: "block mb-2 text-sm font-bold text-gray-900"
-  }, [_vm._v("Password\n                              "), _c("span", {
-    staticClass: "text-red-600"
-  }, [_vm._v("*")])]);
-}, function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("label", {
-    staticClass: "block mb-2 text-sm font-bold text-gray-900"
-  }, [_vm._v("\n                              Gender "), _c("span", {
+  }, [_vm._v("Password\n                                 "), _c("span", {
     staticClass: "text-red-600"
   }, [_vm._v("*")])]);
 }, function () {
@@ -5556,6 +5452,22 @@ var formatDate = {
     var hour = date.getHours().toString().padStart(2, '0');
     var min = date.getMinutes().toString().padStart(2, '0');
     return hour + ':' + min;
+  },
+  formatHourMinute: function formatHourMinute(str) {
+    if (!str) return; // Parse the time string
+
+    var timeComponents = str.split(':');
+    var hours = parseInt(timeComponents[0], 10);
+    var minutes = parseInt(timeComponents[1], 10); // Determine whether it's morning or afternoon
+
+    var meridiem = hours < 12 ? 'AM' : 'PM'; // Convert hours to 12-hour format
+
+    hours = hours > 12 ? hours - 12 : hours;
+    hours = hours === 0 ? 12 : hours; // Handle midnight (00:00)
+
+    hours = hours.toString().padStart(2, '0'); // Format the time
+
+    return hours + ':' + ('0' + minutes).slice(-2) + ' ' + meridiem;
   },
   formDateTime: function formDateTime(str) {
     var date = this.formatSimpleDate(str);
