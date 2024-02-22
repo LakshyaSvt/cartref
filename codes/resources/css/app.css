@@ -294,3 +294,20 @@
     @apply bg-primary-700;
 }
 
+.sliding-btn-div {
+    position: fixed;
+    bottom: 11px;
+    right: 15px;
+    z-index: 1000;
+    background: white;
+    border: none;
+}
+
+.sliding-btn-div button {
+    color: black !important;
+}
+
+.sliding-btn-div button:hover {
+    color: white !important;
+    background: rgb(59 130 246 / 1) !important;
+}

@@ -304,12 +304,12 @@
                   </router-link>
                </li>
             </ul>
-            <div class="min-w-max mb-14">
-               <a class="group single-item" href="#">
-                  <i class="fi fi-rr-gears text-xl w-5 h-5 "></i>
-                  <span>Settings</span>
-               </a>
-            </div>
+<!--            <div class="min-w-max mb-14">-->
+<!--               <a class="group single-item" href="#">-->
+<!--                  <i class="fi fi-rr-gears text-xl w-5 h-5 "></i>-->
+<!--                  <span>Settings</span>-->
+<!--               </a>-->
+<!--            </div>-->
          </div>
       </div>
    </div>

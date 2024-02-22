@@ -28,9 +28,9 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                            <i class="fi fi-rr-search mr-1"></i>
                         </div>
-                        <input v-model="keyword" class="filter-dropdown"
+                        <input v-model="keyword" class="search"
                                placeholder="Search"
-                               type="text" @keydown.enter="fetchCart()">
+                               type="text" @keydown.enter="fetchWishlist()">
                      </div>
                      <div class="flex border border-gray-600 rounded-lg bg-white">
                         <button class="px-2 py-1 m-[2px] hover:bg-primary-100 border-r border-solid cursor-pointer"

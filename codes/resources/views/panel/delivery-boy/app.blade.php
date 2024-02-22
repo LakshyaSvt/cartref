@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="{{ Voyager::image(setting('site.site_icon')) }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Flaticon css -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.0.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
@@ -33,6 +34,41 @@
 
 <!--script -->
 <script src="{{ asset('vue/js/deliveryBoyApp.js') }}" defer></script>
+
+<script>
+    let horizontalScrollBtns = `
+    <div class="sliding-btn-div">
+       <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+          <button class="prev-btn" type="button">
+             <i class="fi fi-ss-angle-small-left text-xl text-center h-6 w-6"></i>
+          </button>
+          <button class="next-btn" type="button">
+             <i class="fi fi-ss-angle-small-right text-xl text-center h-6 w-6"></i>
+          </button>
+       </nav>
+    </div>
+`;
+
+    $(document).ready(function () {
+        $('body').append(horizontalScrollBtns);
+        $('.sliding-btn-div').on('click', '.prev-btn', function () {
+            console.log('ssd');
+            $(".clear-right.overflow-x-auto").animate({
+                    scrollLeft: "-=500px"
+                },
+                "slow"
+            );
+        });
+
+        $('.sliding-btn-div').on('click', ".next-btn", function () {
+            $(".clear-right.overflow-x-auto").animate({
+                    scrollLeft: "+=500px"
+                },
+                "slow"
+            );
+        });
+    });
+</script>
 
 </body>
 </html>
