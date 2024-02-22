@@ -11,6 +11,6 @@ class DeliveryServicableArea extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'city', 'state', 'status'
+        'city', 'state', 'start_at', 'end_at', 'status',
     ];
 }

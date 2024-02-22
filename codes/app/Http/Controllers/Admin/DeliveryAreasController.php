@@ -33,6 +33,8 @@ class DeliveryAreasController extends Controller
                 $query->whre(function ($query) use ($keyword) {
                     $query->orWhere('city', 'LIKE', '%' . $keyword . '%');
                     $query->orWhere('state', 'LIKE', '%' . $keyword . '%');
+                    $query->orWhere('start_at', 'LIKE', '%' . $keyword . '%');
+                    $query->orWhere('end_at', 'LIKE', '%' . $keyword . '%');
                 });
             })
             ->latest()
@@ -52,12 +54,16 @@ class DeliveryAreasController extends Controller
     {
         $request->validate([
             'city' => "required",
-            'state' => 'required'
+            'state' => 'required',
+            'start_at' => 'required',
+            'end_at' => 'required|after:start_at'
         ]);
 
         $announcement = DeliveryServicableArea::create([
             'city' => $request->city,
             'state' => $request->state,
+            'start_at' => $request->start_at,
+            'end_at' => $request->end_at,
         ]);
 
         return response()->json(['status' => 'success', 'msg' => 'Area Created Successfully']);
@@ -84,6 +90,10 @@ class DeliveryAreasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'end_at' => 'nullable|after:start_at'
+        ]);
+
         $announcement = DeliveryServicableArea::findOrFail($id);
         $announcement->update($request->all());
 

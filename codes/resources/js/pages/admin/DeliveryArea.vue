@@ -20,6 +20,16 @@
                         <input id="state" v-model="state" class="form-input" placeholder="Uttar Pradesh" type="text">
                      </div>
                   </div>
+                  <div class="md:flex mb-3">
+                     <div class="mb-5 md:w-1/2 w-full md:mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900">Start at <span class="text-red-600">*</span></label>
+                        <input id="start_at" v-model="start_at" class="form-input" type="time" required>
+                     </div>
+                     <div class="mb-5 md:w-1/2 w-full md:mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900">End at <span class="text-red-600">*</span></label>
+                        <input id="end_at" v-model="end_at" class="form-input" type="time" required>
+                     </div>
+                  </div>
                   <div class="text-center">
                      <button class="submit-btn" type="submit">
                         {{ this.editId ? 'Update' : 'Create' }}
@@ -109,6 +119,9 @@
                               State
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Timings
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                               Status
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
@@ -131,6 +144,9 @@
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                               {{ delivery_area.state || '-' }}
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                              {{ formatHourMinute(delivery_area.start_at) || '-' }} to {{ formatHourMinute(delivery_area.end_at) || '-' }}
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                               <StatusCheckbox :id="delivery_area.id" :status="!!delivery_area.status" :update="updateStatus"/>
@@ -194,6 +210,8 @@
             delivery_areas: [{}],
             city: '',
             state: '',
+            start_at: '',
+            end_at: '',
             keyword: '',
             status: '',
             row_count: this.$store.state.defaultRowCount,
@@ -217,6 +235,8 @@
          clear() {
             this.city = '';
             this.state = '';
+            this.start_at = '';
+            this.end_at = '';
             this.editId = '';
             $('form').trigger("reset");
          },
@@ -227,6 +247,8 @@
                    this.editId = res.data.data.id;
                    this.city = res.data.data.city;
                    this.state = res.data.data.state;
+                   this.start_at = res.data.data.start_at;
+                   this.end_at = res.data.data.end_at;
                    this.loading = false;
                 })
                 .catch(err => {
@@ -258,12 +280,16 @@
                   id: this.editId,
                   city: this.city,
                   state: this.state,
+                  start_at: this.start_at,
+                  end_at: this.end_at,
                }
             } else {
                url = '/admin/delivery-area'
                data = {
                   city: this.city,
                   state: this.state,
+                  start_at: this.start_at,
+                  end_at: this.end_at,
                }
             }
             axios.post(url, data)

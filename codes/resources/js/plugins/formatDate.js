@@ -19,6 +19,25 @@ const formatDate = {
 
         return hour + ':' + min;
     },
+    formatHourMinute(str) {
+        if (!str) return;
+        // Parse the time string
+        let timeComponents = str.split(':');
+        let hours = parseInt(timeComponents[0], 10);
+        let minutes = parseInt(timeComponents[1], 10);
+
+        // Determine whether it's morning or afternoon
+        let meridiem = (hours < 12) ? 'AM' : 'PM';
+
+        // Convert hours to 12-hour format
+        hours = (hours > 12) ? hours - 12 : hours;
+        hours = (hours === 0) ? 12 : hours; // Handle midnight (00:00)
+
+        hours = hours.toString().padStart(2, '0');
+        // Format the time
+        return hours + ':' + ('0' + minutes).slice(-2) + ' ' + meridiem;
+
+    },
     formDateTime(str) {
         const date = this.formatSimpleDate(str);
         const time = this.formatTime(str);
