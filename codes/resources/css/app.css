@@ -271,27 +271,27 @@
 
 /* Vue MultiSelect */
 
-.scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary-700;
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-600;
 }
 
-.scrollbar::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 5px;
     height: 5px;
     border-radius: 2px;
 }
 
-.scrollbar::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     @apply bg-primary-200;
 }
 
-.scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-primary-600;
+::-webkit-scrollbar-thumb {
+    @apply bg-primary-500;
     border-radius: 120px;
 }
 
-.scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary-700;
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-600;
 }
 
 .sliding-btn-div {

@@ -13,13 +13,13 @@
                <div class="dashboard-card">
                   <i class="fi fi-rr-boxes text-4xl w-8 h-8 text-primary-600"></i>
                   <p class="text-2xl font-extrabold text-dark-grey-900">{{ stats?.newOrder || '0' }}</p>
-                  <p class="text-3xl leading-7 text-dark-grey-600">New Orders National Shipping</p>
+                  <p class="text-3xl leading-7 text-dark-grey-600">New Orders</p> National Shipping
                   <router-link :to="{name:'orders'}" class="px-8 py-2 mt-4 text-white bg-primary-600 hover:bg-primary-700 rounded-lg text-lg">View all</router-link>
                </div>
                <div class="dashboard-card">
                   <i class="fi fi-sr-boxes text-4xl w-8 h-8 text-primary-600"></i>
                   <p class="text-2xl font-extrabold text-dark-grey-900">{{ stats?.order || '0' }}</p>
-                  <p class="text-3xl leading-7 text-dark-grey-600">Orders National Shipping</p>
+                  <p class="text-3xl leading-7 text-dark-grey-600">Orders </p>National Shipping
                   <router-link :to="{name:'orders'}" class="px-8 py-2 mt-4 text-white bg-primary-600 hover:bg-primary-700 rounded-lg text-lg">View all</router-link>
                </div>
                <div class="dashboard-card">

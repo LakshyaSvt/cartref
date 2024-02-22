@@ -1434,9 +1434,6 @@ li a.dropdown-item:hover {
 .w-3 {
   width: 0.75rem;
 }
-.w-3\/12 {
-  width: 25%;
-}
 .w-32 {
   width: 8rem;
 }
@@ -2417,31 +2414,31 @@ li a.dropdown-item:hover {
 
 /* Vue MultiSelect */
 
-.scrollbar::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
-.scrollbar::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 5px;
     height: 5px;
     border-radius: 2px;
 }
 
-.scrollbar::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   --tw-bg-opacity: 1;
   background-color: rgb(191 219 254 / var(--tw-bg-opacity));
 }
 
-.scrollbar::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
     border-radius: 120px;
 }
 
-.scrollbar::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
 .sliding-btn-div {
@@ -2922,6 +2919,10 @@ li a.dropdown-item:hover {
     width: 40%;
   }
 
+  .md\:w-3\/12 {
+    width: 25%;
+  }
+
   .md\:w-3\/4 {
     width: 75%;
   }
@@ -2932,10 +2933,6 @@ li a.dropdown-item:hover {
 
   .md\:w-52 {
     width: 13rem;
-  }
-
-  .md\:w-3\/12 {
-    width: 25%;
   }
 
   .md\:max-w-full {
