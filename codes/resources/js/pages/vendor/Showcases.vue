@@ -178,13 +178,17 @@
                               Logistic
                               Details
                            </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Customer Details
+                           </div>
                         </div>
                         <div v-for="(showcase, index) in showcases" :key="showcase.id" class="table-row table-body hover:bg-primary-100 bg-white">
                            <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1 px-2">
                               <template v-if="!showcase.is_order_accepted && showcase.order_status === 'New Order' && showcase.order_status !== 'Non Acceptance'">
                                  <div class="mx-auto">
                                     <span class="text-green-600 font-semibold">New Order !!</span>
-                                    <a :href="`/showcase-at-home/my-orders/order/${showcase.order_id}/accept-order`" class="inline-flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-green-500 hover:bg-green-600"
+                                    <a :href="`/showcase-at-home/my-orders/order/${showcase.order_id}/accept-order`"
+                                       class="inline-flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-green-500 hover:bg-green-600"
                                        target="_blank">
                                        <i class="fi fi-rr-check text-base w-4 h-5"></i>
                                        Accept
@@ -278,6 +282,22 @@
                               </div>
                               <div v-else class="flex flex-wrap items-center gap-2">
                                  <div class="font-semibold">Delivery Head:- Not Assigned</div>
+                              </div>
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 p-1 text-sm text-center">
+                              <div class="flex items-center gap-2">
+                                 <div class="font-semibold">Name:</div>
+                                 <div class="font-normal text-gray-800">{{ showcase.customer_name }}</div>
+                              </div>
+                              <div class="flex items-center gap-2">
+                                 <div class="font-semibold">Email:</div>
+                                 <div class="font-normal text-gray-800">{{ showcase.customer_email }}</div>
+                              </div>
+                              <div class="text-gray-800 font-normal text-left">
+                                 <p>
+                                    {{ showcase.dropoff_streetaddress1 + ' ' + showcase.dropoff_streetaddress2 + ', ' + showcase.dropoff_city + ' - ' + showcase.dropoff_pincode }} <br>
+                                    {{ showcase.dropoff_state + ' - ' + showcase.dropoff_country }}
+                                 </p>
                               </div>
                            </div>
                         </div>
