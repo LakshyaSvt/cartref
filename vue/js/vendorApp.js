@@ -12035,59 +12035,59 @@ __webpack_require__.r(__webpack_exports__);
 
 var vendorRoutes = [{
   name: 'profile',
-  path: '/vendor/profile',
+  path: '/seller/profile',
   component: _pages_Profile_vue__WEBPACK_IMPORTED_MODULE_11__["default"]
 }, {
   name: 'dashboard',
-  path: '/vendor/dashboard',
+  path: '/seller/dashboard',
   component: _pages_vendor_Dashboard_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
 }, {
   name: 'orders',
-  path: '/vendor/orders',
+  path: '/seller/orders',
   component: _pages_vendor_Orders_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
 }, {
   name: 'showcases',
-  path: '/vendor/showcases/orders',
+  path: '/seller/showcases/orders',
   component: _pages_vendor_Showcases_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 },
 /* Product Management */
 {
   name: 'products',
-  path: '/vendor/products',
+  path: '/seller/products',
   component: _pages_vendor_Products_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
 }, {
   name: 'product-bulk-upload',
-  path: '/vendor/products/bulk-upload',
+  path: '/seller/products/bulk-upload',
   component: _pages_vendor_ProductBulkUpload_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, {
   name: 'product-edit',
-  path: '/vendor/products/:id/edit',
+  path: '/seller/products/:id/edit',
   component: _pages_vendor_ProductCreateOrEdit_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
 }, {
   name: 'product-create',
-  path: '/vendor/products/create',
+  path: '/seller/products/create',
   component: _pages_vendor_ProductCreateOrEdit_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
 }, {
   name: 'product-colors',
-  path: '/vendor/products/:id',
+  path: '/seller/products/:id',
   component: _pages_vendor_ProductColors_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
   name: 'product-color-edit',
-  path: '/vendor/products/:product_id/color/:color_id',
+  path: '/seller/products/:product_id/color/:color_id',
   component: _pages_vendor_ProductColorEdit_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
 }, {
   name: 'product-sizes',
-  path: '/vendor/products/:product_id/color/:color_id/sizes',
+  path: '/seller/products/:product_id/color/:color_id/sizes',
   component: _pages_vendor_ProductSizes_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
 },
 /*vendor payment*/
 {
   name: 'vendor-payments',
-  path: '/vendor/vendor-payments',
+  path: '/seller/vendor-payments',
   component: _pages_vendor_VendorPayments__WEBPACK_IMPORTED_MODULE_9__["default"]
 }, {
   name: 'coupon',
-  path: '/vendor/coupon',
+  path: '/seller/coupon',
   component: _pages_vendor_Coupon__WEBPACK_IMPORTED_MODULE_10__["default"]
 }];
 var vendorRouter = new vue_router__WEBPACK_IMPORTED_MODULE_12__["default"]({

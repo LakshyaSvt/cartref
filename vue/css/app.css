@@ -1293,6 +1293,9 @@ li a.dropdown-item:hover {
 .mt-8 {
   margin-top: 2rem;
 }
+.mt-48 {
+  margin-top: 12rem;
+}
 .block {
   display: block;
 }
@@ -2881,6 +2884,15 @@ li a.dropdown-item:hover {
   .md\:mx-4 {
     margin-left: 1rem;
     margin-right: 1rem;
+  }
+
+  .md\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .md\:mt-12 {
+    margin-top: 3rem;
   }
 
   .md\:block {
