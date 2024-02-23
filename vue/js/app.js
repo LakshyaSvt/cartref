@@ -18287,7 +18287,7 @@ var render = function render() {
   })])]), _vm._v(" "), _c("div", {
     staticClass: "md:flex mb-3"
   }, [_c("div", {
-    staticClass: "mb-5 md:w-1/2 w-full md:mx-2 my-1"
+    staticClass: "mb-5 md:w-1/3 w-full md:mx-2 my-1"
   }, [_vm._m(3), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
@@ -18311,8 +18311,32 @@ var render = function render() {
       }
     }
   })]), _vm._v(" "), _c("div", {
-    staticClass: "mb-5 md:w-1/2 w-full md:mx-2 my-1"
+    staticClass: "mb-5 md:w-1/3 w-full md:mx-2 my-1"
   }, [_vm._m(4), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.end_at,
+      expression: "end_at"
+    }],
+    staticClass: "form-input",
+    attrs: {
+      id: "end_at",
+      type: "time",
+      required: ""
+    },
+    domProps: {
+      value: _vm.end_at
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.end_at = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "mb-5 md:w-1/3 w-full md:mx-2 my-1"
+  }, [_vm._m(5), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -18428,7 +18452,7 @@ var render = function render() {
     attrs: {
       value: "0"
     }
-  }, [_vm._v("Un Published")])]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _c("label", {
+  }, [_vm._v("Un Published")])]), _vm._v(" "), _vm._m(6)]), _vm._v(" "), _c("label", {
     staticClass: "sr-only",
     attrs: {
       "for": "table-search"
@@ -18519,7 +18543,7 @@ var render = function render() {
     staticClass: "clear-right overflow-x-auto"
   }, [_c("div", {
     staticClass: "table border-solid border border-gray-500 w-full"
-  }, [_vm._m(6), _vm._v(" "), _vm._l(_vm.delivery_areas, function (delivery_area, index) {
+  }, [_vm._m(7), _vm._v(" "), _vm._l(_vm.delivery_areas, function (delivery_area, index) {
     return _c("div", {
       key: index,
       staticClass: "table-row table-body hover:bg-primary-100",
@@ -18606,7 +18630,7 @@ var render = function render() {
       fetchNewData: _vm.fetchDeliveryArea,
       pagination: _vm.pagination
     }
-  })], 1)])] : [_vm._m(7)]], 2)])])], 1);
+  })], 1)])] : [_vm._m(8)]], 2)])])], 1);
 };
 
 var staticRenderFns = [function () {
@@ -18654,6 +18678,15 @@ var staticRenderFns = [function () {
   return _c("label", {
     staticClass: "block mb-2 text-sm font-bold text-gray-900"
   }, [_vm._v("End at "), _c("span", {
+    staticClass: "text-red-600"
+  }, [_vm._v("*")])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("label", {
+    staticClass: "block mb-2 text-sm font-bold text-gray-900"
+  }, [_vm._v("Abreveation "), _c("span", {
     staticClass: "text-red-600"
   }, [_vm._v("*")])]);
 }, function () {
