@@ -538,7 +538,9 @@ Route::get('/notify/{order_id}',function($order_id){
 Route::get('/export-users-from-view',[ProductBulkUploadController::class, 'export_product_dummy']);
 
 Route::get('/sds', function(){
-    return Auth::check();
+    $latestOrder = (object)[];
+    $latestOrder->id = 1;
+    return 'CNS'.date('dym').str_pad($latestOrder->id + 1, 3, "0", STR_PAD_LEFT);
 });
 
 //require __DIR__ .'/theme.php';

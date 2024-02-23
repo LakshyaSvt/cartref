@@ -16,6 +16,7 @@ class VendorPayment extends Model
         'vendor_id',
         'billing_date',
         'total',
+        'utr_no',
         'status'
     ];
     public function save(array $options = [])

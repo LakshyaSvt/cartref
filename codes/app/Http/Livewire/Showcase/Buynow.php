@@ -456,11 +456,20 @@ class Buynow extends Component
             }
         }
 
-        // Generate random order id
-        $orderid = mt_rand(100000, 999999);
 
         $carts = Showcase::where('order_id', $this->orderid)->where('order_status', 'Moved to Bag')->get();
         $notincarts = Showcase::where('order_id', $this->orderid)->where('order_status', '!=', 'Moved to Bag')->get();
+
+        // Generate random order id
+        if(count($carts) > 0 && isset($carts[0]->dropoff_city)){
+            $ds = DeliveryServicableArea::whereCity($carts[0]->dropoff_city)->first();
+        }
+        $city = '';
+        if(isset($ds)){
+            $city = $ds->abbreveation ?? '';
+        }
+        $latestOrder = Showcase::latest()->first();
+        $orderid = 'CSAH'.date('dym').str_pad(($latestOrder->id + 1) . $city, 3, "0", STR_PAD_LEFT);
 
         foreach ($carts as $key => $cart) {
             //per product discount calculation

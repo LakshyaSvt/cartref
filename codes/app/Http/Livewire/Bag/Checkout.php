@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Bag;
 
 use App\Brand;
 use App\Coupon;
+use App\DeliveryServicableArea;
 use App\Models\Product;
 use App\Models\RewardPointLog;
 use App\Models\User;
@@ -13,6 +14,7 @@ use App\Notifications\CodOrderEmailToVendor;
 use App\Notifications\NewOrderMailToAdmin;
 use App\Order;
 use App\Productsku;
+use App\Showcase;
 use Craftsys\Msg91\Facade\Msg91;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -142,6 +144,288 @@ class Checkout extends Component
         $this->currenturl = url()->current();
     }
 
+    private function checkshippingavailability()
+    {
+        $userID = 0;
+        if (Auth::check()) {
+            $userID = auth()->user()->id;
+        } else {
+            if (session('session_id')) {
+                $userID = session('session_id');
+            } else {
+                $userID = rand(1111111111, 9999999999);
+                session(['session_id' => $userID]);
+            }
+        }
+        $weight = \Cart::session($userID)->getContent()->sum('attributes.weight');
+        // dd($weight);
+
+        if (Config::get('icrm.shipping_provider.shiprocket') == 1) {
+            $this->shiprocketcheckavailability($weight);
+        }
+
+        if (Config::get('icrm.shipping_provider.dtdc') == 1) {
+            $this->dtdccheckavailability();
+        }
+    }
+
+    private function shiprocketcheckavailability($weight)
+    {
+        // https://apidocs.shiprocket.in/?version=latest#29ff5116-0917-41ba-8c82-638412604916
+        $pincodeDetails = [
+            'pickup_postcode' => $this->pickuppincode,
+            'delivery_postcode' => $this->deliverypincode,
+            // 1 for Cash on Delivery and 0 for Prepaid orders.
+            'cod' => 1,
+            'weight' => $weight,
+        ];
+        $token = Shiprocket::getToken();
+        $response = Shiprocket::courier($token)->checkServiceability($pincodeDetails);
+
+
+        if ($response['status'] == 200) {
+
+            /**
+             * Usefull fields:
+             * courier_name - Ekart
+             * rate - 76.0
+             * cod - 1/0
+             * etd - Apr 27, 2022
+             */
+
+            if (Config::get('icrm.shipping_provider.shiprocket_recommendation') == 1) {
+                // get the etd & rates from the recommended courier partner by shiprocket
+                if (isset($response['data']['available_courier_companies'][0])) {
+                    $rate = $response['data']['available_courier_companies'][0]['rate'];
+
+                    $this->etd = $response['data']['available_courier_companies'][0]['etd'];
+                    Session::put('etd', $response['data']['available_courier_companies'][0]['etd']);
+
+                    $cod = $response['data']['available_courier_companies'][0]['cod'];
+                }
+            } else {
+
+                $availablecouriercompanies = collect(json_decode($response)->data->available_courier_companies);
+
+                $availablecouriercompaniess = $availablecouriercompanies->sortBy('rate');
+
+                // get the etd & rates from the lowest cost courier partner by shiprocket
+                if (isset($availablecouriercompaniess)) {
+                    $rate = $availablecouriercompaniess->first()->rate;
+
+                    $this->etd = $availablecouriercompaniess->first()->etd;
+                    Session::put('etd', $availablecouriercompaniess->first()->etd);
+
+                    $cod = $availablecouriercompaniess->first()->cod;
+                }
+            }
+
+            // shipping available
+            $this->deliveryavailability = true;
+
+
+            if (Config::get('icrm.order_methods.cod') == 1) {
+                if ($cod == 1) {
+                    // COD available
+                    Session::put('deliveryavailable', 'Expected delivery by ' . $this->etd . ' | Cash on delivery available');
+                    $this->cod = true;
+                } else {
+                    // COD not available
+                    Session::put('deliveryavailable', 'Expected delivery by ' . $this->etd);
+                }
+            } else {
+                Session::put('deliveryavailable', 'Expected delivery by ' . $this->etd);
+            }
+
+            Session::put('deliverypincode', $this->deliverypincode);
+        } else {
+            // not available
+            $this->deliveryavailability = false;
+            Session::flash('deliverynotavailable', 'Delivery not available in this area');
+            // Session::remove('deliverypincode');
+            // return redirect()->back();
+        }
+    }
+
+    private function dtdccheckavailability()
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://firstmileapi.dtdc.com/dtdc-api/api/custOrder/service/getServiceTypes/$this->pickuppincode/$this->deliverypincode",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                // "x-access-token: PL2435_trk:a1f86859bcb68b321464e07f159e9747",
+                "x-access-token: RO798_trk:bcddd52dd9f433c94376480fca276d9b",
+                'Content-Type: application/json',
+            ),
+        ));
+
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        $userID = 0;
+        if (Auth::check()) {
+            $userID = auth()->user()->id;
+        } else {
+            if (session('session_id')) {
+                $userID = session('session_id');
+            } else {
+                $userID = rand(1111111111, 9999999999);
+                session(['session_id' => $userID]);
+            }
+        }
+
+        if ($err) {
+            // not available
+            $this->deliveryavailability = false;
+            Session::flash('deliverynotavailable', 'Delivery not available in your area');
+            // Session::remove('deliverypincode');
+            // return;
+        } else {
+            $collection = json_encode(collect($response));
+            $collection = json_decode($collection);
+            $collection = collect(json_decode($collection[0]));
+            // dd($collection);
+            if (isset($collection['status'])) {
+                if ($collection['status'] == true) {
+                    $servicelist = $collection['data'];
+                    // dd($servicelist);
+                    $acceptableservices = ['B2C SMART EXPRESS'];
+
+                    if (in_array('PRIORITY', $servicelist)) {
+                        // available
+                        $this->deliveryavailability = true;
+                        $this->cod = true;
+
+                        /**
+                         * Calulate expected delivery date
+                         * Today + buffer days
+                         */
+
+                        // get maximum day of the manufacturing period
+                        foreach (\Cart::session($userID)->getContent() as $cart) {
+                            $mpproduct = Product::where('id', $cart->attributes->product_id)->orderBy('manufacturing_period', 'DESC')->first();
+                        }
+
+                        if (!empty($mpproduct->manufacturing_period)) {
+                            $bufferdays = Config::get('icrm.shipping_provider.buffer_days') + 1 + $mpproduct->manufacturing_period;
+                        } else {
+                            $bufferdays = Config::get('icrm.shipping_provider.buffer_days') + 1;
+                        }
+
+
+                        $this->etd = date('j F, Y', strtotime("+$bufferdays days"));
+                        Session::flash('deliveryavailable', 'Expected delivery by ' . $this->etd);
+                        Session::put('etd', $this->etd);
+                        Session::put('deliverypincode', $this->deliverypincode);
+
+                        return;
+                    } else {
+                        // not available
+                        $this->deliveryavailability = false;
+                        Session::flash('deliverynotavailable', 'Delivery not available in your area');
+                        // Session::remove('deliverypincode');
+                        // return;
+                    }
+                } else {
+                    // not available
+                    $this->deliveryavailability = false;
+                    Session::flash('deliverynotavailable', 'Delivery not available in your area');
+                    // Session::remove('deliverypincode');
+                    // return;
+                }
+            } else {
+                // not available
+                $this->deliveryavailability = false;
+                Session::flash('deliverynotavailable', 'Delivery not available in your area');
+                // Session::remove('deliverypincode');
+                // return;
+            }
+        }
+
+        return;
+    }
+
+    // runs after render
+
+    private function mapcitystate($pincode)
+    {
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.postalpincode.in/pincode/{$pincode}",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                // "Authorization: Basic ZTA4MjE1MGE3YTQxNWVlZjdkMzE0NjhkMWRkNDY1Og==",
+                // "Postman-Token: c096d7ba-830d-440a-9de4-10425e62e52f",
+                // "api-key: eb6e38f684ef558a1d64fcf8a75967",
+                "cache-control: no-cache",
+                // "customerId: 259",
+                // "organisation-id: 1",
+                'Content-Type: 	application/json; charset=utf-8',
+            ),
+        ));
+
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            // dd($response);
+
+            $collection = json_encode(collect($response));
+            $collection = json_decode(json_decode($collection)[0])[0];
+
+            if (collect($collection)['Status'] == '404') {
+                Session::flash('danger', 'Invalid Pincode');
+                // return;
+                exit;
+                $refresh;
+            }
+
+
+            if (collect($collection)['Status'] != 'Error') {
+                if (collect($collection)['PostOffice'][0]->Country == 'India') {
+                    $this->city = collect($collection)['PostOffice'][0]->District;
+                    Session::put('city', collect($collection)['PostOffice'][0]->District);
+
+                    $this->state = collect($collection)['PostOffice'][0]->State;
+                    Session::put('state', collect($collection)['PostOffice'][0]->State);
+
+                    $this->country = collect($collection)['PostOffice'][0]->Country;
+                    Session::put('country', collect($collection)['PostOffice'][0]->Country);
+                }
+            } else {
+                Session::remove('city');
+                Session::remove('state');
+                Session::remove('country');
+
+                $this->disablebtn = false;
+            }
+
+            // $this->validate();
+
+        }
+    }
 
     public function render()
     {
@@ -324,471 +608,6 @@ class Checkout extends Component
             // 'fsubtotal' => $fsubtotal,
             // 'ftotal' => $ftotal,
         ]);
-    }
-
-    private function sessionfields()
-    {
-        // if the fields are blank in mount then fetch from session fields
-        if (empty($this->name)) {
-            $this->name = Session::get('name');
-        }
-
-        if (empty($this->phone)) {
-            $this->phone = Session::get('phone');
-        }
-
-        if (empty($this->companyname)) {
-            $this->companyname = Session::get('companyname');
-        }
-
-        if (empty($this->gst)) {
-            $this->gst = Session::get('gst');
-        }
-
-        if (empty($this->country)) {
-            $this->country = Session::get('country');
-        }
-
-        if (empty($this->address1)) {
-            $this->address1 = Session::get('address1');
-        }
-
-        if (empty($this->address2)) {
-            $this->address2 = Session::get('address2');
-        }
-
-        if (empty($this->deliverypincode)) {
-            $this->deliverypincode = Session::get('deliverypincode');
-        }
-
-        if (empty($this->city)) {
-            $this->city = Session::get('city');
-        }
-
-        if (empty($this->state)) {
-            $this->state = Session::get('state');
-        }
-
-        if (empty($this->altphone)) {
-            $this->altphone = Session::get('altphone');
-        }
-
-        if (empty($this->email)) {
-            $this->email = Session::get('email');
-        }
-
-
-    }
-
-    private function authfields()
-    {
-        // if session field is not present then fetch auth fields
-        if (Auth::check()) {
-            if (empty(Session::get('name'))) {
-                $this->name = auth()->user()->name;
-                Session::put('name', auth()->user()->name);
-            }
-
-            if (empty(Session::get('email'))) {
-                $this->email = auth()->user()->email;
-                Session::put('email', auth()->user()->email);
-            }
-
-            if (empty(Session::get('phone'))) {
-                $this->phone = auth()->user()->mobile;
-                Session::put('phone', auth()->user()->mobile);
-            }
-
-            if (empty(Session::get('companyname'))) {
-                $this->companyname = auth()->user()->company_name;
-                Session::put('companyname', auth()->user()->company_name);
-            }
-
-            if (empty(Session::get('gst'))) {
-                $this->gst = auth()->user()->gst_number;
-                Session::put('gst', auth()->user()->gst_number);
-            }
-
-            if (empty(Session::get('address1'))) {
-                $this->address_1 = auth()->user()->street_address_1;
-                Session::put('address1', auth()->user()->street_address_1);
-            }
-
-            if (empty(Session::get('address2'))) {
-                $this->address_2 = auth()->user()->street_address_2;
-                Session::put('address2', auth()->user()->street_address_2);
-            }
-        }
-    }
-
-    // runs after render
-    public function dehydrate()
-    {
-        $userID = 0;
-        if (Auth::check()) {
-            $userID = auth()->user()->id;
-        } else {
-            if (session('session_id')) {
-                $userID = session('session_id');
-            } else {
-                $userID = rand(1111111111, 9999999999);
-                session(['session_id' => $userID]);
-            }
-        }
-
-        if (count(\Cart::session($userID)->getContent()) <= 0) {
-            Session::flash('danger', 'Your Bag is empty');
-            return redirect()->route('bag');
-        }
-
-        /**
-         * If the user is inactive then redirect back to bag with error message.
-         */
-
-        if (auth()->user()->status == 0) {
-            Session::flash('danger', 'Your account has been disabled. Please contact us to reactivate.');
-            return redirect()->route('bag');
-        }
-    }
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
-    }
-
-    public function updatedName()
-    {
-        $this->name = $this->name;
-        Session::put('name', $this->name);
-    }
-
-    public function updatedPhone()
-    {
-        $this->phone = $this->phone;
-        Session::put('phone', $this->phone);
-    }
-
-    public function updatedCompanyname()
-    {
-        $this->companyname = $this->companyname;
-        Session::put('companyname', $this->companyname);
-    }
-
-    public function updatedGst()
-    {
-        $this->gst = $this->gst;
-        Session::put('gst', $this->gst);
-    }
-
-    public function updatedCountry()
-    {
-        $this->country = $this->country;
-        Session::put('country', $this->country);
-    }
-
-    public function updatedAddress1()
-    {
-        $this->address1 = $this->address1;
-        Session::put('address1', $this->address1);
-    }
-
-    public function updatedAddress2()
-    {
-        $this->address2 = $this->address2;
-        Session::put('address2', $this->address2);
-    }
-
-    public function updatedAltphone()
-    {
-        $this->altphone = $this->altphone;
-        Session::put('altphone', $this->altphone);
-    }
-
-    public function updatedEmail()
-    {
-        $this->email = $this->email;
-        Session::put('email', $this->email);
-    }
-
-    private function checkshippingavailability()
-    {
-        $userID = 0;
-        if (Auth::check()) {
-            $userID = auth()->user()->id;
-        } else {
-            if (session('session_id')) {
-                $userID = session('session_id');
-            } else {
-                $userID = rand(1111111111, 9999999999);
-                session(['session_id' => $userID]);
-            }
-        }
-        $weight = \Cart::session($userID)->getContent()->sum('attributes.weight');
-        // dd($weight);
-
-        if (Config::get('icrm.shipping_provider.shiprocket') == 1) {
-            $this->shiprocketcheckavailability($weight);
-        }
-
-        if (Config::get('icrm.shipping_provider.dtdc') == 1) {
-            $this->dtdccheckavailability();
-        }
-    }
-
-    private function dtdccheckavailability()
-    {
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://firstmileapi.dtdc.com/dtdc-api/api/custOrder/service/getServiceTypes/$this->pickuppincode/$this->deliverypincode",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                // "x-access-token: PL2435_trk:a1f86859bcb68b321464e07f159e9747",
-                "x-access-token: RO798_trk:bcddd52dd9f433c94376480fca276d9b",
-                'Content-Type: application/json',
-            ),
-        ));
-
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        $userID = 0;
-        if (Auth::check()) {
-            $userID = auth()->user()->id;
-        } else {
-            if (session('session_id')) {
-                $userID = session('session_id');
-            } else {
-                $userID = rand(1111111111, 9999999999);
-                session(['session_id' => $userID]);
-            }
-        }
-
-        if ($err) {
-            // not available
-            $this->deliveryavailability = false;
-            Session::flash('deliverynotavailable', 'Delivery not available in your area');
-            // Session::remove('deliverypincode');
-            // return;
-        } else {
-            $collection = json_encode(collect($response));
-            $collection = json_decode($collection);
-            $collection = collect(json_decode($collection[0]));
-            // dd($collection);
-            if (isset($collection['status'])) {
-                if ($collection['status'] == true) {
-                    $servicelist = $collection['data'];
-                    // dd($servicelist);
-                    $acceptableservices = ['B2C SMART EXPRESS'];
-
-                    if (in_array('PRIORITY', $servicelist)) {
-                        // available
-                        $this->deliveryavailability = true;
-                        $this->cod = true;
-
-                        /**
-                         * Calulate expected delivery date
-                         * Today + buffer days
-                         */
-
-                        // get maximum day of the manufacturing period
-                        foreach (\Cart::session($userID)->getContent() as $cart) {
-                            $mpproduct = Product::where('id', $cart->attributes->product_id)->orderBy('manufacturing_period', 'DESC')->first();
-                        }
-
-                        if (!empty($mpproduct->manufacturing_period)) {
-                            $bufferdays = Config::get('icrm.shipping_provider.buffer_days') + 1 + $mpproduct->manufacturing_period;
-                        } else {
-                            $bufferdays = Config::get('icrm.shipping_provider.buffer_days') + 1;
-                        }
-
-
-                        $this->etd = date('j F, Y', strtotime("+$bufferdays days"));
-                        Session::flash('deliveryavailable', 'Expected delivery by ' . $this->etd);
-                        Session::put('etd', $this->etd);
-                        Session::put('deliverypincode', $this->deliverypincode);
-
-                        return;
-                    } else {
-                        // not available
-                        $this->deliveryavailability = false;
-                        Session::flash('deliverynotavailable', 'Delivery not available in your area');
-                        // Session::remove('deliverypincode');
-                        // return;
-                    }
-                } else {
-                    // not available
-                    $this->deliveryavailability = false;
-                    Session::flash('deliverynotavailable', 'Delivery not available in your area');
-                    // Session::remove('deliverypincode');
-                    // return;
-                }
-            } else {
-                // not available
-                $this->deliveryavailability = false;
-                Session::flash('deliverynotavailable', 'Delivery not available in your area');
-                // Session::remove('deliverypincode');
-                // return;
-            }
-        }
-
-        return;
-    }
-
-    private function shiprocketcheckavailability($weight)
-    {
-        // https://apidocs.shiprocket.in/?version=latest#29ff5116-0917-41ba-8c82-638412604916
-        $pincodeDetails = [
-            'pickup_postcode' => $this->pickuppincode,
-            'delivery_postcode' => $this->deliverypincode,
-            // 1 for Cash on Delivery and 0 for Prepaid orders.
-            'cod' => 1,
-            'weight' => $weight,
-        ];
-        $token = Shiprocket::getToken();
-        $response = Shiprocket::courier($token)->checkServiceability($pincodeDetails);
-
-
-        if ($response['status'] == 200) {
-
-            /**
-             * Usefull fields:
-             * courier_name - Ekart
-             * rate - 76.0
-             * cod - 1/0
-             * etd - Apr 27, 2022
-             */
-
-            if (Config::get('icrm.shipping_provider.shiprocket_recommendation') == 1) {
-                // get the etd & rates from the recommended courier partner by shiprocket
-                if (isset($response['data']['available_courier_companies'][0])) {
-                    $rate = $response['data']['available_courier_companies'][0]['rate'];
-
-                    $this->etd = $response['data']['available_courier_companies'][0]['etd'];
-                    Session::put('etd', $response['data']['available_courier_companies'][0]['etd']);
-
-                    $cod = $response['data']['available_courier_companies'][0]['cod'];
-                }
-            } else {
-
-                $availablecouriercompanies = collect(json_decode($response)->data->available_courier_companies);
-
-                $availablecouriercompaniess = $availablecouriercompanies->sortBy('rate');
-
-                // get the etd & rates from the lowest cost courier partner by shiprocket
-                if (isset($availablecouriercompaniess)) {
-                    $rate = $availablecouriercompaniess->first()->rate;
-
-                    $this->etd = $availablecouriercompaniess->first()->etd;
-                    Session::put('etd', $availablecouriercompaniess->first()->etd);
-
-                    $cod = $availablecouriercompaniess->first()->cod;
-                }
-            }
-
-            // shipping available
-            $this->deliveryavailability = true;
-
-
-            if (Config::get('icrm.order_methods.cod') == 1) {
-                if ($cod == 1) {
-                    // COD available
-                    Session::put('deliveryavailable', 'Expected delivery by ' . $this->etd . ' | Cash on delivery available');
-                    $this->cod = true;
-                } else {
-                    // COD not available
-                    Session::put('deliveryavailable', 'Expected delivery by ' . $this->etd);
-                }
-            } else {
-                Session::put('deliveryavailable', 'Expected delivery by ' . $this->etd);
-            }
-
-            Session::put('deliverypincode', $this->deliverypincode);
-        } else {
-            // not available
-            $this->deliveryavailability = false;
-            Session::flash('deliverynotavailable', 'Delivery not available in this area');
-            // Session::remove('deliverypincode');
-            // return redirect()->back();
-        }
-    }
-
-    private function mapcitystate($pincode)
-    {
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.postalpincode.in/pincode/{$pincode}",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                // "Authorization: Basic ZTA4MjE1MGE3YTQxNWVlZjdkMzE0NjhkMWRkNDY1Og==",
-                // "Postman-Token: c096d7ba-830d-440a-9de4-10425e62e52f",
-                // "api-key: eb6e38f684ef558a1d64fcf8a75967",
-                "cache-control: no-cache",
-                // "customerId: 259",
-                // "organisation-id: 1",
-                'Content-Type: 	application/json; charset=utf-8',
-            ),
-        ));
-
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            echo "cURL Error #:" . $err;
-        } else {
-            // dd($response);
-
-            $collection = json_encode(collect($response));
-            $collection = json_decode(json_decode($collection)[0])[0];
-
-            if (collect($collection)['Status'] == '404') {
-                Session::flash('danger', 'Invalid Pincode');
-                // return;
-                exit;
-                $refresh;
-            }
-
-
-            if (collect($collection)['Status'] != 'Error') {
-                if (collect($collection)['PostOffice'][0]->Country == 'India') {
-                    $this->city = collect($collection)['PostOffice'][0]->District;
-                    Session::put('city', collect($collection)['PostOffice'][0]->District);
-
-                    $this->state = collect($collection)['PostOffice'][0]->State;
-                    Session::put('state', collect($collection)['PostOffice'][0]->State);
-
-                    $this->country = collect($collection)['PostOffice'][0]->Country;
-                    Session::put('country', collect($collection)['PostOffice'][0]->Country);
-                }
-            } else {
-                Session::remove('city');
-                Session::remove('state');
-                Session::remove('country');
-
-                $this->disablebtn = false;
-            }
-
-            // $this->validate();
-
-        }
     }
 
     private function calcshippingcharges()
@@ -997,6 +816,213 @@ class Checkout extends Component
         \Cart::session($userID)->condition($tax);
     }
 
+    private function sessionfields()
+    {
+        // if the fields are blank in mount then fetch from session fields
+        if (empty($this->name)) {
+            $this->name = Session::get('name');
+        }
+
+        if (empty($this->phone)) {
+            $this->phone = Session::get('phone');
+        }
+
+        if (empty($this->companyname)) {
+            $this->companyname = Session::get('companyname');
+        }
+
+        if (empty($this->gst)) {
+            $this->gst = Session::get('gst');
+        }
+
+        if (empty($this->country)) {
+            $this->country = Session::get('country');
+        }
+
+        if (empty($this->address1)) {
+            $this->address1 = Session::get('address1');
+        }
+
+        if (empty($this->address2)) {
+            $this->address2 = Session::get('address2');
+        }
+
+        if (empty($this->deliverypincode)) {
+            $this->deliverypincode = Session::get('deliverypincode');
+        }
+
+        if (empty($this->city)) {
+            $this->city = Session::get('city');
+        }
+
+        if (empty($this->state)) {
+            $this->state = Session::get('state');
+        }
+
+        if (empty($this->altphone)) {
+            $this->altphone = Session::get('altphone');
+        }
+
+        if (empty($this->email)) {
+            $this->email = Session::get('email');
+        }
+
+
+    }
+
+    private function applyRewardPoints()
+    {
+        if (auth()->user()->reward_points > 0 && $this->ordervalue >= 1500) {
+            $this->redeemedRewardPoints = auth()->user()->reward_points * 0.20;
+            Session::put('redeemedRewardPoints', 1);
+        }
+    }
+
+    private function applyCredits()
+    {
+        $userCredits = auth()->user()->credits;
+        if ($userCredits > 0) {
+            if ($userCredits >= $this->ftotal) {
+                $this->redeemedCredits = $this->ftotal;
+                Session::put('ordermethod', 'cod');
+            } else {
+                $this->redeemedCredits = $userCredits;
+            }
+
+            // dd($this->redeemedCredits);
+            Session::put('redeemedCredits', 1);
+        }
+    }
+
+    private function authfields()
+    {
+        // if session field is not present then fetch auth fields
+        if (Auth::check()) {
+            if (empty(Session::get('name'))) {
+                $this->name = auth()->user()->name;
+                Session::put('name', auth()->user()->name);
+            }
+
+            if (empty(Session::get('email'))) {
+                $this->email = auth()->user()->email;
+                Session::put('email', auth()->user()->email);
+            }
+
+            if (empty(Session::get('phone'))) {
+                $this->phone = auth()->user()->mobile;
+                Session::put('phone', auth()->user()->mobile);
+            }
+
+            if (empty(Session::get('companyname'))) {
+                $this->companyname = auth()->user()->company_name;
+                Session::put('companyname', auth()->user()->company_name);
+            }
+
+            if (empty(Session::get('gst'))) {
+                $this->gst = auth()->user()->gst_number;
+                Session::put('gst', auth()->user()->gst_number);
+            }
+
+            if (empty(Session::get('address1'))) {
+                $this->address_1 = auth()->user()->street_address_1;
+                Session::put('address1', auth()->user()->street_address_1);
+            }
+
+            if (empty(Session::get('address2'))) {
+                $this->address_2 = auth()->user()->street_address_2;
+                Session::put('address2', auth()->user()->street_address_2);
+            }
+        }
+    }
+
+    public function dehydrate()
+    {
+        $userID = 0;
+        if (Auth::check()) {
+            $userID = auth()->user()->id;
+        } else {
+            if (session('session_id')) {
+                $userID = session('session_id');
+            } else {
+                $userID = rand(1111111111, 9999999999);
+                session(['session_id' => $userID]);
+            }
+        }
+
+        if (count(\Cart::session($userID)->getContent()) <= 0) {
+            Session::flash('danger', 'Your Bag is empty');
+            return redirect()->route('bag');
+        }
+
+        /**
+         * If the user is inactive then redirect back to bag with error message.
+         */
+
+        if (auth()->user()->status == 0) {
+            Session::flash('danger', 'Your account has been disabled. Please contact us to reactivate.');
+            return redirect()->route('bag');
+        }
+    }
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    public function updatedName()
+    {
+        $this->name = $this->name;
+        Session::put('name', $this->name);
+    }
+
+    public function updatedPhone()
+    {
+        $this->phone = $this->phone;
+        Session::put('phone', $this->phone);
+    }
+
+    public function updatedCompanyname()
+    {
+        $this->companyname = $this->companyname;
+        Session::put('companyname', $this->companyname);
+    }
+
+    public function updatedGst()
+    {
+        $this->gst = $this->gst;
+        Session::put('gst', $this->gst);
+    }
+
+    public function updatedCountry()
+    {
+        $this->country = $this->country;
+        Session::put('country', $this->country);
+    }
+
+    public function updatedAddress1()
+    {
+        $this->address1 = $this->address1;
+        Session::put('address1', $this->address1);
+    }
+
+    public function updatedAddress2()
+    {
+        $this->address2 = $this->address2;
+        Session::put('address2', $this->address2);
+    }
+
+    public function updatedAltphone()
+    {
+        $this->altphone = $this->altphone;
+        Session::put('altphone', $this->altphone);
+    }
+
+    public function updatedEmail()
+    {
+        $this->email = $this->email;
+        Session::put('email', $this->email);
+    }
+
     public function applyDirectCoupon($code)
     {
         $this->couponcode = $code;
@@ -1121,7 +1147,6 @@ class Checkout extends Component
         }
     }
 
-
     private function PercentageOff($coupon)
     {
         $userID = 0;
@@ -1240,14 +1265,6 @@ class Checkout extends Component
 
     }
 
-    private function applyRewardPoints()
-    {
-        if (auth()->user()->reward_points > 0 && $this->ordervalue >= 1500) {
-            $this->redeemedRewardPoints = auth()->user()->reward_points * 0.20;
-            Session::put('redeemedRewardPoints', 1);
-        }
-    }
-
     public function redeemCredits()
     {
         if (Session::get('redeemedCredits')) {
@@ -1261,22 +1278,6 @@ class Checkout extends Component
 
         $this->applyCredits();
 
-    }
-
-    private function applyCredits()
-    {
-        $userCredits = auth()->user()->credits;
-        if ($userCredits > 0) {
-            if ($userCredits >= $this->ftotal) {
-                $this->redeemedCredits = $this->ftotal;
-                Session::put('ordermethod', 'cod');
-            } else {
-                $this->redeemedCredits = $userCredits;
-            }
-
-            // dd($this->redeemedCredits);
-            Session::put('redeemedCredits', 1);
-        }
     }
 
     public function acceptterms()
@@ -1311,20 +1312,6 @@ class Checkout extends Component
         }
     }
 
-    private function collectpayment()
-    {
-        /**
-         * Catch payment with the payment gateway and redirect with payment info & status
-         */
-        $this->razorpay();
-    }
-
-    public function razorpay()
-    {
-        // run javascript code from checkout.blade.php
-        $this->emit('razorPay');
-    }
-
     private function carttoorder()
     {
         $userID = 0;
@@ -1338,10 +1325,19 @@ class Checkout extends Component
                 session(['session_id' => $userID]);
             }
         }
-        // Generate random order id
-        $orderid = mt_rand(100000, 999999);
 
         $carts = \Cart::session($userID)->getContent();
+
+        // Generate random order id
+        if (count($carts) > 0 && isset($carts[0]->dropoff_city)) {
+            $ds = DeliveryServicableArea::whereCity($carts[0]->dropoff_city)->first();
+        }
+        $city = '';
+        if (isset($ds)) {
+            $city = $ds->abbreveation ?? '';
+        }
+        $latestOrder = Showcase::latest()->first();
+        $orderid = 'CSAH' . date('dym') . str_pad(($latestOrder->id + 1) . $city, 3, "0", STR_PAD_LEFT);
 
         foreach ($carts as $key => $cart) {
             //per product discount calculation
@@ -1625,7 +1621,6 @@ class Checkout extends Component
         // return $this->redirect('/my-orders/order/'.$order->order_id);
     }
 
-
     private function orderemail($order, $carts)
     {
         // send order placed email
@@ -1646,5 +1641,19 @@ class Checkout extends Component
                 Notification::route('mail', $vendorinfo->email)->notify(new CodOrderEmailToVendor($order, $vendorinfo));
             }
         }
+    }
+
+    private function collectpayment()
+    {
+        /**
+         * Catch payment with the payment gateway and redirect with payment info & status
+         */
+        $this->razorpay();
+    }
+
+    public function razorpay()
+    {
+        // run javascript code from checkout.blade.php
+        $this->emit('razorPay');
     }
 }

@@ -2,34 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\DeliveryServicableArea;
+use App\Models\Product;
 use App\Models\RewardPointLog;
 use App\Models\UserCreditLog;
 use App\Notifications\NewOrderMailToAdmin;
-use App\Size;
-use Redirect;
+use App\Notifications\OrderEmail;
+use App\Notifications\PrepaidOrderEmail;
+use App\Notifications\PrepaidOrderEmailToVendor;
 use App\Order;
-use Exception;
-use App\Coupon;
-use App\Vendor;
 use App\Payment;
 use App\Productsku;
-use Razorpay\Api\Api;
-use App\Models\Product;
-use App\EmailNotification;
-use Darryldecode\Cart\Cart;
-use Illuminate\Http\Request;
-use TCG\Voyager\Models\User;
+use App\Showcase;
 use Craftsys\Msg91\Facade\Msg91;
-use App\Notifications\OrderEmail;
-use LaravelDaily\Invoices\Invoice;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Session;
-use App\Notifications\PrepaidOrderEmail;
-use LaravelDaily\Invoices\Classes\Party;
-use Illuminate\Support\Facades\Notification;
-use LaravelDaily\Invoices\Classes\InvoiceItem;
-use App\Notifications\PrepaidOrderEmailToVendor;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Session;
+use Razorpay\Api\Api;
+use Redirect;
+use TCG\Voyager\Models\User;
 
 
 class BagController extends Controller
@@ -64,14 +57,14 @@ class BagController extends Controller
 
         $payment = $api->payment->fetch($request->razorpay_payment_id);
 
-        if(count($input)  && !empty($input['razorpay_payment_id'])) {
+        if (count($input) && !empty($input['razorpay_payment_id'])) {
             try {
 
-                $payment->capture(array('amount'=>$request->amount));
+                $payment->capture(array('amount' => $request->amount));
 
             } catch (\Exception $e) {
-                return  $e->getMessage();
-                Session::put('error',$e->getMessage());
+                return $e->getMessage();
+                Session::put('error', $e->getMessage());
                 return redirect()->back();
             }
         }
@@ -87,18 +80,17 @@ class BagController extends Controller
             'currency' => $payment->currency,
             'payment_status' => $payment->status,
             'method' => $payment->method,
-         ];
+        ];
 
-         Payment::insertGetId($payInfo);
+        Payment::insertGetId($payInfo);
 
         /**
          * after successfull payment add order information in the orders table
          * Clear cart
          * Generate invoice
          * Send email notification to the customer with invoice
-        */
+         */
         $this->carttoorder();
-
 
 
         Session::flash('success', 'Payment done and order placed successfully');
@@ -110,36 +102,42 @@ class BagController extends Controller
     public function carttoorder()
     {
 
-        // Generate random order id
-        $orderid = mt_rand(100000, 999999);
-
         $userID = 0;
-        if(Auth::check()){
+        if (Auth::check()) {
             $userID = auth()->user()->id;
-        }
-        else{
-            if(session('session_id')){
+        } else {
+            if (session('session_id')) {
                 $userID = session('session_id');
-            }
-            else{
-                $userID = rand(1111111111,9999999999);
+            } else {
+                $userID = rand(1111111111, 9999999999);
                 session(['session_id' => $userID]);
             }
         }
         $carts = \Cart::session($userID)->getContent();
 
-        foreach($carts as $key => $cart)
-        {
+
+        // Generate random order id
+        if (count($carts) > 0 && Session::get('city') !== null) {
+            $ds = DeliveryServicableArea::whereCity(Session::get('city'))->first();
+        }
+        $city = '';
+        if (isset($ds)) {
+            $city = $ds->abbreveation ?? '';
+        }
+        $latestOrder = Showcase::latest()->first();
+        $orderid = 'CSAH' . date('dym') . str_pad(($latestOrder->id + 1) . $city, 3, "0", STR_PAD_LEFT);
+
+
+        foreach ($carts as $key => $cart) {
 
             // fetch product information
             $product = Product::where('id', $cart->attributes->product_id)->first();
 
 
-            if(Config::get('icrm.site_package.singel_brand_store') == 1)
-            {
+            if (Config::get('icrm.site_package.singel_brand_store') == 1) {
                 $pickuplocation = [
                     'street_address_1' => setting('seller-name.street_address_1'),
-                    'street_address_2' => setting('seller-name.street_address_2').' '.setting('seller-name.landmark'),
+                    'street_address_2' => setting('seller-name.street_address_2') . ' ' . setting('seller-name.landmark'),
                     'pincode' => setting('seller-name.pincode'),
                     'city' => setting('seller-name.city'),
                     'state' => setting('seller-name.state'),
@@ -148,11 +146,10 @@ class BagController extends Controller
                 ];
             }
 
-            if(Config::get('icrm.site_package.multi_vendor_store') == 1)
-            {
+            if (Config::get('icrm.site_package.multi_vendor_store') == 1) {
                 $pickuplocation = [
                     'street_address_1' => $product->vendor->street_address_1,
-                    'street_address_2' => $product->vendor->street_address_2.' '.$product->vendor->landmark,
+                    'street_address_2' => $product->vendor->street_address_2 . ' ' . $product->vendor->landmark,
                     'pincode' => $product->vendor->pincode,
                     'city' => $product->vendor->city,
                     'state' => $product->vendor->state,
@@ -168,19 +165,17 @@ class BagController extends Controller
             $ordervalue = $subtotal;
 
             $couponCondition = \Cart::session($userID)->getCondition('coupon');
-            if(!empty($couponCondition))
-            {
+            if (!empty($couponCondition)) {
                 $discount = $couponCondition->getCalculatedValue($subtotal);
-            }else{
+            } else {
                 $discount = 0;
             }
 
 
             $shippingCondition = \Cart::session($userID)->getCondition('shipping');
-            if(!empty($shippingCondition))
-            {
+            if (!empty($shippingCondition)) {
                 $shipping = $shippingCondition->getCalculatedValue($subtotal);
-            }else{
+            } else {
                 $shipping = 0;
             }
 
@@ -190,55 +185,53 @@ class BagController extends Controller
 
 
             $taxCondition = \Cart::session($userID)->getCondition('tax');
-            if(!empty($taxCondition))
-            {
+            if (!empty($taxCondition)) {
                 $tax = $taxCondition->getCalculatedValue($subtotal + $shipping - $discount);
-            }else{
+            } else {
                 $tax = 0;
             }
 
             $fsubtotal = $subtotal + $shipping - $discount - request()->redeemed_credits - request()->redeemed_reward_points;
             $ftotal = $total + $shipping - $discount + $tax - request()->redeemed_credits - request()->redeemed_reward_points;
 
-            if($cart->attributes->requireddocument == null)
-            {
+            if ($cart->attributes->requireddocument == null) {
                 $requirementdocument = '';
-            }else{
+            } else {
                 $requirementdocument = url($cart->attributes->requireddocument);
             }
 
 
-            if($cart->attributes->customized_image == null)
-            {
+            if ($cart->attributes->customized_image == null) {
                 $customizedimage = '';
-            }else{
+            } else {
                 $customizedimage = url($cart->attributes->customized_image);
             }
 
-            if($cart->attributes->original_file == null)
-            {
+            if ($cart->attributes->original_file == null) {
                 $originalfile = '';
-            }else{
+            } else {
                 $originalfile = json_encode($cart->attributes->original_file);
             }
 
             //per product discount calculation
 //            $ov = \Cart::session($userID)->getSubtotal() ?? 1;
-            $ratio  = ($cart->getPriceSumWithConditions() / $ordervalue);
-            $coupon_discount = 0; $reward_point_discount = 0; $user_credits_discount = 0;
+            $ratio = ($cart->getPriceSumWithConditions() / $ordervalue);
+            $coupon_discount = 0;
+            $reward_point_discount = 0;
+            $user_credits_discount = 0;
 
-            if($discount > 0){
+            if ($discount > 0) {
                 //coupon discount
                 $coupon_discount = round(($ratio * $discount), 2);
             }
-            if(request()->redeemed_reward_points > 0){
+            if (request()->redeemed_reward_points > 0) {
                 //reward point discount uptoo 20%
-                if(auth()->user()->reward_points >= request()->redeemed_reward_points)
+                if (auth()->user()->reward_points >= request()->redeemed_reward_points)
                     $reward_point_discount = round(($ratio * request()->redeemed_reward_points), 2);
             }
-            if(request()->redeemed_credits > 0){
+            if (request()->redeemed_credits > 0) {
                 //wallet credits discount
-                if(auth()->user()->credits >= request()->redeemed_credits)
+                if (auth()->user()->credits >= request()->redeemed_credits)
                     $user_credits_discount = round(($ratio * request()->redeemed_credits), 2);
             }
 
@@ -327,12 +320,10 @@ class BagController extends Controller
             }
 
 
-            if(Config::get('icrm.stock_management.feature') == 1)
-            {
-                if(Config::get('icrm.product_sku.color') == 1)
-                {
+            if (Config::get('icrm.stock_management.feature') == 1) {
+                if (Config::get('icrm.product_sku.color') == 1) {
                     $updatestock = Productsku::where('product_id', $cart->attributes->product_id)->where('color', $cart->attributes->color)->where('size', $cart->attributes->size)->first();
-                }else{
+                } else {
                     $updatestock = Productsku::where('product_id', $cart->attributes->product_id)->where('size', $cart->attributes->size)->first();
                 }
 
@@ -343,10 +334,10 @@ class BagController extends Controller
             }
         }
 
-        if(request()->redeemed_reward_points > 0){
+        if (request()->redeemed_reward_points > 0) {
             auth()->user()->decrement('reward_points', request()->redeemed_reward_points);
         }
-        if(request()->redeemed_credits > 0){
+        if (request()->redeemed_credits > 0) {
             auth()->user()->decrement('credits', request()->redeemed_credits);
         }
 
@@ -368,21 +359,18 @@ class BagController extends Controller
         // send order sms & email
         try {
 
-            if(Config::get('icrm.sms.msg91.feature') == 1)
-            {
+            if (Config::get('icrm.sms.msg91.feature') == 1) {
 
-                if(!empty(auth()->user()->mobile))
-                {
-                    if(!empty(Config::get('icrm.sms.msg91.order_placed_flow_id')))
-                    {
+                if (!empty(auth()->user()->mobile)) {
+                    if (!empty(Config::get('icrm.sms.msg91.order_placed_flow_id'))) {
                         // SEND ORDER PLACED SMS TO CUSTOMER
-                        $mobile = '91'.Session::get('phone');
+                        $mobile = '91' . Session::get('phone');
                         $response = Msg91::sms()->to($mobile)
-                        ->flow(Config::get('icrm.sms.msg91.order_placed_flow_id'))
-                        ->variable('name', auth()->user()->name)
-                        ->variable('orderid', $orderid)
-                        ->variable('url', route('trackingurl', ['id' => $orderid]))
-                        ->send();
+                            ->flow(Config::get('icrm.sms.msg91.order_placed_flow_id'))
+                            ->variable('name', auth()->user()->name)
+                            ->variable('orderid', $orderid)
+                            ->variable('url', route('trackingurl', ['id' => $orderid]))
+                            ->send();
                     }
 
                 }
@@ -403,7 +391,6 @@ class BagController extends Controller
             // plese report if this happens :)
             // echo 'something else went wrong';
         }
-
 
 
         \Cart::session($userID)->clear();
@@ -431,52 +418,46 @@ class BagController extends Controller
         // send order placed email
         Notification::route('mail', auth()->user()->email)->notify(new PrepaidOrderEmail($order));
 
-        if(Config::get('icrm.site_package.multi_vendor_store') == 1)
-        {
+        if (Config::get('icrm.site_package.multi_vendor_store') == 1) {
             $vendorinfo = User::where('id', $order->vendor_id)->first();
 
-            if(!empty($vendorinfo->email))
-            {
+            if (!empty($vendorinfo->email)) {
                 // Send order notification to vendor
                 Notification::route('mail', $vendorinfo->email)->notify(new PrepaidOrderEmailToVendor($order, $vendorinfo));
-                
+
                 // Send order notification to admin
                 Notification::route('mail', config('ADMIN_MAIL'))->notify(
                     new NewOrderMailToAdmin($order->order_id, auth()->user()->name, auth()->user()->email, $vendorinfo->name, $vendorinfo->email)
                 );
-                
+
             }
 
         }
     }
 
 
-
-
     /**
-         * API URLs
-            * Demo: https://demodashboardapi.shipsy.in/api/client/integration/consignment/cancellation
-            * Production: https://app.shipsy.in/api/client/integration/consignment/cancellation
-         * api-key
-            * Demo: eb6e38f684ef558a1d64fcf8a75967
-            * Live: 1d7458885d42002edc2f29e7162049
-         * Content-Type: application/json
-         * Method: POST
-    */
+     * API URLs
+     * Demo: https://demodashboardapi.shipsy.in/api/client/integration/consignment/cancellation
+     * Production: https://app.shipsy.in/api/client/integration/consignment/cancellation
+     * api-key
+     * Demo: eb6e38f684ef558a1d64fcf8a75967
+     * Live: 1d7458885d42002edc2f29e7162049
+     * Content-Type: application/json
+     * Method: POST
+     */
     public function dtdcordercancellation(Request $request)
     {
         // Dummy Curl Request to call api
-       /**
-        * Check if the order awb holds any of the orders which has customized product type
-        */
+        /**
+         * Check if the order awb holds any of the orders which has customized product type
+         */
 
         $orderstatus = Order::where('order_awb', $request->order_awb)->whereIn('order_status', ['New order', 'Under manufacturing'])->get();
 
-        if(isset($orderstatus))
-        {
-            if(count($orderstatus) == 0)
-            {
-                Session::flash('warning', 'Your order is already schedulled for shipping and can not to cancelled. Order ID:'.$request->order_id.'.');
+        if (isset($orderstatus)) {
+            if (count($orderstatus) == 0) {
+                Session::flash('warning', 'Your order is already schedulled for shipping and can not to cancelled. Order ID:' . $request->order_id . '.');
 
                 return redirect()->route('myorders');
             }
@@ -484,46 +465,42 @@ class BagController extends Controller
 
         $customized = Order::where('order_awb', $request->order_awb)->where('type', 'customized')->get();
 
-        if(isset($customized))
-        {
-            if(count($customized) > 0)
-            {
-                Session::flash('warning', 'You can not request cancellation for orders which has customized products. Order ID:'.$request->order_id.'.');
+        if (isset($customized)) {
+            if (count($customized) > 0) {
+                Session::flash('warning', 'You can not request cancellation for orders which has customized products. Order ID:' . $request->order_id . '.');
 
                 return redirect()->route('myorders');
             }
         }
 
 
-
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://app.shipsy.in/api/client/integration/consignment/cancellation",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS =>
-        "
+            CURLOPT_URL => "https://app.shipsy.in/api/client/integration/consignment/cancellation",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS =>
+                "
             {
                 \n\t\"AWBNo\":[\"$request->order_awb\"],
                 \n\t\"customerCode\":\t\"PL2435\"\n\t
             }
         "
         ,
-        CURLOPT_HTTPHEADER => array(
-        "Authorization: Basic ZTA4MjE1MGE3YTQxNWVlZjdkMzE0NjhkMWRkNDY1Og==",
-        // "Postman-Token: c096d7ba-830d-440a-9de4-10425e62e52f",
-        "api-key: 1d7458885d42002edc2f29e7162049",
-        "cache-control: no-cache",
-        // "customerId: 259",
-        // "organisation-id: 1",
-        'Content-Type: application/json',
-        ),
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Basic ZTA4MjE1MGE3YTQxNWVlZjdkMzE0NjhkMWRkNDY1Og==",
+                // "Postman-Token: c096d7ba-830d-440a-9de4-10425e62e52f",
+                "api-key: 1d7458885d42002edc2f29e7162049",
+                "cache-control: no-cache",
+                // "customerId: 259",
+                // "organisation-id: 1",
+                'Content-Type: application/json',
+            ),
         ));
 
 
@@ -533,25 +510,24 @@ class BagController extends Controller
         curl_close($curl);
 
         if ($err) {
-        // echo "cURL Error #:" . $err;
+            // echo "cURL Error #:" . $err;
             Session::flash('danger', $err);
             return redirect()->route('myorders');
         } else {
-        // echo $response;
-        // dd($response);
+            // echo $response;
+            // dd($response);
             $collection = json_encode(collect($response));
             $collection = json_decode(json_decode($collection)[0]);
 
-            if(collect($collection)['success'] == false)
-            {
-                Session::flash('danger', 'Cancelation request failed for order '.$request->order_id.'. Please contact '.env('APP_NAME').'.');
+            if (collect($collection)['success'] == false) {
+                Session::flash('danger', 'Cancelation request failed for order ' . $request->order_id . '. Please contact ' . env('APP_NAME') . '.');
                 // return;
 
                 // error message by DTDC
                 // collect($collection)['failures'][0]->message
 
                 return redirect()->route('myorders');
-            }else{
+            } else {
                 // update in database
                 Order::where('order_awb', $request->order_awb)->update([
                     'order_status' => 'Cancelled'
@@ -559,7 +535,7 @@ class BagController extends Controller
                 // send email notification to customer
 
                 // show alert on frontend
-                Session::flash('success', 'Order successfully cancelled for order id '.$request->order_id.'.');
+                Session::flash('success', 'Order successfully cancelled for order id ' . $request->order_id . '.');
 
                 return redirect()->route('myorders');
             }
@@ -567,12 +543,7 @@ class BagController extends Controller
         }
 
 
-
     }
-
-
-
-
 
 
 }

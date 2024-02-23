@@ -98,6 +98,21 @@ class VendorPaymentController extends Controller
     public function update(Request $request, $id)
     {
         $vendorPayment = VendorPayment::with('user')->findOrFail($id);
+
+        $status = 'success';
+        $msg = 'Payment Updated Successfully';
+        if ($request->filled('status')) {
+            if ($request->status) {
+                if (!$request->filled('utr_no')) {
+                    return response()->json(['status' => 'error', 'msg' => 'UTR No. is required', 'data' => $vendorPayment]);
+                }
+            } else {
+                $status = 'warning';
+                $msg = 'Payment Unpublished Successfully';
+            }
+        }
+
+        /*Other Fields*/
         $vendorPayment->update($request->except(['vendor_id', 'billing_date', 'total']));
 
         if ($request->has('vendor_id')) {
@@ -117,16 +132,6 @@ class VendorPaymentController extends Controller
             ]);
         }
 
-        $status = 'success';
-        $msg = 'Payment Updated Successfully';
-        if ($request->filled('status')) {
-            if ($request->status) {
-                $msg = 'Payment Published Successfully';
-            } else {
-                $status = 'warning';
-                $msg = 'Payment Unpublished Successfully';
-            }
-        }
 
         return response()->json(['status' => $status, 'msg' => $msg, 'data' => $vendorPayment]);
     }

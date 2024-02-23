@@ -325,10 +325,20 @@ class ShowcaseAtHomeController extends Controller
                 session(['session_id' => $userID]);
             }
         }
-        // Generate random order id
-        $orderid = mt_rand(100000, 999999);
-
         $carts = app('showcase')->session($userID)->getContent();
+
+        // Generate random order id
+        if (count($carts) > 0 && isset($carts[0]->dropoff_city)) {
+            $ds = DeliveryServicableArea::whereCity($carts[0]->dropoff_city)->first();
+        }
+        $city = '';
+        if (isset($ds)) {
+            $city = $ds->abbreveation ?? '';
+        }
+        $latestOrder = Showcase::latest()->first();
+        $orderid = 'CSAH' . date('dym') . str_pad(($latestOrder->id + 1) . $city, 3, "0", STR_PAD_LEFT);
+        //$orderid = mt_rand(100000, 999999);
+
 
         foreach ($carts as $key => $cart) {
             // fetch product information
@@ -528,7 +538,7 @@ class ShowcaseAtHomeController extends Controller
     function acceptOrder($id)
     {
         if (auth()->user()->hasRole(['Vendor'])) {
-           $orders = Showcase::where(['order_id' => $id, 'vendor_id' => auth()->user()->id])
+            $orders = Showcase::where(['order_id' => $id, 'vendor_id' => auth()->user()->id])
                 ->where('is_order_accepted', false)
                 ->where('order_status', '!=', 'Non Acceptance')
                 ->update([
@@ -540,10 +550,10 @@ class ShowcaseAtHomeController extends Controller
             //    'message' => "Showcase order accepted successfully",
             //    'alert-type' => 'success',
             //]);
-                return redirect()->back()->with([
-                    'message' => "Showcase order accepted successfully",
-                    'alert-type' => 'success',
-                ]);
+            return redirect()->back()->with([
+                'message' => "Showcase order accepted successfully",
+                'alert-type' => 'success',
+            ]);
         } else {
             abort(404);
         }
@@ -648,11 +658,20 @@ class ShowcaseAtHomeController extends Controller
     function purchasecarttoorder($showcaseorderid)
     {
 
-        // Generate random order id
-        $orderid = mt_rand(100000, 999999);
 
         $carts = Showcase::where('order_id', $showcaseorderid)->where('order_status', 'Moved to Bag')->get();
         $notincarts = Showcase::where('order_id', $showcaseorderid)->where('order_status', '!=', 'Moved to Bag')->get();
+
+        // Generate random order id
+        if (count($carts) > 0 && isset($carts[0]->dropoff_city)) {
+            $ds = DeliveryServicableArea::whereCity($carts[0]->dropoff_city)->first();
+        }
+        $city = '';
+        if (isset($ds)) {
+            $city = $ds->abbreveation ?? '';
+        }
+        $latestOrder = Showcase::latest()->first();
+        $orderid = 'CSAH' . date('dym') . str_pad(($latestOrder->id + 1) . $city, 3, "0", STR_PAD_LEFT);
 
         foreach ($carts as $key => $cart) {
             //per product discount calculation
