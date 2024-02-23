@@ -61,6 +61,7 @@ class DeliveryAreasController extends Controller
 
         $announcement = DeliveryServicableArea::create([
             'city' => $request->city,
+            'abbreviation' => $request->abbreviation,
             'state' => $request->state,
             'start_at' => $request->start_at,
             'end_at' => $request->end_at,

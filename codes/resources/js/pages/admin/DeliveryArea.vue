@@ -21,13 +21,17 @@
                      </div>
                   </div>
                   <div class="md:flex mb-3">
-                     <div class="mb-5 md:w-1/2 w-full md:mx-2 my-1">
+                     <div class="mb-5 md:w-1/3 w-full md:mx-2 my-1">
                         <label class="block mb-2 text-sm font-bold text-gray-900">Start at <span class="text-red-600">*</span></label>
-                        <input id="start_at" v-model="start_at" class="form-input" type="time" required>
+                        <input id="start_at" v-model="start_at" class="form-input" required type="time">
                      </div>
-                     <div class="mb-5 md:w-1/2 w-full md:mx-2 my-1">
+                     <div class="mb-5 md:w-1/3 w-full md:mx-2 my-1">
                         <label class="block mb-2 text-sm font-bold text-gray-900">End at <span class="text-red-600">*</span></label>
-                        <input id="end_at" v-model="end_at" class="form-input" type="time" required>
+                        <input id="end_at" v-model="end_at" class="form-input" required type="time">
+                     </div>
+                     <div class="mb-5 md:w-1/3 w-full md:mx-2 my-1">
+                        <label class="block mb-2 text-sm font-bold text-gray-900">Abbreviation <span class="text-red-600">*</span></label>
+                        <input id="abbreviation" v-model="abbreviation" class="form-input" required type="time">
                      </div>
                   </div>
                   <div class="text-center">
@@ -116,6 +120,9 @@
                               City
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                              Abbreviation
+                           </div>
+                           <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                               State
                            </div>
                            <div class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
@@ -141,6 +148,9 @@
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
                               {{ delivery_area.city || '-' }}
+                           </div>
+                           <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
+                              {{ delivery_area.abbreviation || '-' }}
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                               {{ delivery_area.state || '-' }}
@@ -209,6 +219,7 @@
             dataLoading: true,
             delivery_areas: [{}],
             city: '',
+            abbreviation: '',
             state: '',
             start_at: '',
             end_at: '',
@@ -234,6 +245,7 @@
          },
          clear() {
             this.city = '';
+            this.abbreviation = '';
             this.state = '';
             this.start_at = '';
             this.end_at = '';
@@ -246,6 +258,7 @@
                 .then(res => {
                    this.editId = res.data.data.id;
                    this.city = res.data.data.city;
+                   this.abbreviation = res.data.data.abbreviation;
                    this.state = res.data.data.state;
                    this.start_at = res.data.data.start_at;
                    this.end_at = res.data.data.end_at;
@@ -279,6 +292,7 @@
                   _method: 'PUT',
                   id: this.editId,
                   city: this.city,
+                  abbreviation: this.city,
                   state: this.state,
                   start_at: this.start_at,
                   end_at: this.end_at,
@@ -287,6 +301,7 @@
                url = '/admin/delivery-area'
                data = {
                   city: this.city,
+                  abbreviation: this.abbreviation,
                   state: this.state,
                   start_at: this.start_at,
                   end_at: this.end_at,
