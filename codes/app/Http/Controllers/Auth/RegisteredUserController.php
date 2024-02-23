@@ -2,40 +2,30 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\WelcomeEmail;
 use App\Productcolor;
 use App\Productsku;
-use App\Showcase;
-use Illuminate\Http\Request;
-use Craftsys\Msg91\Facade\Msg91;
-use Illuminate\Validation\Rules;
-use App\Notifications\WelcomeEmail;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Config;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Session;
-use Laravel\Socialite\Facades\Socialite;
+use App\Showcase;
+use Craftsys\Msg91\Facade\Msg91;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rules;
+use Laravel\Socialite\Facades\Socialite;
 
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('auth.register');
-    }
-
-    /**
      * Handle an incoming registration request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -94,12 +84,23 @@ class RegisteredUserController extends Controller
         Session::put('register', false);
         Auth::login($user);
 
-        $this->saveLoggedInCart();
-        $this->saveShowroomCart();
+        if (session('session_id')) {
+            $this->saveLoggedInCart();
+            $this->saveShowroomCart();
+        }
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
+    /**
+     * Display the registration view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('auth.register');
+    }
 
     public function saveLoggedInCart()
     {
@@ -343,7 +344,7 @@ class RegisteredUserController extends Controller
         $session_cart = app('showcase')->session($id);
         $session_cartItems = $session_cart->getContent();
         $sessionObj = json_decode(json_encode($session_cartItems));
-        $sessionKeys = array_keys((array) $sessionObj);
+        $sessionKeys = array_keys((array)$sessionObj);
 
         //logged-in user cart
         $showcase = app('showcase')->session($userID);
@@ -456,6 +457,7 @@ class RegisteredUserController extends Controller
             }
         }
     }
+
     public function redirect($client)
     {
         return Socialite::driver($client)->redirect();
@@ -529,10 +531,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        $this->saveLoggedInCart();
-        $this->saveShowroomCart();
-
-
+        if (session('session_id')) {
+            $this->saveLoggedInCart();
+            $this->saveShowroomCart();
+        }
 
 
         return redirect()->intended(RouteServiceProvider::HOME);
@@ -578,8 +580,10 @@ class RegisteredUserController extends Controller
                 $user->markEmailAsVerified();
 
                 Auth::login($user);
-                $this->saveLoggedInCart();
-                $this->saveShowroomCart();
+                if (session('session_id')) {
+                    $this->saveLoggedInCart();
+                    $this->saveShowroomCart();
+                }
 
                 Notification::route('mail', $user->email)->notify(new WelcomeEmail(auth()->user()));
 
@@ -600,17 +604,16 @@ class RegisteredUserController extends Controller
         }
 
 
-
         $user->markEmailAsVerified();
-
 
 
         Auth::login($user);
 
 
-        $this->saveLoggedInCart();
-        $this->saveShowroomCart();
-
+        if (session('session_id')) {
+            $this->saveLoggedInCart();
+            $this->saveShowroomCart();
+        }
 
 
         return redirect()->intended(RouteServiceProvider::HOME);

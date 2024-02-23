@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Productcolor;
-use App\Showcase;
 use App\Productsku;
 use App\Providers\RouteServiceProvider;
+use App\Showcase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -41,42 +41,26 @@ class AuthenticatedSessionController extends Controller
         Session::put('login', false);
 
         if (Auth::check()) {
-            $this->saveLoggedInCart();
-            $this->saveShowroomCart();
+            if (session('session_id')) {
+                $this->saveLoggedInCart();
+                $this->saveShowroomCart();
+            }
         }
 
-        if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('Client')){
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('Client')) {
             return redirect('/admin/dashboard');
         }
-        if(auth()->user()->hasRole('Vendor')){
+        if (auth()->user()->hasRole('Vendor')) {
             return redirect('/vendor/dashboard');
         }
-        if(auth()->user()->hasRole('Delivery Head')){
+        if (auth()->user()->hasRole('Delivery Head')) {
             return redirect('/delivery-head/dashboard');
         }
-        if(auth()->user()->hasRole('Delivery Boy')){
+        if (auth()->user()->hasRole('Delivery Boy')) {
             return redirect('/delivery-boy/dashboard');
         }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
-
-    /**
-     * Destroy an authenticated session.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(Request $request)
-    {
-        Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/');
-    }
-
 
     public function saveLoggedInCart()
     {
@@ -320,7 +304,7 @@ class AuthenticatedSessionController extends Controller
         $session_cart = app('showcase')->session($id);
         $session_cartItems = $session_cart->getContent();
         $sessionObj = json_decode(json_encode($session_cartItems));
-        $sessionKeys = array_keys((array) $sessionObj);
+        $sessionKeys = array_keys((array)$sessionObj);
 
         //logged-in user cart
         $showcase = app('showcase')->session($userID);
@@ -367,10 +351,10 @@ class AuthenticatedSessionController extends Controller
 
                 if (Auth::check()) {
                     $activeshowcases = Showcase::where('user_id', auth()->user()->id)
-                            ->where('order_status', 'New Order')
-                            ->select('order_id')
-                            ->groupBy('order_id')
-                            ->count();
+                        ->where('order_status', 'New Order')
+                        ->select('order_id')
+                        ->groupBy('order_id')
+                        ->count();
 
                     if ($activeshowcases == Config::get('icrm.showcase_at_home.active_orders')) {
                         Session::flash('warning', 'At a time you can place only ' . Config::get('icrm.showcase_at_home.active_orders') . ' active showcase at home orders.');
@@ -432,5 +416,22 @@ class AuthenticatedSessionController extends Controller
                 Session::put('showcasevendorid', $product->seller_id);
             }
         }
+    }
+
+    /**
+     * Destroy an authenticated session.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Request $request)
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }
