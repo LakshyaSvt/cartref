@@ -51,7 +51,7 @@ class AuthenticatedSessionController extends Controller
             return redirect('/admin/dashboard');
         }
         if (auth()->user()->hasRole('Vendor')) {
-            return redirect('/vendor/dashboard');
+            return redirect('/seller/dashboard');
         }
         if (auth()->user()->hasRole('Delivery Head')) {
             return redirect('/delivery-head/dashboard');
