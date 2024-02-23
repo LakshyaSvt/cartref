@@ -328,8 +328,8 @@ class ShowcaseAtHomeController extends Controller
         $carts = app('showcase')->session($userID)->getContent();
 
         // Generate random order id
-        if (count($carts) > 0 && isset($carts[0]->dropoff_city)) {
-            $ds = DeliveryServicableArea::whereCity($carts[0]->dropoff_city)->first();
+        if (Session::get('city') !== null) {
+            $ds = DeliveryServicableArea::whereCity(Session::get('city'))->first();
         }
         $city = '';
         if (isset($ds)) {
@@ -663,8 +663,8 @@ class ShowcaseAtHomeController extends Controller
         $notincarts = Showcase::where('order_id', $showcaseorderid)->where('order_status', '!=', 'Moved to Bag')->get();
 
         // Generate random order id
-        if (count($carts) > 0 && isset($carts[0]->dropoff_city)) {
-            $ds = DeliveryServicableArea::whereCity($carts[0]->dropoff_city)->first();
+        if (count($carts) > 0 && Session::get('city') !== null) {
+            $ds = DeliveryServicableArea::whereCity(Session::get('city'))->first();
         }
         $city = '';
         if (isset($ds)) {
