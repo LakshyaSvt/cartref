@@ -21,7 +21,7 @@
                      <i class="fi fi-rr-house-chimney"></i>
 
                      <span class="group-hover:text-gray-700 flex justify-between w-full">
-                          <span>Showcases At Home</span>
+                          <span>Showroom At Home</span>
                           <i v-if="showcases" class="fi fi-rr-angle-small-up mr-2"></i>
                           <i v-if="!showcases" class="fi fi-rr-angle-small-down mr-2"></i>
                       </span>
@@ -29,7 +29,7 @@
                   <ul v-if="showcases" class="dropdown-menu">
                      <li>
                         <router-link :to="{ name: 'showcases' }" class="dropdown-item">
-                           <i class="fi fi-rr-house-chimney mr-2"></i> Showcases
+                           <i class="fi fi-rr-house-chimney mr-2"></i> Showroom Orders
                         </router-link>
                      </li>
                      <li>
@@ -84,6 +84,17 @@
                            <i class="fi fi-rr-palette mr-2"></i> Colors
                         </router-link>
                      </li>
+
+                     <li>
+                        <router-link :to="{ name: 'genders' }" class="dropdown-item">
+                           <i class="fi fi-rr-venus-mars mr-2"></i> Genders
+                        </router-link>
+                     </li>
+                     <li>
+                        <router-link :to="{ name: 'styles' }" class="dropdown-item">
+                           <i class="fi fi-rr-circle-s mr-2"></i> Styles
+                        </router-link>
+                     </li>
                      <!-- <li>
                          <a href="#" class="dropdown-item">
                              <i class="fi fi-rr-note-medical mr-2"></i> SKU Report
@@ -109,11 +120,6 @@
                             </span>
                   </a>
                   <ul v-if="vendor" class="dropdown-menu">
-                     <li>
-                        <router-link :to="{name:'vendor'}" class="dropdown-item">
-                           <i class="fi fi-ss-users-alt mr-2"></i> Vendors
-                        </router-link>
-                     </li>
                      <li>
                         <router-link :to="{name:'vendor-payments'}" class="dropdown-item">
                            <i class="fi fi-rr-money-bill-wave mr-2"></i> Payments
@@ -170,16 +176,6 @@
                      <li>
                         <router-link :to="{ name: 'category-component-sliders' }" class="dropdown-item">
                            <i class="fi fi-rr-settings-sliders mr-2"></i> Category Sliders
-                        </router-link>
-                     </li>
-                     <li>
-                        <router-link :to="{ name: 'genders' }" class="dropdown-item">
-                           <i class="fi fi-rr-venus-mars mr-2"></i> Genders
-                        </router-link>
-                     </li>
-                     <li>
-                        <router-link :to="{ name: 'styles' }" class="dropdown-item">
-                           <i class="fi fi-rr-circle-s mr-2"></i> Styles
                         </router-link>
                      </li>
                   </ul>
@@ -239,6 +235,11 @@
                      <li>
                         <router-link :to="{name:'newsletter'}" class="dropdown-item">
                            <i class="fi fi-rs-newspaper-open mr-2"></i> Newsletters
+                        </router-link>
+                     </li>
+                     <li>
+                        <router-link :to="{name:'vendor'}" class="dropdown-item">
+                           <i class="fi fi-ss-users-alt mr-2"></i> Vendors Requests
                         </router-link>
                      </li>
                   </ul>

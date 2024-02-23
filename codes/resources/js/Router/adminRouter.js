@@ -51,6 +51,8 @@ const adminRoutes = [
     {name: 'brands', path: '/admin/product/brands', component: Brands},
     {name: 'sizes', path: '/admin/product/sizes', component: Sizes},
     {name: 'colors', path: '/admin/product/colors', component: Colors},
+    {name: 'genders', path: '/admin/product/genders', component: Genders},
+    {name: 'styles', path: '/admin/product/styles', component: Styles},
     {name: 'product-bulk-upload', path: '/admin/products/bulk-upload', component: ProductBulkUpload},
     {name: 'product-edit', path: '/admin/products/:id/edit', component: ProductCreateOrEdit},
     {name: 'product-create', path: '/admin/products/create', component: ProductCreateOrEdit},
@@ -61,12 +63,12 @@ const adminRoutes = [
     {name: 'sub-category', path: '/admin/product/sub-category', component: SubCategory},
 
     /*Vendor*/
-    {name: 'vendor', path: '/admin/vendor', component: Vendors},
     {name: 'vendor-payments', path: '/admin/vendor-payments', component: VendorPayments},
 
     /*Lead*/
     {name: 'contacts', path: '/admin/lead/contacts', component: Contacts},
     {name: 'newsletter', path: '/admin/lead/newsletter', component: NewsLetter},
+    {name: 'vendor', path: '/admin/lead/vendor', component: Vendors},
 
     /*Collections*/
     {name: 'collection-groups', path: '/admin/collection/groups', component: CollectionGroups},
@@ -76,8 +78,6 @@ const adminRoutes = [
     {name: 'home-sliders', path: '/admin/config/home-sliders', component: HomeSliders},
     {name: 'components', path: '/admin/config/components', component: Component},
     {name: 'category-component-sliders', path: '/admin/config/category-component-sliders', component: CategoryComponentSliders},
-    {name: 'genders', path: '/admin/config/genders', component: Genders},
-    {name: 'styles', path: '/admin/config/styles', component: Styles},
 
     /*Control Panel*/
     {name: 'seo', path: '/admin/control/seo', component: Seo},

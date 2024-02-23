@@ -12,7 +12,7 @@
                <li class="min-w-max">
                   <router-link :to="{ name: 'showcases' }" class="single-item">
                      <i class="fi fi-rr-house-chimney"></i>
-                     <span class="">Showcases</span>
+                     <span class="">Showroom at Home</span>
                   </router-link>
                </li>
                <li class="min-w-max">

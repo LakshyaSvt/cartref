@@ -353,7 +353,7 @@
                                  <div v-if="order.order_substatus" class="font-semibold text-sm text-gray-800">{{ order.order_substatus }}</div>
                               </div>
                               <div v-if="order.late_fees" class="my-1" title="Late Shipment Fees" v-html="order.late_fees"></div>
-                              <p v-if="order.shipping_provider">~by {{ order.shipping_provider }}</p>
+                              <p v-if="order.courier_name">~by {{ order.courier_name }}</p>
                               <div v-if="order.order_awb" class="flex flex-wrap my-1">
                                  <div>AWB:-</div>
                                  <p class="text-primary-400">{{ order.order_awb }}</p>
