@@ -31,7 +31,7 @@
                      </div>
                      <div class="mb-5 md:w-1/3 w-full md:mx-2 my-1">
                         <label class="block mb-2 text-sm font-bold text-gray-900">Abbreviation <span class="text-red-600">*</span></label>
-                        <input id="abbreviation" v-model="abbreviation" class="form-input" required type="time">
+                        <input id="abbreviation" v-model="abbreviation" class="form-input" required type="text">
                      </div>
                   </div>
                   <div class="text-center">

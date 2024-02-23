@@ -5190,6 +5190,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       dataLoading: true,
       delivery_areas: [{}],
       city: '',
+      abbreviation: '',
       state: '',
       start_at: '',
       end_at: '',
@@ -5221,6 +5222,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     },
     clear: function clear() {
       this.city = '';
+      this.abbreviation = '';
       this.state = '';
       this.start_at = '';
       this.end_at = '';
@@ -5234,6 +5236,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       axios.get('/admin/delivery-area/' + id).then(function (res) {
         _this2.editId = res.data.data.id;
         _this2.city = res.data.data.city;
+        _this2.abbreviation = res.data.data.abbreviation;
         _this2.state = res.data.data.state;
         _this2.start_at = res.data.data.start_at;
         _this2.end_at = res.data.data.end_at;
@@ -5272,6 +5275,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
           _method: 'PUT',
           id: this.editId,
           city: this.city,
+          abbreviation: this.city,
           state: this.state,
           start_at: this.start_at,
           end_at: this.end_at
@@ -5280,6 +5284,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
         url = '/admin/delivery-area';
         data = {
           city: this.city,
+          abbreviation: this.abbreviation,
           state: this.state,
           start_at: this.start_at,
           end_at: this.end_at
@@ -18298,8 +18303,8 @@ var render = function render() {
     staticClass: "form-input",
     attrs: {
       id: "start_at",
-      type: "time",
-      required: ""
+      required: "",
+      type: "time"
     },
     domProps: {
       value: _vm.start_at
@@ -18322,8 +18327,8 @@ var render = function render() {
     staticClass: "form-input",
     attrs: {
       id: "end_at",
-      type: "time",
-      required: ""
+      required: "",
+      type: "time"
     },
     domProps: {
       value: _vm.end_at
@@ -18340,22 +18345,22 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.end_at,
-      expression: "end_at"
+      value: _vm.abbreviation,
+      expression: "abbreviation"
     }],
     staticClass: "form-input",
     attrs: {
-      id: "end_at",
-      type: "time",
-      required: ""
+      id: "abbreviation",
+      required: "",
+      type: "text"
     },
     domProps: {
-      value: _vm.end_at
+      value: _vm.abbreviation
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.end_at = $event.target.value;
+        _vm.abbreviation = $event.target.value;
       }
     }
   })])]), _vm._v(" "), _c("div", {
@@ -18555,6 +18560,8 @@ var render = function render() {
     }, [_vm._v("\n                           " + _vm._s(_vm.pagination.from + index) + "\n                        ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center"
     }, [_vm._v("\n                           " + _vm._s(delivery_area.city || "-") + "\n                        ")]), _vm._v(" "), _c("div", {
+      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center"
+    }, [_vm._v("\n                           " + _vm._s(delivery_area.abbreviation || "-") + "\n                        ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                           " + _vm._s(delivery_area.state || "-") + "\n                        ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
@@ -18686,7 +18693,7 @@ var staticRenderFns = [function () {
 
   return _c("label", {
     staticClass: "block mb-2 text-sm font-bold text-gray-900"
-  }, [_vm._v("Abreveation "), _c("span", {
+  }, [_vm._v("Abbreviation "), _c("span", {
     staticClass: "text-red-600"
   }, [_vm._v("*")])]);
 }, function () {
@@ -18709,6 +18716,8 @@ var staticRenderFns = [function () {
   }, [_vm._v("\n                           S.No.\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                           City\n                        ")]), _vm._v(" "), _c("div", {
+    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
+  }, [_vm._v("\n                           Abbreviation\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                           State\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
