@@ -5518,7 +5518,7 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fi fi-rr-house-chimney"
-  }), _vm._v(" "), _c("span", {}, [_vm._v("Showcases")])])], 1), _vm._v(" "), _c("li", {
+  }), _vm._v(" "), _c("span", {}, [_vm._v("Showroom at Home")])])], 1), _vm._v(" "), _c("li", {
     staticClass: "min-w-max"
   }, [_c("router-link", {
     staticClass: "single-item",
@@ -8240,7 +8240,7 @@ var render = function render() {
       domProps: {
         innerHTML: _vm._s(order.late_fees)
       }
-    }) : _vm._e(), _vm._v(" "), order.shipping_provider ? _c("p", [_vm._v("~by " + _vm._s(order.shipping_provider))]) : _vm._e(), _vm._v(" "), order.order_awb ? _c("div", {
+    }) : _vm._e(), _vm._v(" "), order.courier_name ? _c("p", [_vm._v("~by " + _vm._s(order.courier_name))]) : _vm._e(), _vm._v(" "), order.order_awb ? _c("div", {
       staticClass: "flex flex-wrap my-1"
     }, [_c("div", [_vm._v("AWB:-")]), _vm._v(" "), _c("p", {
       staticClass: "text-primary-400"

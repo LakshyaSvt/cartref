@@ -1056,6 +1056,12 @@ li a.dropdown-item:hover {
 .right-1 {
   right: 0.25rem;
 }
+.right-2 {
+  right: 0.5rem;
+}
+.right-2\.5 {
+  right: 0.625rem;
+}
 .top-0 {
   top: 0px;
 }
@@ -1064,12 +1070,6 @@ li a.dropdown-item:hover {
 }
 .top-12 {
   top: 3rem;
-}
-.right-2 {
-  right: 0.5rem;
-}
-.right-2\.5 {
-  right: 0.625rem;
 }
 .top-2 {
   top: 0.5rem;
