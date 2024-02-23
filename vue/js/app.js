@@ -10071,7 +10071,7 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fi fi-rr-boxes"
-  }), _vm._v(" "), _c("span", {}, [_vm._v("Orders")])])], 1), _vm._v(" "), _c("li", {
+  }), _vm._v(" "), _c("span", {}, [_vm._v("National Shipping")])])], 1), _vm._v(" "), _c("li", {
     staticClass: "min-w-max"
   }, [_c("a", {
     staticClass: "group dropdown-btn",
@@ -10114,7 +10114,7 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fi fi-rr-shipping-timed mr-2"
-  }), _vm._v(" Delivery Areas\n                        ")])], 1)]) : _vm._e()]), _vm._v(" "), _c("li", {
+  }), _vm._v(" Delivery Cities\n                        ")])], 1)]) : _vm._e()]), _vm._v(" "), _c("li", {
     staticClass: "min-w-max"
   }, [_c("a", {
     staticClass: "group dropdown-btn",
@@ -18119,7 +18119,7 @@ var render = function render() {
     staticClass: "text-2xl font-extrabold text-dark-grey-900"
   }, [_vm._v(_vm._s(((_vm$stats2 = _vm.stats) === null || _vm$stats2 === void 0 ? void 0 : _vm$stats2.newOrder) || "0"))]), _vm._v(" "), _c("p", {
     staticClass: "text-3xl leading-7 text-dark-grey-600"
-  }, [_vm._v("New Orders")]), _vm._v(" "), _c("router-link", {
+  }, [_vm._v("New Orders")]), _vm._v(" National Shipping\n               "), _c("router-link", {
     staticClass: "px-8 py-2 mt-4 text-white bg-primary-600 hover:bg-primary-700 rounded-lg text-lg",
     attrs: {
       to: {
@@ -18134,7 +18134,7 @@ var render = function render() {
     staticClass: "text-2xl font-extrabold text-dark-grey-900"
   }, [_vm._v(_vm._s(((_vm$stats3 = _vm.stats) === null || _vm$stats3 === void 0 ? void 0 : _vm$stats3.order) || "0"))]), _vm._v(" "), _c("p", {
     staticClass: "text-3xl leading-7 text-dark-grey-600"
-  }, [_vm._v("Orders")]), _vm._v(" "), _c("router-link", {
+  }, [_vm._v("Orders")]), _vm._v(" National Shipping\n               "), _c("router-link", {
     staticClass: "px-8 py-2 mt-4 text-white bg-primary-600 hover:bg-primary-700 rounded-lg text-lg",
     attrs: {
       to: {
@@ -18149,7 +18149,7 @@ var render = function render() {
     staticClass: "text-2xl font-extrabold text-dark-grey-900"
   }, [_vm._v(_vm._s(((_vm$stats4 = _vm.stats) === null || _vm$stats4 === void 0 ? void 0 : _vm$stats4.newShowcase) || "0"))]), _vm._v(" "), _c("p", {
     staticClass: "text-3xl leading-7 text-dark-grey-600"
-  }, [_vm._v("New Showcases")]), _vm._v(" "), _c("router-link", {
+  }, [_vm._v("New Showroom ")]), _vm._v(" "), _c("router-link", {
     staticClass: "px-8 py-2 mt-4 text-white bg-primary-600 hover:bg-primary-700 rounded-lg text-lg",
     attrs: {
       to: {
@@ -18164,7 +18164,7 @@ var render = function render() {
     staticClass: "text-2xl font-extrabold text-dark-grey-900"
   }, [_vm._v(_vm._s(((_vm$stats5 = _vm.stats) === null || _vm$stats5 === void 0 ? void 0 : _vm$stats5.showcase) || "0"))]), _vm._v(" "), _c("p", {
     staticClass: "text-3xl leading-7 text-dark-grey-600"
-  }, [_vm._v("Showcases")]), _vm._v(" "), _c("router-link", {
+  }, [_vm._v("Showroom ")]), _vm._v(" "), _c("router-link", {
     staticClass: "px-8 py-2 mt-4 text-white bg-primary-600 hover:bg-primary-700 rounded-lg text-lg",
     attrs: {
       to: {
@@ -24843,7 +24843,7 @@ var render = function render() {
       }
     })])] : [_c("div", {
       staticClass: "font-semibold text-gray-600 py-2.5"
-    }, [_vm._v("\n                                 " + _vm._s((_size$available_stock = size.available_stock) !== null && _size$available_stock !== void 0 ? _size$available_stock : "0") + "\n                              ")])]], 2), _vm._v(" "), _c("div", {
+    }, [_vm._v("\n                                 " + _vm._s((_size$available_stock = size.available_stock) !== null && _size$available_stock !== void 0 ? _size$available_stock : "0") + "\n                              ")]), _vm._v(" "), _c("small", [_vm._v("Double click to edit")])]], 2), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 p-1 text-center"
     }, [_c("StatusCheckbox", {
       attrs: {
@@ -29644,7 +29644,7 @@ var render = function render() {
     staticClass: "w-full my-2"
   }, [_c("label", {
     staticClass: "block mb-2 text-sm font-bold text-gray-900"
-  }, [_vm._v(" Which all brands you will be sellng? (Brand Name)")]), _vm._v(" "), _c("textarea", {
+  }, [_vm._v(" Which all brands you will be selling? (Brand Name)")]), _vm._v(" "), _c("textarea", {
     directives: [{
       name: "model",
       rawName: "v-model",

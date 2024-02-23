@@ -107,6 +107,7 @@
                                  <div class="font-semibold text-gray-600 py-2.5">
                                     {{ size.available_stock ?? '0' }}
                                  </div>
+                                 <small>Double click to edit</small>
                               </template>
                            </div>
                            <div class="table-cell border-t border-l border-gray-500 p-1 text-center">

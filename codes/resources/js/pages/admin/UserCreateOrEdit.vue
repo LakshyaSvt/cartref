@@ -134,7 +134,7 @@
                            <h1 class="text-xl font-bold text-black">Brand Information</h1>
                            <hr class="border border-gray-200 mt-1 mb-2">
                            <div class="w-full my-2">
-                              <label class="block mb-2 text-sm font-bold text-gray-900"> Which all brands you will be sellng? (Brand Name)</label>
+                              <label class="block mb-2 text-sm font-bold text-gray-900"> Which all brands you will be selling? (Brand Name)</label>
                               <textarea id="brands" v-model="user.brands" class="form-input h-28" placeholder=""></textarea>
                            </div>
                            <div class="w-full my-2">

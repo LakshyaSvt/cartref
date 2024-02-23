@@ -12,7 +12,7 @@
                <li class="min-w-max">
                   <router-link :to="{ name: 'orders' }" class="single-item">
                      <i class="fi fi-rr-boxes"></i>
-                     <span class="">Orders</span>
+                     <span class="">National Shipping</span>
                   </router-link>
                </li>
                <li class="min-w-max">
@@ -34,7 +34,7 @@
                      </li>
                      <li>
                         <router-link :to="{name:'delivery-area'}" class="dropdown-item">
-                           <i class="fi fi-rr-shipping-timed mr-2"></i> Delivery Areas
+                           <i class="fi fi-rr-shipping-timed mr-2"></i> Delivery Cities
                         </router-link>
                      </li>
                   </ul>
