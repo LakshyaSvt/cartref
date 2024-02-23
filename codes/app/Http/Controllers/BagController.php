@@ -122,7 +122,7 @@ class BagController extends Controller
         }
         $city = '';
         if (isset($ds)) {
-            $city = $ds->abbreveation ?? '';
+            $city = $ds->abbreviation ?? '';
         }
         $latestOrder = Showcase::latest()->first();
         $orderid = 'CSAH' . date('dym') . str_pad(($latestOrder->id + 1) . $city, 3, "0", STR_PAD_LEFT);
