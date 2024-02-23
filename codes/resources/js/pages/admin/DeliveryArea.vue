@@ -292,7 +292,7 @@
                   _method: 'PUT',
                   id: this.editId,
                   city: this.city,
-                  abbreviation: this.city,
+                  abbreviation: this.abbreviation,
                   state: this.state,
                   start_at: this.start_at,
                   end_at: this.end_at,
