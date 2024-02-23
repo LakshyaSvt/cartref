@@ -39,10 +39,12 @@
                               <input v-model="user.mobile" class="form-input" placeholder="7410XXX852" required type="tel">
                            </div>
                            <div class="md:w-1/2 w-full">
-                              <label class="block mb-2 text-sm font-bold text-gray-900">Password
-                                 <span class="text-red-600">*</span>
-                              </label>
-                              <input v-model="user.password" :required="!editId" class="form-input" placeholder="Password" type="password">
+                              <label class="block mb-2 text-sm font-bold text-gray-900">Password <span class="text-red-600">*</span></label>
+                              <div class="relative ">
+                                 <input v-model="user.password" :required="!editId" :type="passwordType ? 'text' : 'password'" class="form-input" placeholder="Password">
+                                 <i v-if="passwordType" class="absolute right-2.5 top-2.5 fi-rr-eye text-base w-4 h-5 cursor-pointer" @click="togglePasswordType()"></i>
+                                 <i v-else class="absolute right-2.5 top-2.5 fi-rs-crossed-eye text-base w-4 h-5 cursor-pointer" @click="togglePasswordType()"></i>
+                              </div>
                            </div>
                         </div>
                         <div class="flex gap-4 w-full my-2">
@@ -278,6 +280,7 @@
             dataLoading: false,
             showModal: false,
             imgModal: '',
+            passwordType: 0,
             editId: this.$route.params.id,
             roles: [],
 
@@ -328,6 +331,9 @@
          },
          closeImageModal() {
             this.showModal = false;
+         },
+         togglePasswordType() {
+            this.passwordType = !this.passwordType;
          },
          clear() {
             $('form').reset();

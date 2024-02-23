@@ -8955,6 +8955,7 @@ __webpack_require__.r(__webpack_exports__);
       dataLoading: false,
       showModal: false,
       imgModal: '',
+      passwordType: 0,
       editId: this.$route.params.id,
       roles: [],
       user: {
@@ -9004,6 +9005,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     closeImageModal: function closeImageModal() {
       this.showModal = false;
+    },
+    togglePasswordType: function togglePasswordType() {
+      this.passwordType = !this.passwordType;
     },
     clear: function clear() {
       $('form').reset();
@@ -29220,7 +29224,9 @@ var render = function render() {
     }
   })]), _vm._v(" "), _c("div", {
     staticClass: "md:w-1/2 w-full"
-  }, [_vm._m(3), _vm._v(" "), _c("input", {
+  }, [_vm._m(3), _vm._v(" "), _c("div", {
+    staticClass: "relative"
+  }, [(_vm.passwordType ? "text" : "password") === "checkbox" ? _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -29231,7 +29237,64 @@ var render = function render() {
     attrs: {
       required: !_vm.editId,
       placeholder: "Password",
-      type: "password"
+      type: "checkbox"
+    },
+    domProps: {
+      checked: Array.isArray(_vm.user.password) ? _vm._i(_vm.user.password, null) > -1 : _vm.user.password
+    },
+    on: {
+      change: function change($event) {
+        var $$a = _vm.user.password,
+            $$el = $event.target,
+            $$c = $$el.checked ? true : false;
+
+        if (Array.isArray($$a)) {
+          var $$v = null,
+              $$i = _vm._i($$a, $$v);
+
+          if ($$el.checked) {
+            $$i < 0 && _vm.$set(_vm.user, "password", $$a.concat([$$v]));
+          } else {
+            $$i > -1 && _vm.$set(_vm.user, "password", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.$set(_vm.user, "password", $$c);
+        }
+      }
+    }
+  }) : (_vm.passwordType ? "text" : "password") === "radio" ? _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.user.password,
+      expression: "user.password"
+    }],
+    staticClass: "form-input",
+    attrs: {
+      required: !_vm.editId,
+      placeholder: "Password",
+      type: "radio"
+    },
+    domProps: {
+      checked: _vm._q(_vm.user.password, null)
+    },
+    on: {
+      change: function change($event) {
+        return _vm.$set(_vm.user, "password", null);
+      }
+    }
+  }) : _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.user.password,
+      expression: "user.password"
+    }],
+    staticClass: "form-input",
+    attrs: {
+      required: !_vm.editId,
+      placeholder: "Password",
+      type: _vm.passwordType ? "text" : "password"
     },
     domProps: {
       value: _vm.user.password
@@ -29243,7 +29306,21 @@ var render = function render() {
         _vm.$set(_vm.user, "password", $event.target.value);
       }
     }
-  })])]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _vm.passwordType ? _c("i", {
+    staticClass: "absolute right-2.5 top-2.5 fi-rr-eye text-base w-4 h-5 cursor-pointer",
+    on: {
+      click: function click($event) {
+        return _vm.togglePasswordType();
+      }
+    }
+  }) : _c("i", {
+    staticClass: "absolute right-2.5 top-2.5 fi-rs-crossed-eye text-base w-4 h-5 cursor-pointer",
+    on: {
+      click: function click($event) {
+        return _vm.togglePasswordType();
+      }
+    }
+  })])])]), _vm._v(" "), _c("div", {
     staticClass: "flex gap-4 w-full my-2"
   }, [_c("div", {
     staticClass: "mb-5 md:w-1/2 w-full"
@@ -30074,7 +30151,7 @@ var staticRenderFns = [function () {
 
   return _c("label", {
     staticClass: "block mb-2 text-sm font-bold text-gray-900"
-  }, [_vm._v("Password\n                              "), _c("span", {
+  }, [_vm._v("Password "), _c("span", {
     staticClass: "text-red-600"
   }, [_vm._v("*")])]);
 }, function () {
