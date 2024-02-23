@@ -11,54 +11,31 @@
 |
 */
 
-use App\Color;
-use App\EmailNotification;
 use App\Events\MyEvent;
-use App\Http\Controllers\ShiprocketController;
-use App\Models\User;
-use App\Models\Wishlist;
-use App\Notifications\CodOrderEmail;
-use App\Notifications\PushNotification;
-use App\Notifications\TestNotification;
-use App\Productcolor;
-use App\Showcase;
-use Illuminate\Http\Request;
-use Craftsys\Msg91\Facade\Msg91;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
-use TCG\Voyager\Facades\Voyager;
-use App\Notifications\OrderEmail;
-use Seshac\Shiprocket\Shiprocket;
-use LaravelDaily\Invoices\Invoice;
-use App\Notifications\WelcomeEmail;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Spatie\Sitemap\SitemapGenerator;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\BagController;
-use Illuminate\Support\Facades\Artisan;
-use Laravel\Socialite\Facades\Socialite;
-use LaravelDaily\Invoices\Classes\Buyer;
-use LaravelDaily\Invoices\Classes\Party;
 use App\Http\Controllers\BlogsController;
-use App\Http\Controllers\VendorController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\myorderscontroller;
-use App\Http\Controllers\WishlistController;
-use Illuminate\Support\Facades\Notification;
-use App\Http\Controllers\MyAccountController;
-use LaravelDaily\Invoices\Classes\InvoiceItem;
-use App\Http\Controllers\DownloadLabelController;
-use App\Http\Controllers\ShowcaseAtHomeController;
 use App\Http\Controllers\CustomizeProductController;
-use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DownloadLabelController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\MyAccountController;
+use App\Http\Controllers\myorderscontroller;
 use App\Http\Controllers\ProductBulkUploadController;
-use App\Order;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\ShiprocketController;
+use App\Http\Controllers\ShowcaseAtHomeController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VoyagerForgottenPasswordController;
 use App\Http\Controllers\VoyagerResetPasswordController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\WishlistController;
+use App\Notifications\OrderEmail;
+use App\Notifications\PushNotification;
+use App\Notifications\TestNotification;
+use App\Showcase;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
+use Spatie\Sitemap\SitemapGenerator;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -110,10 +87,10 @@ require __DIR__ . '/cron.php';
 // });
 
 
-
 /**
  * Laravel admin
  */
+
 
 Route::group(['prefix' => Config::get('icrm.admin_panel.prefix')], function () {
     Route::get('/products/download-dummy', [ProductBulkUploadController::class, 'export_product_dummy'])->name('products.download-dummy');
@@ -122,11 +99,12 @@ Route::group(['prefix' => Config::get('icrm.admin_panel.prefix')], function () {
 
     Voyager::routes(['verify', true]);
 
+
     // Password Reset Routes...
-    Route::get('password/reset', [VoyagerForgottenPasswordController::class,'showLinkRequestForm'])->name('voyager.password.request');
-    Route::post('password/email', [VoyagerForgottenPasswordController::class,'sendResetLinkEmail'])->name('voyager.password.email');
-    Route::get('password/reset/{token}', [VoyagerResetPasswordController::class,'showResetForm'])->name('voyager.password.reset');
-    Route::post('password/reset', [VoyagerResetPasswordController::class,'reset'])->name('voyager.password.reset.submit');;
+    Route::get('password/reset', [VoyagerForgottenPasswordController::class, 'showLinkRequestForm'])->name('voyager.password.request');
+    Route::post('password/email', [VoyagerForgottenPasswordController::class, 'sendResetLinkEmail'])->name('voyager.password.email');
+    Route::get('password/reset/{token}', [VoyagerResetPasswordController::class, 'showResetForm'])->name('voyager.password.reset');
+    Route::post('password/reset', [VoyagerResetPasswordController::class, 'reset'])->name('voyager.password.reset.submit');;
 
     Route::get('/downloadlabel', [DownloadLabelController::class, 'downloadlabel'])->name('downloadlabel');
     Route::post('/orders/downloadtaxinvoice', [DownloadLabelController::class, 'downloadtaxinvoice'])->name('downloadtaxinvoice');
@@ -157,13 +135,9 @@ Route::get("generate-sitemap", function () {
 Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
 
-
 /**
  * For SEO use this package: https://romanzipp.github.io/Laravel-SEO/example-app.html#service-provider
  */
-
-
-
 
 
 /**
@@ -173,11 +147,6 @@ Route::post('/search', [WelcomeController::class, 'search'])->name('search');
 /**
  * End header
  */
-
-
-
-
-
 
 
 /**
@@ -192,11 +161,6 @@ Route::get('/slider/{slug}', [WelcomeController::class, 'slider'])->name('slider
  */
 
 
-
-
-
-
-
 /**
  * About us
  */
@@ -206,7 +170,6 @@ Route::get('/about-us', [WelcomeController::class, 'aboutus'])->name('aboutus');
 /**
  * End about us
  */
-
 
 
 /**
@@ -248,7 +211,6 @@ if (Config::get('icrm.frontend.newslettersignup.feature') == 1) {
  */
 
 
-
 /**
  * Catalog and product
  */
@@ -278,10 +240,6 @@ Route::get('/products/{vendor_id}', [WelcomeController::class, 'categoryByVendor
  */
 
 
-
-
-
-
 /**
  * Bag wishlist
  */
@@ -296,9 +254,6 @@ Route::prefix('shopping-cart')->middleware(['auth', 'verified'])->group(function
 /**
  * End bag wishlist
  */
-
-
-
 
 
 /**
@@ -357,7 +312,6 @@ Route::prefix('showcase-at-home')->middleware(['auth', 'verified'])->group(funct
  */
 
 
-
 /**
  * Bag
  */
@@ -375,8 +329,6 @@ Route::prefix('shopping-cart')->middleware(['auth', 'verified'])->group(function
 /**
  * End bag
  */
-
-
 
 
 /**
@@ -398,7 +350,6 @@ Route::get('/tu/{id}', [myorderscontroller::class, 'ordercomplete'])->name('trac
 /**
  * end my orders
  */
-
 
 
 /**
@@ -433,13 +384,6 @@ Route::prefix('my-account')->middleware(['auth', 'verified'])->group(function ()
  */
 
 
-
-
-
-
-
-
-
 /**
  * Vendor signup
  */
@@ -450,7 +394,6 @@ if (Config::get('icrm.vendor.signup') == 1) {
 /**
  * End vendor signup
  */
-
 
 
 /**
@@ -521,13 +464,13 @@ Route::view('/invoice/test', 'vendor.invoices.templates.default');
 
 
 Route::get('/get', function () {
-    
+
 });
 
 //Calling this route by shiprocket
 Route::post('/order-status-update', [ShiprocketController::class, 'updateOrderStatus']);
 
-Route::get('/notify/{order_id}',function($order_id){
+Route::get('/notify/{order_id}', function ($order_id) {
 
     $notify = new PushNotification();
     $showcases = Showcase::with('product')->where('order_id', $order_id)->get();
@@ -535,12 +478,12 @@ Route::get('/notify/{order_id}',function($order_id){
 
 });
 
-Route::get('/export-users-from-view',[ProductBulkUploadController::class, 'export_product_dummy']);
+Route::get('/export-users-from-view', [ProductBulkUploadController::class, 'export_product_dummy']);
 
-Route::get('/sds', function(){
+Route::get('/sds', function () {
     $latestOrder = (object)[];
     $latestOrder->id = 1;
-    return 'CNS'.date('dym').str_pad($latestOrder->id + 1, 3, "0", STR_PAD_LEFT);
+    return 'CNS' . date('dym') . str_pad($latestOrder->id + 1, 3, "0", STR_PAD_LEFT);
 });
 
 //require __DIR__ .'/theme.php';

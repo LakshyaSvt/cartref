@@ -3,8 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 //Route::view('/login', 'panel.login')->middleware('guest');
+Route::get('/seller/login', function () {
+    return view('panel.login');
+})->middleware('guest')->name('panel.login');
 
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/', function () {
         return redirect('/admin/dashboard');
     });
@@ -13,16 +16,16 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     })->where('any', '.*');
 });
 
-Route::prefix('vendor')->middleware(['auth', 'vendor'])->group(function () {
+Route::prefix('seller')->middleware(['vendor'])->group(function () {
     Route::get('/', function () {
-        return redirect('/vendor/dashboard');
+        return redirect('/seller/dashboard');
     });
     Route::get('{any}', function () {
         return view('panel.vendor.app');
     })->where('any', '.*');
 });
 
-Route::prefix('delivery-head')->middleware(['auth', 'delivery-head'])->group(function () {
+Route::prefix('delivery-head')->middleware(['delivery-head'])->group(function () {
     Route::get('/', function () {
         return redirect('/delivery-head/dashboard');
     });
@@ -31,7 +34,7 @@ Route::prefix('delivery-head')->middleware(['auth', 'delivery-head'])->group(fun
     })->where('any', '.*');
 });
 
-Route::prefix('delivery-boy')->middleware(['auth', 'delivery-boy'])->group(function () {
+Route::prefix('delivery-boy')->middleware(['delivery-boy'])->group(function () {
     Route::get('/', function () {
         return redirect('/delivery-boy/dashboard');
     });

@@ -21,7 +21,9 @@ class DeliveryBoyMiddlware
             if(Auth::user()->hasRole('Delivery Boy')){
                 return $next($request);
             }
+            abort(404);
+        } else {
+            return redirect()->route('panel.login');
         }
-        abort(404);
     }
 }
