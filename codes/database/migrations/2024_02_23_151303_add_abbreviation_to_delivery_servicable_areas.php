@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAbbreviationToVendorPayments extends Migration
+class AddAbbreviationToDeliveryServicableAreas extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddAbbreviationToVendorPayments extends Migration
      */
     public function up()
     {
-        Schema::table('vendor_payments', function (Blueprint $table) {
+        Schema::table('delivery_servicable_areas', function (Blueprint $table) {
             $table->string('abbreviation')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddAbbreviationToVendorPayments extends Migration
      */
     public function down()
     {
-        Schema::table('vendor_payments', function (Blueprint $table) {
+        Schema::table('delivery_servicable_areas', function (Blueprint $table) {
             $table->dropColumn('abbreviation');
         });
     }
