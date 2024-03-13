@@ -356,7 +356,7 @@ class WelcomeController extends Controller
         if (Session::get('showcasecity') && !isset($_GET['brand_name']) && !isset($_GET['search'])) {
             $city = Session::get('showcasecity');
             $vendorRole = Role::whereName('Vendor')->first();
-            $users = User::where('city', 'LIKE', '%' . $city . '%')->where('role_id', $vendorRole->id)->where('status', true)->get();
+            $users = User::where('city', 'LIKE', '%' . $city . '%')->where('role_id', $vendorRole->id)->where('status', true)->latest()->get();
 
             return view('vendors')->with([
                 'users' => $users
