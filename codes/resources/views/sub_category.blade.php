@@ -184,7 +184,7 @@
                     <div class="col-lg-12 main-content">
                         <div class="row cols-2 cols-sm-5 product-wrapper box-mode">
                             @foreach ($subCategories as $subCategory)
-                                <a href="{{ route('products.subcategory', ['subcategory' => $subCategory->slug, 'brands[' . $user->brands . ']' => $user->brands]) }}"
+                                <a href="{{ route('products.vendor', ['slug' => request()->vendor_id, 'subcategory' => $subCategory->slug]) }}"
                                     class="vendor-wrap">
 
                                     <div class="vendor"

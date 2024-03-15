@@ -114,6 +114,9 @@ class Products extends Component
         if (!empty(request('subcategory'))) {
             $this->selectedsubcategory = request('subcategory');
         }
+        if (!empty(request('vendor_slug'))) {
+            $this->vendor_slug = request('vendor_slug');
+        }
     }
 
     // public function updatedCategorys()
