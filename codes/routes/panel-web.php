@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 //Route::view('/login', 'panel.login')->middleware('guest');
-Route::get('/seller/login', function () {
+Route::get('/vendor/login', function () {
     return view('panel.login');
 })->middleware('guest')->name('panel.login');
 
@@ -16,9 +16,9 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     })->where('any', '.*');
 });
 
-Route::prefix('seller')->middleware(['vendor'])->group(function () {
+Route::prefix('vendor')->middleware(['vendor'])->group(function () {
     Route::get('/', function () {
-        return redirect('/seller/dashboard');
+        return redirect('/vendor/dashboard');
     });
     Route::get('{any}', function () {
         return view('panel.vendor.app');

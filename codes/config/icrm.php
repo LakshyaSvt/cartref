@@ -7,7 +7,7 @@ return [
      */
 
     'admin_panel' => [
-        'prefix' => 'old-seller',
+        'prefix' => 'seller',
         'icrmbranding' => 'false',
     ],
 
