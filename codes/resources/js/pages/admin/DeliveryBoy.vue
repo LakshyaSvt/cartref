@@ -312,8 +312,7 @@ export default {
                     rows: this.row_count,
                     keyword: this.keyword.trim(),
                     status: this.status,
-                    
-
+                    roles: JSON.stringify(["Delivery Boy"])
                 }
             })
                 .then(res => {

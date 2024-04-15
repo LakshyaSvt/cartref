@@ -37,6 +37,11 @@ import Cart from "@pages/admin/Cart.vue";
 import PostCategory from "@pages/admin/PostCategory.vue";
 import Post from "@pages/admin/Post.vue";
 import Profile from "@pages/Profile.vue";
+import Vendor from '../pages/admin/Vendor.vue'
+import NormalUser from '../pages/admin/NormalUser.vue'
+import Client from '../pages/admin/Client.vue'
+import DeliveryBoy from '../pages/admin/DeliveryBoy.vue'
+import DeliveryHead from '../pages/admin/DeliveryHead.vue'
 
 const adminRoutes = [
     {name: 'profile', path: '/admin/profile', component: Profile},
@@ -90,6 +95,21 @@ const adminRoutes = [
     {name: 'user-create', path: '/admin/user/create', component: UserCreateOrEdit},
     {name: 'user-edit', path: '/admin/users/edit/:id', component: UserCreateOrEdit},
     // {name: 'role', path: '/admin/user/role', component: Role},
+
+    /*Vendor Management*/
+    {name: 'vendor-user', path: '/admin/vendors', component: Vendor},
+
+    /*Normal User Management*/
+    {name: 'normal-user', path: '/admin/normal-user', component: NormalUser},
+
+    /*Client Management*/
+    {name: 'client', path: '/admin/client', component: Client},
+
+    /*Delivery Boy Management*/
+    {name: 'delivery-boy', path: '/admin/delivery-boy', component: DeliveryBoy},
+
+    /*Delivery Head Management*/
+    {name: 'delivery-head', path: '/admin/delivery-head', component: DeliveryHead},
 
     /*Post & Category*/
     {name: 'post', path: '/admin/post/blog', component: Post},
