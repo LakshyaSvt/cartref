@@ -137,7 +137,7 @@ const setData = () => {
                                     <th>Order</th>
                                     <th style="border-right: none;">Product Information</th>
                                     <th></th>
-                                    <th>Amount</th>
+                                    <th>Amount</th> 
                                     <th>Buyer Details</th>
                                 </tr>
                             </thead>
