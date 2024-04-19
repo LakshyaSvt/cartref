@@ -4,8 +4,8 @@
         <div class="container mx-auto my-2 px-4">
             <div class="flex flex-wrap justify-between items-center">
                 <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
-                    <i class="fi fi-rs-users-alt"></i>
-                    <h3 class="text-start my-8">User</h3>
+                    <i class="fi fi-rs-user-gear"></i>
+                    <h3 class="text-start my-8">Vendor</h3>
                 </div>
                 <div>
                     <router-link :to="{ name: 'user-create' }"

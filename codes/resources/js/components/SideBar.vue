@@ -280,34 +280,34 @@
                             </span>
                         </a>
                         <ul v-if="user" class="dropdown-menu">
-                            <li>
+                            <!-- <li>
                                 <router-link :to="{ name: 'user' }" class="dropdown-item">
                                     <i class="fi fi-rs-users-alt mr-2"></i> Users
                                 </router-link>
-                            </li>
+                            </li> -->
                             <li>
                                 <router-link :to="{ name: 'client' }" class="dropdown-item">
-                                    <i class="fi fi-rs-users-alt mr-2"></i> Client
+                                    <i class="fi fi-rs-chalkboard-user"></i> Admin
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'normal-user' }" class="dropdown-item">
-                                    <i class="fi fi-rs-users-alt mr-2"></i> Normal Users
+                                    <i class="fi fi-tr-images-user"></i> Customer
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'vendor-user' }" class="dropdown-item">
-                                    <i class="fi fi-rs-users-alt mr-2"></i> Vendors
+                                    <i class="fi fi-rs-user-gear"></i> Vendors
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'delivery-boy' }" class="dropdown-item">
-                                    <i class="fi fi-rs-users-alt mr-2"></i>Delivery Boy
+                                    <i class="fi fi-rr-biking-mountain"></i>Delivery Boy
                                 </router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'delivery-head' }" class="dropdown-item">
-                                    <i class="fi fi-rs-users-alt mr-2"></i> Delivery Head
+                                    <i class="fi fi-rr-biking-mountain"></i>Delivery Head
                                 </router-link>
                             </li>
 
