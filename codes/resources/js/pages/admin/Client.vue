@@ -4,8 +4,8 @@
         <div class="container mx-auto my-2 px-4">
             <div class="flex flex-wrap justify-between items-center">
                 <div class="flex gap-2 items-center text-3xl text-primary-600 font-semibold">
-                    <i class="fi fi-rs-users-alt"></i>
-                    <h3 class="text-start my-8">User</h3>
+                    <i class="fi fi-rs-chalkboard-user"></i>
+                    <h3 class="text-start my-8">Admin</h3>
                 </div>
                 <div>
                     <router-link :to="{ name: 'user-create' }"
@@ -96,10 +96,10 @@
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-4 w-44">
                                         Avatar
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Role
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Name
@@ -112,7 +112,7 @@
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Mobile
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Brand
                                     </div>
@@ -127,18 +127,18 @@
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         City
-                                    </div>
-                                    <div
+                                    </div>-->
+                                    <!-- <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Showcase At Home
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Status
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-12">
-                                        Last Update
+                                        Created At
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
@@ -159,9 +159,9 @@
                                             @error="imageLoadError">
                                         <p v-else class="text-center text-gray-800">--No Image--</p>
                                     </div>
-                                    <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
+                                    <!-- <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
                                         {{ user.role ? user.role.display_name : '-' }}
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         {{ user.name || '-' }}
@@ -174,7 +174,7 @@
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         {{ user.mobile || '-' }}
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         {{ user.brand_name || '-' }}
                                     </div>
@@ -189,21 +189,21 @@
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         {{ user.city || '-' }}
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         <StatusCheckbox :id="user.id" :status="!!user.showcase_at_home"
                                             :update="(id, value) => { updateStatus(id, value, 'showcase_at_home') }" />
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         <StatusCheckbox :id="user.id" :status="!!user.status" :update="updateStatus" />
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
-                                        <div class="font-normal text-gray-900" v-html="formDateTime(user.updated_at)">
+                                        <div class="font-normal text-gray-900" v-html="formDateTime(user.created_at)">
                                         </div>
-                                        <div class="text-sm">({{ timeAgo(user.updated_at) }})</div>
+                                        <div class="text-sm">({{ timeAgo(user.created_at) }})</div>
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
