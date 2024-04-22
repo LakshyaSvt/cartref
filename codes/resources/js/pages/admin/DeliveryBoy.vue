@@ -98,7 +98,7 @@
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        Role
+                                        Order Completed
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
@@ -114,31 +114,19 @@
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        Brand
-                                    </div>
-                                    <div
-                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        Company Name
-                                    </div>
-                                    <div
-                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        GST IN
-                                    </div>
-                                    <div
-                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         City
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Showcase At Home
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Status
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-12">
-                                        Last Update
+                                        Created At
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
@@ -160,7 +148,8 @@
                                         <p v-else class="text-center text-gray-800">--No Image--</p>
                                     </div>
                                     <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
-                                        {{ user.role ? user.role.display_name : '-' }}
+                                        <!-- {{ user.dbshowcases ? user.dbshowcases.deliveryboy_id : '-' }} -->
+                                        {{ dbShowcaseCount(user) }}
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
@@ -176,34 +165,22 @@
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                                        {{ user.brand_name || '-' }}
-                                    </div>
-                                    <div
-                                        class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                                        {{ user.company_name || '-' }}
-                                    </div>
-                                    <div
-                                        class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                                        {{ user.gst_number || '-' }}
-                                    </div>
-                                    <div
-                                        class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         {{ user.city || '-' }}
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         <StatusCheckbox :id="user.id" :status="!!user.showcase_at_home"
                                             :update="(id, value) => { updateStatus(id, value, 'showcase_at_home') }" />
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         <StatusCheckbox :id="user.id" :status="!!user.status" :update="updateStatus" />
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle">
-                                        <div class="font-normal text-gray-900" v-html="formDateTime(user.updated_at)">
+                                        <div class="font-normal text-gray-900" v-html="formDateTime(user.created_at)">
                                         </div>
-                                        <div class="text-sm">({{ timeAgo(user.updated_at) }})</div>
+                                        <div class="text-sm">({{ timeAgo(user.created_at) }})</div>
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center">
@@ -306,7 +283,7 @@ export default {
         },
         fetchUser(url) {
             this.dataLoading = true;
-            url = url || '/admin/user'
+            url = url || '/admin/deliveryboy'
             axios.get(url, {
                 params: {
                     rows: this.row_count,
@@ -353,6 +330,9 @@ export default {
                     this.loading = false;
                     err.handleGlobally && err.handleGlobally();
                 })
+        },
+        dbShowcaseCount(user) {
+            return user.dbshowcases ? user.dbshowcases.length : '-';
         }
     },
     created() {

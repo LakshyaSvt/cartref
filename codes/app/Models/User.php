@@ -106,7 +106,8 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
 
     public function dbshowcases()
     {
-        return $this->belongsTo(Showcase::class, 'id', 'deliveryboy_id');
+        // return $this->belongsTo(Showcase::class, 'id', 'deliveryboy_id');
+        return $this->hasMany(Showcase::class, 'deliveryboy_id', 'id');
     }
 
     public function scopeDeliveryboy()
