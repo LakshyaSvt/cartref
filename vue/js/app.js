@@ -5578,7 +5578,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       var _this3 = this;
 
       this.dataLoading = true;
-      url = url || '/admin/user';
+      url = url || '/admin/deliveryboy';
       axios.get(url, {
         params: {
           rows: this.row_count,
@@ -5630,6 +5630,9 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
         _this4.loading = false;
         err.handleGlobally && err.handleGlobally();
       });
+    },
+    dbShowcaseCount: function dbShowcaseCount(user) {
+      return user.dbshowcases ? user.dbshowcases.length : '-';
     }
   },
   created: function created() {
@@ -11277,21 +11280,12 @@ var render = function render() {
     staticClass: "dropdown-item",
     attrs: {
       to: {
-        name: "user"
-      }
-    }
-  }, [_c("i", {
-    staticClass: "fi fi-rs-users-alt mr-2"
-  }), _vm._v(" Users\n                            ")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
-    staticClass: "dropdown-item",
-    attrs: {
-      to: {
         name: "client"
       }
     }
   }, [_c("i", {
-    staticClass: "fi fi-rs-users-alt mr-2"
-  }), _vm._v(" Client\n                            ")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
+    staticClass: "fi fi-rs-chalkboard-user"
+  }), _vm._v(" Admin\n                            ")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
     staticClass: "dropdown-item",
     attrs: {
       to: {
@@ -11299,8 +11293,8 @@ var render = function render() {
       }
     }
   }, [_c("i", {
-    staticClass: "fi fi-rs-users-alt mr-2"
-  }), _vm._v(" Normal Users\n                            ")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
+    staticClass: "fi fi-tr-images-user"
+  }), _vm._v(" Customer\n                            ")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
     staticClass: "dropdown-item",
     attrs: {
       to: {
@@ -11308,7 +11302,7 @@ var render = function render() {
       }
     }
   }, [_c("i", {
-    staticClass: "fi fi-rs-users-alt mr-2"
+    staticClass: "fi fi-rs-user-gear"
   }), _vm._v(" Vendors\n                            ")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
     staticClass: "dropdown-item",
     attrs: {
@@ -11317,7 +11311,7 @@ var render = function render() {
       }
     }
   }, [_c("i", {
-    staticClass: "fi fi-rs-users-alt mr-2"
+    staticClass: "fi fi-rr-biking-mountain"
   }), _vm._v("Delivery Boy\n                            ")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
     staticClass: "dropdown-item",
     attrs: {
@@ -11326,8 +11320,8 @@ var render = function render() {
       }
     }
   }, [_c("i", {
-    staticClass: "fi fi-rs-users-alt mr-2"
-  }), _vm._v(" Delivery Head\n                            ")])], 1)]) : _vm._e()]), _vm._v(" "), _c("li", {
+    staticClass: "fi fi-rr-biking-mountain"
+  }), _vm._v("Delivery Head\n                            ")])], 1)]) : _vm._e()]), _vm._v(" "), _c("li", {
     staticClass: "min-w-max"
   }, [_c("router-link", {
     staticClass: "single-item",
@@ -14878,22 +14872,12 @@ var render = function render() {
     }) : _c("p", {
       staticClass: "text-center text-gray-800"
     }, [_vm._v("--No Image--")])]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center"
-    }, [_vm._v("\n                                    " + _vm._s(user.role ? user.role.display_name : "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.email || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.mobile || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.brand_name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.company_name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.gst_number || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.city || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_c("StatusCheckbox", {
       attrs: {
@@ -14904,23 +14888,15 @@ var render = function render() {
         }
       }
     })], 1), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_c("StatusCheckbox", {
-      attrs: {
-        id: user.id,
-        status: !!user.status,
-        update: _vm.updateStatus
-      }
-    })], 1), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle"
     }, [_c("div", {
       staticClass: "font-normal text-gray-900",
       domProps: {
-        innerHTML: _vm._s(_vm.formDateTime(user.updated_at))
+        innerHTML: _vm._s(_vm.formDateTime(user.created_at))
       }
     }), _vm._v(" "), _c("div", {
       staticClass: "text-sm"
-    }, [_vm._v("(" + _vm._s(_vm.timeAgo(user.updated_at)) + ")")])]), _vm._v(" "), _c("div", {
+    }, [_vm._v("(" + _vm._s(_vm.timeAgo(user.created_at)) + ")")])]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center"
     }, [_c("div", {
       staticClass: "flex gap-4 items-center justify-center"
@@ -14983,10 +14959,10 @@ var staticRenderFns = [function () {
   return _c("div", {
     staticClass: "flex gap-2 items-center text-3xl text-primary-600 font-semibold"
   }, [_c("i", {
-    staticClass: "fi fi-rs-users-alt"
+    staticClass: "fi fi-rs-chalkboard-user"
   }), _vm._v(" "), _c("h3", {
     staticClass: "text-start my-8"
-  }, [_vm._v("User")])]);
+  }, [_vm._v("Admin")])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -15008,27 +14984,15 @@ var staticRenderFns = [function () {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-4 w-44"
   }, [_vm._v("\n                                    Avatar\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Role\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Name\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Email\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Mobile\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Brand\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Company Name\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    GST IN\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    City\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Showcase At Home\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Status\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-12"
-  }, [_vm._v("\n                                    Last Update\n                                ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                                    Created At\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Actions\n                                ")])]);
 }, function () {
@@ -20157,7 +20121,7 @@ var render = function render() {
       staticClass: "text-center text-gray-800"
     }, [_vm._v("--No Image--")])]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center"
-    }, [_vm._v("\n                                    " + _vm._s(user.role ? user.role.display_name : "-") + "\n                                ")]), _vm._v(" "), _c("div", {
+    }, [_vm._v("\n                                    " + _vm._s(_vm.dbShowcaseCount(user)) + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
@@ -20165,23 +20129,7 @@ var render = function render() {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.mobile || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.brand_name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.company_name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.gst_number || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.city || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_c("StatusCheckbox", {
-      attrs: {
-        id: user.id,
-        status: !!user.showcase_at_home,
-        update: function update(id, value) {
-          _vm.updateStatus(id, value, "showcase_at_home");
-        }
-      }
-    })], 1), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_c("StatusCheckbox", {
       attrs: {
@@ -20194,11 +20142,11 @@ var render = function render() {
     }, [_c("div", {
       staticClass: "font-normal text-gray-900",
       domProps: {
-        innerHTML: _vm._s(_vm.formDateTime(user.updated_at))
+        innerHTML: _vm._s(_vm.formDateTime(user.created_at))
       }
     }), _vm._v(" "), _c("div", {
       staticClass: "text-sm"
-    }, [_vm._v("(" + _vm._s(_vm.timeAgo(user.updated_at)) + ")")])]), _vm._v(" "), _c("div", {
+    }, [_vm._v("(" + _vm._s(_vm.timeAgo(user.created_at)) + ")")])]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center"
     }, [_c("div", {
       staticClass: "flex gap-4 items-center justify-center"
@@ -20264,7 +20212,7 @@ var staticRenderFns = [function () {
     staticClass: "fi fi-rs-users-alt"
   }), _vm._v(" "), _c("h3", {
     staticClass: "text-start my-8"
-  }, [_vm._v("User")])]);
+  }, [_vm._v("Delivery Boy")])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -20286,7 +20234,7 @@ var staticRenderFns = [function () {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-4 w-44"
   }, [_vm._v("\n                                    Avatar\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Role\n                                ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                                    Order Completed\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Name\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
@@ -20294,19 +20242,11 @@ var staticRenderFns = [function () {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Mobile\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Brand\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Company Name\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    GST IN\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    City\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Showcase At Home\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Status\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-12"
-  }, [_vm._v("\n                                    Last Update\n                                ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                                    Created At\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Actions\n                                ")])]);
 }, function () {
@@ -20654,7 +20594,7 @@ var staticRenderFns = [function () {
     staticClass: "fi fi-rs-users-alt"
   }), _vm._v(" "), _c("h3", {
     staticClass: "text-start my-8"
-  }, [_vm._v("User")])]);
+  }, [_vm._v("Delivery Head")])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -22365,32 +22305,12 @@ var render = function render() {
     }) : _c("p", {
       staticClass: "text-center text-gray-800"
     }, [_vm._v("--No Image--")])]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center"
-    }, [_vm._v("\n                                    " + _vm._s(user.role ? user.role.display_name : "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.email || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.mobile || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.brand_name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.company_name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.gst_number || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.city || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_c("StatusCheckbox", {
-      attrs: {
-        id: user.id,
-        status: !!user.showcase_at_home,
-        update: function update(id, value) {
-          _vm.updateStatus(id, value, "showcase_at_home");
-        }
-      }
-    })], 1), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_c("StatusCheckbox", {
       attrs: {
@@ -22403,11 +22323,11 @@ var render = function render() {
     }, [_c("div", {
       staticClass: "font-normal text-gray-900",
       domProps: {
-        innerHTML: _vm._s(_vm.formDateTime(user.updated_at))
+        innerHTML: _vm._s(_vm.formDateTime(user.created_at))
       }
     }), _vm._v(" "), _c("div", {
       staticClass: "text-sm"
-    }, [_vm._v("(" + _vm._s(_vm.timeAgo(user.updated_at)) + ")")])]), _vm._v(" "), _c("div", {
+    }, [_vm._v("(" + _vm._s(_vm.timeAgo(user.created_at)) + ")")])]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm align-[middle!important] text-center"
     }, [_c("div", {
       staticClass: "flex gap-4 items-center justify-center"
@@ -22470,10 +22390,10 @@ var staticRenderFns = [function () {
   return _c("div", {
     staticClass: "flex gap-2 items-center text-3xl text-primary-600 font-semibold"
   }, [_c("i", {
-    staticClass: "fi fi-rs-users-alt"
+    staticClass: "fi fi-tr-images-user"
   }), _vm._v(" "), _c("h3", {
     staticClass: "text-start my-8"
-  }, [_vm._v("User")])]);
+  }, [_vm._v("Customer")])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -22495,27 +22415,15 @@ var staticRenderFns = [function () {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-4 w-44"
   }, [_vm._v("\n                                    Avatar\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Role\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Name\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Email\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Mobile\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Brand\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Company Name\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    GST IN\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    City\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Showcase At Home\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Status\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-12"
-  }, [_vm._v("\n                                    Last Update\n                                ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                                    Created At\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Actions\n                                ")])]);
 }, function () {
@@ -32913,10 +32821,10 @@ var staticRenderFns = [function () {
   return _c("div", {
     staticClass: "flex gap-2 items-center text-3xl text-primary-600 font-semibold"
   }, [_c("i", {
-    staticClass: "fi fi-rs-users-alt"
+    staticClass: "fi fi-rs-user-gear"
   }), _vm._v(" "), _c("h3", {
     staticClass: "text-start my-8"
-  }, [_vm._v("User")])]);
+  }, [_vm._v("Vendor")])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
