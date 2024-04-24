@@ -96,10 +96,7 @@
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-4 w-44">
                                         Avatar
                                     </div>
-                                    <div
-                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        Role
-                                    </div>
+
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Name
@@ -127,6 +124,10 @@
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         City
+                                    </div>
+                                    <div
+                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                        Orders Complete
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
@@ -159,9 +160,6 @@
                                             @error="imageLoadError">
                                         <p v-else class="text-center text-gray-800">--No Image--</p>
                                     </div>
-                                    <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
-                                        {{ user.role ? user.role.display_name : '-' }}
-                                    </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         {{ user.name || '-' }}
@@ -189,6 +187,9 @@
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         {{ user.city || '-' }}
+                                    </div>
+                                    <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
+                                        {{ user.dborder ? user.dborder.length : '0' }}
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
@@ -306,7 +307,7 @@ export default {
         },
         fetchUser(url) {
             this.dataLoading = true;
-            url = url || '/admin/user'
+            url = url || '/admin/vendorfetch'
             axios.get(url, {
                 params: {
                     rows: this.row_count,
@@ -353,6 +354,9 @@ export default {
                     this.loading = false;
                     err.handleGlobally && err.handleGlobally();
                 })
+        },
+        ordersCount(user) {
+            return user.dborder ? user.dborder.length : '-';
         }
     },
     created() {

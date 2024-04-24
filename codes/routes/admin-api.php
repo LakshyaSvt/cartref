@@ -87,6 +87,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/cart', [CartController::class, 'fetchCarts']);
     /* User Management */
     Route::resource('/user', UserController::class);
+    Route::get('/vendorfetch', [UserController::class, 'vendorFetch']);
     Route::get('/deliveryboy', [UserController::class, 'deliveryboy']);
     Route::post('/user/edit-or-create', [UserController::class, 'editOrCreate']);
     Route::post('/user/upload-images', [UserController::class, 'uploadImages']);

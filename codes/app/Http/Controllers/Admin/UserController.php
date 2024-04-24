@@ -151,7 +151,7 @@ class UserController extends Controller
             $rows = User::count();
         }
         /* Query Builder */
-        $users = User::with('role','dbshowcases')
+        $users = User::with('role', 'dbshowcases')
             ->when(isset($status), function ($query) use ($status) {
                 $query->where('status', (int)$status);
             })
@@ -184,6 +184,55 @@ class UserController extends Controller
 
         //Response
 
+        return new ApiResource($users);
+    }
+
+    public function vendorFetch()
+    {
+        /* Query Parameters */
+        $keyword = request()->keyword;
+        $status = request()->status;
+        $roles = request()->roles ? json_decode(request()->roles) : [];
+        $rows = request()->rows ?? 25;
+
+
+        if ($rows == 'all') {
+            $rows = User::count();
+            /* Query Builder */
+        }
+        $users = User::with('role', 'dborder')
+            ->when(isset($status), function ($query) use ($status) {
+                $query->where('status', (int)$status);
+            })
+            ->when(isset($keyword), function ($query) use ($keyword) {
+                $query->where(function ($query1) use ($keyword) {
+                    $query1->orWhere('name', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('email', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('mobile', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('street_address_1', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('street_address_2', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('pincode', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('city', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('state', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('brand_name', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('gender', 'LIKE', '%' . $keyword . '%');
+                });
+            })
+            ->when(is_array($roles) && count($roles) > 0, function ($query) use ($roles) {
+                $query->whereHas('role', function ($q) use ($roles) {
+                    $q->whereIn('name', $roles)
+                        ->orWhereIn('id', $roles);
+                });
+            })
+            ->whereHas('dborder', function ($query) {
+                $query->whereNotNull('vendor_id');
+            })
+            ->latest()
+            ->paginate($rows);
+
+        //Response
+
+        // return json_encode($users);
         return new ApiResource($users);
     }
 }

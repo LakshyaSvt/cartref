@@ -98,10 +98,6 @@
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        Order Completed
-                                    </div>
-                                    <div
-                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Name
                                     </div>
                                     <div
@@ -116,10 +112,10 @@
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         City
                                     </div>
-                                    <!-- <div
+                                    <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
-                                        Showcase At Home
-                                    </div> -->
+                                        Order Completed
+                                    </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Status
@@ -147,10 +143,7 @@
                                             @error="imageLoadError">
                                         <p v-else class="text-center text-gray-800">--No Image--</p>
                                     </div>
-                                    <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
-                                        <!-- {{ user.dbshowcases ? user.dbshowcases.deliveryboy_id : '-' }} -->
-                                        {{ dbShowcaseCount(user) }}
-                                    </div>
+
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         {{ user.name || '-' }}
@@ -172,6 +165,9 @@
                                         <StatusCheckbox :id="user.id" :status="!!user.showcase_at_home"
                                             :update="(id, value) => { updateStatus(id, value, 'showcase_at_home') }" />
                                     </div> -->
+                                    <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
+                                        {{ dbShowcaseCount(user) }}
+                                    </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         <StatusCheckbox :id="user.id" :status="!!user.status" :update="updateStatus" />

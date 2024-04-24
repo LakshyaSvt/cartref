@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Address;
+use App\Order;
 use App\Showcase;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -106,8 +107,12 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
 
     public function dbshowcases()
     {
-        // return $this->belongsTo(Showcase::class, 'id', 'deliveryboy_id');
         return $this->hasMany(Showcase::class, 'deliveryboy_id', 'id');
+    }
+
+    public function dborder()
+    {
+        return $this->hasMany(Order::class, 'vendor_id', 'id');
     }
 
     public function scopeDeliveryboy()
