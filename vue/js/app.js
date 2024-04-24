@@ -9902,7 +9902,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       var _this3 = this;
 
       this.dataLoading = true;
-      url = url || '/admin/user';
+      url = url || '/admin/vendorfetch';
       axios.get(url, {
         params: {
           rows: this.row_count,
@@ -9954,6 +9954,9 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
         _this4.loading = false;
         err.handleGlobally && err.handleGlobally();
       });
+    },
+    ordersCount: function ordersCount(user) {
+      return user.dborder ? user.dborder.length : '-';
     }
   },
   created: function created() {
@@ -20120,8 +20123,6 @@ var render = function render() {
     }) : _c("p", {
       staticClass: "text-center text-gray-800"
     }, [_vm._v("--No Image--")])]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center"
-    }, [_vm._v("\n                                    " + _vm._s(_vm.dbShowcaseCount(user)) + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
@@ -20130,6 +20131,8 @@ var render = function render() {
     }, [_vm._v("\n                                    " + _vm._s(user.mobile || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.city || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
+      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center"
+    }, [_vm._v("\n                                    " + _vm._s(_vm.dbShowcaseCount(user)) + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_c("StatusCheckbox", {
       attrs: {
@@ -20234,8 +20237,6 @@ var staticRenderFns = [function () {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-4 w-44"
   }, [_vm._v("\n                                    Avatar\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Order Completed\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Name\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Email\n                                ")]), _vm._v(" "), _c("div", {
@@ -20243,6 +20244,8 @@ var staticRenderFns = [function () {
   }, [_vm._v("\n                                    Mobile\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    City\n                                ")]), _vm._v(" "), _c("div", {
+    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
+  }, [_vm._v("\n                                    Order Completed\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Status\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-12"
@@ -32716,8 +32719,6 @@ var render = function render() {
     }) : _c("p", {
       staticClass: "text-center text-gray-800"
     }, [_vm._v("--No Image--")])]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center"
-    }, [_vm._v("\n                                    " + _vm._s(user.role ? user.role.display_name : "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.name || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
@@ -32732,6 +32733,8 @@ var render = function render() {
     }, [_vm._v("\n                                    " + _vm._s(user.gst_number || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.city || "-") + "\n                                ")]), _vm._v(" "), _c("div", {
+      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center"
+    }, [_vm._v("\n                                    " + _vm._s(user.dborder ? user.dborder.length : "0") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_c("StatusCheckbox", {
       attrs: {
@@ -32846,8 +32849,6 @@ var staticRenderFns = [function () {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-4 w-44"
   }, [_vm._v("\n                                    Avatar\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Role\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Name\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Email\n                                ")]), _vm._v(" "), _c("div", {
@@ -32861,6 +32862,8 @@ var staticRenderFns = [function () {
   }, [_vm._v("\n                                    GST IN\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    City\n                                ")]), _vm._v(" "), _c("div", {
+    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
+  }, [_vm._v("\n                                    Orders Complete\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Showcase At Home\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
