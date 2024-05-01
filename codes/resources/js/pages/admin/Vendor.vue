@@ -127,7 +127,15 @@
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                        DVC Status
+                                    </div>
+                                    <div
+                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Orders Complete
+                                    </div>
+                                    <div
+                                        class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
+                                        No. of Products
                                     </div>
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
@@ -188,8 +196,54 @@
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         {{ user.city || '-' }}
                                     </div>
+                                    <div
+                                        class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
+                                        <!-- <span
+                                            class="flex items-center gap-2 px-2 py-1 text-sm text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-green-600">
+                                            Completed
+                                        </span>
+                                        <span
+                                            class="flex items-center gap-2 px-2 py-1 text-sm text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-red-600">
+                                            InCompleted
+                                        </span> -->
+                                        <span style="white-space: nowrap;">
+                                            <div style="display: inline-flex;">Registered Company Name -
+                                                <i v-if="user.company_name"
+                                                    class="fi fi-rs-badge-check p-1 text-green-600"></i>
+                                                <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
+                                            </div><br>
+                                            <div style="display: inline-flex;">GST Certificate -
+                                                <i v-if="user.gst_certificate"
+                                                    class="fi fi-rs-badge-check p-1 text-green-600"></i>
+                                                <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
+                                            </div><br>
+                                            <div style="display: inline-flex;">Pancard Number
+                                                <i v-if="user.company_pancard_number"
+                                                    class="fi fi-rs-badge-check p-1 text-green-600"></i>
+                                                <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
+                                            </div><br>
+                                            <div style="display: inline-flex;">Signature
+                                                <i v-if="user.signature"
+                                                    class="fi fi-rs-badge-check p-1 text-green-600"></i>
+                                                <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
+                                            </div><br>
+                                            <div style="display: inline-flex;">Bank Account Details
+                                                <i v-if="user.bank_name && user.account_number && user.ifsc_code && user.bank_address"
+                                                    class="fi fi-rs-badge-check p-1 text-green-600"></i>
+                                                <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
+                                            </div><br>
+                                            <div style="display: inline-flex;">Store Logo
+                                                <i v-if="user.brand_logo"
+                                                    class="fi fi-rs-badge-check p-1 text-green-600"></i>
+                                                <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
+                                            </div>
+                                        </span>
+                                    </div>
                                     <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
                                         {{ user.dborder ? user.dborder.length : '0' }}
+                                    </div>
+                                    <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
+                                        {{ user.dbproduct ? user.dbproduct.length : '0' }}
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">

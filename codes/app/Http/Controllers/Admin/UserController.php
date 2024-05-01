@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helper\FileHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -200,7 +201,7 @@ class UserController extends Controller
             $rows = User::count();
             /* Query Builder */
         }
-        $users = User::with('role', 'dborder')
+        $users = User::with('role', 'dborder', 'dbproduct')
             ->when(isset($status), function ($query) use ($status) {
                 $query->where('status', (int)$status);
             })
@@ -227,12 +228,41 @@ class UserController extends Controller
             ->whereHas('dborder', function ($query) {
                 $query->whereNotNull('vendor_id');
             })
+            ->whereHas('dbproduct', function ($query) {
+                $query->whereNotNull('seller_id');
+            })
             ->latest()
             ->paginate($rows);
 
+
         //Response
 
-        // return json_encode($users);
         return new ApiResource($users);
+    }
+
+    public function customerFetch()
+    {
+        $rows = request()->rows ?? 25;
+        if ($rows == 'all') {
+            $rows = Cart::count();
+        }
+        $keyword = request()->keyword ?? null;
+
+        $cart = Cart::with('user')
+            ->whereHas('user', function ($query) use ($keyword) {
+                $query->when($keyword, function ($query1) use ($keyword) {
+                    $query1->where(function ($q) use ($keyword) {
+                        $q->orWhere('name', 'LIKE', '%' . $keyword . '%')
+                            ->orWhere('email', 'LIKE', '%' . $keyword . '%')
+                            ->orWhere('mobile', 'LIKE', '%' . $keyword . '%');
+                    });
+                });
+            })
+            ->where('id', 'LIKE', '%cart_items')
+            ->orderBy('updated_at', 'desc')
+            ->paginate($rows);
+        return response()->json($cart);
+
+
     }
 }

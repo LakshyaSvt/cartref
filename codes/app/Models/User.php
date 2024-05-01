@@ -115,6 +115,14 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         return $this->hasMany(Order::class, 'vendor_id', 'id');
     }
 
+    public function dbproduct(){
+        return $this->hasMany(Product::class,'seller_id', 'id');
+    }
+
+    public function dbcart(){
+        return $this->hasMany(Cart::class,'user_id', 'id');
+    }
+
     public function scopeDeliveryboy()
     {
 

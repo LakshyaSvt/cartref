@@ -10,7 +10,7 @@
                 <div>
                     <router-link :to="{ name: 'user-create' }"
                         class="flex items-center gap-2 px-4 py-2 text-base font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer bg-gray-900 hover:bg-black">
-                        Add User
+                        Add Admin
                         <i class="fi fi-rr-add text-base w-6 h-5"></i>
                     </router-link>
                 </div>
@@ -92,10 +92,10 @@
                                         class="table-cell border-gray-500 text-center font-semibold uppercase w-10 p-1">
                                         S.No.
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-4 w-44">
                                         Avatar
-                                    </div>
+                                    </div> -->
                                     <!-- <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Role
@@ -150,7 +150,7 @@
                                     <div class="table-cell border-t border-gray-500 text-sm text-center w-10 p-1">
                                         {{ pagination.from + index }}
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-t border-l border-gray-500 text-sm p-1 px-2 text-center !align-middle">
                                         <img v-if="user.avatar" :src="$store.state.storageUrl + user.avatar"
                                             alt="avatar_img"
@@ -158,7 +158,7 @@
                                             @click="imageModal($store.state.storageUrl + user.avatar)"
                                             @error="imageLoadError">
                                         <p v-else class="text-center text-gray-800">--No Image--</p>
-                                    </div>
+                                    </div> -->
                                     <!-- <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
                                         {{ user.role ? user.role.display_name : '-' }}
                                     </div> -->
