@@ -242,27 +242,44 @@ class UserController extends Controller
 
     public function customerFetch()
     {
+        /* Query Parameters */
+        $keyword = request()->keyword;
+        $status = request()->status;
+        $roles = request()->roles ? json_decode(request()->roles) : [];
         $rows = request()->rows ?? 25;
-        if ($rows == 'all') {
-            $rows = Cart::count();
-        }
-        $keyword = request()->keyword ?? null;
 
-        $cart = Cart::with('user')
-            ->whereHas('user', function ($query) use ($keyword) {
-                $query->when($keyword, function ($query1) use ($keyword) {
-                    $query1->where(function ($q) use ($keyword) {
-                        $q->orWhere('name', 'LIKE', '%' . $keyword . '%')
-                            ->orWhere('email', 'LIKE', '%' . $keyword . '%')
-                            ->orWhere('mobile', 'LIKE', '%' . $keyword . '%');
-                    });
+        if ($rows == 'all') {
+            $rows = User::count();
+        }
+        /* Query Builder */
+        $users = User::with('role', 'dbcart','dbwishlist','dborder')
+            ->when(isset($status), function ($query) use ($status) {
+                $query->where('status', (int)$status);
+            })
+            ->when(isset($keyword), function ($query) use ($keyword) {
+                $query->where(function ($query1) use ($keyword) {
+                    $query1->orWhere('name', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('email', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('mobile', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('street_address_1', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('street_address_2', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('pincode', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('city', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('state', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('brand_name', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('gender', 'LIKE', '%' . $keyword . '%');
                 });
             })
-            ->where('id', 'LIKE', '%cart_items')
-            ->orderBy('updated_at', 'desc')
+            ->when(is_array($roles) && count($roles) > 0, function ($query) use ($roles) {
+                $query->whereHas('role', function ($q) use ($roles) {
+                    $q->whereIn('name', $roles)
+                        ->orWhereIn('id', $roles);
+                });
+            })
+            ->latest()
             ->paginate($rows);
-        return response()->json($cart);
 
-
+        //Response
+        return new ApiResource($users);
     }
 }

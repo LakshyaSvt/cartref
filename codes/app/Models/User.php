@@ -123,6 +123,10 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         return $this->hasMany(Cart::class,'user_id', 'id');
     }
 
+    public function dbwishlist(){
+        return $this->hasMany(Wishlist::class,'user_id', 'id');
+    }
+
     public function scopeDeliveryboy()
     {
 
