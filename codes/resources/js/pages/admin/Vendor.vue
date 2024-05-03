@@ -207,32 +207,32 @@
                                             InCompleted
                                         </span> -->
                                         <span style="white-space: nowrap;">
-                                            <div style="display: inline-flex;">Registered Company Name -
+                                            <div class="inline-flex float-left">Registered Company Name -
                                                 <i v-if="user.company_name"
                                                     class="fi fi-rs-badge-check p-1 text-green-600"></i>
                                                 <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
                                             </div><br>
-                                            <div style="display: inline-flex;">GST Certificate -
+                                            <div class="inline-flex float-left">GST Certificate -
                                                 <i v-if="user.gst_certificate"
                                                     class="fi fi-rs-badge-check p-1 text-green-600"></i>
                                                 <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
                                             </div><br>
-                                            <div style="display: inline-flex;">Pancard Number
+                                            <div class="inline-flex float-left">Pancard Number -
                                                 <i v-if="user.company_pancard_number"
                                                     class="fi fi-rs-badge-check p-1 text-green-600"></i>
                                                 <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
                                             </div><br>
-                                            <div style="display: inline-flex;">Signature
+                                            <div class="inline-flex float-left">Signature -
                                                 <i v-if="user.signature"
                                                     class="fi fi-rs-badge-check p-1 text-green-600"></i>
                                                 <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
                                             </div><br>
-                                            <div style="display: inline-flex;">Bank Account Details
+                                            <div class="inline-flex float-left">Bank Account Details -
                                                 <i v-if="user.bank_name && user.account_number && user.ifsc_code && user.bank_address"
                                                     class="fi fi-rs-badge-check p-1 text-green-600"></i>
                                                 <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
                                             </div><br>
-                                            <div style="display: inline-flex;">Store Logo
+                                            <div class="inline-flex float-left">Store Logo - 
                                                 <i v-if="user.brand_logo"
                                                     class="fi fi-rs-badge-check p-1 text-green-600"></i>
                                                 <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>

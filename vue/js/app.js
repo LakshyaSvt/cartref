@@ -22288,7 +22288,7 @@ var render = function render() {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_vm._v("\n                                    " + _vm._s(user.dbwishlist ? user.dbwishlist.length : "0") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_vm._v("\n                                    " + _vm._s(user.dborder ? user.dborder.length : "0") + "\n                                ")]), _vm._v(" "), _c("div", {
+    }, [_vm._v("\n                                    " + _vm._s(user.userorder ? user.userorder.length : "0") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_c("StatusCheckbox", {
       attrs: {
@@ -32714,50 +32714,38 @@ var render = function render() {
         "white-space": "nowrap"
       }
     }, [_c("div", {
-      staticStyle: {
-        display: "inline-flex"
-      }
+      staticClass: "inline-flex float-left"
     }, [_vm._v("Registered Company Name -\n                                            "), user.company_name ? _c("i", {
       staticClass: "fi fi-rs-badge-check p-1 text-green-600"
     }) : _c("i", {
       staticClass: "fi fi-br-cross-circle p-1 text-red-600"
     })]), _c("br"), _vm._v(" "), _c("div", {
-      staticStyle: {
-        display: "inline-flex"
-      }
+      staticClass: "inline-flex float-left"
     }, [_vm._v("GST Certificate -\n                                            "), user.gst_certificate ? _c("i", {
       staticClass: "fi fi-rs-badge-check p-1 text-green-600"
     }) : _c("i", {
       staticClass: "fi fi-br-cross-circle p-1 text-red-600"
     })]), _c("br"), _vm._v(" "), _c("div", {
-      staticStyle: {
-        display: "inline-flex"
-      }
-    }, [_vm._v("Pancard Number\n                                            "), user.company_pancard_number ? _c("i", {
+      staticClass: "inline-flex float-left"
+    }, [_vm._v("Pancard Number -\n                                            "), user.company_pancard_number ? _c("i", {
       staticClass: "fi fi-rs-badge-check p-1 text-green-600"
     }) : _c("i", {
       staticClass: "fi fi-br-cross-circle p-1 text-red-600"
     })]), _c("br"), _vm._v(" "), _c("div", {
-      staticStyle: {
-        display: "inline-flex"
-      }
-    }, [_vm._v("Signature\n                                            "), user.signature ? _c("i", {
+      staticClass: "inline-flex float-left"
+    }, [_vm._v("Signature -\n                                            "), user.signature ? _c("i", {
       staticClass: "fi fi-rs-badge-check p-1 text-green-600"
     }) : _c("i", {
       staticClass: "fi fi-br-cross-circle p-1 text-red-600"
     })]), _c("br"), _vm._v(" "), _c("div", {
-      staticStyle: {
-        display: "inline-flex"
-      }
-    }, [_vm._v("Bank Account Details\n                                            "), user.bank_name && user.account_number && user.ifsc_code && user.bank_address ? _c("i", {
+      staticClass: "inline-flex float-left"
+    }, [_vm._v("Bank Account Details -\n                                            "), user.bank_name && user.account_number && user.ifsc_code && user.bank_address ? _c("i", {
       staticClass: "fi fi-rs-badge-check p-1 text-green-600"
     }) : _c("i", {
       staticClass: "fi fi-br-cross-circle p-1 text-red-600"
     })]), _c("br"), _vm._v(" "), _c("div", {
-      staticStyle: {
-        display: "inline-flex"
-      }
-    }, [_vm._v("Store Logo\n                                            "), user.brand_logo ? _c("i", {
+      staticClass: "inline-flex float-left"
+    }, [_vm._v("Store Logo - \n                                            "), user.brand_logo ? _c("i", {
       staticClass: "fi fi-rs-badge-check p-1 text-green-600"
     }) : _c("i", {
       staticClass: "fi fi-br-cross-circle p-1 text-red-600"

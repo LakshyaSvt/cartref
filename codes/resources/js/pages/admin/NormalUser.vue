@@ -160,7 +160,7 @@
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                                        {{ user.dborder ? user.dborder.length : '0' }}
+                                        {{ user.userorder ? user.userorder.length : '0' }}
                                     </div>
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">

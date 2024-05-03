@@ -225,12 +225,6 @@ class UserController extends Controller
                         ->orWhereIn('id', $roles);
                 });
             })
-            ->whereHas('dborder', function ($query) {
-                $query->whereNotNull('vendor_id');
-            })
-            ->whereHas('dbproduct', function ($query) {
-                $query->whereNotNull('seller_id');
-            })
             ->latest()
             ->paginate($rows);
 
@@ -252,7 +246,7 @@ class UserController extends Controller
             $rows = User::count();
         }
         /* Query Builder */
-        $users = User::with('role', 'dbcart','dbwishlist','dborder')
+        $users = User::with('role','userorder', 'dbcart','dbwishlist')
             ->when(isset($status), function ($query) use ($status) {
                 $query->where('status', (int)$status);
             })
