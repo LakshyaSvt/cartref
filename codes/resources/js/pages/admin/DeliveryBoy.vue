@@ -250,8 +250,8 @@ export default {
         closeImageModal() {
             this.showModal = false;
         },
-        updateStatus(id, status, field = 'status') {
-            axios.put('/admin/user/' + id, { field: status })
+        updateStatus(id, status = 'status') {
+            axios.put('/admin/user/' + id, { status })
                 .then(res => {
                     this.show_toast(res.data.status, res.data.msg);
                     let index = this.users.findIndex(a => a.id === id)

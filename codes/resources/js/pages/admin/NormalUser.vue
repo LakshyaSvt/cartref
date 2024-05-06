@@ -116,10 +116,10 @@
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Total Orders
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Showcase At Home
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Status
@@ -162,11 +162,11 @@
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         {{ user.userorder ? user.userorder.length : '0' }}
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         <StatusCheckbox :id="user.id" :status="!!user.showcase_at_home"
                                             :update="(id, value) => { updateStatus(id, value, 'showcase_at_home') }" />
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         <StatusCheckbox :id="user.id" :status="!!user.status" :update="updateStatus" />
@@ -249,8 +249,8 @@ export default {
         closeImageModal() {
             this.showModal = false;
         },
-        updateStatus(id, status, field = 'status') {
-            axios.put('/admin/user/' + id, { field: status })
+        updateStatus(id, status = 'status') {
+            axios.put('/admin/user/' + id, { status })
                 .then(res => {
                     this.show_toast(res.data.status, res.data.msg);
                     let index = this.users.findIndex(a => a.id === id)

@@ -137,10 +137,10 @@
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         No. of Products
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Showcase At Home
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-l border-gray-500 text-center uppercase font-semibold p-1">
                                         Status
@@ -232,7 +232,7 @@
                                                     class="fi fi-rs-badge-check p-1 text-green-600"></i>
                                                 <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
                                             </div><br>
-                                            <div class="inline-flex float-left">Store Logo - 
+                                            <div class="inline-flex float-left">Store Logo -
                                                 <i v-if="user.brand_logo"
                                                     class="fi fi-rs-badge-check p-1 text-green-600"></i>
                                                 <i v-else class="fi fi-br-cross-circle p-1 text-red-600"></i>
@@ -245,11 +245,11 @@
                                     <div class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center">
                                         {{ user.dbproduct ? user.dbproduct.length : '0' }}
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         <StatusCheckbox :id="user.id" :status="!!user.showcase_at_home"
                                             :update="(id, value) => { updateStatus(id, value, 'showcase_at_home') }" />
-                                    </div>
+                                    </div> -->
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
                                         <StatusCheckbox :id="user.id" :status="!!user.status" :update="updateStatus" />
@@ -332,12 +332,13 @@ export default {
         closeImageModal() {
             this.showModal = false;
         },
-        updateStatus(id, status, field = 'status') {
-            axios.put('/admin/user/' + id, { field: status })
+        updateStatus(id, status = 'status') {
+            axios.put('/admin/user/' + id, {status})
                 .then(res => {
                     this.show_toast(res.data.status, res.data.msg);
-                    let index = this.users.findIndex(a => a.id === id)
-                    this.$set(this.users, index, res.data.data)
+                    // let index = this.users.findIndex(a => a.id === id)
+                    // this.$set(this.users, index, res.data.data)
+                    this.fetchUser();
                 })
                 .catch(err => {
                     this.dataLoading = false;

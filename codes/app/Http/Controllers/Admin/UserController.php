@@ -61,6 +61,29 @@ class UserController extends Controller
         return new ApiResource($users);
     }
 
+    public function update(Request $request, $id)
+    {
+
+        $users = User::findOrFail($id);
+
+        $users->update($request->all());
+
+        $status = 'success';
+        $msg = $users->name . ' updated successfully';
+
+        if ($request->filled('status')) {
+            if ($request->status) {
+                $status = 'success';
+                $msg = $users->name . ' On Successfully';
+            } else {
+                $status = 'warning';
+                $msg = $users->name . ' Off Successfully';
+            }
+        }
+        return response()->json(['status' => $status, 'msg' => $msg, 'data' => $users]);
+    }
+
+
     public function uploadImages(Request $request): \Illuminate\Http\JsonResponse
     {
         $request->validate([
@@ -246,7 +269,7 @@ class UserController extends Controller
             $rows = User::count();
         }
         /* Query Builder */
-        $users = User::with('role','userorder', 'dbcart','dbwishlist')
+        $users = User::with('role', 'userorder', 'dbcart', 'dbwishlist')
             ->when(isset($status), function ($query) use ($status) {
                 $query->where('status', (int)$status);
             })

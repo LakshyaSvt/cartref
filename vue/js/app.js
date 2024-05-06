@@ -3965,12 +3965,12 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     closeImageModal: function closeImageModal() {
       this.showModal = false;
     },
-    updateStatus: function updateStatus(id, status) {
+    updateStatus: function updateStatus(id) {
       var _this = this;
 
-      var field = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'status';
+      var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'status';
       axios.put('/admin/user/' + id, {
-        field: status
+        status: status
       }).then(function (res) {
         _this.show_toast(res.data.status, res.data.msg);
 
@@ -5537,12 +5537,12 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     closeImageModal: function closeImageModal() {
       this.showModal = false;
     },
-    updateStatus: function updateStatus(id, status) {
+    updateStatus: function updateStatus(id) {
       var _this = this;
 
-      var field = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'status';
+      var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'status';
       axios.put('/admin/user/' + id, {
-        field: status
+        status: status
       }).then(function (res) {
         _this.show_toast(res.data.status, res.data.msg);
 
@@ -5690,12 +5690,12 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     closeImageModal: function closeImageModal() {
       this.showModal = false;
     },
-    updateStatus: function updateStatus(id, status) {
+    updateStatus: function updateStatus(id) {
       var _this = this;
 
-      var field = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'status';
+      var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'status';
       axios.put('/admin/user/' + id, {
-        field: status
+        status: status
       }).then(function (res) {
         _this.show_toast(res.data.status, res.data.msg);
 
@@ -6412,12 +6412,12 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     closeImageModal: function closeImageModal() {
       this.showModal = false;
     },
-    updateStatus: function updateStatus(id, status) {
+    updateStatus: function updateStatus(id) {
       var _this = this;
 
-      var field = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'status';
+      var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'status';
       axios.put('/admin/user/' + id, {
-        field: status
+        status: status
       }).then(function (res) {
         _this.show_toast(res.data.status, res.data.msg);
 
@@ -9864,20 +9864,18 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     closeImageModal: function closeImageModal() {
       this.showModal = false;
     },
-    updateStatus: function updateStatus(id, status) {
+    updateStatus: function updateStatus(id) {
       var _this = this;
 
-      var field = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'status';
+      var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'status';
       axios.put('/admin/user/' + id, {
-        field: status
+        status: status
       }).then(function (res) {
-        _this.show_toast(res.data.status, res.data.msg);
+        _this.show_toast(res.data.status, res.data.msg); // let index = this.users.findIndex(a => a.id === id)
+        // this.$set(this.users, index, res.data.data)
 
-        var index = _this.users.findIndex(function (a) {
-          return a.id === id;
-        });
 
-        _this.$set(_this.users, index, res.data.data);
+        _this.fetchUser();
       })["catch"](function (err) {
         _this.dataLoading = false;
         err.handleGlobally && err.handleGlobally();
@@ -14872,10 +14870,8 @@ var render = function render() {
     }, [_c("StatusCheckbox", {
       attrs: {
         id: user.id,
-        status: !!user.showcase_at_home,
-        update: function update(id, value) {
-          _vm.updateStatus(id, value, "showcase_at_home");
-        }
+        status: !!user.status,
+        update: _vm.updateStatus
       }
     })], 1), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1 !align-middle"
@@ -20494,16 +20490,6 @@ var render = function render() {
     }, [_c("StatusCheckbox", {
       attrs: {
         id: user.id,
-        status: !!user.showcase_at_home,
-        update: function update(id, value) {
-          _vm.updateStatus(id, value, "showcase_at_home");
-        }
-      }
-    })], 1), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_c("StatusCheckbox", {
-      attrs: {
-        id: user.id,
         status: !!user.status,
         update: _vm.updateStatus
       }
@@ -20619,8 +20605,6 @@ var staticRenderFns = [function () {
   }, [_vm._v("\n                                    GST IN\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    City\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Showcase At Home\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Status\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-12"
@@ -32745,7 +32729,7 @@ var render = function render() {
       staticClass: "fi fi-br-cross-circle p-1 text-red-600"
     })]), _c("br"), _vm._v(" "), _c("div", {
       staticClass: "inline-flex float-left"
-    }, [_vm._v("Store Logo - \n                                            "), user.brand_logo ? _c("i", {
+    }, [_vm._v("Store Logo -\n                                            "), user.brand_logo ? _c("i", {
       staticClass: "fi fi-rs-badge-check p-1 text-green-600"
     }) : _c("i", {
       staticClass: "fi fi-br-cross-circle p-1 text-red-600"
@@ -32754,16 +32738,6 @@ var render = function render() {
     }, [_vm._v("\n                                    " + _vm._s(user.dborder ? user.dborder.length : "0") + "\n                                ")]), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center"
     }, [_vm._v("\n                                    " + _vm._s(user.dbproduct ? user.dbproduct.length : "0") + "\n                                ")]), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_c("StatusCheckbox", {
-      attrs: {
-        id: user.id,
-        status: !!user.showcase_at_home,
-        update: function update(id, value) {
-          _vm.updateStatus(id, value, "showcase_at_home");
-        }
-      }
-    })], 1), _vm._v(" "), _c("div", {
       staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
     }, [_c("StatusCheckbox", {
       attrs: {
@@ -32885,8 +32859,6 @@ var staticRenderFns = [function () {
   }, [_vm._v("\n                                    Orders Complete\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    No. of Products\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Showcase At Home\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Status\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-12"

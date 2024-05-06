@@ -192,8 +192,7 @@
                                     </div> -->
                                     <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
-                                        <StatusCheckbox :id="user.id" :status="!!user.showcase_at_home"
-                                            :update="(id, value) => { updateStatus(id, value, 'showcase_at_home') }" />
+                                        <StatusCheckbox :id="user.id" :status="!!user.status" :update="updateStatus" />
                                     </div>
                                     <!-- <div
                                         class="table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1">
@@ -277,8 +276,8 @@ export default {
         closeImageModal() {
             this.showModal = false;
         },
-        updateStatus(id, status, field = 'status') {
-            axios.put('/admin/user/' + id, { field: status })
+        updateStatus(id, status = 'status') {
+            axios.put('/admin/user/' + id, { status })
                 .then(res => {
                     this.show_toast(res.data.status, res.data.msg);
                     let index = this.users.findIndex(a => a.id === id)
