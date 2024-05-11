@@ -336,7 +336,7 @@ class ShowcaseAtHomeController extends Controller
             $city = $ds->abbreviation ?? '';
         }
         $latestOrder = Showcase::latest()->first();
-        $orderid = 'CSAH' . date('dym') . str_pad(($latestOrder->id + 1) . $city, 3, "0", STR_PAD_LEFT);
+        $orderid = 'CSOI' . date('dym') . str_pad(strtoupper(substr($this->city, 0, 3)), 3, "0", STR_PAD_LEFT). ($latestOrder->id + 1);
         //$orderid = mt_rand(100000, 999999);
 
 
@@ -658,7 +658,6 @@ class ShowcaseAtHomeController extends Controller
     function purchasecarttoorder($showcaseorderid)
     {
 
-
         $carts = Showcase::where('order_id', $showcaseorderid)->where('order_status', 'Moved to Bag')->get();
         $notincarts = Showcase::where('order_id', $showcaseorderid)->where('order_status', '!=', 'Moved to Bag')->get();
 
@@ -671,7 +670,7 @@ class ShowcaseAtHomeController extends Controller
             $city = $ds->abbreviation ?? '';
         }
         $latestOrder = Showcase::latest()->first();
-        $orderid = 'CSAH' . date('dym') . str_pad(($latestOrder->id + 1) . $city, 3, "0", STR_PAD_LEFT);
+        $orderid = 'CSOI' . date('dym') . str_pad(strtoupper(substr($this->city, 0, 3)), 3, "0", STR_PAD_LEFT). ($latestOrder->id + 1);
 
         foreach ($carts as $key => $cart) {
             //per product discount calculation

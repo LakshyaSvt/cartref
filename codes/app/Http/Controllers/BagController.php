@@ -101,7 +101,6 @@ class BagController extends Controller
 
     public function carttoorder()
     {
-
         $userID = 0;
         if (Auth::check()) {
             $userID = auth()->user()->id;
@@ -125,7 +124,7 @@ class BagController extends Controller
             $city = $ds->abbreviation ?? '';
         }
         $latestOrder = Showcase::latest()->first();
-        $orderid = 'CSAH' . date('dym') . str_pad(($latestOrder->id + 1) . $city, 3, "0", STR_PAD_LEFT);
+        $orderid = 'CSOI' . date('dym') . str_pad(strtoupper(substr($this->city, 0, 3)), 3, "0", STR_PAD_LEFT). ($latestOrder->id + 1);
 
 
         foreach ($carts as $key => $cart) {

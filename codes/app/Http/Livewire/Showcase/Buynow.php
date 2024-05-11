@@ -176,7 +176,7 @@ class Buynow extends Component
         $this->coupons = $coupons;
 
         if (Session::get('showcasebagacceptterms') != true) {
-            // 
+            //
             $this->disablebtn = true;
         } else {
             $this->disablebtn = false;
@@ -469,7 +469,7 @@ class Buynow extends Component
             $city = $ds->abbreviation ?? '';
         }
         $latestOrder = Showcase::latest()->first();
-        $orderid = 'CSAH'.date('dym').str_pad(($latestOrder->id + 1) . $city, 3, "0", STR_PAD_LEFT);
+        $orderid = 'CSOI' . date('dym') . str_pad(strtoupper(substr($this->city, 0, 3)), 3, "0", STR_PAD_LEFT). ($latestOrder->id + 1);
 
         foreach ($carts as $key => $cart) {
             //per product discount calculation
