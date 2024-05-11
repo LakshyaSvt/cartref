@@ -22277,16 +22277,6 @@ var render = function render() {
     }, [_c("StatusCheckbox", {
       attrs: {
         id: user.id,
-        status: !!user.showcase_at_home,
-        update: function update(id, value) {
-          _vm.updateStatus(id, value, "showcase_at_home");
-        }
-      }
-    })], 1), _vm._v(" "), _c("div", {
-      staticClass: "table-cell border-t border-l border-gray-500 text-sm px-1 text-center py-1"
-    }, [_c("StatusCheckbox", {
-      attrs: {
-        id: user.id,
         status: !!user.status,
         update: _vm.updateStatus
       }
@@ -22396,8 +22386,6 @@ var staticRenderFns = [function () {
   }, [_vm._v("\n                                    Products in Wishlist\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Total Orders\n                                ")]), _vm._v(" "), _c("div", {
-    staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
-  }, [_vm._v("\n                                    Showcase At Home\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1"
   }, [_vm._v("\n                                    Status\n                                ")]), _vm._v(" "), _c("div", {
     staticClass: "table-cell border-l border-gray-500 text-center uppercase font-semibold p-1 px-12"
