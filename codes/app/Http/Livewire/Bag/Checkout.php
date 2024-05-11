@@ -1329,7 +1329,7 @@ class Checkout extends Component
         $carts = \Cart::session($userID)->getContent();
 
         // Generate random order id
-        // dd($this->city);
+        
         if (isset($this->city)) {
             $ds = DeliveryServicableArea::whereCity($this->city)->first();
         }

@@ -124,7 +124,10 @@ class BagController extends Controller
             $city = $ds->abbreviation ?? '';
         }
         $latestOrder = Showcase::latest()->first();
-        $orderid = 'CSOI' . date('dym') . str_pad(strtoupper(substr($this->city, 0, 3)), 3, "0", STR_PAD_LEFT). ($latestOrder->id + 1);
+
+        $orderCity = Session::get('city');
+
+        $orderid = 'CSOI' . date('dym') . str_pad(strtoupper(substr($orderCity, 0, 3)), 3, "0", STR_PAD_LEFT). ($latestOrder->id + 1);
 
 
         foreach ($carts as $key => $cart) {

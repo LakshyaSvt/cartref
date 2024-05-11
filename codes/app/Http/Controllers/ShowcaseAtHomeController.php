@@ -331,12 +331,15 @@ class ShowcaseAtHomeController extends Controller
         if (Session::get('city') !== null) {
             $ds = DeliveryServicableArea::whereCity(Session::get('city'))->first();
         }
-        $city = '';
-        if (isset($ds)) {
-            $city = $ds->abbreviation ?? '';
-        }
+        // $city = '';
+        // if (isset($ds)) {
+        //     $city = $ds->abbreviation ?? '';
+        // }
         $latestOrder = Showcase::latest()->first();
-        $orderid = 'CSOI' . date('dym') . str_pad(strtoupper(substr($this->city, 0, 3)), 3, "0", STR_PAD_LEFT). ($latestOrder->id + 1);
+
+        $orderCity = Session::get('city');
+
+        $orderid = 'CSOI' . date('dym') . str_pad(strtoupper(substr($orderCity, 0, 3)), 3, "0", STR_PAD_LEFT). ($latestOrder->id + 1);
         //$orderid = mt_rand(100000, 999999);
 
 
