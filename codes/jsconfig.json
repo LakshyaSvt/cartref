@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es2018",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true, // Enables ES6-style module interoperability
+    "baseUrl": ".", // Base directory for path resolutions
+    "paths": {
+      "@/*": [
+        "./resources/js/*"
+      ] // Alias to reference files deeper in your project
+    },
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true, // Ensures filenames are consistent in casing
+    "strict": false, // Enable all strict type-checking options
+    "strictPropertyInitialization": false, // Disable strict checking for property initialization in classes
+    "skipLibCheck": true // Skip type checking of declaration files (`.d.ts`)
+  },
+  "exclude": [
+    "node_modules",
+    "vendor"
+  ],
+  "include": [
+    "resources/js/**/*"
+  ]
+}
