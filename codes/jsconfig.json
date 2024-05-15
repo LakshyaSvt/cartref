@@ -9,7 +9,13 @@
     "paths": {
       "@/*": [
         "./resources/js/*"
-      ] // Alias to reference files deeper in your project
+      ],
+      "@pages/*": [
+        "./resources/js/pages/*"
+      ],
+      "@components/*": [
+        "./resources/js/components/*"
+      ],
     },
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true, // Ensures filenames are consistent in casing
